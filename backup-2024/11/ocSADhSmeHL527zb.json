@@ -1,0 +1,427 @@
+{
+  "active": true,
+  "connections": {
+    "Manual Scan of folder": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plex Command Submission": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Go back to the beginning": {
+      "main": [
+        [
+          {
+            "node": "restart plex",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Go back to the beginning",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Manual Scan of folder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reboot server",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reboot server": {
+      "main": [
+        [
+          {
+            "node": "reboot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-11-15T04:00:56.935Z",
+  "id": "ocSADhSmeHL527zb",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Plex Commands",
+  "nodes": [
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "What's the path of the folder you want to scan?  Here's the base structure: /mnt/remote/realdebrid/",
+              "placeholder": "Folder path",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -80
+      ],
+      "id": "8e50257c-3b68-445f-be3f-ebfe78353e2a",
+      "name": "Manual Scan of folder",
+      "webhookId": "8e39ade1-1e88-4b7a-ae30-0b3a0854c890"
+    },
+    {
+      "parameters": {
+        "command": "echo \"Katsuki#1\" | sudo -S systemctl restart plexmediaserver"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -260
+      ],
+      "id": "3ef01ab6-ab9f-4fa4-80d7-ed5d1375b64e",
+      "name": "restart plex",
+      "credentials": {
+        "sshPassword": {
+          "id": "ZA8rkJYVLQa1TgMx",
+          "name": "SSH Password account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.0.107:32400/library/sections/2/refresh",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "path",
+              "value": "={{ $json['What\\'s the path of the folder you want to scan?'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        -80
+      ],
+      "id": "6ee40998-9d49-41b2-a5bd-a5f5db4d8709",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Cxr51jaB8HusrbRA",
+          "name": "BakaPlex"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Plex Command",
+        "formDescription": "Form to execute BakaPlex commands.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "What plex command would you like to execute?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Restart Plex"
+                  },
+                  {
+                    "option": "Manual Scan"
+                  },
+                  {
+                    "option": "Reboot Server"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "path": "plex",
+          "ignoreBots": true
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -280,
+        180
+      ],
+      "id": "d026eabe-a1b4-4405-ae20-5aad46a0c197",
+      "name": "Plex Command Submission",
+      "webhookId": "92813443-8f41-4efb-94c6-90d58869af8e"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e\n",
+        "options": {
+          "formTitle": "Plex Command Executed"
+        }
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -80
+      ],
+      "id": "7dff3265-3407-4741-9237-1c2075660a7a",
+      "name": "Form",
+      "webhookId": "41dd18d0-9377-44ad-9f3f-29480c5f9088"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
+        "options": {
+          "formTitle": "Plex Command Executed"
+        }
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -260
+      ],
+      "id": "12eafa33-a928-4ba1-a723-793a4bb28876",
+      "name": "Go back to the beginning",
+      "webhookId": "41dd18d0-9377-44ad-9f3f-29480c5f9088"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        180,
+        80
+      ],
+      "id": "4372f8ca-de4b-40c3-8bb4-c7501c125345",
+      "name": "Reboot server",
+      "webhookId": "8e39ade1-1e88-4b7a-ae30-0b3a0854c890"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['What plex command would you like to execute?'] }}",
+                    "rightValue": "Restart Plex",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Restart Plex"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cbd4c780-9fbf-477f-9705-8e1a6b5eab7a",
+                    "leftValue": "={{ $json['What plex command would you like to execute?'] }}",
+                    "rightValue": "Manual Scan",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "  Manual Scan"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e4c14a6d-ab5a-4cb6-b557-0f1cc0037c91",
+                    "leftValue": "={{ $json['What plex command would you like to execute?'] }}",
+                    "rightValue": "Reboot Server",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reboot Server"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "489251a0-7dd0-4ef5-9425-04ec1f058633",
+                    "leftValue": "={{ $json['What plex command would you like to execute?'] }}",
+                    "rightValue": "Replace Media",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Replace Media"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        0,
+        180
+      ],
+      "id": "4ea20a45-3e60-4262-9ebd-77e28224da52",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "command": "echo \"Katsuki#1\" | sudo -S reboot"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        360,
+        80
+      ],
+      "id": "aa65e0f4-6c42-4ad6-9a09-4ee934903c2e",
+      "name": "reboot",
+      "credentials": {
+        "sshPassword": {
+          "id": "ZA8rkJYVLQa1TgMx",
+          "name": "SSH Password account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Plex Command Submission": [
+      {
+        "json": {
+          "What plex command would you like to execute?": "Manual Scan",
+          "submittedAt": "2024-11-15T11:10:02.793-05:00",
+          "formMode": "production"
+        }
+      }
+    ]
+  },
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-11-15T04:55:15.385Z",
+      "updatedAt": "2024-11-15T04:55:15.385Z",
+      "id": "CK0EpGAHy9VO6rnR",
+      "name": "plex"
+    }
+  ],
+  "triggerCount": 2,
+  "updatedAt": "2024-11-21T06:40:46.000Z",
+  "versionId": "82806de2-568c-4393-8da5-0762c5bd66d2"
+}
