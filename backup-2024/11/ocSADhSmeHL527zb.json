@@ -412,7 +412,15 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Reboot server": {
+      "518-Reboot server": {
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
+        "redirectUrl": ""
+      }
+    }
+  },
   "tags": [
     {
       "createdAt": "2024-11-15T04:55:15.385Z",
