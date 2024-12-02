@@ -45,6 +45,17 @@
         ]
       ]
     },
+    "Reboot server": {
+      "main": [
+        [
+          {
+            "node": "reboot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Switch": {
       "main": [
         [
@@ -64,17 +75,6 @@
         [
           {
             "node": "Reboot server",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Reboot server": {
-      "main": [
-        [
-          {
-            "node": "reboot",
             "type": "main",
             "index": 0
           }
@@ -106,7 +106,7 @@
       "typeVersion": 1,
       "position": [
         180,
-        -80
+        180
       ],
       "id": "8e50257c-3b68-445f-be3f-ebfe78353e2a",
       "name": "Manual Scan of folder",
@@ -120,7 +120,7 @@
       "typeVersion": 1,
       "position": [
         360,
-        -260
+        -20
       ],
       "id": "3ef01ab6-ab9f-4fa4-80d7-ed5d1375b64e",
       "name": "restart plex",
@@ -151,7 +151,7 @@
       "typeVersion": 4.2,
       "position": [
         540,
-        -80
+        180
       ],
       "id": "6ee40998-9d49-41b2-a5bd-a5f5db4d8709",
       "name": "HTTP Request",
@@ -217,7 +217,7 @@
       "typeVersion": 1,
       "position": [
         360,
-        -80
+        180
       ],
       "id": "7dff3265-3407-4741-9237-1c2075660a7a",
       "name": "Form",
@@ -235,8 +235,8 @@
       "type": "n8n-nodes-base.form",
       "typeVersion": 1,
       "position": [
-        160,
-        -260
+        180,
+        -20
       ],
       "id": "12eafa33-a928-4ba1-a723-793a4bb28876",
       "name": "Go back to the beginning",
@@ -253,11 +253,30 @@
       "typeVersion": 1,
       "position": [
         180,
-        80
+        380
       ],
       "id": "4372f8ca-de4b-40c3-8bb4-c7501c125345",
       "name": "Reboot server",
       "webhookId": "8e39ade1-1e88-4b7a-ae30-0b3a0854c890"
+    },
+    {
+      "parameters": {
+        "command": "echo \"Katsuki#1\" | sudo -S reboot"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        360,
+        380
+      ],
+      "id": "aa65e0f4-6c42-4ad6-9a09-4ee934903c2e",
+      "name": "reboot",
+      "credentials": {
+        "sshPassword": {
+          "id": "ZA8rkJYVLQa1TgMx",
+          "name": "SSH Password account"
+        }
+      }
     },
     {
       "parameters": {
@@ -374,25 +393,6 @@
       ],
       "id": "4ea20a45-3e60-4262-9ebd-77e28224da52",
       "name": "Switch"
-    },
-    {
-      "parameters": {
-        "command": "echo \"Katsuki#1\" | sudo -S reboot"
-      },
-      "type": "n8n-nodes-base.ssh",
-      "typeVersion": 1,
-      "position": [
-        360,
-        80
-      ],
-      "id": "aa65e0f4-6c42-4ad6-9a09-4ee934903c2e",
-      "name": "reboot",
-      "credentials": {
-        "sshPassword": {
-          "id": "ZA8rkJYVLQa1TgMx",
-          "name": "SSH Password account"
-        }
-      }
     }
   ],
   "pinData": {
@@ -435,6 +435,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-11-21T06:40:46.000Z",
-  "versionId": "82806de2-568c-4393-8da5-0762c5bd66d2"
+  "updatedAt": "2024-12-02T00:43:56.000Z",
+  "versionId": "8ce368b4-38c0-40d7-9af5-5ac232c3c456"
 }
