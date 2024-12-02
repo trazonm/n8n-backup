@@ -59,8 +59,8 @@
       "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
       "typeVersion": 1,
       "position": [
-        1260,
-        940
+        1280,
+        880
       ],
       "webhookId": "6ffc46dc-0eb4-45e4-8bf8-c9b49f15613b",
       "notesInFlow": true,
@@ -130,8 +130,8 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2280,
-        880
+        2180,
+        860
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -153,8 +153,8 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2200,
-        1120
+        2180,
+        1020
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -323,6 +323,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-11-20T20:22:59.000Z",
-  "versionId": "05fe4b14-5ac8-44e8-94e8-1aa35adfaa8b"
+  "updatedAt": "2024-12-02T00:44:27.000Z",
+  "versionId": "a0bc91ef-adfe-4340-9a21-031f3d1c542d"
 }
