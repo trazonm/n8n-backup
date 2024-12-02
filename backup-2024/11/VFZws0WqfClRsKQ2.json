@@ -279,7 +279,7 @@
     "templateId": "1534",
     "templateCredsSetupCompleted": true
   },
-  "name": "Back Up Your n8n Workflows To Github",
+  "name": "Back Up n8n Workflows To Github",
   "nodes": [
     {
       "parameters": {},
@@ -828,8 +828,21 @@
       "recurrenceRules": []
     }
   },
-  "tags": [],
+  "tags": [
+    {
+      "createdAt": "2024-12-02T06:49:06.916Z",
+      "updatedAt": "2024-12-02T06:49:06.916Z",
+      "id": "bIK4dtdVXcCnTrnb",
+      "name": "backup"
+    },
+    {
+      "createdAt": "2024-11-15T04:55:24.768Z",
+      "updatedAt": "2024-11-15T04:55:24.768Z",
+      "id": "fbNR3j10OPFaIddI",
+      "name": "discord"
+    }
+  ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-02T06:46:56.000Z",
-  "versionId": "392339b2-a3a4-49cd-bf65-5ecf27d13eeb"
+  "updatedAt": "2024-12-02T06:49:31.000Z",
+  "versionId": "68fa8374-fa72-4373-a0fd-419cced1ad3a"
 }
