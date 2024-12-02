@@ -276,7 +276,8 @@
   "createdAt": "2024-11-29T17:15:22.267Z",
   "id": "VFZws0WqfClRsKQ2",
   "meta": {
-    "templateId": "1534"
+    "templateId": "1534",
+    "templateCredsSetupCompleted": true
   },
   "name": "Back Up Your n8n Workflows To Github",
   "nodes": [
@@ -580,7 +581,8 @@
         1460,
         420
       ],
-      "typeVersion": 3
+      "typeVersion": 3,
+      "executeOnce": false
     },
     {
       "parameters": {
@@ -669,7 +671,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "position": [
         1680,
-        440
+        420
       ],
       "typeVersion": 1,
       "onError": "continueErrorOutput"
@@ -784,6 +786,7 @@
       ],
       "id": "40a3aba6-297f-43c9-bffc-34d9431ad167",
       "name": "Completed Notification",
+      "executeOnce": true,
       "credentials": {
         "discordWebhookApi": {
           "id": "0EPErYhwZVQ4Feqt",
@@ -803,7 +806,7 @@
       "typeVersion": 2,
       "position": [
         1940,
-        460
+        420
       ],
       "id": "b2b43fd4-a848-4194-a4bb-125223f0fc26",
       "name": "Failed Notifications",
@@ -827,6 +830,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-11-29T18:20:51.000Z",
-  "versionId": "622a32a1-83ae-4f39-ae31-098de63c0158"
+  "updatedAt": "2024-12-02T06:46:56.000Z",
+  "versionId": "392339b2-a3a4-49cd-bf65-5ecf27d13eeb"
 }
