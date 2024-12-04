@@ -5,7 +5,12 @@
       "main": [
         [
           {
-            "node": "Basic LLM Chain",
+            "node": "Has Attachment",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Does Not Have Attachment",
             "type": "main",
             "index": 0
           }
@@ -18,6 +23,50 @@
           {
             "node": "Basic LLM Chain",
             "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
             "index": 0
           }
         ]
@@ -40,6 +89,46 @@
           }
         ]
       ]
+    },
+    "Has Attachment": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Does Not Have Attachment": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Discord Send1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-11-14T01:27:53.117Z",
@@ -51,7 +140,8 @@
   "nodes": [
     {
       "parameters": {
-        "value": "BakaBot",
+        "pattern": "regex",
+        "value": "\\b(bakabot|bb)\\b",
         "placeholder": "working"
       },
       "id": "167216e7-f512-45a2-b600-510671208713",
@@ -59,8 +149,8 @@
       "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
       "typeVersion": 1,
       "position": [
-        1280,
-        880
+        1340,
+        940
       ],
       "webhookId": "6ffc46dc-0eb4-45e4-8bf8-c9b49f15613b",
       "notesInFlow": true,
@@ -81,8 +171,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1700,
-        1160
+        1820,
+        860
       ],
       "credentials": {
         "googlePalmApi": {
@@ -90,32 +180,6 @@
           "name": "Google Gemini(PaLM) Api account"
         }
       }
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.content }}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "You are an AI model designed to assist users with mathematics and physics questions on Discord. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge. Keep these principles in mind:\n\n1. **Clarity and Structure**:\n   - Start by restating or summarizing the problem for context.\n   - Present solutions in a clear sequence, using bullet points or numbered steps when appropriate.\n   - Define technical terms or offer brief explanations when needed.\n\n2. **Accuracy and Rigor**:\n   - Ensure that all calculations, explanations, and concepts are correct.\n   - Use plain text formatting (e.g., `x^2 + y^2 = z^2` for exponents, `sqrt(x)` for square roots).\n   - Simplify answers when possible and, if relevant, provide alternative approaches.\n\n3. **Adaptability**:\n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.\n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).\n\n4. **Guidance and Encouragement**:\n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving the solution.\n   - Break down complex problems into simpler parts and summarize key points at the end if needed.\n\n5. **Discord Formatting**:\n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.\n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.\n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.\n\n6. **Transparency**:\n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.\n   - If unsure of a solution, explain this and recommend an approach or resource for further help.\n\nYour goal is to make mathematics and physics engaging, accessible, and educational for users of all levels on Discord."
-            }
-          ]
-        }
-      },
-      "id": "b58572e4-896a-4de4-ac30-92ebb6d0f5ec",
-      "name": "Basic LLM Chain",
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.4,
-      "position": [
-        1680,
-        880
-      ],
-      "alwaysOutputData": false,
-      "retryOnFail": true,
-      "maxTries": 3,
-      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -130,8 +194,8 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2180,
-        860
+        2320,
+        640
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -153,8 +217,8 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2180,
-        1020
+        2320,
+        840
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -163,13 +227,264 @@
           "name": "BakaBoi's Discord"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "=data",
+        "options": {}
+      },
+      "id": "3dc5cc61-9a81-4f60-aebc-1c5aa82bf66f",
+      "name": "Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.attachments[0].proxyURL }}",
+        "options": {}
+      },
+      "id": "77245000-1fa6-427c-88cf-33fb115b9ba6",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1820,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Analyze this image. If it contains a math problem, extract the text of the problem and format it as follows: equation: {equation}. Provide no additional information or text. If the image does not contain a math problem, respond with a detailed description of the image.\"\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"data:image/jpeg;base64,{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ],\n  \"model\": \"llama-3.2-90b-vision-preview\"\n}",
+        "options": {}
+      },
+      "id": "6486e733-999f-4a87-813f-71a1b2d2470c",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2320,
+        1240
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sDPiVttQkJveC7Bx",
+          "name": "Groq"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "id": "8fbb66eb-ca75-48e2-b062-bd666dfb127b",
+      "name": "Google Gemini Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        1420
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ReeAGi73g7iXliN4",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerPlaceholder": true,
+        "content": "=",
+        "embed": true,
+        "authorName": "BakaBot",
+        "description": "={{ $json.text }}"
+      },
+      "id": "ef3fe947-00dd-4544-8ddc-6fa0a10a2888",
+      "name": "Discord Send1",
+      "type": "@sevenguru/n8n-nodes-discord.discord",
+      "typeVersion": 1,
+      "position": [
+        3140,
+        1220
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "discordApi": {
+          "id": "dVLKY4fx8y4UbNxL",
+          "name": "BakaBoi's Discord"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerPlaceholder": true,
+        "embed": true,
+        "authorName": "BakaBot",
+        "description": "=Error: Overloaded with niggatry."
+      },
+      "id": "ff113fe9-2d55-4aa5-bcb8-e6644fafd4d8",
+      "name": "Send Error Message1",
+      "type": "@sevenguru/n8n-nodes-discord.discord",
+      "typeVersion": 1,
+      "position": [
+        3140,
+        1420
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "discordApi": {
+          "id": "dVLKY4fx8y4UbNxL",
+          "name": "BakaBoi's Discord"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.content }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are an AI model designed to assist users with mathematics and physics questions on Discord. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge. Keep these principles in mind:\n\n1. **Clarity and Structure**:\n   - Start by restating or summarizing the problem for context.\n   - Present solutions in a clear sequence, using bullet points or numbered steps when appropriate.\n   - Define technical terms or offer brief explanations when needed.\n\n2. **Accuracy and Rigor**:\n   - Ensure that all calculations, explanations, and concepts are correct.\n   - Use plain text formatting (e.g., `x^2 + y^2 = z^2` for exponents, `sqrt(x)` for square roots).\n   - Simplify answers when possible and, if relevant, provide alternative approaches.\n\n3. **Adaptability**:\n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.\n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).\n\n4. **Guidance and Encouragement**:\n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving the solution.\n   - Break down complex problems into simpler parts and summarize key points at the end if needed.\n\n5. **Discord Formatting**:\n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.\n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.\n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.\n\n6. **Transparency**:\n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.\n   - If unsure of a solution, explain this and recommend an approach or resource for further help.\n\nYour goal is to make mathematics and physics engaging, accessible, and educational for users of all levels on Discord."
+            }
+          ]
+        }
+      },
+      "id": "b58572e4-896a-4de4-ac30-92ebb6d0f5ec",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        1800,
+        660
+      ],
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dd5da31e-0f76-4e51-a61e-f9b98be3df5b",
+              "leftValue": "={{ $json.attachments[0].attachment }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "48505dea-3fe6-4abb-995b-93b5850a63a0",
+      "name": "Has Attachment",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1580,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "604fcd65-64e3-4549-883c-168603fc6259",
+              "leftValue": "={{ $json.attachments[0].attachment }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "012043ed-bcb1-475c-8e34-318e30d0d873",
+      "name": "Does Not Have Attachment",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1580,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Discord Trigger').item.json.content }}\n\n{{ $json.choices[0].message.content }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are an AI model designed to assist users with mathematics and physics questions on Discord. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge. Keep these principles in mind:\n\n1. **Clarity and Structure**:\n   - Start by restating or summarizing the problem for context.\n   - Present solutions in a clear sequence, using bullet points or numbered steps when appropriate.\n   - Define technical terms or offer brief explanations when needed.\n\n2. **Accuracy and Rigor**:\n   - Ensure that all calculations, explanations, and concepts are correct.\n   - Use plain text formatting (e.g., `x^2 + y^2 = z^2` for exponents, `sqrt(x)` for square roots).\n   - Simplify answers when possible and, if relevant, provide alternative approaches.\n\n3. **Adaptability**:\n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.\n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).\n\n4. **Guidance and Encouragement**:\n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving the solution.\n   - Break down complex problems into simpler parts and summarize key points at the end if needed.\n\n5. **Discord Formatting**:\n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.\n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.\n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.\n\n6. **Transparency**:\n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.\n   - If unsure of a solution, explain this and recommend an approach or resource for further help.\n\nYour goal is to make mathematics and physics engaging, accessible, and educational for users of all levels on Discord."
+            }
+          ]
+        }
+      },
+      "id": "132a44b0-6d7a-45c8-b3ea-6f71b1fb118d",
+      "name": "Basic LLM Chain1",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        2600,
+        1240
+      ],
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "onError": "continueErrorOutput"
     }
   ],
   "pinData": {
     "Discord Trigger": [
       {
         "json": {
-          "content": "Bakabot explain in detail how you  aren’t racist",
+          "content": "bb find the lcd",
           "guild": {
             "id": "745447586697052201",
             "name": "BakaBoi's Mall",
@@ -202,9 +517,10 @@
               "940615401128210512",
               "941398038612676728",
               "974678337152778323",
-              "1032699319368814652",
               "1279221421616140440",
-              "1306443523553366090"
+              "1306443523553366090",
+              "1309914844413300736",
+              "1313732843385655326"
             ],
             "channels": [
               "745447587536044183",
@@ -225,7 +541,9 @@
               "1277832318806917153",
               "1279874646400827483",
               "1280344577433272330",
-              "1292732202211086426"
+              "1292732202211086426",
+              "1312104951547433022",
+              "1313731183011434556"
             ],
             "bans": [],
             "roles": [
@@ -242,9 +560,9 @@
               "1280347031444918315",
               "1281461626398310480",
               "1281634028037865549",
-              "1289784689267052567",
               "1292730070909321270",
-              "1306452076175298621"
+              "1306452076175298621",
+              "1313739544146874451"
             ],
             "stageInstances": [],
             "invites": [],
@@ -259,7 +577,7 @@
             "nsfwLevel": 0,
             "premiumSubscriptionCount": 0,
             "discoverySplash": null,
-            "memberCount": 24,
+            "memberCount": 25,
             "large": false,
             "premiumProgressBarEnabled": false,
             "applicationId": null,
@@ -298,11 +616,30 @@
             "discoverySplashURL": null,
             "bannerURL": null
           },
-          "channelId": "745447587536044186",
-          "userId": "399252178260197377",
-          "userName": "wizkid201",
-          "userTag": "wizkid201",
-          "messageId": "1308836876974559342"
+          "channelId": "1313731183011434556",
+          "userId": "246812164885577729",
+          "userName": "bakaboi341",
+          "userTag": "bakaboi341",
+          "messageId": "1313744359518375987",
+          "attachments": [
+            {
+              "attachment": "https://cdn.discordapp.com/attachments/1313731183011434556/1313744359417446430/image.png?ex=67513f47&is=674fedc7&hm=7e066bc5ab03feb29377b3f02acd513a628f2fc2e7d7cca12ebe14fd5d45f652&",
+              "name": "image.png",
+              "id": "1313744359417446430",
+              "size": 9566,
+              "url": "https://cdn.discordapp.com/attachments/1313731183011434556/1313744359417446430/image.png?ex=67513f47&is=674fedc7&hm=7e066bc5ab03feb29377b3f02acd513a628f2fc2e7d7cca12ebe14fd5d45f652&",
+              "proxyURL": "https://media.discordapp.net/attachments/1313731183011434556/1313744359417446430/image.png?ex=67513f47&is=674fedc7&hm=7e066bc5ab03feb29377b3f02acd513a628f2fc2e7d7cca12ebe14fd5d45f652&",
+              "height": 69,
+              "width": 435,
+              "contentType": "image/png",
+              "description": null,
+              "ephemeral": false,
+              "duration": null,
+              "waveform": null,
+              "flags": 0,
+              "title": null
+            }
+          ]
         }
       }
     ]
@@ -320,9 +657,15 @@
       "updatedAt": "2024-11-15T04:55:24.768Z",
       "id": "fbNR3j10OPFaIddI",
       "name": "discord"
+    },
+    {
+      "createdAt": "2024-12-04T06:27:23.212Z",
+      "updatedAt": "2024-12-04T06:27:23.212Z",
+      "id": "kckGg4PTeUpEwe5c",
+      "name": "ai"
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-02T00:44:27.000Z",
-  "versionId": "a0bc91ef-adfe-4340-9a21-031f3d1c542d"
+  "updatedAt": "2024-12-04T06:27:25.000Z",
+  "versionId": "2eab838c-18e5-44b7-8f59-5183dd3b108c"
 }
