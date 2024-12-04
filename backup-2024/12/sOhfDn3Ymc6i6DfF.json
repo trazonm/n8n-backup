@@ -1,0 +1,173 @@
+{
+  "active": true,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Starting Update Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Starting Update Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SSH": {
+      "main": [
+        [
+          {
+            "node": "Completion Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Starting Update Message": {
+      "main": [
+        [
+          {
+            "node": "SSH",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-12-04T16:09:12.683Z",
+  "id": "sOhfDn3Ymc6i6DfF",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Update Server Packages Everyday",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "d367feb3-d406-4808-870f-3e57ce38446c",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        520,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "command": "echo \"Katsuki#1\" | sudo -S apt update -y &&  sudo -S apt full-upgrade -y &&  sudo -S apt autoremove -y  &&  sudo -S apt clean -y &&  sudo - S apt autoclean -y"
+      },
+      "id": "3932fd8a-ab55-4bbd-b588-44f45643dd3f",
+      "name": "SSH",
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        580
+      ],
+      "credentials": {
+        "sshPassword": {
+          "id": "ZA8rkJYVLQa1TgMx",
+          "name": "SSH Password account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "2672f764-6586-4b4c-9b49-9cc0ccbf33a7",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        520,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "✅ BakaServer Packages updates have completed.",
+        "options": {
+          "avatar_url": "https://static.wikia.nocookie.net/intothespiderverse/images/5/56/MargoKess.webp/revision/latest/scale-to-width-down/780?cb=20231208220103"
+        }
+      },
+      "id": "60cad4ce-3023-4e90-ac50-92f3a2ff944c",
+      "name": "Completion Messages",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        580
+      ],
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "0EPErYhwZVQ4Feqt",
+          "name": "Discord Dev Notis"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=:information_source: Starting BakaServer Package Update [{{ $execution.id }}]",
+        "options": {
+          "avatar_url": "https://static.wikia.nocookie.net/intothespiderverse/images/5/56/MargoKess.webp/revision/latest/scale-to-width-down/780?cb=20231208220103"
+        }
+      },
+      "id": "8644e80b-e707-4003-a344-8e73d6bbd6bc",
+      "name": "Starting Update Message",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        900,
+        580
+      ],
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "0EPErYhwZVQ4Feqt",
+          "name": "Discord Dev Notis"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [
+    {
+      "createdAt": "2024-12-04T16:28:57.767Z",
+      "updatedAt": "2024-12-04T16:28:57.767Z",
+      "id": "jNX3zmhxJxy6ZeWC",
+      "name": "server"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-12-04T16:29:10.000Z",
+  "versionId": "f6153a31-a55f-49ee-8093-7a0f373c527a"
+}
