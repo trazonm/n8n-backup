@@ -87,7 +87,7 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "Plex Commands",
+  "name": "BakaServer Commands",
   "nodes": [
     {
       "parameters": {
@@ -440,9 +440,15 @@
       "updatedAt": "2024-11-15T04:55:15.385Z",
       "id": "CK0EpGAHy9VO6rnR",
       "name": "plex"
+    },
+    {
+      "createdAt": "2024-12-04T16:28:57.767Z",
+      "updatedAt": "2024-12-04T16:28:57.767Z",
+      "id": "jNX3zmhxJxy6ZeWC",
+      "name": "server"
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-02T00:43:56.000Z",
-  "versionId": "8ce368b4-38c0-40d7-9af5-5ac232c3c456"
+  "updatedAt": "2024-12-04T16:28:59.000Z",
+  "versionId": "e76bd6e4-c447-4124-81e3-31fb29c00d48"
 }
