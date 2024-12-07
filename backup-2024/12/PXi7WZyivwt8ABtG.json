@@ -182,7 +182,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3720,
+        3940,
         1360
       ],
       "id": "abf24f3c-efda-455c-9d8e-79dbc4d4b366",
@@ -190,12 +190,12 @@
     },
     {
       "parameters": {
-        "jsCode": "const content = $input.first().json.content;\n\n// Remove the first word from the string\nconst modifiedContent = content.split(' ').slice(1).join(' ');\n\n// Wrap the modified string in an object and return it in an array\nreturn [\n    { json: { content: modifiedContent } }\n];\n"
+        "jsCode": "const content = $input.first().json.content;\n\n// Remove the first word from the string\nconst modifiedContent = content.split(' ').slice(1).join(' ');\n\n// Wrap the escaped string in an object and return it in an array\nreturn [\n    { json: { content: modifiedContent } }\n];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1620,
+        1780,
         1720
       ],
       "id": "1603670d-7270-42a6-8870-7687efaee223",
@@ -245,7 +245,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3720,
+        3940,
         1020
       ],
       "id": "39d63600-f96e-4d8d-8f24-983e5c753a04",
@@ -259,17 +259,17 @@
     },
     {
       "parameters": {
-        "command": "=python -c \"from meta_ai_api import MetaAI; ai = MetaAI(fb_email='trazon0430@gmail.com', fb_password='Scientist#1'); resp = ai.prompt(message='imagine {{ $json.content }}'); result = resp.get('media', []); [print(item['url']) for item in result if 'url' in item] or print(resp['message'])\"\n"
+        "command": "=python -c \"from meta_ai_api import MetaAI; ai = MetaAI(fb_email='trazon0430@gmail.com', fb_password='Scientist#1'); resp = ai.prompt(message=\\\"imagine {{ $json.content }}\\\"); result = resp.get('media', []); [print(item['url']) for item in result if 'url' in item] or print(resp['message'])\"\n"
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1960,
+        2240,
         1720
       ],
       "id": "bc1d4b80-6ef2-4e76-8925-0fc735495ee0",
       "name": "Execute Command",
-      "alwaysOutputData": true,
+      "alwaysOutputData": false,
       "onError": "continueErrorOutput"
     },
     {
@@ -279,7 +279,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2400,
+        2620,
         1700
       ],
       "id": "6f6b3b3d-76bc-4e4c-8d3e-11e1f3500ea8",
@@ -346,7 +346,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        2780,
+        3000,
         1680
       ],
       "id": "5b180a80-3c4b-4780-ba20-5734d316123d",
@@ -383,7 +383,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3140,
+        3360,
         1700
       ],
       "id": "9c63a90b-ba88-44e0-82d3-f7167aae6ff0",
@@ -408,7 +408,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2220,
+        2440,
         1980
       ],
       "alwaysOutputData": false,
@@ -427,7 +427,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        3720,
+        3940,
         1180
       ],
       "id": "dd9fc12d-1017-49a4-b15a-5a7ea43d626a",
@@ -447,7 +447,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        3400,
+        3620,
         1700
       ],
       "id": "9941922f-1422-4ca1-93bd-6d67cee85cf5",
@@ -466,7 +466,7 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        3140,
+        3360,
         1340
       ],
       "id": "f4eb18fb-92c4-4ee1-aadf-67aafff87b7f",
@@ -486,7 +486,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        3400,
+        3620,
         1020
       ],
       "id": "6a116c1e-e3db-4e98-bde6-dc56718172c0",
@@ -505,7 +505,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2660,
+        2880,
         1960
       ],
       "alwaysOutputData": false,
@@ -521,7 +521,7 @@
     "Image Generation": [
       {
         "json": {
-          "content": "bbg semen",
+          "content": "bbg Diddy hiding in the shadows.  He's preparing to strike.",
           "guild": {
             "id": "745447586697052201",
             "name": "BakaBoi's Mall",
@@ -533,6 +533,7 @@
             ],
             "commands": [],
             "members": [
+              "735682332337635329",
               "246812164885577729",
               "256153524444856320",
               "305117734553911297",
@@ -546,7 +547,6 @@
               "646937666251915264",
               "692045914436796436",
               "709271563110973451",
-              "735682332337635329",
               "782272697262276618",
               "787789079227006976",
               "830530156048285716",
@@ -557,7 +557,8 @@
               "1279221421616140440",
               "1306443523553366090",
               "1309914844413300736",
-              "1313732843385655326"
+              "1313732843385655326",
+              "770820729485918240"
             ],
             "channels": [
               "745447587536044183",
@@ -614,7 +615,7 @@
             "nsfwLevel": 0,
             "premiumSubscriptionCount": 0,
             "discoverySplash": null,
-            "memberCount": 25,
+            "memberCount": 26,
             "large": false,
             "premiumProgressBarEnabled": false,
             "applicationId": null,
@@ -657,7 +658,7 @@
           "userId": "246812164885577729",
           "userName": "bakaboi341",
           "userTag": "bakaboi341",
-          "messageId": "1314428102893637642"
+          "messageId": "1314714439806615592"
         }
       }
     ]
@@ -684,6 +685,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-06T03:40:49.000Z",
-  "versionId": "fd57a913-116b-4677-97b9-dcf2c3a34a36"
+  "updatedAt": "2024-12-06T22:23:17.000Z",
+  "versionId": "47b54df1-c9f5-43a4-ac17-60fb90f5f243"
 }
