@@ -590,7 +590,7 @@
           "interval": [
             {
               "triggerAtHour": 1,
-              "triggerAtMinute": 33
+              "triggerAtMinute": 30
             }
           ]
         }
@@ -843,6 +843,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-02T06:49:31.000Z",
-  "versionId": "68fa8374-fa72-4373-a0fd-419cced1ad3a"
+  "updatedAt": "2024-12-07T06:33:49.000Z",
+  "versionId": "76c0b9c3-eac8-498b-8c83-897d2aea2b1e"
 }
