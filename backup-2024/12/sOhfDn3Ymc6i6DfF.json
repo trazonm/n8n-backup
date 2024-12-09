@@ -72,7 +72,7 @@
     },
     {
       "parameters": {
-        "command": "echo \"Katsuki#1\" | sudo -S apt update -y &&  sudo -S apt full-upgrade -y &&  sudo -S apt autoremove -y  &&  sudo -S apt clean -y &&  sudo - S apt autoclean -y"
+        "command": "echo \"Katsuki#1\" | sudo -S DEBIAN_FRONTEND=noninteractive bash -c \\ 'apt-get update -y && apt-get full-upgrade -y && apt-get autoremove -y && apt-get clean -y && apt-get autoclean -y'"
       },
       "id": "3932fd8a-ab55-4bbd-b588-44f45643dd3f",
       "name": "SSH",
@@ -168,6 +168,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-04T16:29:10.000Z",
-  "versionId": "f6153a31-a55f-49ee-8093-7a0f373c527a"
+  "updatedAt": "2024-12-08T19:15:52.000Z",
+  "versionId": "58600d56-aa29-4552-bc80-ad66d88c738c"
 }
