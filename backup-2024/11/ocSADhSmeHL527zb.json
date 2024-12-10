@@ -437,6 +437,12 @@
         "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e\n",
         "redirectUrl": "",
         "pageTitle": "Plex Command Executed"
+      },
+      "1033-Form": {
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e\n",
+        "redirectUrl": "",
+        "pageTitle": "Plex Command Executed"
       }
     }
   },
