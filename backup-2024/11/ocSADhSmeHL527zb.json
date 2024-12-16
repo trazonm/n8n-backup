@@ -423,6 +423,16 @@
         "completionTitle": "Go here to complete another command.",
         "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
         "redirectUrl": ""
+      },
+      "1101-Reboot server": {
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
+        "redirectUrl": ""
+      },
+      "1102-Reboot server": {
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
+        "redirectUrl": ""
       }
     },
     "node:Form": {
@@ -441,6 +451,14 @@
       "1033-Form": {
         "completionTitle": "Go here to complete another command.",
         "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e\n",
+        "redirectUrl": "",
+        "pageTitle": "Plex Command Executed"
+      }
+    },
+    "node:Go back to the beginning": {
+      "1100-Go back to the beginning": {
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
         "redirectUrl": "",
         "pageTitle": "Plex Command Executed"
       }
