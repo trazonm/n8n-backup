@@ -176,7 +176,8 @@
     },
     {
       "parameters": {
-        "url": "={{ $json.url }}",
+        "method": "HEAD",
+        "url": "={{ $item(\"0\").$node[\"Loop Over Items\"].json[\"url\"] }} ",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -521,7 +522,7 @@
     "Image Generation": [
       {
         "json": {
-          "content": "bbg Diddy hiding in the shadows.  He's preparing to strike.",
+          "content": "bbg a unicorn",
           "guild": {
             "id": "745447586697052201",
             "name": "BakaBoi's Mall",
@@ -533,7 +534,7 @@
             ],
             "commands": [],
             "members": [
-              "735682332337635329",
+              "830530156048285716",
               "246812164885577729",
               "256153524444856320",
               "305117734553911297",
@@ -547,9 +548,10 @@
               "646937666251915264",
               "692045914436796436",
               "709271563110973451",
+              "735682332337635329",
+              "770820729485918240",
               "782272697262276618",
               "787789079227006976",
-              "830530156048285716",
               "903664916815294505",
               "940615401128210512",
               "941398038612676728",
@@ -558,7 +560,7 @@
               "1306443523553366090",
               "1309914844413300736",
               "1313732843385655326",
-              "770820729485918240"
+              "1314767794012819540"
             ],
             "channels": [
               "745447587536044183",
@@ -615,7 +617,7 @@
             "nsfwLevel": 0,
             "premiumSubscriptionCount": 0,
             "discoverySplash": null,
-            "memberCount": 26,
+            "memberCount": 27,
             "large": false,
             "premiumProgressBarEnabled": false,
             "applicationId": null,
@@ -658,7 +660,7 @@
           "userId": "246812164885577729",
           "userName": "bakaboi341",
           "userTag": "bakaboi341",
-          "messageId": "1314714439806615592"
+          "messageId": "1319892247499767888"
         }
       }
     ]
@@ -685,6 +687,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-06T22:23:17.000Z",
-  "versionId": "47b54df1-c9f5-43a4-ac17-60fb90f5f243"
+  "updatedAt": "2024-12-21T05:19:56.000Z",
+  "versionId": "afb5db47-a0b3-4b94-893e-9733ea6c520f"
 }
