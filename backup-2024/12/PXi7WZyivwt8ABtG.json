@@ -176,7 +176,6 @@
     },
     {
       "parameters": {
-        "method": "HEAD",
         "url": "={{ $item(\"0\").$node[\"Loop Over Items\"].json[\"url\"] }} ",
         "options": {}
       },
@@ -187,7 +186,9 @@
         1360
       ],
       "id": "abf24f3c-efda-455c-9d8e-79dbc4d4b366",
-      "name": "HTTP Request2"
+      "name": "HTTP Request2",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -256,7 +257,8 @@
           "id": "vOJNgebaMgJjkLsk",
           "name": "BakaBoi (n8n)"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -477,7 +479,9 @@
       "parameters": {
         "fieldsToAggregate": {
           "fieldToAggregate": [
-            {}
+            {
+              "fieldToAggregate": "data"
+            }
           ]
         },
         "options": {
@@ -522,7 +526,7 @@
     "Image Generation": [
       {
         "json": {
-          "content": "bbg a unicorn",
+          "content": "bbg sexy math",
           "guild": {
             "id": "745447586697052201",
             "name": "BakaBoi's Mall",
@@ -535,11 +539,12 @@
             "commands": [],
             "members": [
               "830530156048285716",
+              "735682332337635329",
+              "399252178260197377",
               "246812164885577729",
               "256153524444856320",
               "305117734553911297",
               "349614235313111041",
-              "399252178260197377",
               "420384309258747905",
               "503720029456695306",
               "544689462601449472",
@@ -548,7 +553,6 @@
               "646937666251915264",
               "692045914436796436",
               "709271563110973451",
-              "735682332337635329",
               "770820729485918240",
               "782272697262276618",
               "787789079227006976",
@@ -656,11 +660,11 @@
             "discoverySplashURL": null,
             "bannerURL": null
           },
-          "channelId": "1313893408166772756",
+          "channelId": "1292732202211086426",
           "userId": "246812164885577729",
           "userName": "bakaboi341",
           "userTag": "bakaboi341",
-          "messageId": "1319892247499767888"
+          "messageId": "1319918494829121629"
         }
       }
     ]
@@ -687,6 +691,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-21T05:19:56.000Z",
-  "versionId": "afb5db47-a0b3-4b94-893e-9733ea6c520f"
+  "updatedAt": "2024-12-21T06:48:41.000Z",
+  "versionId": "bb9501aa-2777-4f95-a4f6-24080f3c556b"
 }
