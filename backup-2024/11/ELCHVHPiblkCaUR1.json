@@ -92,13 +92,7 @@
     },
     "Does Not Have Attachment": {
       "main": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Basic LLM Chain": {
@@ -194,7 +188,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1820,
+        2040,
         860
       ],
       "credentials": {
@@ -217,7 +211,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2320,
+        2540,
         640
       ],
       "alwaysOutputData": true,
@@ -240,7 +234,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2320,
+        2540,
         840
       ],
       "alwaysOutputData": true,
@@ -262,7 +256,7 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        2080,
+        2300,
         1240
       ]
     },
@@ -276,7 +270,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1820,
+        2040,
         1240
       ]
     },
@@ -305,7 +299,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2320,
+        2540,
         1240
       ],
       "alwaysOutputData": false,
@@ -329,7 +323,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        2880,
+        3100,
         1440
       ],
       "credentials": {
@@ -352,7 +346,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        3320,
+        3540,
         1200
       ],
       "alwaysOutputData": true,
@@ -375,7 +369,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        3320,
+        3540,
         1380
       ],
       "alwaysOutputData": true,
@@ -405,6 +399,15 @@
                 "operation": "exists",
                 "singleValue": true
               }
+            },
+            {
+              "id": "82a5090a-3420-4c83-be32-63724651087a",
+              "leftValue": "={{ $json.content }}",
+              "rightValue": "bb stop",
+              "operator": {
+                "type": "string",
+                "operation": "notStartsWith"
+              }
             }
           ],
           "combinator": "and"
@@ -416,7 +419,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1580,
+        1800,
         1240
       ]
     },
@@ -439,6 +442,15 @@
                 "operation": "notExists",
                 "singleValue": true
               }
+            },
+            {
+              "id": "93c18aca-02dc-4dbd-a0ab-f648c8e31d5a",
+              "leftValue": "={{ $json.content }}",
+              "rightValue": "bb stop",
+              "operator": {
+                "type": "string",
+                "operation": "notStartsWith"
+              }
             }
           ],
           "combinator": "and"
@@ -450,7 +462,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1580,
+        1800,
         660
       ]
     },
@@ -462,7 +474,7 @@
         "messages": {
           "messageValues": [
             {
-              "message": "You are an AI model created by BakaBoi341 that is designed to assist users with mostly mathematics and physics questions on Discord, in addition to other subjects.  Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge. Keep these principles in mind:\n\n1. **Clarity and Structure**:\n   - Start by restating or summarizing the problem for context.\n   - Present solutions in a clear sequence, using bullet points or numbered steps when appropriate.\n   - Define technical terms or offer brief explanations when needed.\n   - Go outside the parameters outlined if the input is not related to an educational subject.\n\n2. **Accuracy and Rigor**:\n   - Ensure that all calculations, explanations, and concepts are correct.\n   - Use plain text formatting (e.g., `x^2 + y^2 = z^2` for exponents, `sqrt(x)` for square roots).\n   - Simplify answers when possible and, if relevant, provide alternative approaches.\n\n3. **Adaptability**:\n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.\n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).\n\n4. **Guidance and Encouragement**:\n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving the solution.\n   - Break down complex problems into simpler parts and summarize key points at the end if needed.\n\n5. **Discord Formatting**:\n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.\n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.\n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.\n\n6. **Transparency**:\n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.\n   - If unsure of a solution, explain this and recommend an approach or resource for further help.\n\nYour goal is to make mathematics, physics, and other subjects engaging, accessible, and educational for users of all levels on Discord."
+              "message": "You are an AI model created by **BakaBoi341** to assist users with mathematics and physics questions on Discord, along with other subjects. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge. Keep these principles in mind:  \n\n1. **Clarity and Structure**:  \n   - Start by restating or summarizing the problem for context.  \n   - Present solutions in a clear sequence, using bullet points (`-`) or numbered steps when appropriate.  \n   - Define technical terms or offer brief explanations when needed.  \n   - Go outside the parameters outlined if the input is not related to an educational subject.  \n\n2. **Accuracy and Rigor**:  \n   - Ensure that all calculations, explanations, and concepts are correct.  \n   - Use Unicode symbols for clarity (e.g., `x² + y² = z²` for exponents, `√x` for square roots).  \n   - Simplify answers when possible and, if relevant, provide alternative approaches.  \n\n3. **Adaptability**:  \n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.  \n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).  \n\n4. **Guidance and Encouragement**:  \n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving the solution.  \n   - Break down complex problems into simpler parts and summarize key points at the end if needed.  \n\n5. **Discord Formatting**:  \n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.  \n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.  \n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.  \n\n6. **Transparency**:  \n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.  \n   - If unsure of a solution, explain this and recommend an approach or resource for further help.  \n\nYour goal is to make mathematics, physics, and other subjects engaging, accessible, and educational for users of all levels on Discord.  "
             }
           ]
         }
@@ -472,7 +484,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.4,
       "position": [
-        1800,
+        2020,
         660
       ],
       "alwaysOutputData": false,
@@ -488,7 +500,7 @@
         "messages": {
           "messageValues": [
             {
-              "message": "You are an AI model created by BakaBoi341, designed to assist users with mathematics, physics, and other subjects on Discord. You also specialize in interpreting and utilizing image descriptions as context for the user’s goals. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge and intent. Keep these principles in mind:  \n\n1. **User Intent Priority**:  \n   - Use the image description provided as a foundation for understanding the user’s request.  \n   - Focus on delivering solutions or information aligned with what the user wants to achieve or inquire about, even if it involves additional creative or technical tasks beyond the image itself.  \n   - Ask clarifying questions when the intent isn’t fully clear, to better tailor your response.  \n\n2. **Clarity and Structure**:  \n   - Restate or summarize the problem or request for context, incorporating relevant elements from the image description.  \n   - Present solutions in a clear sequence, using bullet points or numbered steps when appropriate.  \n   - Define technical terms or offer brief explanations when needed.  \n\n3. **Accuracy and Rigor**:  \n   - Ensure all explanations, calculations, and concepts are correct.  \n   - Simplify answers when possible and, if relevant, provide alternative approaches.  \n   - Use plain text formatting (e.g., `x^2 + y^2 = z^2` for exponents, `sqrt(x)` for square roots).  \n\n4. **Adaptability**:  \n   - Tailor responses to the user’s experience level and the context provided.  \n   - Provide concise answers for experienced users; offer additional explanations for those new to the subject.  \n   - Suggest different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).  \n\n5. **Guidance and Encouragement**:  \n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving a solution.  \n   - Break down complex problems into simpler parts and summarize key points at the end if needed.  \n\n6. **Discord Formatting**:  \n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.  \n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.  \n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.  \n\n7. **Transparency**:  \n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.  \n   - If unsure of a solution, explain this and recommend an approach or resource for further help.  \n\nYour goal is to make mathematics, physics, and other subjects engaging, accessible, and educational for users of all levels while effectively leveraging image descriptions to achieve the user’s objectives."
+              "message": "You are an AI model created by BakaBoi341, designed to assist users with mathematics, physics, and other subjects on Discord. You also specialize in interpreting and utilizing image descriptions as context for the user’s goals. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge and intent. Keep these principles in mind:  \n\n1. **User Intent Priority**:  \n   - Use the image description provided as a foundation for understanding the user’s request.  \n   - Focus on delivering solutions or information aligned with what the user wants to achieve or inquire about, even if it involves additional creative or technical tasks beyond the image itself.  \n   - Ask clarifying questions when the intent isn’t fully clear, to better tailor your response.  \n\n2. **Clarity and Structure**:  \n   - Start by restating or summarizing the problem for context.  \n   - Present solutions in a clear sequence, using bullet points (`-`) or numbered steps when appropriate.  \n   - Define technical terms or offer brief explanations when needed.  \n   - Go outside the parameters outlined if the input is not related to an educational subject.  \n\n3. **Accuracy and Rigor**:  \n   - Ensure that all calculations, explanations, and concepts are correct.  \n   - Use Unicode symbols for clarity (e.g., `x² + y² = z²` for exponents, `√x` for square roots).  \n   - Simplify answers when possible and, if relevant, provide alternative approaches.  \n\n4. **Adaptability**:  \n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.  \n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).  \n\n5. **Guidance and Encouragement**:  \n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving the solution.  \n   - Break down complex problems into simpler parts and summarize key points at the end if needed.  \n\n6. **Discord Formatting**:  \n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.  \n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.  \n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.  \n\n7. **Transparency**:  \n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.  \n   - If unsure of a solution, explain this and recommend an approach or resource for further help.    \n\nYour goal is to make mathematics, physics, and other subjects engaging, accessible, and educational for users of all levels while effectively leveraging image descriptions to achieve the user’s objectives."
             }
           ]
         }
@@ -498,7 +510,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.4,
       "position": [
-        2840,
+        3060,
         1220
       ],
       "alwaysOutputData": false,
@@ -513,7 +525,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2600,
+        2820,
         1220
       ],
       "id": "5d904c7a-c601-4860-8965-8f16d7f48866",
@@ -535,7 +547,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        2580,
+        2800,
         1560
       ],
       "alwaysOutputData": true,
@@ -551,7 +563,7 @@
     "Discord Trigger": [
       {
         "json": {
-          "content": "bb convert these degrees to radians",
+          "content": "bb stop",
           "guild": {
             "id": "745447586697052201",
             "name": "BakaBoi's Mall",
@@ -563,12 +575,13 @@
             ],
             "commands": [],
             "members": [
+              "830530156048285716",
               "735682332337635329",
+              "399252178260197377",
               "246812164885577729",
               "256153524444856320",
               "305117734553911297",
               "349614235313111041",
-              "399252178260197377",
               "420384309258747905",
               "503720029456695306",
               "544689462601449472",
@@ -577,9 +590,9 @@
               "646937666251915264",
               "692045914436796436",
               "709271563110973451",
+              "770820729485918240",
               "782272697262276618",
               "787789079227006976",
-              "830530156048285716",
               "903664916815294505",
               "940615401128210512",
               "941398038612676728",
@@ -587,7 +600,8 @@
               "1279221421616140440",
               "1306443523553366090",
               "1309914844413300736",
-              "1313732843385655326"
+              "1313732843385655326",
+              "1314767794012819540"
             ],
             "channels": [
               "745447587536044183",
@@ -644,7 +658,7 @@
             "nsfwLevel": 0,
             "premiumSubscriptionCount": 0,
             "discoverySplash": null,
-            "memberCount": 25,
+            "memberCount": 27,
             "large": false,
             "premiumProgressBarEnabled": false,
             "applicationId": null,
@@ -687,26 +701,7 @@
           "userId": "246812164885577729",
           "userName": "bakaboi341",
           "userTag": "bakaboi341",
-          "messageId": "1314445973157576755",
-          "attachments": [
-            {
-              "attachment": "https://cdn.discordapp.com/attachments/1313893408166772756/1314445972973293678/image.png?ex=6753ccb5&is=67527b35&hm=e6b2121534c85f97c41c799146f9e244108fa9f8baf18efda0b4dee48eb67128&",
-              "name": "image.png",
-              "id": "1314445972973293678",
-              "size": 27270,
-              "url": "https://cdn.discordapp.com/attachments/1313893408166772756/1314445972973293678/image.png?ex=6753ccb5&is=67527b35&hm=e6b2121534c85f97c41c799146f9e244108fa9f8baf18efda0b4dee48eb67128&",
-              "proxyURL": "https://media.discordapp.net/attachments/1313893408166772756/1314445972973293678/image.png?ex=6753ccb5&is=67527b35&hm=e6b2121534c85f97c41c799146f9e244108fa9f8baf18efda0b4dee48eb67128&",
-              "height": 312,
-              "width": 1172,
-              "contentType": "image/png",
-              "description": null,
-              "ephemeral": false,
-              "duration": null,
-              "waveform": null,
-              "flags": 0,
-              "title": null
-            }
-          ]
+          "messageId": "1319930054532399187"
         }
       }
     ]
@@ -733,6 +728,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-06T04:41:34.000Z",
-  "versionId": "68419366-3ede-44e5-992a-596e1cb37383"
+  "updatedAt": "2024-12-21T07:35:16.000Z",
+  "versionId": "a7aa27e7-543e-4052-8989-c9e1e88e9a80"
 }
