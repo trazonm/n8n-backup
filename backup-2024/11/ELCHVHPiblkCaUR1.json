@@ -17,17 +17,6 @@
         ]
       ]
     },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request": {
       "main": [
         [
@@ -45,17 +34,6 @@
           {
             "node": "HTTP Request1",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Gemini Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain1",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -92,7 +70,13 @@
     },
     "Does Not Have Attachment": {
       "main": [
-        []
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Basic LLM Chain": {
@@ -146,6 +130,33 @@
       "main": [
         []
       ]
+    },
+    "Discord Send": {
+      "main": [
+        []
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-11-14T01:27:53.117Z",
@@ -175,26 +186,6 @@
         "discordApi": {
           "id": "dVLKY4fx8y4UbNxL",
           "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "modelName": "models/gemini-1.5-flash",
-        "options": {}
-      },
-      "id": "90d1f15a-c5ff-48b2-9b09-cd43ca6f77bf",
-      "name": "Google Gemini Chat Model",
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        2040,
-        860
-      ],
-      "credentials": {
-        "googlePalmApi": {
-          "id": "ReeAGi73g7iXliN4",
-          "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
@@ -312,26 +303,6 @@
         }
       },
       "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "modelName": "models/gemini-1.5-flash",
-        "options": {}
-      },
-      "id": "8fbb66eb-ca75-48e2-b062-bd666dfb127b",
-      "name": "Google Gemini Chat Model1",
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        3100,
-        1440
-      ],
-      "credentials": {
-        "googlePalmApi": {
-          "id": "ReeAGi73g7iXliN4",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
     },
     {
       "parameters": {
@@ -557,155 +528,49 @@
           "name": "BakaBoi's Discord"
         }
       }
-    }
-  ],
-  "pinData": {
-    "Discord Trigger": [
-      {
-        "json": {
-          "content": "bb stop",
-          "guild": {
-            "id": "745447586697052201",
-            "name": "BakaBoi's Mall",
-            "icon": "b12438c2847c84537ed6457bb0af0d37",
-            "features": [
-              "SOUNDBOARD",
-              "CHANNEL_ICON_EMOJIS_GENERATED",
-              "AUTO_MODERATION"
-            ],
-            "commands": [],
-            "members": [
-              "830530156048285716",
-              "735682332337635329",
-              "399252178260197377",
-              "246812164885577729",
-              "256153524444856320",
-              "305117734553911297",
-              "349614235313111041",
-              "420384309258747905",
-              "503720029456695306",
-              "544689462601449472",
-              "547905866255433758",
-              "573852598881222666",
-              "646937666251915264",
-              "692045914436796436",
-              "709271563110973451",
-              "770820729485918240",
-              "782272697262276618",
-              "787789079227006976",
-              "903664916815294505",
-              "940615401128210512",
-              "941398038612676728",
-              "974678337152778323",
-              "1279221421616140440",
-              "1306443523553366090",
-              "1309914844413300736",
-              "1313732843385655326",
-              "1314767794012819540"
-            ],
-            "channels": [
-              "745447587536044183",
-              "745447587536044186",
-              "895907550183186452",
-              "895913416026386472",
-              "896036666387599422",
-              "896036746310086688",
-              "896577413838934106",
-              "896596131566473266",
-              "896608508559106118",
-              "930253950840623194",
-              "930254213739581511",
-              "930254481885655100",
-              "938987853310984242",
-              "1277511551837802526",
-              "1277830946913128458",
-              "1277832318806917153",
-              "1279874646400827483",
-              "1280344577433272330",
-              "1292732202211086426",
-              "1312104951547433022",
-              "1313893408166772756"
-            ],
-            "bans": [],
-            "roles": [
-              "745447586697052201",
-              "895903813926551573",
-              "896532965876699186",
-              "896572931109453855",
-              "896578045450809385",
-              "896581571493117954",
-              "896591019376787496",
-              "1040455955017650251",
-              "1064768977609433161",
-              "1141234209613160568",
-              "1280347031444918315",
-              "1281461626398310480",
-              "1281634028037865549",
-              "1292730070909321270",
-              "1306452076175298621",
-              "1313739544146874451"
-            ],
-            "stageInstances": [],
-            "invites": [],
-            "scheduledEvents": [],
-            "autoModerationRules": [],
-            "shardId": 0,
-            "splash": null,
-            "banner": null,
-            "description": null,
-            "verificationLevel": 2,
-            "vanityURLCode": null,
-            "nsfwLevel": 0,
-            "premiumSubscriptionCount": 0,
-            "discoverySplash": null,
-            "memberCount": 27,
-            "large": false,
-            "premiumProgressBarEnabled": false,
-            "applicationId": null,
-            "afkTimeout": 300,
-            "afkChannelId": null,
-            "systemChannelId": "1280344577433272330",
-            "premiumTier": 0,
-            "widgetEnabled": null,
-            "widgetChannelId": null,
-            "explicitContentFilter": 0,
-            "mfaLevel": 0,
-            "joinedTimestamp": 1731552847703,
-            "defaultMessageNotifications": 0,
-            "systemChannelFlags": 0,
-            "maximumMembers": 250000,
-            "maximumPresences": null,
-            "maxVideoChannelUsers": 25,
-            "maxStageVideoChannelUsers": 50,
-            "approximateMemberCount": null,
-            "approximatePresenceCount": null,
-            "vanityURLUses": null,
-            "rulesChannelId": null,
-            "publicUpdatesChannelId": null,
-            "preferredLocale": "en-US",
-            "safetyAlertsChannelId": null,
-            "ownerId": "246812164885577729",
-            "emojis": [
-              "1203112622300332072",
-              "1203112727476965419"
-            ],
-            "stickers": [],
-            "createdTimestamp": 1597798954415,
-            "nameAcronym": "BM",
-            "iconURL": "https://cdn.discordapp.com/icons/745447586697052201/b12438c2847c84537ed6457bb0af0d37.webp",
-            "splashURL": null,
-            "discoverySplashURL": null,
-            "bannerURL": null
-          },
-          "channelId": "1313893408166772756",
-          "userId": "246812164885577729",
-          "userName": "bakaboi341",
-          "userTag": "bakaboi341",
-          "messageId": "1319930054532399187"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        2060,
+        880
+      ],
+      "id": "a5b38460-e54d-4b33-aee6-49f3c8c8290b",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "Yi51lX7Jst94KFYD",
+          "name": "Groq account"
         }
       }
-    ]
-  },
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        3100,
+        1480
+      ],
+      "id": "c6d1a465-204f-441f-b2cf-61576b85c723",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "Yi51lX7Jst94KFYD",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -728,6 +593,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-21T07:35:16.000Z",
-  "versionId": "a7aa27e7-543e-4052-8989-c9e1e88e9a80"
+  "updatedAt": "2024-12-23T04:58:33.000Z",
+  "versionId": "da6ff62c-2ab4-4251-b5ba-e8ff4f5fc6aa"
 }
