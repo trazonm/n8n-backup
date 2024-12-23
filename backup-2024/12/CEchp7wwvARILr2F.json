@@ -1,0 +1,76 @@
+{
+  "active": true,
+  "connections": {
+    "Discord Trigger": {
+      "main": [
+        [
+          {
+            "node": "Discord Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-12-23T03:44:14.821Z",
+  "id": "CEchp7wwvARILr2F",
+  "meta": null,
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "pattern": "regex",
+        "value": "\\b(Limecrusher|lc|dada|god)\\b",
+        "placeholder": "wait slut "
+      },
+      "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        -540,
+        -300
+      ],
+      "id": "854fd18b-7259-4d45-8455-335079515811",
+      "name": "Discord Trigger",
+      "webhookId": "1790b3be-77e6-4e1e-ae16-cae8a294e28f",
+      "credentials": {
+        "discordApi": {
+          "id": "kX5jusJUIPxRqUcO",
+          "name": "Discord App account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerChannel": true,
+        "content": "i hate you julian you monkey ps god btw"
+      },
+      "type": "@sevenguru/n8n-nodes-discord.discord",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -280
+      ],
+      "id": "dd3bd1b0-db15-4e05-ac26-7f485a809c37",
+      "name": "Discord Send",
+      "credentials": {
+        "discordApi": {
+          "id": "kX5jusJUIPxRqUcO",
+          "name": "Discord App account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2024-12-23T03:52:40.000Z",
+  "versionId": "35cf6ad6-bde4-463b-ab13-a3ebdcdd8559"
+}
