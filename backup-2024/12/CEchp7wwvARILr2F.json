@@ -5,6 +5,40 @@
       "main": [
         [
           {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
             "node": "Discord Send",
             "type": "main",
             "index": 0
@@ -16,19 +50,19 @@
   "createdAt": "2024-12-23T03:44:14.821Z",
   "id": "CEchp7wwvARILr2F",
   "meta": null,
-  "name": "My workflow 2",
+  "name": "lime ai",
   "nodes": [
     {
       "parameters": {
         "pattern": "regex",
-        "value": "\\b(Limecrusher|lc|dada|god)\\b",
+        "value": "\\b(Limecrusher|lc|dada|lk|limeking)\\b",
         "placeholder": "wait slut "
       },
       "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
       "typeVersion": 1,
       "position": [
-        -540,
-        -300
+        -680,
+        -700
       ],
       "id": "854fd18b-7259-4d45-8455-335079515811",
       "name": "Discord Trigger",
@@ -36,32 +70,306 @@
       "credentials": {
         "discordApi": {
           "id": "kX5jusJUIPxRqUcO",
-          "name": "Discord App account"
+          "name": "Emil's LimeCrusher Bot"
         }
       }
     },
     {
       "parameters": {
-        "triggerChannel": true,
-        "content": "i hate you julian you monkey ps god btw"
+        "triggerPlaceholder": true,
+        "embed": true,
+        "color": "#0D6111",
+        "authorName": "Lime King",
+        "description": "={{ $json.text }}"
       },
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        -120,
-        -280
+        80,
+        -560
       ],
       "id": "dd3bd1b0-db15-4e05-ac26-7f485a809c37",
       "name": "Discord Send",
       "credentials": {
         "discordApi": {
           "id": "kX5jusJUIPxRqUcO",
-          "name": "Discord App account"
+          "name": "Emil's LimeCrusher Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.userId }}",
+                    "rightValue": "399252178260197377",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "02aa40e3-0f95-48cb-aa60-efcccdef3a32",
+                    "leftValue": "={{ $json.userId }}",
+                    "rightValue": "399252178260197377",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -460,
+        -540
+      ],
+      "id": "a1bf5e7f-0294-40b6-9a53-adcb85550542",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Discord Trigger').item.json.content }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -280,
+        -700
+      ],
+      "id": "6a1732d2-63e3-4585-b291-3aa9e8f56332",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-thinking-exp",
+        "options": {
+          "safetySettings": {
+            "values": [
+              {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_NONE"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        -420
+      ],
+      "id": "193e9ef1-bae9-47c8-a222-d0b7e6a98003",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SXxerOXC902v1BV6",
+          "name": "Google Gemini(PaLM) Api account 2"
         }
       }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Discord Trigger": [
+      {
+        "json": {
+          "content": "god",
+          "guild": {
+            "id": "745447586697052201",
+            "name": "BakaBoi's Mall",
+            "icon": "b12438c2847c84537ed6457bb0af0d37",
+            "features": [
+              "SOUNDBOARD",
+              "CHANNEL_ICON_EMOJIS_GENERATED",
+              "AUTO_MODERATION"
+            ],
+            "commands": [],
+            "members": [
+              "830530156048285716",
+              "735682332337635329",
+              "544689462601449472",
+              "399252178260197377",
+              "246812164885577729",
+              "256153524444856320",
+              "305117734553911297",
+              "349614235313111041",
+              "420384309258747905",
+              "503720029456695306",
+              "547905866255433758",
+              "573852598881222666",
+              "646937666251915264",
+              "692045914436796436",
+              "709271563110973451",
+              "770820729485918240",
+              "782272697262276618",
+              "787789079227006976",
+              "903664916815294505",
+              "940615401128210512",
+              "941398038612676728",
+              "974678337152778323",
+              "1279221421616140440",
+              "1306443523553366090",
+              "1309914844413300736",
+              "1313732843385655326",
+              "1314767794012819540",
+              "1320586956354093087"
+            ],
+            "channels": [
+              "745447587536044183",
+              "745447587536044186",
+              "895907550183186452",
+              "895913416026386472",
+              "896036666387599422",
+              "896036746310086688",
+              "896577413838934106",
+              "896596131566473266",
+              "896608508559106118",
+              "930253950840623194",
+              "930254213739581511",
+              "930254481885655100",
+              "938987853310984242",
+              "1277511551837802526",
+              "1277830946913128458",
+              "1277832318806917153",
+              "1279874646400827483",
+              "1280344577433272330",
+              "1292732202211086426",
+              "1312104951547433022",
+              "1313893408166772756"
+            ],
+            "bans": [],
+            "roles": [
+              "745447586697052201",
+              "895903813926551573",
+              "896532965876699186",
+              "896572931109453855",
+              "896578045450809385",
+              "896581571493117954",
+              "896591019376787496",
+              "1040455955017650251",
+              "1064768977609433161",
+              "1141234209613160568",
+              "1280347031444918315",
+              "1281461626398310480",
+              "1281634028037865549",
+              "1292730070909321270",
+              "1306452076175298621",
+              "1313739544146874451"
+            ],
+            "stageInstances": [],
+            "invites": [],
+            "scheduledEvents": [],
+            "autoModerationRules": [],
+            "shardId": 0,
+            "splash": null,
+            "banner": null,
+            "description": null,
+            "verificationLevel": 2,
+            "vanityURLCode": null,
+            "nsfwLevel": 0,
+            "premiumSubscriptionCount": 0,
+            "discoverySplash": null,
+            "memberCount": 28,
+            "large": false,
+            "premiumProgressBarEnabled": false,
+            "applicationId": null,
+            "afkTimeout": 300,
+            "afkChannelId": null,
+            "systemChannelId": "1280344577433272330",
+            "premiumTier": 0,
+            "widgetEnabled": null,
+            "widgetChannelId": null,
+            "explicitContentFilter": 0,
+            "mfaLevel": 0,
+            "joinedTimestamp": 1734924087670,
+            "defaultMessageNotifications": 0,
+            "systemChannelFlags": 0,
+            "maximumMembers": 250000,
+            "maximumPresences": null,
+            "maxVideoChannelUsers": 25,
+            "maxStageVideoChannelUsers": 50,
+            "approximateMemberCount": null,
+            "approximatePresenceCount": null,
+            "vanityURLUses": null,
+            "rulesChannelId": null,
+            "publicUpdatesChannelId": null,
+            "preferredLocale": "en-US",
+            "safetyAlertsChannelId": null,
+            "ownerId": "246812164885577729",
+            "emojis": [
+              "1203112622300332072",
+              "1203112727476965419"
+            ],
+            "stickers": [],
+            "createdTimestamp": 1597798954415,
+            "nameAcronym": "BM",
+            "iconURL": "https://cdn.discordapp.com/icons/745447586697052201/b12438c2847c84537ed6457bb0af0d37.webp",
+            "splashURL": null,
+            "discoverySplashURL": null,
+            "bannerURL": null
+          },
+          "channelId": "745447587536044186",
+          "userId": "735682332337635329",
+          "userName": "greenlemons.",
+          "userTag": "greenlemons.",
+          "messageId": "1320600269763121162"
+        }
+      }
+    ],
+    "Discord Send": [
+      {
+        "json": {
+          "channelId": "745447587536044186",
+          "messageId": "1320600271692501024"
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -71,6 +379,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2024-12-23T03:52:40.000Z",
-  "versionId": "35cf6ad6-bde4-463b-ab13-a3ebdcdd8559"
+  "updatedAt": "2024-12-24T00:11:19.000Z",
+  "versionId": "08b8b80a-6c17-433b-a78f-ddec1a97f627"
 }
