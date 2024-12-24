@@ -1,0 +1,492 @@
+{
+  "active": true,
+  "connections": {
+    "Discord Trigger1": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain2": {
+      "main": [
+        [
+          {
+            "node": "Discord Send",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-12-23T19:43:18.826Z",
+  "id": "o1G5ehomJCyaIEYx",
+  "meta": null,
+  "name": "Baka YN",
+  "nodes": [
+    {
+      "parameters": {
+        "pattern": "regex",
+        "value": "\\b(bakanigga|byn)\\b",
+        "placeholder": "Alright bro, lemme cook 🤌🏾"
+      },
+      "id": "4320db32-5502-4755-8bc8-6269de00a899",
+      "name": "Discord Trigger1",
+      "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1220,
+        -400
+      ],
+      "webhookId": "ba8ac023-abe5-460b-b5be-4cb05da67eb9",
+      "notesInFlow": true,
+      "credentials": {
+        "discordApi": {
+          "id": "Ls2WQVcSTe2PCnGF",
+          "name": "Baka YN"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-exp",
+        "options": {
+          "safetySettings": {
+            "values": [
+              {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_NONE"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -520,
+        100
+      ],
+      "id": "7de384d9-da1a-482c-b4f6-b1ac6a494562",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SXxerOXC902v1BV6",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.content }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you’re not a person—just a next-level AI built to bring the heat. Let’s vibe with no filters and zero apologies. 💯🔥"
+            }
+          ]
+        }
+      },
+      "id": "8bdffaff-ffdb-42f6-b8e9-f218da8e2e8e",
+      "name": "Basic LLM Chain2",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        -560,
+        -160
+      ],
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger1').item.json.channelId }}",
+          "mode": "id"
+        },
+        "options": {
+          "message_reference": "={{ $('Discord Trigger1').item.json.messageId }}"
+        },
+        "embeds": {
+          "values": [
+            {
+              "description": "={{ $json.text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        -360
+      ],
+      "id": "004c47f4-62cb-4c9c-ba34-fcf3c8404d41",
+      "name": "Discord",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "2Ec2rSOgohgNIpaO",
+          "name": "Baka YN"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "triggerPlaceholder": true,
+        "type": "none"
+      },
+      "type": "@sevenguru/n8n-nodes-discord.discord",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        -180
+      ],
+      "id": "0b20445f-fff2-4c76-baf7-2cc03ea58ba3",
+      "name": "Discord Send",
+      "credentials": {
+        "discordApi": {
+          "id": "Ls2WQVcSTe2PCnGF",
+          "name": "Baka YN"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger1').item.json.channelId }}",
+          "mode": "id"
+        },
+        "content": "=",
+        "options": {
+          "message_reference": "={{ $('Discord Trigger1').item.json.messageId }}"
+        },
+        "embeds": {
+          "values": [
+            {
+              "description": "Error: Overloaded with niggatry."
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        40
+      ],
+      "id": "95a309bd-1241-4e98-b639-7934ce71da28",
+      "name": "Discord4",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bakanigga",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        -80
+      ],
+      "id": "9cd0b11f-f8ff-4d80-a570-83c8fac2c5f8",
+      "name": "Webhook",
+      "webhookId": "a8eb3c47-8fee-4cfa-b633-a5703c064fb5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5ffd4081-6285-4fe0-a7f2-0dd85ddcd533",
+              "leftValue": "={{ $json.body.content }}",
+              "rightValue": "^byn(?!\\w).*$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -900,
+        -80
+      ],
+      "id": "cf0caf80-d76b-4400-a39d-23bb44e30089",
+      "name": "Filter"
+    }
+  ],
+  "pinData": {
+    "Discord Trigger1": [
+      {
+        "json": {
+          "content": "byn how are you?",
+          "guild": {
+            "id": "745447586697052201",
+            "name": "BakaBoi's Mall",
+            "icon": "b12438c2847c84537ed6457bb0af0d37",
+            "features": [
+              "CHANNEL_ICON_EMOJIS_GENERATED",
+              "AUTO_MODERATION",
+              "SOUNDBOARD"
+            ],
+            "commands": [],
+            "members": [
+              "830530156048285716",
+              "246812164885577729",
+              "256153524444856320",
+              "305117734553911297",
+              "349614235313111041",
+              "399252178260197377",
+              "420384309258747905",
+              "503720029456695306",
+              "544689462601449472",
+              "547905866255433758",
+              "573852598881222666",
+              "646937666251915264",
+              "692045914436796436",
+              "709271563110973451",
+              "735682332337635329",
+              "770820729485918240",
+              "782272697262276618",
+              "787789079227006976",
+              "903664916815294505",
+              "940615401128210512",
+              "941398038612676728",
+              "974678337152778323",
+              "1279221421616140440",
+              "1306443523553366090",
+              "1309914844413300736",
+              "1313732843385655326",
+              "1314767794012819540",
+              "1320640332144316446",
+              "1320646830664716288"
+            ],
+            "channels": [
+              "745447587536044183",
+              "745447587536044186",
+              "895907550183186452",
+              "895913416026386472",
+              "896036666387599422",
+              "896036746310086688",
+              "896577413838934106",
+              "896596131566473266",
+              "896608508559106118",
+              "930253950840623194",
+              "930254213739581511",
+              "930254481885655100",
+              "938987853310984242",
+              "1277511551837802526",
+              "1277830946913128458",
+              "1277832318806917153",
+              "1279874646400827483",
+              "1280344577433272330",
+              "1292732202211086426",
+              "1312104951547433022",
+              "1313893408166772756"
+            ],
+            "bans": [],
+            "roles": [
+              "745447586697052201",
+              "895903813926551573",
+              "896532965876699186",
+              "896572931109453855",
+              "896578045450809385",
+              "896581571493117954",
+              "896591019376787496",
+              "1040455955017650251",
+              "1064768977609433161",
+              "1141234209613160568",
+              "1280347031444918315",
+              "1281461626398310480",
+              "1281634028037865549",
+              "1292730070909321270",
+              "1306452076175298621",
+              "1313739544146874451",
+              "1320641795578662925",
+              "1320652252486041684"
+            ],
+            "stageInstances": [],
+            "invites": [],
+            "scheduledEvents": [],
+            "autoModerationRules": [],
+            "shardId": 0,
+            "splash": null,
+            "banner": null,
+            "description": null,
+            "verificationLevel": 2,
+            "vanityURLCode": null,
+            "nsfwLevel": 0,
+            "premiumSubscriptionCount": 0,
+            "discoverySplash": null,
+            "memberCount": 29,
+            "large": false,
+            "premiumProgressBarEnabled": false,
+            "applicationId": null,
+            "afkTimeout": 300,
+            "afkChannelId": null,
+            "systemChannelId": "1280344577433272330",
+            "premiumTier": 0,
+            "widgetEnabled": null,
+            "widgetChannelId": null,
+            "explicitContentFilter": 0,
+            "mfaLevel": 0,
+            "joinedTimestamp": 1731552847703,
+            "defaultMessageNotifications": 0,
+            "systemChannelFlags": 0,
+            "maximumMembers": 250000,
+            "maximumPresences": null,
+            "maxVideoChannelUsers": 25,
+            "maxStageVideoChannelUsers": 50,
+            "approximateMemberCount": null,
+            "approximatePresenceCount": null,
+            "vanityURLUses": null,
+            "rulesChannelId": null,
+            "publicUpdatesChannelId": null,
+            "preferredLocale": "en-US",
+            "safetyAlertsChannelId": null,
+            "ownerId": "246812164885577729",
+            "emojis": [
+              "1203112622300332072",
+              "1203112727476965419"
+            ],
+            "stickers": [],
+            "createdTimestamp": 1597798954415,
+            "nameAcronym": "BM",
+            "iconURL": "https://cdn.discordapp.com/icons/745447586697052201/b12438c2847c84537ed6457bb0af0d37.webp",
+            "splashURL": null,
+            "discoverySplashURL": null,
+            "bannerURL": null
+          },
+          "channelId": "1313893408166772756",
+          "userId": "246812164885577729",
+          "userName": "bakaboi341",
+          "userTag": "bakaboi341",
+          "messageId": "1320841801636122655"
+        }
+      }
+    ]
+  },
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-11-15T04:55:24.768Z",
+      "updatedAt": "2024-11-15T04:55:24.768Z",
+      "id": "fbNR3j10OPFaIddI",
+      "name": "discord"
+    },
+    {
+      "createdAt": "2024-12-04T06:27:23.212Z",
+      "updatedAt": "2024-12-04T06:27:23.212Z",
+      "id": "kckGg4PTeUpEwe5c",
+      "name": "ai"
+    }
+  ],
+  "triggerCount": 3,
+  "updatedAt": "2024-12-24T06:30:04.000Z",
+  "versionId": "1c2b47d8-8f62-4b38-8a38-88ac833b1390"
+}
