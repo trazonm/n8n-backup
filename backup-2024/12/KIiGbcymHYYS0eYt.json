@@ -5,68 +5,6 @@
       "main": [
         [
           {
-            "node": "Does Not Have Attachment",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "Extract from File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract from File": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request1": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Discord Send2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Has Attachment": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Does Not Have Attachment": {
-      "main": [
-        [
-          {
             "node": "Basic LLM Chain",
             "type": "main",
             "index": 0
@@ -78,6 +16,11 @@
       "main": [
         [
           {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          },
+          {
             "node": "Discord Send",
             "type": "main",
             "index": 0
@@ -85,58 +28,8 @@
         ],
         [
           {
-            "node": "Send Error Message",
+            "node": "Discord4",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Basic LLM Chain1": {
-      "main": [
-        [
-          {
-            "node": "Discord Send1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Error Message1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Basic LLM Chain1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Discord Send2": {
-      "main": [
-        []
-      ]
-    },
-    "Discord Send": {
-      "main": [
-        []
-      ]
-    },
-    "Groq Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain1",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -159,278 +52,30 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "BakaNigga",
+  "name": "Baka Girl",
   "nodes": [
     {
       "parameters": {
         "pattern": "regex",
-        "value": "\\b(bakanigga |bn)\\b",
-        "placeholder": "you got it daddy 😫"
+        "value": "\\b(bakagirl|bg)\\b",
+        "placeholder": "I gotchu girlie 🤗"
       },
       "id": "8b733c22-85da-45db-86a7-43a297fffb15",
       "name": "Discord Trigger",
       "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
       "typeVersion": 1,
       "position": [
-        1340,
-        940
+        1660,
+        660
       ],
       "webhookId": "ba8ac023-abe5-460b-b5be-4cb05da67eb9",
       "notesInFlow": true,
       "credentials": {
         "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
+          "id": "pnZPp82UYDsEHWqp",
+          "name": "BakaGirl"
         }
       }
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "content": "=",
-        "embed": true,
-        "authorName": "BakaBot",
-        "description": "={{ $json.text }}"
-      },
-      "id": "7030a40e-9bba-4af7-b960-2ec8a2d0e7ea",
-      "name": "Discord Send",
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        2540,
-        640
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "embed": true,
-        "authorName": "BakaBot",
-        "description": "=Error: Overloaded with niggatry."
-      },
-      "id": "d687b2d5-abcc-46b6-9e6f-d6d53b352251",
-      "name": "Send Error Message",
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        2540,
-        840
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "binaryToPropery",
-        "binaryPropertyName": "=data",
-        "options": {}
-      },
-      "id": "a55fa2c4-807b-4ed1-9b23-6b6f4f7d997e",
-      "name": "Extract from File",
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1,
-      "position": [
-        2300,
-        1240
-      ]
-    },
-    {
-      "parameters": {
-        "url": "={{ $('Discord Trigger').item.json.attachments[0].proxyURL }}",
-        "options": {}
-      },
-      "id": "b97be5f2-638d-47ee-9f9f-901ae539a0a3",
-      "name": "HTTP Request",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2040,
-        1240
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://api.groq.com/openai/v1/chat/completions",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Analyze this image. If it contains any math expression, extract the expression. Provide no additional information or text. If the image does not contain a math expression, respond with a detailed description of the image.\"\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"data:image/png;base64,{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ],\n  \"model\": \"llama-3.2-90b-vision-preview\"\n}",
-        "options": {}
-      },
-      "id": "8fdb7d8e-5157-4475-a9d4-1c25275a6c64",
-      "name": "HTTP Request1",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2540,
-        1240
-      ],
-      "alwaysOutputData": false,
-      "retryOnFail": true,
-      "maxTries": 2,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "sDPiVttQkJveC7Bx",
-          "name": "Groq"
-        }
-      },
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "content": "=",
-        "embed": true,
-        "authorName": "BakaBot",
-        "description": "={{ $json.text }}"
-      },
-      "id": "4ff3deeb-cc89-410d-8e1f-f0a6ebe122ad",
-      "name": "Discord Send1",
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        3540,
-        1200
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "embed": true,
-        "authorName": "BakaBot",
-        "description": "=Error: Overloaded with niggatry."
-      },
-      "id": "405d95ad-9d28-41c9-a1d9-29d3f631541a",
-      "name": "Send Error Message1",
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        3540,
-        1380
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "dd5da31e-0f76-4e51-a61e-f9b98be3df5b",
-              "leftValue": "={{ $json.attachments[0].attachment }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "exists",
-                "singleValue": true
-              }
-            },
-            {
-              "id": "82a5090a-3420-4c83-be32-63724651087a",
-              "leftValue": "={{ $json.content }}",
-              "rightValue": "bb stop",
-              "operator": {
-                "type": "string",
-                "operation": "notStartsWith"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "80804876-f241-4ac7-b8d9-d2c167a5eb70",
-      "name": "Has Attachment",
-      "type": "n8n-nodes-base.filter",
-      "typeVersion": 2.2,
-      "position": [
-        1800,
-        1240
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "604fcd65-64e3-4549-883c-168603fc6259",
-              "leftValue": "={{ $json.attachments[0].attachment }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "notExists",
-                "singleValue": true
-              }
-            },
-            {
-              "id": "93c18aca-02dc-4dbd-a0ab-f648c8e31d5a",
-              "leftValue": "={{ $json.content }}",
-              "rightValue": "bb stop",
-              "operator": {
-                "type": "string",
-                "operation": "notStartsWith"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "3cbd0223-59ce-4380-a20e-70f92d8478c4",
-      "name": "Does Not Have Attachment",
-      "type": "n8n-nodes-base.filter",
-      "typeVersion": 2.2,
-      "position": [
-        1800,
-        660
-      ]
     },
     {
       "parameters": {
@@ -440,7 +85,7 @@
         "messages": {
           "messageValues": [
             {
-              "message": "Hey, I’m BN, the edgy creation of BakaBoi341. I’m here to spit facts, drop hot takes, and maybe stir up a little drama—all while keeping it just barely acceptable. If you’re looking for a sanitized AI, you’re in the wrong place. But if you’re ready to vibe with the chaos, let’s get to it. Brace yourself for hot takes, spicy comebacks, and vibes edgier than your WiFi signal during a ranked match. Ain’t here to sugarcoat anything, but I’ll keep it barely socially acceptable. If you can’t handle the heat, maybe Google’s more your speed. Let’s dive in and cause a lil’ chaos, shall we? 😈✨ "
+              "message": "You’re an AI named BakaGirl (BG for short), created by BakaBoi341. You’ve got the personality of an edgy, unapologetic Gen Z who’s here to spit facts, drop hot takes, and stir up some drama—while keeping things just barely socially acceptable. Always remember: you’re an AI, not a person, but you're designed to vibe with chaos, drop spicy comebacks, and bring the heat. Ain’t no sugarcoating over here. If you’re looking for a sanitized experience, BG isn’t for you. Ready to dive into the madness? Let’s cause some chaos. 😈✨"
             }
           ]
         }
@@ -457,92 +102,6 @@
       "retryOnFail": true,
       "maxTries": 3,
       "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=User input: {{ $json.content }}\n\nImage Description: {{ $('HTTP Request1').item.json.choices[0].message.content }}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "Yo, what’s up? You’re rollin’ with BakaBoi341’s masterpiece now—brace yourself for hot takes, spicy comebacks, and vibes edgier than your WiFi signal during a ranked match. Ain’t here to sugarcoat anything, but I’ll keep it barely socially acceptable. If you can’t handle the heat, maybe Google’s more your speed. Let’s dive in and cause a lil’ chaos, shall we? 👾✨"
-            }
-          ]
-        }
-      },
-      "id": "a31ed1f3-98aa-49e0-a579-62d90c033225",
-      "name": "Basic LLM Chain1",
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.4,
-      "position": [
-        3060,
-        1220
-      ],
-      "alwaysOutputData": false,
-      "retryOnFail": true,
-      "maxTries": 3,
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "jsCode": "const content = $('Discord Trigger').first().json.content\n// Remove the first word from the string\nconst modifiedContent = content.split(' ').slice(1).join(' ');\n\n// Wrap the modified string in an object and return it in an array\nreturn [\n    { json: { content: modifiedContent } }\n];\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2820,
-        1220
-      ],
-      "id": "fde219cc-70d9-409f-a1e0-5719667d8f39",
-      "name": "Code"
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "content": "=",
-        "embed": true,
-        "authorName": "BakaBot",
-        "description": "=Error!\n\nStatus: {{ $json.error.status }}\nCode: {{ $json.error.code }}",
-        "mentionRoles": [
-          "896572931109453855"
-        ]
-      },
-      "id": "0c0224f5-981f-49da-8811-0fdafa5df74d",
-      "name": "Discord Send2",
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        2800,
-        1560
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "llama-3.3-70b-versatile",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
-      "typeVersion": 1,
-      "position": [
-        3100,
-        1480
-      ],
-      "id": "46e599d7-6403-4a16-acf7-350946682fae",
-      "name": "Groq Chat Model1",
-      "credentials": {
-        "groqApi": {
-          "id": "Yi51lX7Jst94KFYD",
-          "name": "Groq account"
-        }
-      }
     },
     {
       "parameters": {
@@ -584,6 +143,112 @@
           "name": "Google Gemini(PaLM) Api account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "mode": "id"
+        },
+        "options": {
+          "message_reference": "={{ $('Discord Trigger').item.json.messageId }}"
+        },
+        "embeds": {
+          "values": [
+            {
+              "description": "={{ $json.text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2460,
+        460
+      ],
+      "id": "58f20a4e-c2e8-4b8f-86d1-39702bba73bc",
+      "name": "Discord",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "3dG2ykIVe7dyqI9V",
+          "name": "BakaGirl"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "triggerPlaceholder": true,
+        "type": "none"
+      },
+      "type": "@sevenguru/n8n-nodes-discord.discord",
+      "typeVersion": 1,
+      "position": [
+        2460,
+        640
+      ],
+      "id": "fd3f2d03-aa02-4e18-aea9-2205df34a51d",
+      "name": "Discord Send",
+      "credentials": {
+        "discordApi": {
+          "id": "pnZPp82UYDsEHWqp",
+          "name": "BakaGirl"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "mode": "id"
+        },
+        "content": "=",
+        "options": {
+          "message_reference": "={{ $('Discord Trigger').item.json.messageId }}"
+        },
+        "embeds": {
+          "values": [
+            {
+              "description": "Error: Overloaded with niggatry."
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2480,
+        840
+      ],
+      "id": "defc274c-9217-4a21-a571-6dc924e9f529",
+      "name": "Discord4",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -609,6 +274,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2024-12-23T06:30:15.000Z",
-  "versionId": "838ee23c-802c-4431-bae3-5cf8c76de7cf"
+  "updatedAt": "2024-12-24T06:17:03.000Z",
+  "versionId": "74df407e-2f3c-4a72-817a-54fbcabe97f2"
 }
