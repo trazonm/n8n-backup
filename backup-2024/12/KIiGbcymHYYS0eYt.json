@@ -1,27 +1,11 @@
 {
   "active": true,
   "connections": {
-    "Discord Trigger": {
-      "main": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Basic LLM Chain": {
       "main": [
         [
           {
             "node": "Discord",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Discord Send",
             "type": "main",
             "index": 0
           }
@@ -45,6 +29,66 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Discord1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Discord2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-12-23T04:58:53.002Z",
@@ -56,31 +100,8 @@
   "nodes": [
     {
       "parameters": {
-        "pattern": "regex",
-        "value": "\\b(bakagirl|bg)\\b",
-        "placeholder": "I gotchu girlie 🤗"
-      },
-      "id": "8b733c22-85da-45db-86a7-43a297fffb15",
-      "name": "Discord Trigger",
-      "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
-      "typeVersion": 1,
-      "position": [
-        1660,
-        660
-      ],
-      "webhookId": "ba8ac023-abe5-460b-b5be-4cb05da67eb9",
-      "notesInFlow": true,
-      "credentials": {
-        "discordApi": {
-          "id": "pnZPp82UYDsEHWqp",
-          "name": "BakaGirl"
-        }
-      }
-    },
-    {
-      "parameters": {
         "promptType": "define",
-        "text": "={{ $json.content }}",
+        "text": "={{ $json.body.content }}",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -132,7 +153,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        2040,
+        2060,
         900
       ],
       "id": "cafa6a49-bea0-493f-92b7-d9cc4f727984",
@@ -157,11 +178,11 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "options": {
-          "message_reference": "={{ $('Discord Trigger').item.json.messageId }}"
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
         },
         "embeds": {
           "values": [
@@ -179,6 +200,7 @@
       ],
       "id": "58f20a4e-c2e8-4b8f-86d1-39702bba73bc",
       "name": "Discord",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "3dG2ykIVe7dyqI9V",
@@ -186,26 +208,6 @@
         }
       },
       "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "type": "none"
-      },
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        2460,
-        640
-      ],
-      "id": "fd3f2d03-aa02-4e18-aea9-2205df34a51d",
-      "name": "Discord Send",
-      "credentials": {
-        "discordApi": {
-          "id": "pnZPp82UYDsEHWqp",
-          "name": "BakaGirl"
-        }
-      }
     },
     {
       "parameters": {
@@ -220,12 +222,12 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "content": "=",
         "options": {
-          "message_reference": "={{ $('Discord Trigger').item.json.messageId }}"
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
         },
         "embeds": {
           "values": [
@@ -243,15 +245,180 @@
       ],
       "id": "defc274c-9217-4a21-a571-6dc924e9f529",
       "name": "Discord4",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
-          "id": "UEztFF3QWknIwrx9",
-          "name": "BakaBot"
+          "id": "3dG2ykIVe7dyqI9V",
+          "name": "BakaGirl"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bakagirl",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1460,
+        660
+      ],
+      "id": "92cbc56a-8df9-4780-bc69-2ff36c1c5d3a",
+      "name": "Webhook",
+      "webhookId": "b799d759-615e-4a93-b674-603d21c54208"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5ffd4081-6285-4fe0-a7f2-0dd85ddcd533",
+              "leftValue": "={{ $json.body.content }}",
+              "rightValue": "^bg[^\\w]*[^a-zA-Z0-9].*$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1820,
+        660
+      ],
+      "id": "4a217c2b-ed0f-4e95-a3dd-fb484a4c8576",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "I gotchu girlie 🤗",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2060,
+        240
+      ],
+      "id": "a3f9747f-353e-4c3c-ac6e-8ec7ec881fd7",
+      "name": "Discord1",
+      "retryOnFail": true,
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "3dG2ykIVe7dyqI9V",
+          "name": "BakaGirl"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2680,
+        260
+      ],
+      "id": "af85333b-7c27-4af8-a493-0c36d04a8ca5",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "operation": "deleteMessage",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.channel_id }}",
+          "mode": "id"
+        },
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        3000,
+        260
+      ],
+      "id": "39af5f0d-18ef-4108-ae06-fa7db4be42c4",
+      "name": "Discord2",
+      "executeOnce": true,
+      "retryOnFail": true,
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "3dG2ykIVe7dyqI9V",
+          "name": "BakaGirl"
         }
       }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "connection": "close",
+            "host": "bakaflow.gleeze.com",
+            "x-forwarded-scheme": "https",
+            "x-forwarded-proto": "https",
+            "x-forwarded-for": "75.177.85.65",
+            "x-real-ip": "75.177.85.65",
+            "content-length": "191",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "accept-encoding": "gzip,deflate"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
+            "author": "bakaboi341",
+            "userId": "246812164885577729",
+            "messageId": "1321008183124168746",
+            "content": "bg are you there?",
+            "attachments": null
+          },
+          "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakagirl",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -273,7 +440,7 @@
       "name": "ai"
     }
   ],
-  "triggerCount": 2,
-  "updatedAt": "2024-12-24T06:17:03.000Z",
-  "versionId": "74df407e-2f3c-4a72-817a-54fbcabe97f2"
+  "triggerCount": 1,
+  "updatedAt": "2024-12-24T06:56:09.000Z",
+  "versionId": "6f612db6-8ef3-4741-8200-83525ad670c2"
 }
