@@ -169,16 +169,6 @@
       "main": [
         [
           {
-            "node": "Does Not Have Attachment",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Has Attachment",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Filter",
             "type": "main",
             "index": 0
@@ -270,6 +260,16 @@
             "node": "Discord1",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Does Not Have Attachment",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Attachment",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -315,13 +315,12 @@
       "parameters": {
         "method": "POST",
         "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            {
-              "name": "key",
-              "value": "AIzaSyBnce-iA7skgDgWDFRqOhnHilfg6LHomyw"
-            }
+            {}
           ]
         },
         "sendHeaders": true,
@@ -346,6 +345,12 @@
       "alwaysOutputData": false,
       "retryOnFail": true,
       "maxTries": 2,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "nD7ei1tu51CS9KxZ",
+          "name": "Google Gemini API Key"
+        }
+      },
       "onError": "continueErrorOutput"
     },
     {
@@ -367,15 +372,6 @@
                 "operation": "exists",
                 "singleValue": true
               }
-            },
-            {
-              "id": "d6d170a1-746b-4a80-836a-c2afcefd7620",
-              "leftValue": "={{ $json.body.content }}",
-              "rightValue": "^bb(?!\\w).*$",
-              "operator": {
-                "type": "string",
-                "operation": "regex"
-              }
             }
           ],
           "combinator": "and"
@@ -387,7 +383,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1860,
+        1880,
         1260
       ]
     },
@@ -410,15 +406,6 @@
                 "operation": "notExists",
                 "singleValue": true
               }
-            },
-            {
-              "id": "8f3eb9c0-6f3f-449c-a530-5a17cb3a4936",
-              "leftValue": "={{ $json.body.content }}",
-              "rightValue": "^bb(?!\\w).*$",
-              "operator": {
-                "type": "string",
-                "operation": "regex"
-              }
             }
           ],
           "combinator": "and"
@@ -430,7 +417,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1720,
+        1900,
         860
       ]
     },
@@ -779,7 +766,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        1320,
+        1140,
         860
       ],
       "id": "f40b73ae-9dc4-4b4f-9fff-84d388342e83",
@@ -808,7 +795,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1880,
+        2100,
         420
       ],
       "id": "4d625d52-d8db-41e3-bee1-26eced9ecb07",
@@ -870,7 +857,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://192.168.0.152:3000/html-to-image",
+        "url": "https://baka-discord-service.dynuddns.com/html-to-image",
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
@@ -952,7 +939,7 @@
             {
               "id": "d614455c-fc95-4a7c-a39f-405fd1651b9f",
               "leftValue": "={{ $json.body.content }}",
-              "rightValue": "^bb(?!\\w).*$",
+              "rightValue": "^bb[^\\w]*[^a-zA-Z0-9].*$",
               "operator": {
                 "type": "string",
                 "operation": "regex"
@@ -966,8 +953,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1600,
-        540
+        1480,
+        860
       ],
       "id": "d051e283-f51e-4a3a-8e9f-3457b61dffcb",
       "name": "Filter"
@@ -1038,6 +1025,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-24T06:28:29.000Z",
-  "versionId": "005fa77d-a05a-40f7-8d97-4d078d19627e"
+  "updatedAt": "2024-12-24T08:38:26.000Z",
+  "versionId": "b51fec91-aab5-4a63-94f2-98a662b16e91"
 }
