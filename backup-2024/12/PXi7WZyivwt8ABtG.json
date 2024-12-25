@@ -1,17 +1,6 @@
 {
   "active": true,
   "connections": {
-    "Image Generation": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request2": {
       "main": [
         [
@@ -36,7 +25,13 @@
     },
     "Discord": {
       "main": [
-        []
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
       ]
     },
     "Execute Command": {
@@ -50,7 +45,7 @@
         ],
         [
           {
-            "node": "Discord Send1",
+            "node": "Discord2",
             "type": "main",
             "index": 0
           }
@@ -68,7 +63,7 @@
         ],
         [
           {
-            "node": "Discord Send3",
+            "node": "Discord3",
             "type": "main",
             "index": 0
           }
@@ -93,30 +88,14 @@
         ]
       ]
     },
-    "Discord Send": {
-      "main": [
-        []
-      ]
-    },
     "Discord1": {
       "main": [
-        [
-          {
-            "node": "Discord Send2",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Loop Over Items": {
       "main": [
         [
-          {
-            "node": "Discord Send",
-            "type": "main",
-            "index": 0
-          },
           {
             "node": "Aggregate",
             "type": "main",
@@ -142,6 +121,55 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord4": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Discord5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-12-05T08:04:15.222Z",
@@ -151,29 +179,6 @@
   },
   "name": "BakaPix",
   "nodes": [
-    {
-      "parameters": {
-        "pattern": "regex",
-        "value": "\\b(bbg)\\b ",
-        "placeholder": "alright nigga i'm on it (20-40s)"
-      },
-      "id": "c89accdb-3d5d-4d0b-be35-ecfc26ea53d6",
-      "name": "Image Generation",
-      "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
-      "typeVersion": 1,
-      "position": [
-        1340,
-        1720
-      ],
-      "webhookId": "0d4b38c1-6a00-4391-b8e1-d94c9259112b",
-      "notesInFlow": true,
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
     {
       "parameters": {
         "url": "={{ $item(\"0\").$node[\"Loop Over Items\"].json[\"url\"] }} ",
@@ -192,12 +197,12 @@
     },
     {
       "parameters": {
-        "jsCode": "const content = $input.first().json.content;\n\n// Remove the first word from the string\nconst modifiedContent = content.split(' ').slice(1).join(' ');\n\n// Wrap the escaped string in an object and return it in an array\nreturn [\n    { json: { content: modifiedContent } }\n];\n"
+        "jsCode": "const content = $input.first().json.body.content;\n\n// Remove the first word from the string\nconst modifiedContent = content.split(' ').slice(1).join(' ');\n\n// Wrap the escaped string in an object and return it in an array\nreturn [\n    { json: { content: modifiedContent } }\n];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1780,
+        1920,
         1720
       ],
       "id": "1603670d-7270-42a6-8870-7687efaee223",
@@ -216,11 +221,11 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $('Image Generation').item.json.channelId }}",
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "options": {
-          "message_reference": "={{ $('Image Generation').item.json.messageId }}"
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
         },
         "embeds": {
           "values": [
@@ -252,6 +257,7 @@
       ],
       "id": "39d63600-f96e-4d8d-8f24-983e5c753a04",
       "name": "Discord",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "vOJNgebaMgJjkLsk",
@@ -368,12 +374,12 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $('Image Generation').item.json.channelId }}",
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "content": "=There's some niggatry afoot. {{ $('Execute Command').item.json.stdout }}",
         "options": {
-          "message_reference": "={{ $('Image Generation').item.json.messageId }}"
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
         },
         "embeds": {
           "values": [
@@ -391,74 +397,12 @@
       ],
       "id": "9c63a90b-ba88-44e0-82d3-f7167aae6ff0",
       "name": "Discord1",
+      "executeOnce": false,
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "vOJNgebaMgJjkLsk",
           "name": "BakaBoi (n8n)"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "content": "There was an error bitch ass nigga",
-        "mentionRoles": [
-          "896572931109453855"
-        ]
-      },
-      "id": "3e240e2b-e1bd-49da-a7c9-8181f07fdeec",
-      "name": "Discord Send1",
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        2440,
-        1980
-      ],
-      "alwaysOutputData": false,
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "type": "none"
-      },
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        3940,
-        1180
-      ],
-      "id": "dd9fc12d-1017-49a4-b15a-5a7ea43d626a",
-      "name": "Discord Send",
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "triggerPlaceholder": true,
-        "type": "none"
-      },
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
-      "position": [
-        3620,
-        1700
-      ],
-      "id": "9941922f-1422-4ca1-93bd-6d67cee85cf5",
-      "name": "Discord Send2",
-      "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
         }
       }
     },
@@ -499,172 +443,239 @@
     },
     {
       "parameters": {
-        "triggerPlaceholder": true,
-        "content": "There was an error bitch ass nigga",
-        "mentionRoles": [
-          "896572931109453855"
-        ]
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "There was an error bitch ass nigga <@246812164885577729>",
+        "options": {
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
+        }
       },
-      "id": "84c1515d-167e-4710-92e1-e4b67dee2941",
-      "name": "Discord Send3",
-      "type": "@sevenguru/n8n-nodes-discord.discord",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
       "position": [
-        2880,
-        1960
+        2420,
+        1980
       ],
-      "alwaysOutputData": false,
+      "id": "2985b021-9ae8-40f0-b76a-72246f1907e5",
+      "name": "Discord2",
+      "retryOnFail": true,
       "credentials": {
-        "discordApi": {
-          "id": "dVLKY4fx8y4UbNxL",
-          "name": "BakaBoi's Discord"
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-image",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        1720
+      ],
+      "id": "68df2aeb-9fdd-4ffb-96cb-a36a0b67fdc2",
+      "name": "Webhook",
+      "webhookId": "72433db7-d700-4473-8507-e261d4a0a2a8"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5ffd4081-6285-4fe0-a7f2-0dd85ddcd533",
+              "leftValue": "={{ $json.body.content }}",
+              "rightValue": "^bbg[^\\w]*[^a-zA-Z0-9].*$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1660,
+        1720
+      ],
+      "id": "e1ac25f3-b6d7-4f26-b3a5-9c454f42886f",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "There was an error bitch ass nigga <@246812164885577729>",
+        "options": {
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2800,
+        1980
+      ],
+      "id": "5f907c25-a9e7-44ae-ac55-b75d69b4c73c",
+      "name": "Discord3",
+      "retryOnFail": true,
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "alright nigga i'm on it (20-40s)",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        1480
+      ],
+      "id": "f7cfb900-46fd-4ce6-bb13-8dc7d0151a94",
+      "name": "Discord4",
+      "retryOnFail": true,
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        4220,
+        640
+      ],
+      "id": "2a6b385c-690e-4cc0-a903-a31cbb3ec8a8",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "operation": "deleteMessage",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.channel_id }}",
+          "mode": "id"
+        },
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        4440,
+        640
+      ],
+      "id": "627bbedc-b620-4172-847e-86e137c2312c",
+      "name": "Discord5",
+      "executeOnce": true,
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
         }
       }
     }
   ],
   "pinData": {
-    "Image Generation": [
+    "Webhook": [
       {
         "json": {
-          "content": "bbg sexy math",
-          "guild": {
-            "id": "745447586697052201",
-            "name": "BakaBoi's Mall",
-            "icon": "b12438c2847c84537ed6457bb0af0d37",
-            "features": [
-              "SOUNDBOARD",
-              "CHANNEL_ICON_EMOJIS_GENERATED",
-              "AUTO_MODERATION"
-            ],
-            "commands": [],
-            "members": [
-              "830530156048285716",
-              "735682332337635329",
-              "399252178260197377",
-              "246812164885577729",
-              "256153524444856320",
-              "305117734553911297",
-              "349614235313111041",
-              "420384309258747905",
-              "503720029456695306",
-              "544689462601449472",
-              "547905866255433758",
-              "573852598881222666",
-              "646937666251915264",
-              "692045914436796436",
-              "709271563110973451",
-              "770820729485918240",
-              "782272697262276618",
-              "787789079227006976",
-              "903664916815294505",
-              "940615401128210512",
-              "941398038612676728",
-              "974678337152778323",
-              "1279221421616140440",
-              "1306443523553366090",
-              "1309914844413300736",
-              "1313732843385655326",
-              "1314767794012819540"
-            ],
-            "channels": [
-              "745447587536044183",
-              "745447587536044186",
-              "895907550183186452",
-              "895913416026386472",
-              "896036666387599422",
-              "896036746310086688",
-              "896577413838934106",
-              "896596131566473266",
-              "896608508559106118",
-              "930253950840623194",
-              "930254213739581511",
-              "930254481885655100",
-              "938987853310984242",
-              "1277511551837802526",
-              "1277830946913128458",
-              "1277832318806917153",
-              "1279874646400827483",
-              "1280344577433272330",
-              "1292732202211086426",
-              "1312104951547433022",
-              "1313893408166772756"
-            ],
-            "bans": [],
-            "roles": [
-              "745447586697052201",
-              "895903813926551573",
-              "896532965876699186",
-              "896572931109453855",
-              "896578045450809385",
-              "896581571493117954",
-              "896591019376787496",
-              "1040455955017650251",
-              "1064768977609433161",
-              "1141234209613160568",
-              "1280347031444918315",
-              "1281461626398310480",
-              "1281634028037865549",
-              "1292730070909321270",
-              "1306452076175298621",
-              "1313739544146874451"
-            ],
-            "stageInstances": [],
-            "invites": [],
-            "scheduledEvents": [],
-            "autoModerationRules": [],
-            "shardId": 0,
-            "splash": null,
-            "banner": null,
-            "description": null,
-            "verificationLevel": 2,
-            "vanityURLCode": null,
-            "nsfwLevel": 0,
-            "premiumSubscriptionCount": 0,
-            "discoverySplash": null,
-            "memberCount": 27,
-            "large": false,
-            "premiumProgressBarEnabled": false,
-            "applicationId": null,
-            "afkTimeout": 300,
-            "afkChannelId": null,
-            "systemChannelId": "1280344577433272330",
-            "premiumTier": 0,
-            "widgetEnabled": null,
-            "widgetChannelId": null,
-            "explicitContentFilter": 0,
-            "mfaLevel": 0,
-            "joinedTimestamp": 1731552847703,
-            "defaultMessageNotifications": 0,
-            "systemChannelFlags": 0,
-            "maximumMembers": 250000,
-            "maximumPresences": null,
-            "maxVideoChannelUsers": 25,
-            "maxStageVideoChannelUsers": 50,
-            "approximateMemberCount": null,
-            "approximatePresenceCount": null,
-            "vanityURLUses": null,
-            "rulesChannelId": null,
-            "publicUpdatesChannelId": null,
-            "preferredLocale": "en-US",
-            "safetyAlertsChannelId": null,
-            "ownerId": "246812164885577729",
-            "emojis": [
-              "1203112622300332072",
-              "1203112727476965419"
-            ],
-            "stickers": [],
-            "createdTimestamp": 1597798954415,
-            "nameAcronym": "BM",
-            "iconURL": "https://cdn.discordapp.com/icons/745447586697052201/b12438c2847c84537ed6457bb0af0d37.webp",
-            "splashURL": null,
-            "discoverySplashURL": null,
-            "bannerURL": null
+          "headers": {
+            "connection": "close",
+            "host": "bakaflow.gleeze.com",
+            "x-forwarded-scheme": "https",
+            "x-forwarded-proto": "https",
+            "x-forwarded-for": "75.177.85.65",
+            "x-real-ip": "75.177.85.65",
+            "content-length": "187",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "accept-encoding": "gzip,deflate"
           },
-          "channelId": "1292732202211086426",
-          "userId": "246812164885577729",
-          "userName": "bakaboi341",
-          "userTag": "bakaboi341",
-          "messageId": "1319918494829121629"
+          "params": {},
+          "query": {},
+          "body": {
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
+            "author": "bakaboi341",
+            "userId": "246812164885577729",
+            "messageId": "1321017386295361576",
+            "content": "bbg a unicorn",
+            "attachments": null
+          },
+          "webhookUrl": "https://bakaflow.gleeze.com/webhook/generate-image",
+          "executionMode": "production"
         }
       }
     ]
@@ -690,7 +701,7 @@
       "name": "ai"
     }
   ],
-  "triggerCount": 2,
-  "updatedAt": "2024-12-24T02:56:26.000Z",
-  "versionId": "bb9501aa-2777-4f95-a4f6-24080f3c556b"
+  "triggerCount": 1,
+  "updatedAt": "2024-12-24T07:43:11.000Z",
+  "versionId": "8e89bd33-1d31-457c-9532-41f4ba6193b6"
 }
