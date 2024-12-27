@@ -494,8 +494,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2120,
-        980
+        2220,
+        1080
       ],
       "id": "a5b38460-e54d-4b33-aee6-49f3c8c8290b",
       "name": "Groq Chat Model",
@@ -659,7 +659,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        5880,
+        5920,
         840
       ],
       "id": "0ebc8274-15c0-4646-b742-8496fd404834",
@@ -874,7 +874,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        5540,
+        5620,
         840
       ],
       "id": "bad42501-005a-4255-93f0-796ffc4623da",
@@ -889,7 +889,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        4600,
+        4680,
         840
       ],
       "id": "0a244e76-ed66-438c-930a-052c8edfa744",
@@ -903,7 +903,7 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        4880,
+        4980,
         840
       ],
       "id": "317f3e94-1407-402b-977b-f1393247b999",
@@ -920,7 +920,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        5180,
+        5300,
         840
       ],
       "id": "30a55532-0a65-4052-99ee-846f0a4c48a7",
@@ -930,7 +930,7 @@
       "parameters": {
         "conditions": {
           "options": {
-            "caseSensitive": true,
+            "caseSensitive": false,
             "leftValue": "",
             "typeValidation": "strict",
             "version": 2
@@ -948,7 +948,9 @@
           ],
           "combinator": "and"
         },
-        "options": {}
+        "options": {
+          "ignoreCase": true
+        }
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
@@ -1025,6 +1027,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-24T08:38:26.000Z",
-  "versionId": "b51fec91-aab5-4a63-94f2-98a662b16e91"
+  "updatedAt": "2024-12-26T19:35:34.000Z",
+  "versionId": "0113af20-6947-475a-8b2d-e3e3d7ea4c39"
 }
