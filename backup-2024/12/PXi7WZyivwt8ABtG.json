@@ -498,7 +498,7 @@
       "parameters": {
         "conditions": {
           "options": {
-            "caseSensitive": true,
+            "caseSensitive": false,
             "leftValue": "",
             "typeValidation": "strict",
             "version": 2
@@ -516,7 +516,9 @@
           ],
           "combinator": "and"
         },
-        "options": {}
+        "options": {
+          "ignoreCase": true
+        }
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
@@ -702,6 +704,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-24T07:43:11.000Z",
-  "versionId": "8e89bd33-1d31-457c-9532-41f4ba6193b6"
+  "updatedAt": "2024-12-26T19:32:23.000Z",
+  "versionId": "5d47a2a7-b701-4d89-b5c6-a0874cfada19"
 }
