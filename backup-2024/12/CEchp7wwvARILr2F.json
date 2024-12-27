@@ -1,15 +1,9 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Discord Trigger": {
       "main": [
-        [
-          {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Switch": {
@@ -45,6 +39,33 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-12-23T03:44:14.821Z",
@@ -61,8 +82,8 @@
       "type": "@sevenguru/n8n-nodes-discord.discordTrigger",
       "typeVersion": 1,
       "position": [
-        -680,
-        -700
+        -520,
+        -120
       ],
       "id": "854fd18b-7259-4d45-8455-335079515811",
       "name": "Discord Trigger",
@@ -85,7 +106,7 @@
       "type": "@sevenguru/n8n-nodes-discord.discord",
       "typeVersion": 1,
       "position": [
-        80,
+        400,
         -560
       ],
       "id": "dd3bd1b0-db15-4e05-ac26-7f485a809c37",
@@ -152,8 +173,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -460,
-        -540
+        -240,
+        -480
       ],
       "id": "a1bf5e7f-0294-40b6-9a53-adcb85550542",
       "name": "Switch"
@@ -166,7 +187,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        -280,
+        -40,
         -700
       ],
       "id": "6a1732d2-63e3-4585-b291-3aa9e8f56332",
@@ -201,7 +222,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -180,
+        60,
         -420
       ],
       "id": "193e9ef1-bae9-47c8-a222-d0b7e6a98003",
@@ -212,6 +233,86 @@
           "name": "Google Gemini(PaLM) Api account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "limecrusher",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        -480
+      ],
+      "id": "1bb714c1-c110-4b04-af55-23833913caf5",
+      "name": "Webhook",
+      "webhookId": "01cf8804-58c4-4d41-ade2-47fd83e06905"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "acb94609-d712-4243-bddc-8b67cc1275b5",
+              "leftValue": "={{ $json.body.content }}",
+              "rightValue": "^(Limecrusher|lc|dada|lk|limeking)[^\\w]*[^a-zA-Z0-9].*$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -660,
+        -480
+      ],
+      "id": "91bcf07e-d447-42df-afd0-6ab54a580150",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "wait slut",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -420,
+        -880
+      ],
+      "id": "4e01c90a-417b-4d41-b92e-5325af5ab2d3",
+      "name": "Discord1",
+      "retryOnFail": true
     }
   ],
   "pinData": {
@@ -378,7 +479,7 @@
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 2,
-  "updatedAt": "2024-12-24T00:11:19.000Z",
-  "versionId": "08b8b80a-6c17-433b-a78f-ddec1a97f627"
+  "triggerCount": 3,
+  "updatedAt": "2024-12-27T05:22:22.000Z",
+  "versionId": "5322618c-c249-43a5-b164-b32f269865f2"
 }
