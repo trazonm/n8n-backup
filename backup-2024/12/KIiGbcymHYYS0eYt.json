@@ -101,7 +101,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.body.content }}",
+        "text": "={{ $json.body.content }}\n\nAuthor: {{ $json.body.author }}",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -273,7 +273,7 @@
       "parameters": {
         "conditions": {
           "options": {
-            "caseSensitive": true,
+            "caseSensitive": false,
             "leftValue": "",
             "typeValidation": "strict",
             "version": 2
@@ -291,7 +291,9 @@
           ],
           "combinator": "and"
         },
-        "options": {}
+        "options": {
+          "ignoreCase": true
+        }
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
@@ -396,7 +398,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "191",
+            "content-length": "226",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -405,12 +407,12 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "testing2",
-            "channelId": "1313893408166772756",
+            "channel": "ellies-break-room",
+            "channelId": "930254213739581511",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1321008183124168746",
-            "content": "bg are you there?",
+            "messageId": "1322080964838424687",
+            "content": "bg hoe you got me all the way fucked up 😤",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakagirl",
@@ -441,6 +443,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-24T06:56:09.000Z",
-  "versionId": "6f612db6-8ef3-4741-8200-83525ad670c2"
+  "updatedAt": "2024-12-27T06:07:05.000Z",
+  "versionId": "3ab384f5-5914-4e55-ae65-a2cc458bbe68"
 }
