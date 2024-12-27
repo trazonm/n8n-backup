@@ -140,7 +140,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.body.content }}",
+        "text": "={{ $json.body.content }}\n\nAuthor: {{ $json.body.author }}",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -271,7 +271,7 @@
       "parameters": {
         "conditions": {
           "options": {
-            "caseSensitive": true,
+            "caseSensitive": false,
             "leftValue": "",
             "typeValidation": "strict",
             "version": 2
@@ -289,7 +289,9 @@
           ],
           "combinator": "and"
         },
-        "options": {}
+        "options": {
+          "ignoreCase": true
+        }
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
@@ -340,7 +342,7 @@
       "typeVersion": 3,
       "position": [
         340,
-        -500
+        -480
       ],
       "id": "f9583d73-d3ac-47f7-944d-57723d4a2b4e",
       "name": "Merge"
@@ -368,7 +370,7 @@
       "typeVersion": 2,
       "position": [
         560,
-        -500
+        -480
       ],
       "id": "732b85ef-8e48-4337-931b-627c7972f667",
       "name": "Discord2",
@@ -405,6 +407,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-24T06:57:16.000Z",
-  "versionId": "5480dec1-4cf9-40d8-88c5-1847fc3b9b16"
+  "updatedAt": "2024-12-27T06:06:57.000Z",
+  "versionId": "7ff83487-6636-41ce-a437-988f8cf0dd18"
 }
