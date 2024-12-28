@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Discord",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -84,6 +84,28 @@
         [
           {
             "node": "Discord2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Discord",
             "type": "main",
             "index": 0
           }
@@ -185,16 +207,21 @@
         "embeds": {
           "values": [
             {
-              "description": "={{ $json.text }}"
+              "description": "={{ $('Basic LLM Chain2').item.json.text }}"
             }
+          ]
+        },
+        "files": {
+          "values": [
+            {}
           ]
         }
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        60,
-        -300
+        760,
+        -340
       ],
       "id": "004c47f4-62cb-4c9c-ba34-fcf3c8404d41",
       "name": "Discord",
@@ -239,7 +266,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        40,
+        260,
         40
       ],
       "id": "95a309bd-1241-4e98-b639-7934ce71da28",
@@ -318,7 +345,7 @@
           "value": "={{ $json.body.channelId }}",
           "mode": "id"
         },
-        "content": "Alright bro, lemme cook 🤌🏾",
+        "content": "Alright bro, lemme cook 🤌🏾 (generation takes 20-30s)",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -341,7 +368,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        340,
+        1120,
         -480
       ],
       "id": "f9583d73-d3ac-47f7-944d-57723d4a2b4e",
@@ -369,7 +396,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        560,
+        1300,
         -480
       ],
       "id": "732b85ef-8e48-4337-931b-627c7972f667",
@@ -382,9 +409,88 @@
           "name": "Baka YN"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://baka-discord-service.dynuddns.com/tts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "cid",
+              "value": "-O4Q26x5XkWtJ5vdvQzxiYbRoiCWRiCK2y6gXoWHPBg"
+            },
+            {
+              "name": "voiceId",
+              "value": "128e7e3d-4c81-42c8-bb6c-2144f88584db"
+            },
+            {
+              "name": "content",
+              "value": "={{ $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        -200
+      ],
+      "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        -220
+      ],
+      "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
+      "name": "HTTP Request1"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "connection": "close",
+            "host": "bakaflow.gleeze.com",
+            "x-forwarded-scheme": "https",
+            "x-forwarded-proto": "https",
+            "x-forwarded-for": "75.177.85.65",
+            "x-real-ip": "75.177.85.65",
+            "content-length": "215",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "accept-encoding": "gzip,deflate"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "channel": "ellies-break-room",
+            "channelId": "930254213739581511",
+            "author": "bakaboi341",
+            "userId": "246812164885577729",
+            "messageId": "1322084175439859724",
+            "content": "Byn do you be with that gay shit?",
+            "attachments": null
+          },
+          "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakanigga",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -407,6 +513,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-27T06:06:57.000Z",
-  "versionId": "7ff83487-6636-41ce-a437-988f8cf0dd18"
+  "updatedAt": "2024-12-27T09:35:39.000Z",
+  "versionId": "d2641560-84b4-4bed-968a-2a3e5a8d7a15"
 }
