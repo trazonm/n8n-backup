@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "Discord",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -84,6 +84,28 @@
         [
           {
             "node": "Discord2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Discord",
             "type": "main",
             "index": 0
           }
@@ -187,16 +209,21 @@
         "embeds": {
           "values": [
             {
-              "description": "={{ $json.text }}"
+              "description": "={{ $('Basic LLM Chain').item.json.text }}"
             }
+          ]
+        },
+        "files": {
+          "values": [
+            {}
           ]
         }
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        2460,
-        460
+        2900,
+        360
       ],
       "id": "58f20a4e-c2e8-4b8f-86d1-39702bba73bc",
       "name": "Discord",
@@ -320,7 +347,7 @@
           "value": "={{ $json.body.channelId }}",
           "mode": "id"
         },
-        "content": "I gotchu girlie 🤗",
+        "content": "I gotchu girlie 🤗 (generation takes 20-30s)",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -344,7 +371,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        2680,
+        3160,
         260
       ],
       "id": "af85333b-7c27-4af8-a493-0c36d04a8ca5",
@@ -372,7 +399,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3000,
+        3500,
         260
       ],
       "id": "39af5f0d-18ef-4108-ae06-fa7db4be42c4",
@@ -385,6 +412,52 @@
           "name": "BakaGirl"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://baka-discord-service.dynuddns.com/tts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "cid",
+              "value": "-O4Q26x5XkWtJ5vdvQzxiYbRoiCWRiCK2y6gXoWHPBg"
+            },
+            {
+              "name": "voiceId",
+              "value": "484a144e-23e7-4f10-8091-4ab7da33e4ca"
+            },
+            {
+              "name": "content",
+              "value": "={{ $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        580
+      ],
+      "id": "0facd9a7-d273-42b2-9cd9-dc543c63fdef",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2660,
+        500
+      ],
+      "id": "7bf5f004-f8cc-43a4-b385-e1fa113e39a8",
+      "name": "HTTP Request1"
     }
   ],
   "pinData": {
@@ -443,6 +516,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-27T06:07:05.000Z",
-  "versionId": "3ab384f5-5914-4e55-ae65-a2cc458bbe68"
+  "updatedAt": "2024-12-27T09:35:31.000Z",
+  "versionId": "bdec5a70-14d1-49a6-887b-a00a9892cfea"
 }
