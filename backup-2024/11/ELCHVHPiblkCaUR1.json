@@ -317,21 +317,9 @@
         "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpQueryAuth",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {}
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {}
-          ]
-        },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Simply print out the mathematical expression in this image.  Do nothing else.\"\n        },\n        {\n          \"inline_data\": {\n            \"mime_type\": \"image/jpeg\",\n            \"data\": \"{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Simply print out the mathematical expression in this image.  Do nothing else.\"\n        },\n        {\n          \"inline_data\": {\n            \"mime_type\": \"{{ $('HTTP Request').item.json.body.attachments[0].contentType }}\",\n            \"data\": \"{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
         "options": {}
       },
       "id": "6486e733-999f-4a87-813f-71a1b2d2470c",
@@ -789,7 +777,7 @@
           "value": "={{ $json.body.channelId }}",
           "mode": "id"
         },
-        "content": "you got it daddy 😫",
+        "content": "you got it daddy 😫 (generation takes 5-15s)",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -967,39 +955,37 @@
       {
         "json": {
           "headers": {
-            "connection": "keep-alive",
+            "connection": "close",
             "host": "bakaflow.gleeze.com",
             "x-forwarded-scheme": "https",
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "431",
+            "content-length": "453",
             "content-type": "application/json",
             "accept": "*/*",
-            "accept-language": "*",
-            "sec-fetch-mode": "cors",
-            "user-agent": "undici",
-            "accept-encoding": "br, gzip, deflate"
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "accept-encoding": "gzip,deflate"
           },
           "params": {},
           "query": {},
           "body": {
-            "channel": "testing2",
-            "channelId": "1313893408166772756",
+            "channel": "ellies-break-room",
+            "channelId": "930254213739581511",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1320979930976223283",
-            "content": "bb simplify",
+            "messageId": "1322446641969631273",
+            "content": "bb solve",
             "attachments": [
               {
-                "url": "https://cdn.discordapp.com/attachments/1313893408166772756/1320979930770571306/image.png?ex=676b91ee&is=676a406e&hm=4e3e514585fc824de348e64fa314a45045d6eafbdbf223ceaa64973270224f1c&",
-                "name": "image.png",
-                "size": 5870,
+                "url": "https://cdn.discordapp.com/attachments/930254213739581511/1322446641835278356/1tziwwe0n99c1.png?ex=6770e7e9&is=676f9669&hm=bbe3c267ba260bf8db998997ac7deae68769d1f88ac6e83d32496a00dac446d9&",
+                "name": "1tziwwe0n99c1.png",
+                "size": 169712,
                 "contentType": "image/png"
               }
             ]
           },
-          "webhookUrl": "https://bakaflow.gleeze.com/webhook/5d0d84da-6a1a-465f-9730-729ee29b4074",
+          "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakabot",
           "executionMode": "production"
         }
       }
@@ -1027,6 +1013,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-26T19:35:34.000Z",
-  "versionId": "0113af20-6947-475a-8b2d-e3e3d7ea4c39"
+  "updatedAt": "2024-12-28T06:23:54.000Z",
+  "versionId": "6aee7549-9108-46d1-a029-24a2ed250834"
 }
