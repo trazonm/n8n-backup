@@ -443,6 +443,11 @@
         "completionTitle": "Go here to complete another command.",
         "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
         "redirectUrl": ""
+      },
+      "2854-Reboot server": {
+        "completionTitle": "Go here to complete another command.",
+        "completionMessage": "https://bakaflow.gleeze.com/form/92813443-8f41-4efb-94c6-90d58869af8e",
+        "redirectUrl": ""
       }
     },
     "node:Form": {
