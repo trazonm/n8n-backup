@@ -5,7 +5,12 @@
       "main": [
         [
           {
-            "node": "Get all Anime",
+            "node": "Get all Anime (New Library)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get all Anime (Legacy Library)",
             "type": "main",
             "index": 0
           }
@@ -41,17 +46,6 @@
         ]
       ]
     },
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "Get all Anime",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get Voice Activity Data": {
       "main": [
         [
@@ -62,17 +56,6 @@
           },
           {
             "node": "Filter",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get all Anime": {
-      "main": [
-        [
-          {
-            "node": "Extract Rating Keys",
             "type": "main",
             "index": 0
           }
@@ -95,6 +78,28 @@
         [
           {
             "node": "Refresh Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all Anime (New Library)": {
+      "main": [
+        [
+          {
+            "node": "Extract Rating Keys",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all Anime (Legacy Library)": {
+      "main": [
+        [
+          {
+            "node": "Extract Rating Keys",
             "type": "main",
             "index": 0
           }
@@ -125,8 +130,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        700,
-        340
+        660,
+        480
       ]
     },
     {
@@ -180,17 +185,6 @@
       }
     },
     {
-      "parameters": {},
-      "id": "71162d5d-009e-41f4-a0ca-bac6eaa47ea3",
-      "name": "When clicking ‘Test workflow’",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        700,
-        660
-      ]
-    },
-    {
       "parameters": {
         "url": "=https://192-168-0-107.a13b686888c045de9cd601611ed29c4f.plex.direct:32400/library/metadata/{{ $json.ratingKey }}?checkFiles=1&includeAllConcerts=1&includeBandwidths=1&includeChapters=1&includeChildren=1&includeConcerts=1&includeExtras=1&includeFields=1&includeGeolocation=1&includeLoudnessRamps=1&includeMarkers=1&includeOnDeck=1&includePopularLeaves=1&includePreferences=1&includeRelated=1&includeRelatedCount=1&includeReviews=1&includeStations=1&X-Plex-Token=NFQRt6V-sZxB4GFPtfDn",
         "sendHeaders": true,
@@ -212,28 +206,6 @@
         2140,
         360
       ]
-    },
-    {
-      "parameters": {
-        "url": "http://192.168.0.107:32400/library/sections/2/all?genre=4376",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "options": {}
-      },
-      "id": "9dedf93a-915a-40ad-a09f-a6adb4ef4953",
-      "name": "Get all Anime",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        920,
-        340
-      ],
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "Cxr51jaB8HusrbRA",
-          "name": "BakaPlex"
-        }
-      }
     },
     {
       "parameters": {
@@ -335,6 +307,50 @@
       ],
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.0.107:32400/library/sections/13/all?genre=4376",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "9300ff1f-f627-4e2a-abc3-f6796921dbb4",
+      "name": "Get all Anime (New Library)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        600
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Cxr51jaB8HusrbRA",
+          "name": "BakaPlex"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.0.107:32400/library/sections/2/all?genre=4376",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "9dedf93a-915a-40ad-a09f-a6adb4ef4953",
+      "name": "Get all Anime (Legacy Library)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        340
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Cxr51jaB8HusrbRA",
+          "name": "BakaPlex"
+        }
+      }
     }
   ],
   "pinData": {
@@ -365,7 +381,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        5
+        7
       ]
     }
   },
@@ -378,6 +394,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-11-28T03:29:44.000Z",
-  "versionId": "fbd4e82a-ccfb-49ce-9655-033a3e18ab27"
+  "updatedAt": "2025-01-07T16:57:56.000Z",
+  "versionId": "5b0380c9-0627-48c7-a798-8cbd96eec95c"
 }
