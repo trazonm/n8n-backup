@@ -88,14 +88,25 @@
       "main": [
         [
           {
-            "node": "Extract Rating Keys",
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get all Anime (Legacy Library)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get all Anime (Legacy Library)": {
+    "Merge": {
       "main": [
         [
           {
@@ -130,8 +141,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        660,
-        480
+        700,
+        340
       ]
     },
     {
@@ -143,20 +154,20 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        1440,
+        1960,
         340
       ]
     },
     {
       "parameters": {
-        "jsCode": "let results = []; // Initialize the results array\n\nfor (const item of $input.all()[0].json.MediaContainer.Metadata) {\n  results.push({\n    ratingKey: item.ratingKey,\n  });\n}\n\nreturn results;"
+        "jsCode": "const results = $input.all()\n  .flatMap(input => input.json.MediaContainer.Metadata)\n  .map(item => ({ ratingKey: item.ratingKey }));\n\nreturn results;"
       },
       "id": "272e6867-4d76-4c9a-94fc-24b3d0208bb3",
       "name": "Extract Rating Keys",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1140,
+        1580,
         340
       ]
     },
@@ -173,8 +184,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1780,
-        200
+        2200,
+        100
       ],
       "executeOnce": true,
       "credentials": {
@@ -203,7 +214,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2140,
+        2360,
         360
       ]
     },
@@ -248,7 +259,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2360,
+        2580,
         360
       ]
     },
@@ -274,7 +285,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2560,
+        2780,
         360
       ],
       "alwaysOutputData": true,
@@ -302,7 +313,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2760,
+        2980,
         360
       ],
       "alwaysOutputData": true,
@@ -320,8 +331,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        920,
-        600
+        1000,
+        500
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -342,8 +353,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        920,
-        340
+        1000,
+        220
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -351,6 +362,17 @@
           "name": "BakaPlex"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1320,
+        340
+      ],
+      "id": "72a36961-7a4d-441e-8517-8ad0ebb80be3",
+      "name": "Merge"
     }
   ],
   "pinData": {
@@ -394,6 +416,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-07T16:57:56.000Z",
-  "versionId": "5b0380c9-0627-48c7-a798-8cbd96eec95c"
+  "updatedAt": "2025-01-15T00:20:02.000Z",
+  "versionId": "e81d39ab-f42d-4aa8-ae89-95d5a3a280c8"
 }
