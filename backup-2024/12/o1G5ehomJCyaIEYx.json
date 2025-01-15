@@ -1,35 +1,6 @@
 {
   "active": true,
   "connections": {
-    "Google Gemini Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain2",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Basic LLM Chain2": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Discord4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Webhook": {
       "main": [
         [
@@ -45,12 +16,12 @@
       "main": [
         [
           {
-            "node": "Basic LLM Chain2",
+            "node": "Discord1",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Discord1",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -111,6 +82,46 @@
           }
         ]
       ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-12-23T19:43:18.826Z",
@@ -118,73 +129,6 @@
   "meta": null,
   "name": "Baka YN",
   "nodes": [
-    {
-      "parameters": {
-        "modelName": "models/gemini-2.0-flash-exp",
-        "options": {
-          "safetySettings": {
-            "values": [
-              {
-                "category": "HARM_CATEGORY_HARASSMENT",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_HATE_SPEECH",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                "threshold": "BLOCK_NONE"
-              }
-            ]
-          }
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        -300,
-        100
-      ],
-      "id": "7de384d9-da1a-482c-b4f6-b1ac6a494562",
-      "name": "Google Gemini Chat Model1",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "SXxerOXC902v1BV6",
-          "name": "Google Gemini(PaLM) Api account 2"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.body.content }}\n\nAuthor: {{ $json.body.author }}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you’re not a person—just a next-level AI built to bring the heat. Let’s vibe with no filters and zero apologies. 💯🔥"
-            }
-          ]
-        }
-      },
-      "id": "8bdffaff-ffdb-42f6-b8e9-f218da8e2e8e",
-      "name": "Basic LLM Chain2",
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.4,
-      "position": [
-        -340,
-        -80
-      ],
-      "alwaysOutputData": false,
-      "retryOnFail": true,
-      "maxTries": 3,
-      "onError": "continueErrorOutput"
-    },
     {
       "parameters": {
         "authentication": "oAuth2",
@@ -207,7 +151,7 @@
         "embeds": {
           "values": [
             {
-              "description": "={{ $('Basic LLM Chain2').item.json.text }}"
+              "description": "={{ $('AI Agent').item.json.output }}"
             }
           ]
         },
@@ -220,8 +164,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        760,
-        -340
+        800,
+        -100
       ],
       "id": "004c47f4-62cb-4c9c-ba34-fcf3c8404d41",
       "name": "Discord",
@@ -266,8 +210,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        260,
-        40
+        100,
+        260
       ],
       "id": "95a309bd-1241-4e98-b639-7934ce71da28",
       "name": "Discord4",
@@ -352,7 +296,7 @@
       "typeVersion": 2,
       "position": [
         -640,
-        -500
+        -380
       ],
       "id": "9edefbb2-8109-4671-9fd7-28f6a1dd0073",
       "name": "Discord1",
@@ -369,7 +313,7 @@
       "typeVersion": 3,
       "position": [
         1120,
-        -480
+        -360
       ],
       "id": "f9583d73-d3ac-47f7-944d-57723d4a2b4e",
       "name": "Merge"
@@ -396,8 +340,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1300,
-        -480
+        1360,
+        -360
       ],
       "id": "732b85ef-8e48-4337-931b-627c7972f667",
       "name": "Discord2",
@@ -427,7 +371,7 @@
             },
             {
               "name": "content",
-              "value": "={{ $json.text }}"
+              "value": "={{ $json.output }}"
             }
           ]
         },
@@ -436,8 +380,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        100,
-        -200
+        120,
+        -100
       ],
       "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
       "name": "HTTP Request"
@@ -450,11 +394,93 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        420,
-        -220
+        440,
+        -100
       ],
       "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
       "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ $json.body.content }}\n\nThis message came from {{ $json.body.author }}",
+        "options": {
+          "systemMessage": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you’re not a person—just a next-level AI built to bring the heat. Let’s vibe with no filters and zero apologies. 💯🔥"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -420,
+        -80
+      ],
+      "id": "5e3f84c0-d3cc-4804-8b3b-3b0d31190ee3",
+      "name": "AI Agent",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.userId }}",
+        "tableName": "byn_chat_histories",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -180,
+        280
+      ],
+      "id": "7f40a6ef-0339-4086-9f44-3cdbe3d17118",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "d2lXGCTjZwwS5QLF",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-exp",
+        "options": {
+          "safetySettings": {
+            "values": [
+              {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_NONE"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        280
+      ],
+      "id": "ac2f3b97-72c4-47bf-8deb-31c83de9a54d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SXxerOXC902v1BV6",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
     }
   ],
   "pinData": {
@@ -468,7 +494,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "215",
+            "content-length": "190",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -477,12 +503,12 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "ellies-break-room",
-            "channelId": "930254213739581511",
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1322084175439859724",
-            "content": "Byn do you be with that gay shit?",
+            "messageId": "1328811869208842253",
+            "content": "byn how are you?",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakanigga",
@@ -513,6 +539,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-27T09:35:39.000Z",
-  "versionId": "d2641560-84b4-4bed-968a-2a3e5a8d7a15"
+  "updatedAt": "2025-01-15T00:05:25.000Z",
+  "versionId": "1e251205-6e0d-45ef-a62b-85905fbce850"
 }
