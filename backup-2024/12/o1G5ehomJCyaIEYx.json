@@ -494,7 +494,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "190",
+            "content-length": "200",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -503,12 +503,12 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "testing2",
-            "channelId": "1313893408166772756",
-            "author": "bakaboi341",
-            "userId": "246812164885577729",
-            "messageId": "1328811869208842253",
-            "content": "byn how are you?",
+            "channel": "ellies-break-room",
+            "channelId": "930254213739581511",
+            "author": "wizkid201",
+            "userId": "399252178260197377",
+            "messageId": "1329623463111168031",
+            "content": "byn ur dumb as hell",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakanigga",
@@ -539,6 +539,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-15T00:05:25.000Z",
-  "versionId": "1e251205-6e0d-45ef-a62b-85905fbce850"
+  "updatedAt": "2025-01-17T02:12:51.000Z",
+  "versionId": "f6b12092-7d2e-4c61-b954-27f17fb9d8ee"
 }
