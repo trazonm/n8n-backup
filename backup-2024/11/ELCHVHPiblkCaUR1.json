@@ -319,7 +319,7 @@
         "genericAuthType": "httpQueryAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Simply print out the mathematical and/or physics expression in this image.  Do nothing else.\"\n        },\n        {\n          \"inline_data\": {\n            \"mime_type\": \"{{ $('HTTP Request').item.json.body.attachments[0].contentType }}\",\n            \"data\": \"{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Simply print out the entire mathematical and/or physics problem in this image.  Do nothing else.\"\n        },\n        {\n          \"inline_data\": {\n            \"mime_type\": \"{{ $('HTTP Request').item.json.body.attachments[0].contentType }}\",\n            \"data\": \"{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
         "options": {}
       },
       "id": "6486e733-999f-4a87-813f-71a1b2d2470c",
@@ -1013,6 +1013,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-16T06:27:36.000Z",
-  "versionId": "7baf18b7-3bdd-4914-9ae0-2aaab218ad39"
+  "updatedAt": "2025-01-17T01:43:34.000Z",
+  "versionId": "2a3826e1-b320-4bd6-a7b6-33fb6d737b2e"
 }
