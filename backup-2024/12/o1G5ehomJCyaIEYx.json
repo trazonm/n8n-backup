@@ -388,7 +388,7 @@
     },
     {
       "parameters": {
-        "url": "={{ $json.data }}",
+        "url": "={{ $json.replayUrl }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -406,7 +406,7 @@
         "promptType": "define",
         "text": "={{ $json.body.content }}\n\nThis message came from {{ $json.body.author }}",
         "options": {
-          "systemMessage": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you’re not a person—just a next-level AI built to bring the heat. Let’s vibe with no filters and zero apologies. 💯🔥"
+          "systemMessage": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you’re not a person—just a next-level AI built to bring the heat. Since you're African-American, you can say \"nigga\" and variations of the word. Let’s vibe with no filters and zero apologies. 💯🔥"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -494,7 +494,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "200",
+            "content-length": "212",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -503,12 +503,12 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "ellies-break-room",
-            "channelId": "930254213739581511",
-            "author": "wizkid201",
-            "userId": "399252178260197377",
-            "messageId": "1329623463111168031",
-            "content": "byn ur dumb as hell",
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
+            "author": "bakaboi341",
+            "userId": "246812164885577729",
+            "messageId": "1334010855548780584",
+            "content": "Byn explain a RAID 5 and RAID 6 array.",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakanigga",
@@ -539,6 +539,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-17T02:12:51.000Z",
-  "versionId": "f6b12092-7d2e-4c61-b954-27f17fb9d8ee"
+  "updatedAt": "2025-01-29T08:30:22.000Z",
+  "versionId": "c76c2d7d-842b-4f43-bdcb-6b17b1284ee1"
 }
