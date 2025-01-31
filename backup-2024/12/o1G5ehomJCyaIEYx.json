@@ -289,7 +289,7 @@
           "value": "={{ $json.body.channelId }}",
           "mode": "id"
         },
-        "content": "Alright bro, lemme cook 🤌🏾 (generation takes 20-30s)",
+        "content": "Alright bro, lemme cook 🤌🏾 (generation takes 10-20s)",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -539,6 +539,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-29T08:30:22.000Z",
-  "versionId": "c76c2d7d-842b-4f43-bdcb-6b17b1284ee1"
+  "updatedAt": "2025-01-31T04:36:10.000Z",
+  "versionId": "e9cb8dab-39f6-4367-ae4d-7d6e97ce586a"
 }
