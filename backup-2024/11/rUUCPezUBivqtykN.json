@@ -403,7 +403,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        35
+        37
       ]
     }
   },
