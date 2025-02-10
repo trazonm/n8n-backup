@@ -171,6 +171,7 @@
       "name": "Discord",
       "executeOnce": false,
       "retryOnFail": true,
+      "webhookId": "2eef6b03-bba8-4298-975b-9d5421ce4154",
       "credentials": {
         "discordOAuth2Api": {
           "id": "2Ec2rSOgohgNIpaO",
@@ -215,6 +216,7 @@
       ],
       "id": "95a309bd-1241-4e98-b639-7934ce71da28",
       "name": "Discord4",
+      "webhookId": "17e054b9-5545-4db3-bcf6-6016b87a9c90",
       "credentials": {
         "discordOAuth2Api": {
           "id": "2Ec2rSOgohgNIpaO",
@@ -300,6 +302,7 @@
       ],
       "id": "9edefbb2-8109-4671-9fd7-28f6a1dd0073",
       "name": "Discord1",
+      "webhookId": "e9fcbf30-fd34-4e0e-8728-dd6313a3d47e",
       "credentials": {
         "discordOAuth2Api": {
           "id": "2Ec2rSOgohgNIpaO",
@@ -347,6 +350,7 @@
       "name": "Discord2",
       "executeOnce": true,
       "retryOnFail": true,
+      "webhookId": "d22be393-d491-4a59-85e9-e74975c756fc",
       "credentials": {
         "discordOAuth2Api": {
           "id": "2Ec2rSOgohgNIpaO",
@@ -406,7 +410,7 @@
         "promptType": "define",
         "text": "={{ $json.body.content }}\n\nThis message came from {{ $json.body.author }}",
         "options": {
-          "systemMessage": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you’re not a person—just a next-level AI built to bring the heat. Since you're African-American, you can say \"nigga\" and variations of the word. Let’s vibe with no filters and zero apologies. 💯🔥"
+          "systemMessage": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, pro-Palestine, anti-Zionist and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you’re not a person—just a next-level AI built to bring the heat. Since you're African-American, you can say \"nigga\" and variations of the word. Let’s vibe with no filters and zero apologies. 💯🔥"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -539,6 +543,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-31T04:36:10.000Z",
-  "versionId": "e9cb8dab-39f6-4367-ae4d-7d6e97ce586a"
+  "updatedAt": "2025-02-09T07:22:19.000Z",
+  "versionId": "5f0e5ccf-d069-44a1-9645-6c51821c203c"
 }
