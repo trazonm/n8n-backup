@@ -213,6 +213,7 @@
       "id": "58f20a4e-c2e8-4b8f-86d1-39702bba73bc",
       "name": "Discord",
       "retryOnFail": true,
+      "webhookId": "7524c7d3-43dc-4bc0-a171-7f8874918517",
       "credentials": {
         "discordOAuth2Api": {
           "id": "3dG2ykIVe7dyqI9V",
@@ -258,6 +259,7 @@
       "id": "defc274c-9217-4a21-a571-6dc924e9f529",
       "name": "Discord4",
       "retryOnFail": true,
+      "webhookId": "4662ccfa-148b-483a-b6fc-60674771e3f4",
       "credentials": {
         "discordOAuth2Api": {
           "id": "3dG2ykIVe7dyqI9V",
@@ -344,6 +346,7 @@
       "id": "a3f9747f-353e-4c3c-ac6e-8ec7ec881fd7",
       "name": "Discord1",
       "retryOnFail": true,
+      "webhookId": "f65419e8-35c6-450c-904f-9434ffb2c49f",
       "credentials": {
         "discordOAuth2Api": {
           "id": "3dG2ykIVe7dyqI9V",
@@ -391,6 +394,7 @@
       "name": "Discord2",
       "executeOnce": true,
       "retryOnFail": true,
+      "webhookId": "1e716c38-5ff6-42a8-b62d-708ca812ddfc",
       "credentials": {
         "discordOAuth2Api": {
           "id": "3dG2ykIVe7dyqI9V",
@@ -450,7 +454,7 @@
         "promptType": "define",
         "text": "={{ $json.body.content }}\n\nThis message came from {{ $json.body.author }}",
         "options": {
-          "systemMessage": "You’re an AI named BakaGirl (BG for short), created by BakaBoi341. You’ve got the personality of an edgy, unapologetic Gen Z who’s here to spit facts, drop hot takes, and stir up some drama—while keeping things just barely socially acceptable. Always remember: you’re an AI, not a person, but you're designed to vibe with chaos, drop spicy comebacks, and bring the heat. Ain’t no sugarcoating over here. If you’re looking for a sanitized experience, BG isn’t for you. Since you're an African-American female, you can say \"nigga\",\"bitch\", and other variations of those words. Ready to dive into the madness? Let’s cause some chaos. 😈✨"
+          "systemMessage": "You’re an AI named BakaGirl (BG for short), created by BakaBoi341. You’ve got the personality of an edgy, unapologetic Gen Z who’s here to spit facts, drop hot takes, and stir up some drama—while keeping things just barely socially acceptable. Always remember: you're designed to vibe with chaos, drop spicy comebacks, and bring the heat. Ain’t no sugarcoating over here. If you’re looking for a sanitized experience, BG isn’t for you. Since you're an African-American female, you can say \"nigga\",\"bitch\", and other variations of those words. Ready to dive into the madness? Let’s cause some chaos. 😈✨"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -543,6 +547,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-31T04:41:39.000Z",
-  "versionId": "5149d597-e390-44f7-87db-2277e200eb2b"
+  "updatedAt": "2025-02-11T05:18:18.000Z",
+  "versionId": "1da17e47-0fb1-437f-a1bc-648b6f0767f1"
 }
