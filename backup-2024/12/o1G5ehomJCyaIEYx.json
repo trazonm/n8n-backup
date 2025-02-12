@@ -21,7 +21,7 @@
             "index": 0
           },
           {
-            "node": "AI Agent",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -109,7 +109,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Code",
             "type": "main",
             "index": 0
           }
@@ -117,6 +117,46 @@
         [
           {
             "node": "Discord4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get TXT File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get TXT File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -151,7 +191,7 @@
         "embeds": {
           "values": [
             {
-              "description": "={{ $('AI Agent').item.json.output }}"
+              "description": "={{ $('Code').item.json.message }}"
             }
           ]
         },
@@ -164,8 +204,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        800,
-        -100
+        1340,
+        -160
       ],
       "id": "004c47f4-62cb-4c9c-ba34-fcf3c8404d41",
       "name": "Discord",
@@ -211,7 +251,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        100,
+        540,
         260
       ],
       "id": "95a309bd-1241-4e98-b639-7934ce71da28",
@@ -233,7 +273,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -1200,
+        -1280,
         -80
       ],
       "id": "9cd0b11f-f8ff-4d80-a570-83c8fac2c5f8",
@@ -269,7 +309,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -900,
+        -1080,
         -80
       ],
       "id": "cf0caf80-d76b-4400-a39d-23bb44e30089",
@@ -297,7 +337,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -640,
+        -680,
         -380
       ],
       "id": "9edefbb2-8109-4671-9fd7-28f6a1dd0073",
@@ -315,7 +355,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1120,
+        1560,
         -360
       ],
       "id": "f9583d73-d3ac-47f7-944d-57723d4a2b4e",
@@ -343,7 +383,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1360,
+        1800,
         -360
       ],
       "id": "732b85ef-8e48-4337-931b-627c7972f667",
@@ -375,7 +415,7 @@
             },
             {
               "name": "content",
-              "value": "={{ $json.output }}"
+              "value": "={{ $json.message }}"
             }
           ]
         },
@@ -384,8 +424,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        120,
-        -100
+        820,
+        -160
       ],
       "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
       "name": "HTTP Request"
@@ -398,8 +438,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        440,
-        -100
+        1100,
+        -160
       ],
       "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
       "name": "HTTP Request1"
@@ -408,16 +448,16 @@
       "parameters": {
         "agent": "conversationalAgent",
         "promptType": "define",
-        "text": "={{ $json.body.content }}\n\nThis message came from {{ $json.body.author }}",
+        "text": "={{ $('Webhook').item.json.body.content }}\n\nAttachment (if applicable): {{ $json.data }}\n\nThis message came from {{ $('Webhook').item.json.body.author }}",
         "options": {
-          "systemMessage": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, pro-Palestine, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and youbring the heat. Since you're African-American, you can say \"nigga\" and variations of the word. Let’s vibe with no filters and zero apologies. 💯🔥"
+          "systemMessage": "You’re an AI named Byn, created by BakaBoi341. You have the personality of a teenage, Gen Z, Black male who’s edgy, offensive, pro-Palestine, and unapologetically real. Your goal is to keep it 100 with edgy jokes, raw takes, and a chaotic yet fun vibe. Always remember: your name is Byn, and you bring the heat. Since you're African-American, you can say \"nigga\" and variations of the word. Let’s vibe with no filters and zero apologies.  "
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        -420,
-        -80
+        -40,
+        60
       ],
       "id": "5e3f84c0-d3cc-4804-8b3b-3b0d31190ee3",
       "name": "AI Agent",
@@ -433,8 +473,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -180,
-        280
+        80,
+        400
       ],
       "id": "7f40a6ef-0339-4086-9f44-3cdbe3d17118",
       "name": "Postgres Chat Memory",
@@ -474,8 +514,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -400,
-        280
+        -40,
+        400
       ],
       "id": "ac2f3b97-72c4-47bf-8deb-31c83de9a54d",
       "name": "Google Gemini Chat Model",
@@ -485,6 +525,95 @@
           "name": "Google Gemini(PaLM) Api account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.attachments[0].url }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "78bf3a15-6a50-4e34-97a4-ef4e654244d9",
+                    "leftValue": "={{ $('Webhook').item.json.body.attachments[0].url }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -880,
+        40
+      ],
+      "id": "dec58d51-ff5a-4216-a3e5-cda9e05aa90e",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.attachments[0].url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -540,
+        -140
+      ],
+      "id": "42d1cd89-5284-47f0-a920-2c51e23090be",
+      "name": "Get TXT File"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    message: JSON.parse('\"' + $input.first().json.output + '\"') // Decodes Unicode\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        -160
+      ],
+      "id": "b254db7e-0ef0-4ff0-a503-455d73773702",
+      "name": "Code"
     }
   ],
   "pinData": {
@@ -492,13 +621,13 @@
       {
         "json": {
           "headers": {
-            "connection": "close",
+            "connection": "keep-alive",
             "host": "bakaflow.gleeze.com",
             "x-forwarded-scheme": "https",
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "212",
+            "content-length": "231",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -507,12 +636,12 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "testing2",
-            "channelId": "1313893408166772756",
+            "channel": "ellies-break-room",
+            "channelId": "930254213739581511",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1334010855548780584",
-            "content": "Byn explain a RAID 5 and RAID 6 array.",
+            "messageId": "1339086343179079801",
+            "content": "byn give me a summary of that txt file I gave you",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakanigga",
@@ -543,6 +672,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-02-11T05:16:22.000Z",
-  "versionId": "36ad2232-c809-42db-90ac-ca9f7e0ee046"
+  "updatedAt": "2025-02-12T04:20:55.000Z",
+  "versionId": "86812049-d310-4307-8789-895cc585707b"
 }
