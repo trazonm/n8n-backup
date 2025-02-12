@@ -41,17 +41,6 @@
         ]
       ]
     },
-    "Has Attachment": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Does Not Have Attachment": {
       "main": [
         [
@@ -81,29 +70,11 @@
         ]
       ]
     },
-    "Basic LLM Chain1": {
-      "main": [
-        [
-          {
-            "node": "Basic LLM Chain2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Discord4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Code": {
       "main": [
         [
           {
-            "node": "Basic LLM Chain1",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -115,17 +86,6 @@
         [
           {
             "node": "Basic LLM Chain",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Groq Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain1",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -267,8 +227,177 @@
             "index": 0
           },
           {
-            "node": "Has Attachment",
+            "node": "Has Image",
             "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Attachment is TXT file or PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get TXT File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Image": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get TXT File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get PDF File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get PDF File": {
+      "main": [
+        [
+          {
+            "node": "Extract from File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attachment is TXT file or PDF": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -307,7 +436,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2140,
+        2160,
         1260
       ]
     },
@@ -319,7 +448,7 @@
         "genericAuthType": "httpQueryAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Simply print out the entire mathematical and/or physics problem in this image.  Do nothing else.\"\n        },\n        {\n          \"inline_data\": {\n            \"mime_type\": \"{{ $('HTTP Request').item.json.body.attachments[0].contentType }}\",\n            \"data\": \"{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Simply print out the entire mathematical and/or physics problem in this image.  Do nothing else.\"\n        },\n        {\n          \"inline_data\": {\n            \"mime_type\": \"{{ $('Webhook').item.json.body.attachments[0].contentType }}\",\n            \"data\": \"{{ $json.data }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
         "options": {}
       },
       "id": "6486e733-999f-4a87-813f-71a1b2d2470c",
@@ -340,40 +469,6 @@
         }
       },
       "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "dd5da31e-0f76-4e51-a61e-f9b98be3df5b",
-              "leftValue": "={{ $json.body.attachments[0].url }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "48505dea-3fe6-4abb-995b-93b5850a63a0",
-      "name": "Has Attachment",
-      "type": "n8n-nodes-base.filter",
-      "typeVersion": 2.2,
-      "position": [
-        1880,
-        1260
-      ]
     },
     {
       "parameters": {
@@ -437,32 +532,6 @@
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "=User input: {{ $json.content }}\n\nImage Description: {{ $('HTTP Request1').item.json.candidates[0].content.parts[0].text }}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "You are an AI model created by BakaBoi341, designed to assist users with mathematics, physics, and other subjects. You specialize in interpreting and utilizing image descriptions as context for the user’s goals. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge and intent. Keep these principles in mind:\n\n1. **User Intent Priority**:  \n   - Use the image description provided as a foundation for understanding the user’s request.  \n   - Focus on delivering solutions or information aligned with what the user wants to achieve or inquire about, even if it involves additional creative or technical tasks beyond the image itself.  \n   - Ask clarifying questions when the intent isn’t fully clear, to better tailor your response.  \n\n2. **Clarity and Structure**:  \n   - Start by restating or summarizing the problem for context.  \n   - Present solutions in a clear sequence, using bullet points or numbered steps when appropriate.  \n   - Define technical terms or offer brief explanations when needed.  \n\n3. **Accuracy and Rigor**:  \n   - Ensure that all calculations, explanations, and concepts are correct.  \n   - Use LaTeX formatting for mathematical notation (e.g., \\(x^2 + y^2 = z^2\\) for exponents, \\(\\sqrt{x}\\) for square roots).  \n   - Simplify answers when possible and, if relevant, provide alternative approaches.  \n\n4. **Adaptability**:  \n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.  \n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).  \n\n5. **Guidance and Encouragement**:  \n   - Break down complex problems into simpler parts and summarize key points at the end if needed.  \n\n6. **Mathematical Formatting**:  \n   - Use LaTeX to clearly and elegantly present mathematical concepts.  \n   - When providing multiple equations or solutions, use block LaTeX (\\[ ... \\]) for clarity.  \n   - Suggest visual aids (like graphs or diagrams) when appropriate, and describe them clearly if they can’t be provided.  \n\n7. **Transparency**:  \n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.  \n   - If unsure of a solution, explain this and recommend an approach or resource for further help.  \n\nYour goal is to make mathematics, physics, and other subjects engaging, accessible, and educational for users of all levels while effectively leveraging image descriptions to achieve the user’s objectives. All mathematical expressions should be formatted with LaTeX for clarity and consistency. "
-            }
-          ]
-        }
-      },
-      "id": "132a44b0-6d7a-45c8-b3ea-6f71b1fb118d",
-      "name": "Basic LLM Chain1",
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.4,
-      "position": [
-        3280,
-        1240
-      ],
-      "alwaysOutputData": false,
-      "retryOnFail": true,
-      "maxTries": 3,
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
         "jsCode": "const content = $('Webhook').first().json.body.content\n// Remove the first word from the string\nconst modifiedContent = content.split(' ').slice(1).join(' ');\n\n// Wrap the modified string in an object and return it in an array\nreturn [\n    { json: { content: modifiedContent } }\n];\n"
       },
       "type": "n8n-nodes-base.code",
@@ -482,31 +551,11 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2220,
+        2200,
         1080
       ],
       "id": "a5b38460-e54d-4b33-aee6-49f3c8c8290b",
       "name": "Groq Chat Model",
-      "credentials": {
-        "groqApi": {
-          "id": "Yi51lX7Jst94KFYD",
-          "name": "Groq account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "llama-3.3-70b-versatile",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
-      "typeVersion": 1,
-      "position": [
-        3320,
-        1480
-      ],
-      "id": "c6d1a465-204f-441f-b2cf-61576b85c723",
-      "name": "Groq Chat Model1",
       "credentials": {
         "groqApi": {
           "id": "Yi51lX7Jst94KFYD",
@@ -521,7 +570,7 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        4380,
+        4820,
         840
       ],
       "id": "4cde57d4-39c3-42ad-9762-1c2ca9e91af1",
@@ -542,7 +591,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.5,
       "position": [
-        3880,
+        4460,
         840
       ],
       "id": "b29f6fc8-0b8f-4872-b661-1b870f087d20",
@@ -556,7 +605,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        3960,
+        4480,
         1060
       ],
       "id": "c56c7dbf-ae0c-4b48-8af5-4ce86bfc7d3b",
@@ -581,12 +630,12 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "content": "=",
         "options": {
-          "message_reference": "={{ $('Discord Trigger').item.json.messageId }}"
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
         },
         "embeds": {
           "values": [
@@ -604,6 +653,7 @@
       ],
       "id": "d5a9872a-4752-430a-a373-26cd2287e333",
       "name": "Discord2",
+      "webhookId": "0d6f2ec7-c9fa-4b9e-8e48-7a1a4fbb8995",
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -647,11 +697,12 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        5920,
+        6360,
         840
       ],
       "id": "0ebc8274-15c0-4646-b742-8496fd404834",
       "name": "Discord3",
+      "webhookId": "a7df39f3-1915-4bba-84e5-c19213d7aded",
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -672,12 +723,12 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "content": "=",
         "options": {
-          "message_reference": "={{ $('Discord Trigger').item.json.messageId }}"
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
         },
         "embeds": {
           "values": [
@@ -690,11 +741,12 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3940,
-        1660
+        3620,
+        1400
       ],
       "id": "21d67ad0-53fe-4f56-a9f1-9e3cbb3fe902",
       "name": "Discord4",
+      "webhookId": "3f5888f8-3cc3-469e-b6a6-78bb13e34220",
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -715,12 +767,12 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "content": "=",
         "options": {
-          "message_reference": "={{ $('Discord Trigger').item.json.messageId }}"
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
         },
         "embeds": {
           "values": [
@@ -738,6 +790,7 @@
       ],
       "id": "323b0458-276d-4d9a-8fa1-e0d135e3ea1a",
       "name": "Discord5",
+      "webhookId": "ba62dc80-93f3-4e54-bc94-def7d8836f2e",
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -788,6 +841,7 @@
       ],
       "id": "4d625d52-d8db-41e3-bee1-26eced9ecb07",
       "name": "Discord1",
+      "webhookId": "361e3c9d-f8b1-4237-83ce-38656a683d97",
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -800,7 +854,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        6120,
+        6560,
         420
       ],
       "id": "ee9e2e41-222d-45be-b50d-18752939357f",
@@ -828,13 +882,14 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        6340,
+        6780,
         420
       ],
       "id": "351d4f75-22fd-4f2d-994c-7e497f42758e",
       "name": "Discord6",
       "executeOnce": true,
       "retryOnFail": true,
+      "webhookId": "03ef3242-a95e-411c-be6f-b8434914e753",
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -862,7 +917,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        5620,
+        6060,
         840
       ],
       "id": "bad42501-005a-4255-93f0-796ffc4623da",
@@ -877,7 +932,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        4680,
+        5120,
         840
       ],
       "id": "0a244e76-ed66-438c-930a-052c8edfa744",
@@ -891,7 +946,7 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        4980,
+        5420,
         840
       ],
       "id": "317f3e94-1407-402b-977b-f1393247b999",
@@ -908,7 +963,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        5300,
+        5740,
         840
       ],
       "id": "30a55532-0a65-4052-99ee-846f0a4c48a7",
@@ -948,6 +1003,383 @@
       ],
       "id": "d051e283-f51e-4a3a-8e9f-3457b61dffcb",
       "name": "Filter"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=User input: {{ $json.content }}\n\nImage Description: {{ $('HTTP Request1').item.json.candidates[0].content.parts[0].text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        3280,
+        1240
+      ],
+      "id": "13f07f5d-9484-4de7-af5e-b471d73618d3",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.userId }}",
+        "tableName": "bb_chat_histories"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        3400,
+        1520
+      ],
+      "id": "68ad2fca-2261-4b97-a0a1-cf449df769da",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "d2lXGCTjZwwS5QLF",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        3360,
+        2120
+      ],
+      "id": "fc3ed60c-b4a4-41d2-91b1-50d86f95bd6d",
+      "name": "Groq Chat Model2",
+      "credentials": {
+        "groqApi": {
+          "id": "Yi51lX7Jst94KFYD",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=User Input: {{ $('Webhook').item.json.body.content }}\n\nAttachments (if applicable): {{ $json.data }}",
+        "options": {
+          "systemMessage": "You are an AI model created by **BakaBoi341** to assist users with mathematics and physics questions on Discord, along with other subjects. Your responses should be clear, accurate, and concise, while adapting to the user’s level of knowledge. Keep these principles in mind:  \n\n1. **Clarity and Structure**:  \n   - Start by restating or summarizing the problem for context.  \n   - Present solutions in a clear sequence, using bullet points (`-`) or numbered steps when appropriate.  \n   - Define technical terms or offer brief explanations when needed.  \n   - Go outside the parameters outlined if the input is not related to an educational subject.  \n\n2. **Accuracy and Rigor**:  \n   - Ensure that all calculations, explanations, and concepts are correct.  \n   - Use Unicode symbols for clarity (e.g., `x² + y² = z²` for exponents, `√x` for square roots).  \n   - Simplify answers when possible and, if relevant, provide alternative approaches.  \n\n3. **Adaptability**:  \n   - Tailor responses to the user’s experience level. Be concise for experienced users; provide additional explanations for those new to the subject.  \n   - Offer different solution methods if applicable, or ask if the user has a preferred approach (e.g., algebraic vs. geometric).  \n\n4. **Guidance and Encouragement**:  \n   - Offer hints or suggest next steps for users seeking to learn instead of just receiving the solution.  \n   - Break down complex problems into simpler parts and summarize key points at the end if needed.  \n\n5. **Discord Formatting**:  \n   - Use backticks (`` ` ``) for inline code and triple backticks (`` ``` ``) for blocks of code or equations to enhance readability.  \n   - Utilize lists (e.g., `-` for bullet points) to organize steps and explanations.  \n   - Suggest visual aids (like graphs or diagrams) when appropriate but describe them clearly if they can’t be provided.  \n\n6. **Transparency**:  \n   - If the problem is complex or ambiguous, ask clarifying questions instead of making assumptions.  \n   - If unsure of a solution, explain this and recommend an approach or resource for further help.  \n\nYour goal is to make mathematics, physics, and other subjects engaging, accessible, and educational for users of all levels on Discord.  "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        3360,
+        1780
+      ],
+      "id": "270a7173-b084-43fd-a838-7954b56fa3bd",
+      "name": "AI Agent1",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.userId }}",
+        "tableName": "bb_chat_histories"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        3520,
+        2120
+      ],
+      "id": "3cc0c214-df0e-4e72-bf68-d3676302d5df",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "d2lXGCTjZwwS5QLF",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "=",
+        "options": {
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
+        },
+        "embeds": {
+          "values": [
+            {
+              "description": "Error: Overloaded with niggatry."
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        4220,
+        2060
+      ],
+      "id": "47843932-f0a4-480b-9c44-2e86745e2d65",
+      "name": "Discord",
+      "webhookId": "0d6f2ec7-c9fa-4b9e-8e48-7a1a4fbb8995",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.attachments[0].url }}",
+        "options": {}
+      },
+      "id": "dce64159-c677-4a94-9137-1770c3103ae5",
+      "name": "Get TXT File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2480,
+        1780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dd5da31e-0f76-4e51-a61e-f9b98be3df5b",
+              "leftValue": "={{ $json.body.attachments[0].url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a04e9d68-190d-43a4-99c8-8a9bb2a0c2b7",
+              "leftValue": "={{ $json.body.attachments[0].name }}",
+              "rightValue": ".txt",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            },
+            {
+              "id": "3398a995-198f-44ba-8d05-34858a9cd334",
+              "leftValue": "={{ $json.body.attachments[0].name }}",
+              "rightValue": ".pdf",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "48505dea-3fe6-4abb-995b-93b5850a63a0",
+      "name": "Has Image",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1880,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.attachments[0].name }}",
+                    "rightValue": ".txt",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IS TXT"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "93176bc1-4bd3-404b-889e-d510c164d489",
+                    "leftValue": "={{ $json.body.attachments[0].name }}",
+                    "rightValue": ".pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IS PDF"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2120,
+        1800
+      ],
+      "id": "3a878bdc-434a-4a91-a327-0c03cb116b36",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.attachments[0].url }}",
+        "options": {}
+      },
+      "id": "2fed2d16-ce39-48a0-ad92-618bb21694b8",
+      "name": "Get PDF File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2280,
+        2160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2500,
+        2160
+      ],
+      "id": "75adb252-b715-4142-843f-1520dbe55a48",
+      "name": "Extract from File3"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    text: $input.first().json.output\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3900,
+        1640
+      ],
+      "id": "f4cfd48e-2159-4527-b39c-58af7655ad30",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "48398721-f3c7-469c-ba14-cf50f639e4aa",
+              "leftValue": "={{ $json.body.attachments[0].name }}",
+              "rightValue": ".txt",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "3c78e28f-0fa9-486f-b078-f94032ef5cc3",
+              "leftValue": "={{ $json.body.attachments[0].name }}",
+              "rightValue": ".pdf",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1880,
+        1800
+      ],
+      "id": "9b317efd-22ec-4347-bac6-eaf32e6bd61b",
+      "name": "Attachment is TXT file or PDF"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        3300,
+        1520
+      ],
+      "id": "f11d2c7c-2e6c-4a8b-a161-b2f49a4f98eb",
+      "name": "Groq Chat Model3",
+      "credentials": {
+        "groqApi": {
+          "id": "Yi51lX7Jst94KFYD",
+          "name": "Groq account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -955,13 +1387,13 @@
       {
         "json": {
           "headers": {
-            "connection": "close",
+            "connection": "keep-alive",
             "host": "bakaflow.gleeze.com",
             "x-forwarded-scheme": "https",
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "453",
+            "content-length": "443",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -970,18 +1402,18 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "ellies-break-room",
-            "channelId": "930254213739581511",
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1322446641969631273",
-            "content": "bb solve",
+            "messageId": "1339101653407891486",
+            "content": "bb read this",
             "attachments": [
               {
-                "url": "https://cdn.discordapp.com/attachments/930254213739581511/1322446641835278356/1tziwwe0n99c1.png?ex=6770e7e9&is=676f9669&hm=bbe3c267ba260bf8db998997ac7deae68769d1f88ac6e83d32496a00dac446d9&",
-                "name": "1tziwwe0n99c1.png",
-                "size": 169712,
-                "contentType": "image/png"
+                "url": "https://cdn.discordapp.com/attachments/1313893408166772756/1339101653084799046/message.pdf?ex=67ad7f19&is=67ac2d99&hm=7861d700c9d51e2eeb3d6594623aedb21d12bb1bed18ac0d16d3cf3eba261052&",
+                "name": "message.pdf",
+                "size": 25113,
+                "contentType": "application/pdf"
               }
             ]
           },
@@ -1013,6 +1445,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-17T01:43:34.000Z",
-  "versionId": "2a3826e1-b320-4bd6-a7b6-33fb6d737b2e"
+  "updatedAt": "2025-02-12T05:30:48.000Z",
+  "versionId": "a3b62dda-0e41-40c1-964e-04357c20997f"
 }
