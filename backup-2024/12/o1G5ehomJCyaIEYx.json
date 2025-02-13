@@ -257,6 +257,7 @@
       "id": "95a309bd-1241-4e98-b639-7934ce71da28",
       "name": "Discord4",
       "webhookId": "17e054b9-5545-4db3-bcf6-6016b87a9c90",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "2Ec2rSOgohgNIpaO",
@@ -343,6 +344,7 @@
       "id": "9edefbb2-8109-4671-9fd7-28f6a1dd0073",
       "name": "Discord1",
       "webhookId": "e9fcbf30-fd34-4e0e-8728-dd6313a3d47e",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "2Ec2rSOgohgNIpaO",
@@ -600,7 +602,8 @@
         -140
       ],
       "id": "42d1cd89-5284-47f0-a920-2c51e23090be",
-      "name": "Get TXT File"
+      "name": "Get TXT File",
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -672,6 +675,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-02-12T04:20:55.000Z",
-  "versionId": "86812049-d310-4307-8789-895cc585707b"
+  "updatedAt": "2025-02-12T07:58:15.000Z",
+  "versionId": "70ad1be7-a46b-4a6a-a271-52e2d70b3167"
 }
