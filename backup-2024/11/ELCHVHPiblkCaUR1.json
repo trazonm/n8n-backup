@@ -654,6 +654,7 @@
       "id": "d5a9872a-4752-430a-a373-26cd2287e333",
       "name": "Discord2",
       "webhookId": "0d6f2ec7-c9fa-4b9e-8e48-7a1a4fbb8995",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -703,6 +704,7 @@
       "id": "0ebc8274-15c0-4646-b742-8496fd404834",
       "name": "Discord3",
       "webhookId": "a7df39f3-1915-4bba-84e5-c19213d7aded",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -747,6 +749,7 @@
       "id": "21d67ad0-53fe-4f56-a9f1-9e3cbb3fe902",
       "name": "Discord4",
       "webhookId": "3f5888f8-3cc3-469e-b6a6-78bb13e34220",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -791,6 +794,7 @@
       "id": "323b0458-276d-4d9a-8fa1-e0d135e3ea1a",
       "name": "Discord5",
       "webhookId": "ba62dc80-93f3-4e54-bc94-def7d8836f2e",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -842,6 +846,7 @@
       "id": "4d625d52-d8db-41e3-bee1-26eced9ecb07",
       "name": "Discord1",
       "webhookId": "361e3c9d-f8b1-4237-83ce-38656a683d97",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -1141,6 +1146,7 @@
       "id": "47843932-f0a4-480b-9c44-2e86745e2d65",
       "name": "Discord",
       "webhookId": "0d6f2ec7-c9fa-4b9e-8e48-7a1a4fbb8995",
+      "retryOnFail": true,
       "credentials": {
         "discordOAuth2Api": {
           "id": "UEztFF3QWknIwrx9",
@@ -1445,6 +1451,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-02-12T05:30:48.000Z",
-  "versionId": "a3b62dda-0e41-40c1-964e-04357c20997f"
+  "updatedAt": "2025-02-12T07:59:31.000Z",
+  "versionId": "5f715195-9e24-4779-a9fc-94459104117b"
 }
