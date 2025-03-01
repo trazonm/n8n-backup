@@ -449,6 +449,8 @@
       "parameters": {
         "modelName": "models/gemini-2.0-flash-exp",
         "options": {
+          "maxOutputTokens": 2000,
+          "temperature": 1,
           "safetySettings": {
             "values": [
               {
@@ -498,7 +500,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "191",
+            "content-length": "201",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -507,12 +509,12 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "testing2",
-            "channelId": "1313893408166772756",
-            "author": "bakaboi341",
-            "userId": "246812164885577729",
-            "messageId": "1334758643123486784",
-            "content": "GG are you there?",
+            "channel": "ellies-break-room",
+            "channelId": "930254213739581511",
+            "author": "wizkid201",
+            "userId": "399252178260197377",
+            "messageId": "1345279049303588948",
+            "content": "gg give me the story",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/gooner-girl",
@@ -543,6 +545,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-02-23T06:49:32.000Z",
-  "versionId": "5314d9ba-0804-47f4-9f0b-62801f48f37f"
+  "updatedAt": "2025-03-01T06:29:54.000Z",
+  "versionId": "b876c8d1-834c-4849-b3d3-f177525963ca"
 }
