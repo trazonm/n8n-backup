@@ -188,6 +188,7 @@
         100
       ],
       "executeOnce": true,
+      "webhookId": "356312cb-cf09-4a32-846d-ad1aa7ca133e",
       "credentials": {
         "discordWebhookApi": {
           "id": "21uLkANK79dNiJkJ",
@@ -197,7 +198,7 @@
     },
     {
       "parameters": {
-        "url": "=https://192-168-0-107.a13b686888c045de9cd601611ed29c4f.plex.direct:32400/library/metadata/{{ $json.ratingKey }}?checkFiles=1&includeAllConcerts=1&includeBandwidths=1&includeChapters=1&includeChildren=1&includeConcerts=1&includeExtras=1&includeFields=1&includeGeolocation=1&includeLoudnessRamps=1&includeMarkers=1&includeOnDeck=1&includePopularLeaves=1&includePreferences=1&includeRelated=1&includeRelatedCount=1&includeReviews=1&includeStations=1&X-Plex-Token=NFQRt6V-sZxB4GFPtfDn",
+        "url": "=http://192.168.0.107:32400/library/metadata/{{ $json.ratingKey }}?checkFiles=1&includeAllConcerts=1&includeBandwidths=1&includeChapters=1&includeChildren=1&includeConcerts=1&includeExtras=1&includeFields=1&includeGeolocation=1&includeLoudnessRamps=1&includeMarkers=1&includeOnDeck=1&includePopularLeaves=1&includePreferences=1&includeRelated=1&includeRelatedCount=1&includeReviews=1&includeStations=1&X-Plex-Token=NFQRt6V-sZxB4GFPtfDn",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -403,7 +404,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        71
+        73
       ]
     }
   },
@@ -416,6 +417,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-01-15T00:20:02.000Z",
-  "versionId": "e81d39ab-f42d-4aa8-ae89-95d5a3a280c8"
+  "updatedAt": "2025-03-14T12:37:17.000Z",
+  "versionId": "ce154fca-eb88-47d6-8298-ab36320ed7af"
 }
