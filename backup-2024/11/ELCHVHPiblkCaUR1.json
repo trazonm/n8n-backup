@@ -541,7 +541,7 @@
     },
     {
       "parameters": {
-        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>MathJax LaTeX Renderer</title>\n    <!-- Include the MathJax CDN -->\n    <script type=\"text/javascript\" async\n        src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML\">\n    </script>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 20px;\n            line-height: 1.6;\n        }\n        .math-container {\n            margin: 20px 0;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"math-container\">\n        <p>{{ $json.text }}</p>\n    </div>\n</body>\n</html>"
+        "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>MathJax LaTeX Renderer</title>\n    <!-- Include the MathJax CDN -->\n    <script type=\"text/javascript\" async\n        src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML\">\n    </script>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 20px;\n            line-height: 1.6;\n        }\n        .math-container {\n            margin: 20px 0;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"math-container\">\n        <p>{{ $json.response.text }}</p>\n    </div>\n</body>\n</html>"
       },
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
@@ -1452,7 +1452,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "277",
+            "content-length": "385",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -1465,8 +1465,8 @@
             "channelId": "745447587536044186",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1341240733050339328",
-            "content": "bb but we aren't given the weight, so there must be another way.  This assignment is expecting a number",
+            "messageId": "1351034536754155560",
+            "content": "bb answer these questions as 5 different people: “Do you like working in Groups?” \"What are 3 pros to working in groups?\" \"What are 3 cons to working in groups?\" \"What are 2 tips to address obstacles?\"",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakabot",
@@ -1497,6 +1497,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-02-23T06:51:11.000Z",
-  "versionId": "9a008d79-ec39-41e4-a1e5-f9845417ebc2"
+  "updatedAt": "2025-03-17T03:31:39.000Z",
+  "versionId": "e8535cf6-3ea0-47a9-9968-bf7462159f84"
 }
