@@ -57,7 +57,9 @@
       "parameters": {
         "rule": {
           "interval": [
-            {}
+            {
+              "triggerAtHour": 2
+            }
           ]
         }
       },
@@ -116,6 +118,7 @@
         1540,
         580
       ],
+      "webhookId": "25f0d792-a126-473c-a92e-d89baf6a1c8b",
       "credentials": {
         "discordWebhookApi": {
           "id": "0EPErYhwZVQ4Feqt",
@@ -139,6 +142,7 @@
         900,
         580
       ],
+      "webhookId": "232fc8f1-df9f-49cd-8b39-f333361cb9df",
       "credentials": {
         "discordWebhookApi": {
           "id": "0EPErYhwZVQ4Feqt",
@@ -168,6 +172,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-12-08T19:15:52.000Z",
-  "versionId": "58600d56-aa29-4552-bc80-ad66d88c738c"
+  "updatedAt": "2025-03-28T04:01:13.000Z",
+  "versionId": "f11ac0d9-4d6e-4d56-ac61-229f705f79df"
 }
