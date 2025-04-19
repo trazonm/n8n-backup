@@ -1,0 +1,541 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Stock Options",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Stock Options": {
+      "main": [
+        [
+          {
+            "node": "ETFs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Indices",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Stocks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ETFs": {
+      "main": [
+        [
+          {
+            "node": "etf_category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Indices": {
+      "main": [
+        [
+          {
+            "node": "index_categorgy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stocks": {
+      "main": [
+        [
+          {
+            "node": "stock_category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "stock_category": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "index_categorgy": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "etf_category": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-18T23:02:55.526Z",
+  "id": "HiHq4riL9nVKWTAk",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Stonks",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -100,
+        -160
+      ],
+      "id": "4a45c39d-21d4-4e48-91c7-7015548069fa",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://follow-the-leader-1031886805039.us-east1.run.app",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        -160
+      ],
+      "id": "81a2d5fb-0cde-448d-8841-2be57fa296af",
+      "name": "Get Stock Options"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You're an expert options trader. Given the following trade, respond with your opinion and a numeric confidence (0 to 1):\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n\nRespond with JSON:\n{\n  \"confidence\": float,\n  \"opinion\": \"short analysis here\"\n}\n",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are a highly experienced options trader. You evaluate option trade data and estimate how likely it is to result in profit. Be concise and analytical.\n\n"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        2040,
+        -140
+      ],
+      "id": "d1f984d1-33fa-426f-887a-94c6c3c1e25e",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": "llama3-70b-8192",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        2060,
+        120
+      ],
+      "id": "9b6b0106-99d4-4ded-945b-132358da77ec",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "Yi51lX7Jst94KFYD",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"confidence\": 0.0,\n  \"opinion\": \"short analysis here\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2200,
+        120
+      ],
+      "id": "2d1b238c-6743-48d5-9569-3cc5aa31e6e1",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "batchSize": "=1",
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1720,
+        -160
+      ],
+      "id": "2f50df75-cad7-404c-ba9a-4d286a822aff",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "etfs",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        620,
+        -380
+      ],
+      "id": "053e345e-cfea-4038-8827-1b3c798fd92c",
+      "name": "ETFs"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "indices",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        620,
+        -160
+      ],
+      "id": "fba36e2b-4839-44a0-bcc4-02de7e32c70f",
+      "name": "Indices"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "stocks",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        640,
+        60
+      ],
+      "id": "7ee732f1-342c-4551-a002-0f9be8695e27",
+      "name": "Stocks"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=🔥 Top Bandwagon Trades\n\n{{ $json[\"data\"].map((t, i) => \n  `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\nVol/OI: ${t.volumeOpenInterestRatio} | Rule Score: ${t.probabilityOfProfit} | AI Score: ${t.llmConfidence} | Final Score: ${t.finalConfidence}\n🧠 ${t.llmOpinion}`\n).join(\"\\n\\n\") }}\n\n",
+        "options": {
+          "wait": true
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        -480
+      ],
+      "id": "daaa51ee-48d9-4bcd-b5d6-96a5eafa8c47",
+      "name": "Discord",
+      "webhookId": "3219bc95-3bf6-488e-9577-a006c54f9474",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "KYLbLPDB4dbpWjW6",
+          "name": "Baka Stonks"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const ruleProb = parseFloat($('Loop Over Items').first().json.probabilityOfProfit);\nconst llmConfidence = parseFloat($json.output.confidence);\nreturn {\n  json: {\n    ...$('Loop Over Items').first().json,\n    finalConfidence: Math.round((ruleProb * 0.6 + llmConfidence * 0.4) * 100) / 100,\n    llmOpinion: $json.output.opinion,\n    llmConfidence\n  }\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2460,
+        -140
+      ],
+      "id": "2e531336-7d8f-4ccb-8dda-19d46c589709",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "56cc6f6e-9e71-4443-9d1e-538ace05d39c",
+              "leftValue": "={{ $json.finalConfidence }}",
+              "rightValue": 0.7,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        2040,
+        -480
+      ],
+      "id": "a424a917-0c68-4270-add3-7d694209a036",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00db965c-767a-4621-adcf-9a96545c0e98",
+              "name": "category",
+              "value": "stock",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1020,
+        60
+      ],
+      "id": "451b6360-9bfc-4b48-ade6-543e62713d19",
+      "name": "stock_category"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00db965c-767a-4621-adcf-9a96545c0e98",
+              "name": "category",
+              "value": "index",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1020,
+        -160
+      ],
+      "id": "1ea3fd23-5cd2-4dac-9ab7-6fe72bff2e1b",
+      "name": "index_categorgy"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1440,
+        -160
+      ],
+      "id": "8c42ec29-d8bb-4eeb-b0ae-d6439e8e330d",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00db965c-767a-4621-adcf-9a96545c0e98",
+              "name": "category",
+              "value": "etf",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1020,
+        -380
+      ],
+      "id": "ad3c028b-b484-4f30-b956-b299edc29fcf",
+      "name": "etf_category"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2420,
+        -480
+      ],
+      "id": "f9681726-88bd-4e54-a038-f94b4c40ede7",
+      "name": "Aggregate"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-11-15T04:55:24.768Z",
+      "updatedAt": "2024-11-15T04:55:24.768Z",
+      "id": "fbNR3j10OPFaIddI",
+      "name": "discord"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-19T05:04:21.000Z",
+  "versionId": "9181e4bf-f0fb-4448-a4f8-8ed3e94275f6"
+}
