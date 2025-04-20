@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Schedule Trigger": {
       "main": [
@@ -143,9 +143,9 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Stock Quality Filter",
             "type": "main",
-            "index": 2
+            "index": 0
           }
         ]
       ]
@@ -154,9 +154,9 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Index Quality Filter",
             "type": "main",
-            "index": 1
+            "index": 0
           }
         ]
       ]
@@ -165,7 +165,7 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "ETF Quality Filter",
             "type": "main",
             "index": 0
           }
@@ -187,9 +187,69 @@
       "main": [
         [
           {
-            "node": "Discord",
+            "node": "Prepare Message1",
             "type": "main",
             "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "Prepare Message1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ETF Quality Filter": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Index Quality Filter": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Stock Quality Filter": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
           }
         ]
       ]
@@ -207,7 +267,8 @@
         "rule": {
           "interval": [
             {
-              "field": "minutes"
+              "field": "minutes",
+              "minutesInterval": 15
             }
           ]
         }
@@ -251,7 +312,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.6,
       "position": [
-        2040,
+        2200,
         -140
       ],
       "id": "d1f984d1-33fa-426f-887a-94c6c3c1e25e",
@@ -259,13 +320,13 @@
     },
     {
       "parameters": {
-        "model": "llama3-70b-8192",
+        "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2060,
+        2220,
         120
       ],
       "id": "9b6b0106-99d4-4ded-945b-132358da77ec",
@@ -284,7 +345,7 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        2200,
+        2380,
         120
       ],
       "id": "2d1b238c-6743-48d5-9569-3cc5aa31e6e1",
@@ -300,7 +361,7 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        1720,
+        1940,
         -160
       ],
       "id": "2f50df75-cad7-404c-ba9a-4d286a822aff",
@@ -350,37 +411,13 @@
     },
     {
       "parameters": {
-        "authentication": "webhook",
-        "content": "=🔥 Top Bandwagon Trades\n\n{{ $json[\"data\"].map((t, i) => \n  `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\nVol/OI: ${t.volumeOpenInterestRatio} | Rule Score: ${t.probabilityOfProfit} | AI Score: ${t.llmConfidence} | Final Score: ${t.finalConfidence}\n🧠 ${t.llmOpinion}`\n).join(\"\\n\\n\") }}\n\n",
-        "options": {
-          "wait": true
-        }
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        2860,
-        -480
-      ],
-      "id": "daaa51ee-48d9-4bcd-b5d6-96a5eafa8c47",
-      "name": "Discord",
-      "webhookId": "3219bc95-3bf6-488e-9577-a006c54f9474",
-      "credentials": {
-        "discordWebhookApi": {
-          "id": "KYLbLPDB4dbpWjW6",
-          "name": "Baka Stonks"
-        }
-      }
-    },
-    {
-      "parameters": {
         "mode": "runOnceForEachItem",
         "jsCode": "const ruleProb = parseFloat($('Loop Over Items').first().json.probabilityOfProfit);\nconst llmConfidence = parseFloat($json.output.confidence);\nreturn {\n  json: {\n    ...$('Loop Over Items').first().json,\n    finalConfidence: Math.round((ruleProb * 0.6 + llmConfidence * 0.4) * 100) / 100,\n    llmOpinion: $json.output.opinion,\n    llmConfidence\n  }\n}\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2460,
+        2620,
         -140
       ],
       "id": "2e531336-7d8f-4ccb-8dda-19d46c589709",
@@ -399,10 +436,10 @@
             {
               "id": "56cc6f6e-9e71-4443-9d1e-538ace05d39c",
               "leftValue": "={{ $json.finalConfidence }}",
-              "rightValue": 0.7,
+              "rightValue": 0.75,
               "operator": {
                 "type": "number",
-                "operation": "gt"
+                "operation": "gte"
               }
             }
           ],
@@ -413,7 +450,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2040,
+        2480,
         -480
       ],
       "id": "a424a917-0c68-4270-add3-7d694209a036",
@@ -474,7 +511,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1440,
+        1660,
         -160
       ],
       "id": "8c42ec29-d8bb-4eeb-b0ae-d6439e8e330d",
@@ -512,21 +549,223 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        2420,
+        2740,
         -480
       ],
       "id": "f9681726-88bd-4e54-a038-f94b4c40ede7",
       "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1363013541686149170/dDANEzOAW2FRmow2AOn39PGefd1rxajVRxMV_Knt28kbdMvPWH6gN40G4r8rc8e4GuNG",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"<@246812164885577729>\",\n  \"embeds\": [\n    {\n      \"description\": {{ $json.discordMessage }},\n      \"color\": 5814783\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3460,
+        -480
+      ],
+      "id": "d4aa779a-be04-4884-bd2c-0aafec39e7b3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// Initialize or retrieve seen symbols\nconst seenTrades = staticData.seenOptionSymbols || [];\n\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\n\n// Save newly seen trades\nstaticData.seenOptionSymbols = [...new Set([...seenTrades, ...trades.map(t => t.symbol)])];\n\n// Exit early if no new trades\nif (trades.length === 0) {\n  return [{ json: { discordMessage: JSON.stringify(\"✅ No new trades to report.\") } }];\n}\n\nconst message = `🔥 Top Bandwagon Trades\\n\\n` + trades.map((t, i) => \n  `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\n📊 Vol/OI: ${t.volumeOpenInterestRatio} | 🎯 Rule Score: ${t.probabilityOfProfit} | 🤖 AI Score: ${t.llmConfidence} | 📈 Final Score: ${t.finalConfidence}\n\n🧠 ${t.llmOpinion}`\n).join(\"\\n\\n\");\n\nreturn [\n  {\n    json: {\n      discordMessage: JSON.stringify(message)\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3000,
+        -480
+      ],
+      "id": "294a67e1-f6a5-4e64-b183-f93425a21e88",
+      "name": "Prepare Message1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "28116fd4-52f4-46c3-81b3-7914324a727e",
+              "leftValue": "={{ $json.discordMessage }}",
+              "rightValue": "No new trades",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        3240,
+        -480
+      ],
+      "id": "f8b9d4db-ace6-441b-a9c1-5cfdb880cf33",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "def9b587-c4d2-42d3-a7b8-32e3b3e893df",
+              "leftValue": "={{ $json.probabilityOfProfit }}",
+              "rightValue": 0.7,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1300,
+        -380
+      ],
+      "id": "c25cc25b-6860-4258-9a92-2c2f517b1228",
+      "name": "ETF Quality Filter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "def9b587-c4d2-42d3-a7b8-32e3b3e893df",
+              "leftValue": "={{ $json.probabilityOfProfit }}",
+              "rightValue": 0.7,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1300,
+        -160
+      ],
+      "id": "3ef485c3-e15c-4079-a9da-747c50e6fe54",
+      "name": "Index Quality Filter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "def9b587-c4d2-42d3-a7b8-32e3b3e893df",
+              "leftValue": "={{ $json.probabilityOfProfit }}",
+              "rightValue": 0.7,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1300,
+        60
+      ],
+      "id": "61923a2c-ff4d-448c-9791-c5c521531d7c",
+      "name": "Stock Quality Filter"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-04-19T09:30:18.010-04:00",
+          "Readable date": "April 19th 2025, 9:30:18 am",
+          "Readable time": "9:30:18 am",
+          "Day of week": "Saturday",
+          "Year": "2025",
+          "Month": "April",
+          "Day of month": "19",
+          "Hour": "09",
+          "Minute": "30",
+          "Second": "18",
+          "Timezone": "America/New_York (UTC-04:00)"
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "global": {
+      "seenOptionSymbols": [
+        "SPY|20250523|440.00P",
+        "SPY|20250523|405.00P",
+        "SPY|20250422|527.00P",
+        "QQQ|20250421|443.00C",
+        "AI|20250425|20.00C",
+        "AUR|20250516|6.00C",
+        "MSTR|20250425|337.50C",
+        "AI|20250425|21.00C",
+        "UMC|20250516|7.00C",
+        "AMZN|20250425|160.00C",
+        "COIN|20250425|197.50C",
+        "SMCI|20250425|36.50C",
+        "TSLA|20250509|125.00P"
+      ]
+    }
+  },
   "tags": [
     {
       "createdAt": "2024-11-15T04:55:24.768Z",
@@ -535,7 +774,7 @@
       "name": "discord"
     }
   ],
-  "triggerCount": 0,
-  "updatedAt": "2025-04-19T05:04:21.000Z",
-  "versionId": "9181e4bf-f0fb-4448-a4f8-8ed3e94275f6"
+  "triggerCount": 1,
+  "updatedAt": "2025-04-19T23:57:42.000Z",
+  "versionId": "a9d34d25-21a6-458c-ac58-47cd1137d19f"
 }
