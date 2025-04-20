@@ -404,7 +404,7 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        107
+        109
       ]
     }
   },
@@ -417,6 +417,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-03-14T12:37:17.000Z",
+  "updatedAt": "2025-04-19T23:56:59.000Z",
   "versionId": "ce154fca-eb88-47d6-8298-ab36320ed7af"
 }
