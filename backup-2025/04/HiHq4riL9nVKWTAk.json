@@ -299,7 +299,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You're an expert options trader. Given the following trade, respond with your opinion and a numeric confidence (0 to 1):\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n\nRespond with JSON:\n{\n  \"confidence\": float,\n  \"opinion\": \"short analysis here\"\n}\n",
+        "text": "=You're an expert options trader. Given the following trade, respond with your opinion and a numeric confidence (0 to 1):\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n\nRespond with JSON:\n{\n  \"confidence\": float,\n  \"opinion\": \"short analysis here\"\n}\n",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -321,7 +321,9 @@
     {
       "parameters": {
         "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
-        "options": {}
+        "options": {
+          "temperature": 0.2
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
@@ -436,7 +438,7 @@
             {
               "id": "56cc6f6e-9e71-4443-9d1e-538ace05d39c",
               "leftValue": "={{ $json.finalConfidence }}",
-              "rightValue": 0.75,
+              "rightValue": 0.7,
               "operator": {
                 "type": "number",
                 "operation": "gte"
@@ -723,16 +725,16 @@
     "Schedule Trigger": [
       {
         "json": {
-          "timestamp": "2025-04-19T09:30:18.010-04:00",
-          "Readable date": "April 19th 2025, 9:30:18 am",
-          "Readable time": "9:30:18 am",
+          "timestamp": "2025-04-19T20:00:34.025-04:00",
+          "Readable date": "April 19th 2025, 8:00:34 pm",
+          "Readable time": "8:00:34 pm",
           "Day of week": "Saturday",
           "Year": "2025",
           "Month": "April",
           "Day of month": "19",
-          "Hour": "09",
-          "Minute": "30",
-          "Second": "18",
+          "Hour": "20",
+          "Minute": "00",
+          "Second": "34",
           "Timezone": "America/New_York (UTC-04:00)"
         }
       }
@@ -762,7 +764,11 @@
         "AMZN|20250425|160.00C",
         "COIN|20250425|197.50C",
         "SMCI|20250425|36.50C",
-        "TSLA|20250509|125.00P"
+        "TSLA|20250509|125.00P",
+        "XRT|20250425|65.00P",
+        "CG|20250620|32.50P",
+        "MGA|20250620|30.00P",
+        "SPY|20250422|510.00C"
       ]
     }
   },
@@ -775,6 +781,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-04-19T23:57:42.000Z",
-  "versionId": "a9d34d25-21a6-458c-ac58-47cd1137d19f"
+  "updatedAt": "2025-04-21T22:21:45.000Z",
+  "versionId": "81733adf-e34f-4cb7-ae82-b189083e46bb"
 }
