@@ -194,11 +194,6 @@
         ]
       ]
     },
-    "HTTP Request": {
-      "main": [
-        []
-      ]
-    },
     "Prepare Message1": {
       "main": [
         [
@@ -214,7 +209,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Discord",
             "type": "main",
             "index": 0
           }
@@ -559,25 +554,7 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://discord.com/api/webhooks/1363013541686149170/dDANEzOAW2FRmow2AOn39PGefd1rxajVRxMV_Knt28kbdMvPWH6gN40G4r8rc8e4GuNG",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"content\": \"<@246812164885577729>\",\n  \"embeds\": [\n    {\n      \"description\": {{ $json.discordMessage }},\n      \"color\": 5814783\n    }\n  ]\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        3460,
-        -480
-      ],
-      "id": "d4aa779a-be04-4884-bd2c-0aafec39e7b3",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// Initialize or retrieve seen symbols\nconst seenTrades = staticData.seenOptionSymbols || [];\n\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\n\n// Save newly seen trades\nstaticData.seenOptionSymbols = [...new Set([...seenTrades, ...trades.map(t => t.symbol)])];\n\n// Exit early if no new trades\nif (trades.length === 0) {\n  return [{ json: { discordMessage: JSON.stringify(\"✅ No new trades to report.\") } }];\n}\n\nconst message = `🔥 Top Bandwagon Trades\\n\\n` + trades.map((t, i) => \n  `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\n📊 Vol/OI: ${t.volumeOpenInterestRatio} | 🎯 Rule Score: ${t.probabilityOfProfit} | 🤖 AI Score: ${t.llmConfidence} | 📈 Final Score: ${t.finalConfidence}\n\n🧠 ${t.llmOpinion}`\n).join(\"\\n\\n\");\n\nreturn [\n  {\n    json: {\n      discordMessage: JSON.stringify(message)\n    }\n  }\n];\n"
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// Initialize or retrieve seen symbols\nconst seenTrades = staticData.seenOptionSymbols || [];\n\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\n\n// Save newly seen trades\nstaticData.seenOptionSymbols = [...new Set([...seenTrades, ...trades.map(t => t.symbol)])];\n\n// Exit early if no new trades\nif (trades.length === 0) {\n  return [{ json: { discordMessage: JSON.stringify(\"✅ No new trades to report.\") } }];\n}\n\nconst message = `🔥 Top Bandwagon Trades\\n\\n` + trades.map((t, i) => \n  `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\n📊 Vol/OI: ${t.volumeOpenInterestRatio} | 🎯 Rule Score: ${t.probabilityOfProfit} | 🤖 AI Score: ${t.llmConfidence} | 📈 Final Score: ${t.finalConfidence}\n\n🧠 ${t.llmOpinion}`\n).join(\"\\n\\n\");\n\nreturn [\n  {\n    json: {\n      discordMessage: message // <-- remove JSON.stringify here\n    }\n  }\n];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -615,7 +592,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        3240,
+        3260,
         -480
       ],
       "id": "f8b9d4db-ace6-441b-a9c1-5cfdb880cf33",
@@ -719,6 +696,36 @@
       ],
       "id": "61923a2c-ff4d-448c-9791-c5c521531d7c",
       "name": "Stock Quality Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "<@246812164885577729>",
+        "options": {},
+        "embeds": {
+          "values": [
+            {
+              "description": "={{ $json.discordMessage }}",
+              "color": "#58B9FF"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        3500,
+        -480
+      ],
+      "id": "2341e466-3bcd-4b2e-b89a-ebf2cbb6c39d",
+      "name": "Discord",
+      "webhookId": "ae37aa6b-2500-45b5-bf30-de22bd5dcb42",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "KYLbLPDB4dbpWjW6",
+          "name": "Baka Stonks"
+        }
+      }
     }
   ],
   "pinData": {
@@ -768,7 +775,29 @@
         "XRT|20250425|65.00P",
         "CG|20250620|32.50P",
         "MGA|20250620|30.00P",
-        "SPY|20250422|510.00C"
+        "SPY|20250422|510.00C",
+        "HYG|20250523|76.00P",
+        "DAL|20250620|34.00P",
+        "SLV|20250523|33.00C",
+        "IBIT|20250425|51.50P",
+        "TSM|20250815|95.00P",
+        "$VIX|20250618|17.50P",
+        "VFC|20250516|12.00C",
+        "MSTR|20250425|345.00P",
+        "PPL|20250516|37.00C",
+        "VKTX|20250815|22.50P",
+        "TSLA|20250530|155.00P",
+        "CCL|20250620|14.00P",
+        "RXRX|20250919|5.00P",
+        "SPY|20250422|523.00P",
+        "QQQ|20250422|443.00P",
+        "SPY|20250422|525.00P",
+        "NKE|20250523|65.00C",
+        "PTON|20250509|7.50C",
+        "SPY|20250422|528.00P",
+        "ASHR|20250509|28.00C",
+        "SPY|20250422|532.00P",
+        "NG|20250620|6.00C"
       ]
     }
   },
@@ -781,6 +810,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-04-21T22:21:45.000Z",
-  "versionId": "81733adf-e34f-4cb7-ae82-b189083e46bb"
+  "updatedAt": "2025-04-22T20:05:11.000Z",
+  "versionId": "f76b207e-22da-412e-a8d7-d48b5b58c03d"
 }
