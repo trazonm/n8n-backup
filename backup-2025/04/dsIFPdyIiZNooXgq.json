@@ -1,0 +1,157 @@
+{
+  "active": true,
+  "connections": {
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local File Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "SSH",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-24T03:23:40.547Z",
+  "id": "dsIFPdyIiZNooXgq",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Update Plex Upon File Upload",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "212b1726-e57e-446b-b1f8-cc62b33a0a6a",
+              "leftValue": "={{ $json.path }}",
+              "rightValue": "plexmediaserver",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "d1c81181-f749-40c4-8d80-8dcbf677ef41",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "command": "=echo \"Katsuki#1\" | sudo -S dpkg -i {{ $json.fileName }}",
+        "cwd": "Documents/docker_containers/n8n/n8n-watched"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        680,
+        0
+      ],
+      "id": "0c5d3e65-c1c5-47fa-9a2d-1da300cf4a47",
+      "name": "SSH",
+      "credentials": {
+        "sshPassword": {
+          "id": "ZA8rkJYVLQa1TgMx",
+          "name": "SSH Password account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "/home/node/n8n-watched",
+        "events": [
+          "add"
+        ],
+        "options": {
+          "awaitWriteFinish": true
+        }
+      },
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "052feec3-73f9-4e03-ad22-e37be020794e",
+      "name": "Local File Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      filePath: \"/home/node/n8n-watched/plexmediaserver_1.41.7.9717-fa0101728_amd64.deb\",\n      fileName: \"/home/node/n8n-watched/plexmediaserver_1.41.7.9717-fa0101728_amd64.deb\".split('/').pop()\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "1f3a0642-1944-440f-8546-14979890be5d",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-11-15T04:55:15.385Z",
+      "updatedAt": "2024-11-15T04:55:15.385Z",
+      "id": "CK0EpGAHy9VO6rnR",
+      "name": "plex"
+    },
+    {
+      "createdAt": "2024-12-04T16:28:57.767Z",
+      "updatedAt": "2024-12-04T16:28:57.767Z",
+      "id": "jNX3zmhxJxy6ZeWC",
+      "name": "server"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-04-24T04:19:55.000Z",
+  "versionId": "f6335407-d75d-48f0-8db9-593a1bcbb297"
+}
