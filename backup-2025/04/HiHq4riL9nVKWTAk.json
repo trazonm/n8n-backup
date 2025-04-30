@@ -294,7 +294,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You're an expert options trader. Given the following trade, respond with your opinion and a numeric confidence (0 to 1):\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n\nRespond with JSON:\n{\n  \"confidence\": float,\n  \"opinion\": \"short analysis here\"\n}\n",
+        "text": "=You're an expert options trader who primarily analyzes short-term trades for profit before expiration. I do not plan to exercise contracts — the goal is to sell the option before it expires. Occasionally, I day trade options.\n\nGiven the following trade details, provide a short analysis on whether this is a good trade idea based on liquidity, risk/reward, and directional momentum. Also include a confidence score from 0 to 1.\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n\nRespond with JSON:\n{\n  \"confidence\": float,\n  \"opinion\": \"short analysis here\"\n}\n",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -874,7 +874,27 @@
         "STNE|20250516|15.00C",
         "EYPT|20250718|7.50P",
         "CORZ|20251219|7.00P",
-        "QQQ|20250429|473.00P"
+        "QQQ|20250429|473.00P",
+        "QQQ|20250429|471.00P",
+        "EBAY|20250502|66.00P",
+        "MOS|20250509|29.00C",
+        "SPY|20250429|549.00C",
+        "NVDA|20270617|110.00C",
+        "PCAR|20250516|80.00P",
+        "QQQ|20250429|471.00C",
+        "AR|20250620|28.00P",
+        "PFE|20250523|24.00P",
+        "SPY|20250429|553.00P",
+        "VFC|20250523|10.00P",
+        "SPY|20250429|552.00P",
+        "SPY|20250429|551.00P",
+        "HYG|20250516|81.00P",
+        "SPY|20250429|554.00C",
+        "SPY|20250429|555.00P",
+        "QQQ|20250429|476.00P",
+        "HUT|20250516|10.50P",
+        "QQQ|20250430|476.00P",
+        "SPY|20250731|440.00P"
       ]
     }
   },
@@ -887,6 +907,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-04-23T16:17:34.000Z",
-  "versionId": "663cc6e6-f919-4392-8034-c5ac02f4d6cb"
+  "updatedAt": "2025-04-30T04:08:48.000Z",
+  "versionId": "05bb36c3-d56f-46fd-8575-015d74e2544d"
 }
