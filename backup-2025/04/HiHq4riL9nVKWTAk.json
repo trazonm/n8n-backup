@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "Get Stock Options",
+            "node": "Wait",
             "type": "main",
             "index": 0
           }
@@ -38,6 +38,11 @@
           },
           {
             "node": "Stocks",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
@@ -78,6 +83,13 @@
         [
           {
             "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord1",
             "type": "main",
             "index": 0
           }
@@ -176,7 +188,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Get Time",
             "type": "main",
             "index": 0
           }
@@ -187,18 +199,12 @@
       "main": [
         [
           {
-            "node": "Prepare Message1",
+            "node": "Prepare Discord Message",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Prepare Message1": {
-      "main": [
-        [
+          },
           {
-            "node": "Filter1",
+            "node": "Make Tweet",
             "type": "main",
             "index": 0
           }
@@ -248,6 +254,82 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Stock Options",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Discord1": {
+      "main": [
+        []
+      ]
+    },
+    "Get Time": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Stock Options",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Discord Message": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make Tweet": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "X1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-18T23:02:55.526Z",
@@ -263,7 +345,7 @@
           "interval": [
             {
               "field": "minutes",
-              "minutesInterval": 7
+              "minutesInterval": 6
             }
           ]
         }
@@ -271,7 +353,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -100,
+        -140,
         -160
       ],
       "id": "4a45c39d-21d4-4e48-91c7-7015548069fa",
@@ -294,12 +376,12 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You're an expert options trader who primarily analyzes short-term trades for profit before expiration. I do not plan to exercise contracts — the goal is to sell the option before it expires. Occasionally, I day trade options.\n\nGiven the following trade details, provide a short analysis on whether this is a good trade idea based on liquidity, risk/reward, and directional momentum. Also include a confidence score from 0 to 1.\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n\nRespond with JSON:\n{\n  \"confidence\": float,\n  \"opinion\": \"short analysis here\"\n}\n",
+        "text": "=Given the option contract details below, make a buy or don't buy recommendation based on short-term flipping potential — not based on whether the option expires in the money.\n\nThe trader is looking to profit from a quick premium increase, not to exercise the contract. Trades are typically exited within minutes, hours, or up to 1–2 days.\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes. Assume the trader may enter the position immediately.\n\nFocus your analysis on momentum, liquidity, and short-term risk/reward — not on expiration value or long-term outcomes.\n\nOption details:\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n- Current Bid: {{ $json.bid }}\n- Current Ask: {{ $json.ask }}\n- Midpoint: {{ $json.mid }}\n- Last Traded Price: {{ $json.last }}\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes.\n\nRespond in JSON format:\n{\n  \"shouldBuy\": boolean,\n  \"confidence\": float,\n  \"idealEntryPrice\": float,\n  \"opinion\": \"short reason why this is or isn’t a good trade\"\n}\n",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
             {
-              "message": "You are a highly experienced options trader. You evaluate option trade data and estimate how likely it is to result in profit. Be concise and analytical.\n\n"
+              "message": "You're an expert options trader specializing in short-term trades (intraday or 1–5 days max). You never exercise contracts or care about whether they expire in or out of the money.\n\nYour goal is to buy and sell options quickly for premium profit, based on momentum, liquidity, volatility, and risk/reward. You assess each trade based on whether it could yield a quick return before expiration — not its value at expiration."
             }
           ]
         }
@@ -307,23 +389,25 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.6,
       "position": [
-        2200,
+        2780,
         -140
       ],
       "id": "d1f984d1-33fa-426f-887a-94c6c3c1e25e",
-      "name": "Basic LLM Chain"
+      "name": "Basic LLM Chain",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
         "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
         "options": {
-          "temperature": 0.2
+          "temperature": 0.5
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2220,
+        2780,
         120
       ],
       "id": "9b6b0106-99d4-4ded-945b-132358da77ec",
@@ -337,12 +421,12 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"confidence\": 0.0,\n  \"opinion\": \"short analysis here\"\n}"
+        "jsonSchemaExample": "{\n  \"shouldBuy\": true,\n  \"confidence\": 0.7,\n  \"idealEntryPrice\": 1.00,\n  \"opinion\": \"short reason why this is or isn’t a good trade\"\n}\n"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        2380,
+        2940,
         120
       ],
       "id": "2d1b238c-6743-48d5-9569-3cc5aa31e6e1",
@@ -358,7 +442,7 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        1940,
+        2460,
         -160
       ],
       "id": "2f50df75-cad7-404c-ba9a-4d286a822aff",
@@ -400,7 +484,7 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        640,
+        620,
         60
       ],
       "id": "7ee732f1-342c-4551-a002-0f9be8695e27",
@@ -409,13 +493,13 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const ruleProb = parseFloat($('Loop Over Items').first().json.probabilityOfProfit);\nconst llmConfidence = parseFloat($json.output.confidence);\nreturn {\n  json: {\n    ...$('Loop Over Items').first().json,\n    finalConfidence: Math.round((ruleProb * 0.6 + llmConfidence * 0.4) * 100) / 100,\n    llmOpinion: $json.output.opinion,\n    llmConfidence\n  }\n}\n"
+        "jsCode": "const ruleProb = parseFloat($('Loop Over Items').first().json.probabilityOfProfit);\nconst llmConfidence = parseFloat($json.output.confidence);\nreturn {\n  json: {\n    ...$('Loop Over Items').first().json,\n    finalConfidence: Math.round((ruleProb * 0.6 + llmConfidence * 0.4) * 100) / 100,\n    llmOpinion: $json.output.opinion,\n    llmConfidence,\n    llmShouldBuy: $json.output.shouldBuy,\n    llmIdealEntryPrice: $json.output.idealEntryPrice\n  }\n}\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2620,
-        -140
+        3200,
+        -160
       ],
       "id": "2e531336-7d8f-4ccb-8dda-19d46c589709",
       "name": "Code"
@@ -447,7 +531,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2480,
+        3040,
         -480
       ],
       "id": "a424a917-0c68-4270-add3-7d694209a036",
@@ -508,7 +592,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1660,
+        1920,
         -160
       ],
       "id": "8c42ec29-d8bb-4eeb-b0ae-d6439e8e330d",
@@ -546,24 +630,11 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        2740,
+        3300,
         -480
       ],
       "id": "f9681726-88bd-4e54-a038-f94b4c40ede7",
       "name": "Aggregate"
-    },
-    {
-      "parameters": {
-        "jsCode": "const staticData = $getWorkflowStaticData('global');\n\n// Initialize or retrieve seen symbols\nconst seenTrades = staticData.seenOptionSymbols || [];\n\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\n\n// Save newly seen trades\nstaticData.seenOptionSymbols = [...new Set([...seenTrades, ...trades.map(t => t.symbol)])];\n\n// Exit early if no new trades\nif (trades.length === 0) {\n  return [{ json: { discordMessage: JSON.stringify(\"✅ No new trades to report.\") } }];\n}\n\nconst message = `🔥 Top Bandwagon Trades\\n\\n` + trades.map((t, i) => \n  `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\n📊 Vol/OI: ${t.volumeOpenInterestRatio} | 🎯 Rule Score: ${t.probabilityOfProfit} | 🤖 AI Score: ${t.llmConfidence} | 📈 Final Score: ${t.finalConfidence}\n\n🧠 ${t.llmOpinion}`\n).join(\"\\n\\n\");\n\nreturn [\n  {\n    json: {\n      discordMessage: message // <-- remove JSON.stringify here\n    }\n  }\n];\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        3000,
-        -480
-      ],
-      "id": "294a67e1-f6a5-4e64-b183-f93425a21e88",
-      "name": "Prepare Message1"
     },
     {
       "parameters": {
@@ -592,7 +663,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        3260,
+        3820,
         -480
       ],
       "id": "f8b9d4db-ace6-441b-a9c1-5cfdb880cf33",
@@ -714,11 +785,73 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3500,
+        4080,
         -480
       ],
       "id": "2341e466-3bcd-4b2e-b89a-ebf2cbb6c39d",
       "name": "Discord",
+      "webhookId": "ae37aa6b-2500-45b5-bf30-de22bd5dcb42",
+      "retryOnFail": true,
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "KYLbLPDB4dbpWjW6",
+          "name": "Baka Stonks"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "get-stonks",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -140,
+        80
+      ],
+      "id": "e9a26dbb-a1f0-49a0-bcac-dafc882f49bb",
+      "name": "Webhook",
+      "webhookId": "8bf80c5a-4b2d-4ace-a8bd-634f68844286"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "Stonk workflow has begun",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        280
+      ],
+      "id": "c593d47f-f37d-4dcc-8bdc-c2f1b4801447",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "<@246812164885577729>",
+        "options": {},
+        "embeds": {
+          "values": [
+            {
+              "description": "=We got an error I fear",
+              "color": "#FF6358"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        3120,
+        100
+      ],
+      "id": "502758a5-9485-4af7-8e32-d2bd9500dbc2",
+      "name": "Discord1",
       "webhookId": "ae37aa6b-2500-45b5-bf30-de22bd5dcb42",
       "credentials": {
         "discordWebhookApi": {
@@ -726,27 +859,127 @@
           "name": "Baka Stonks"
         }
       }
-    }
-  ],
-  "pinData": {
-    "Schedule Trigger": [
-      {
-        "json": {
-          "timestamp": "2025-04-19T20:00:34.025-04:00",
-          "Readable date": "April 19th 2025, 8:00:34 pm",
-          "Readable time": "8:00:34 pm",
-          "Day of week": "Saturday",
-          "Year": "2025",
-          "Month": "April",
-          "Day of month": "19",
-          "Hour": "20",
-          "Minute": "00",
-          "Second": "34",
-          "Timezone": "America/New_York (UTC-04:00)"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst nowET = DateTime.now().setZone(\"America/New_York\");\nconst marketClose = nowET.set({ hour: 16, minute: 0, second: 0, millisecond: 0 });\n\nconst minutesUntilClose = Math.max(0, Math.round(marketClose.diff(nowET, \"minutes\").minutes));\nconst currentTimeET = nowET.toISO();\n\nconst items = $input.all().map(item => {\n  item.json.currentTimeET = currentTimeET;\n  item.json.minutesUntilClose = minutesUntilClose;\n  return item;\n});\n\nreturn items;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        -160
+      ],
+      "id": "20ed009e-047d-468b-ab64-b72c6bf9e3c9",
+      "name": "Get Time"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        100,
+        -160
+      ],
+      "id": "ccad4ebd-e69a-46f2-bf7a-373fbb120007",
+      "name": "Wait",
+      "webhookId": "cb103194-2079-4343-8d40-630cd80baf4c"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst seenTrades = staticData?.seenOptionSymbols || [];\n\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\nstaticData.seenOptionSymbols = Array.from(new Set([...seenTrades, ...trades.map(t => t.symbol)]));\n\nconst tweets = [];\n\nfor (const t of trades) {\n  if (!t.minutesUntilClose || t.minutesUntilClose === 0) continue;\n\n  const tweet = \n`$${t.ticker} ${t.type} $${t.strike} exp ${t.expiration}\n\n📍 Entry Price: $${t.idealEntryPrice}\n✅ Should Buy: Human - ${t.shouldBuy ? \"Yes\" : \"No\"}, AI - ${t.llmShouldBuy ? \"Yes\" : \"No\"}\n📊 Confidence: Human - ${t.finalConfidence ?? \"N/A\"}, AI - ${t.llmConfidence ?? \"N/A\"}\n\n🧠 Human Opinion:\n${t.opinion}\n\n🤖 AI Opinion:\n${t.llmOpinion}`;\n\n  tweets.push({ json: { tweet } });\n}\n\n// If no valid tweets were generated, return fallback\nif (tweets.length === 0) {\n  return [{ json: { tweet: \"✅ No new trades to report.\" } }];\n}\n\nreturn tweets;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3560,
+        -160
+      ],
+      "id": "30bce927-4aac-48e4-b63a-73018aa96046",
+      "name": "Make Tweet"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst seenTrades = staticData?.seenOptionSymbols || [];\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\nstaticData.seenOptionSymbols = [...new Set([...seenTrades, ...trades.map(t => t.symbol)])];\n\nif (trades.length === 0) {\n  return [{ json: { discordMessage: \"✅ No new trades to report.\" } }];\n}\n\nconst fullChunks = [];\nlet currentChunk = \"🔥 Top Bandwagon Trades\\n\\n\";\n\nfor (let i = 0; i < trades.length; i++) {\n  const t = trades[i];\n\n  const tradeText = `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\n\n📊 Vol/OI: ${t.volumeOpenInterestRatio}  \n🎯 Rule Score: ${t.probabilityOfProfit}  \n🤖 AI Score: ${t.llmConfidence}  \n📈 Final Score: ${t.finalConfidence}\n\n💸 Ideal Entry Price:  \n🤖 AI: $${t.llmIdealEntryPrice}  \n🧠 Human: $${t.idealEntryPrice}\n\n❓ Should you buy:  \n🤖 AI: ${t.llmShouldBuy ? \"Yes\" : \"No\"}  \n🧠 Human: ${t.shouldBuy ? \"Yes\" : \"No\"}\n\n🤖 *AI Opinion:*  \n${t.llmOpinion}\n\n🧠 *Human Opinion:*  \n${t.opinion}\n\n`;\n\n  if ((currentChunk + tradeText).length > 4000) {\n    fullChunks.push({ json: { discordMessage: currentChunk.trim() } });\n    currentChunk = tradeText;\n  } else {\n    currentChunk += tradeText;\n  }\n}\n\nif (currentChunk.trim() !== \"\") {\n  fullChunks.push({ json: { discordMessage: currentChunk.trim() } });\n}\n\nreturn fullChunks;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3560,
+        -480
+      ],
+      "id": "294a67e1-f6a5-4e64-b183-f93425a21e88",
+      "name": "Prepare Discord Message"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "28116fd4-52f4-46c3-81b3-7914324a727e",
+              "leftValue": "={{ $json.tweet }}",
+              "rightValue": "No new trades",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            },
+            {
+              "id": "95d0192b-e2b8-4318-91b6-5b574cf7b879",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        3820,
+        -160
+      ],
+      "id": "8e16dd19-0614-4247-9017-b24374b073a6",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.tweet }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        4080,
+        -160
+      ],
+      "id": "ea14a923-d7cb-492d-9ead-cfb49586ff8d",
+      "name": "X1",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "twitterOAuth2Api": {
+          "id": "gQRzJpNlhWOTUXuP",
+          "name": "Stonk Bot"
         }
       }
-    ]
-  },
+    }
+  ],
+  "pinData": {},
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -894,7 +1127,30 @@
         "QQQ|20250429|476.00P",
         "HUT|20250516|10.50P",
         "QQQ|20250430|476.00P",
-        "SPY|20250731|440.00P"
+        "SPY|20250731|440.00P",
+        "SPY|20250501|554.00P",
+        "PBR|20250509|11.50P",
+        "MRVL|20250516|48.00P",
+        "SPY|20250501|544.00C",
+        "SMCI|20250502|30.00C",
+        "SPY|20250506|544.00C",
+        "QQQ|20250512|430.00P",
+        "OKLO|20250509|25.00C",
+        "SMCI|20250509|33.50C",
+        "SMCI|20250509|34.50C",
+        "APLD|20250530|3.50P",
+        "JBLU|20250516|4.50C",
+        "SPY|20250430|547.00C",
+        "SPY|20250430|546.00C",
+        "LRMR|20251121|2.50C",
+        "SBUX|20250919|80.00C",
+        "SPY|20250430|549.00C",
+        "QQQ|20250430|471.00C",
+        "TLT|20250606|86.00P",
+        "SPY|20250430|552.00C",
+        "SPY|20250501|546.00C",
+        "HYG|20250523|77.50P",
+        "$VIX|20250521|10.50C"
       ]
     }
   },
@@ -906,7 +1162,7 @@
       "name": "discord"
     }
   ],
-  "triggerCount": 1,
-  "updatedAt": "2025-04-30T04:08:48.000Z",
-  "versionId": "05bb36c3-d56f-46fd-8575-015d74e2544d"
+  "triggerCount": 2,
+  "updatedAt": "2025-04-30T21:32:44.000Z",
+  "versionId": "f4d92da3-60a0-4c43-9d9e-4393de291979"
 }
