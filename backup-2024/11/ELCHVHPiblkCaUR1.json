@@ -428,6 +428,7 @@
   },
   "createdAt": "2024-11-14T01:27:53.117Z",
   "id": "ELCHVHPiblkCaUR1",
+  "isArchived": false,
   "meta": {
     "templateCredsSetupCompleted": true
   },
