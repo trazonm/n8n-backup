@@ -396,6 +396,8 @@
       "id": "d1f984d1-33fa-426f-887a-94c6c3c1e25e",
       "name": "Basic LLM Chain",
       "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5,
       "onError": "continueErrorOutput"
     },
     {
@@ -839,7 +841,7 @@
         "embeds": {
           "values": [
             {
-              "description": "=We got an error I fear",
+              "description": "=We got an error I fear\n\n{{ $json.error }}",
               "color": "#FF6358"
             }
           ]
@@ -980,7 +982,25 @@
       }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-05-07T16:30:12.002-04:00",
+          "Readable date": "May 7th 2025, 4:30:12 pm",
+          "Readable time": "4:30:12 pm",
+          "Day of week": "Wednesday",
+          "Year": "2025",
+          "Month": "May",
+          "Day of month": "07",
+          "Hour": "16",
+          "Minute": "30",
+          "Second": "12",
+          "Timezone": "America/New_York (UTC-04:00)"
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -1215,7 +1235,32 @@
         "CF|20250815|90.00C",
         "SN|20250516|60.00P",
         "QQQ|20250508|481.00C",
-        "KWEB|20250530|34.50C"
+        "KWEB|20250530|34.50C",
+        "QQQ|20250507|482.00C",
+        "ABEV|20250620|2.50C",
+        "TGTX|20250815|38.00C",
+        "TGTX|20250815|48.00C",
+        "MRVL|20250620|40.00P",
+        "MSFT|20250815|420.00C",
+        "MSTU|20250523|8.50P",
+        "SPY|20250507|561.00C",
+        "SLV|20250530|29.50C",
+        "FXI|20250718|37.00C",
+        "QQQ|20250507|483.00P",
+        "CVX|20250530|140.00C",
+        "PRCH|20250815|12.50C",
+        "GM|20250530|46.00C",
+        "BRKR|20250516|35.00P",
+        "SPY|20250507|560.00C",
+        "GOOGL|20250613|130.00P",
+        "QQQ|20250507|481.00C",
+        "GOOGL|20250509|149.00C",
+        "GOOG|20250509|152.50C",
+        "QQQ|20250507|480.00C",
+        "SPY|20250508|559.00C",
+        "QQQ|20250508|483.00C",
+        "QQQ|20250508|480.00C",
+        "QQQ|20250508|482.00C"
       ],
       "tweetedOptionSymbols": [
         "QQQ|20250512|430.00P",
@@ -1290,7 +1335,32 @@
         "CF|20250815|90.00C",
         "SN|20250516|60.00P",
         "QQQ|20250508|481.00C",
-        "KWEB|20250530|34.50C"
+        "KWEB|20250530|34.50C",
+        "QQQ|20250507|482.00C",
+        "ABEV|20250620|2.50C",
+        "TGTX|20250815|38.00C",
+        "TGTX|20250815|48.00C",
+        "MRVL|20250620|40.00P",
+        "MSFT|20250815|420.00C",
+        "MSTU|20250523|8.50P",
+        "SPY|20250507|561.00C",
+        "SLV|20250530|29.50C",
+        "FXI|20250718|37.00C",
+        "QQQ|20250507|483.00P",
+        "CVX|20250530|140.00C",
+        "PRCH|20250815|12.50C",
+        "GM|20250530|46.00C",
+        "BRKR|20250516|35.00P",
+        "SPY|20250507|560.00C",
+        "GOOGL|20250613|130.00P",
+        "QQQ|20250507|481.00C",
+        "GOOGL|20250509|149.00C",
+        "GOOG|20250509|152.50C",
+        "QQQ|20250507|480.00C",
+        "SPY|20250508|559.00C",
+        "QQQ|20250508|483.00C",
+        "QQQ|20250508|480.00C",
+        "QQQ|20250508|482.00C"
       ]
     }
   },
@@ -1303,6 +1373,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2025-05-01T07:30:37.000Z",
-  "versionId": "acf1f735-1f77-4fef-ad36-2b50c28938b9"
+  "updatedAt": "2025-05-08T03:56:57.000Z",
+  "versionId": "c4b4c834-0f64-43c3-b112-d0d7a9baf095"
 }
