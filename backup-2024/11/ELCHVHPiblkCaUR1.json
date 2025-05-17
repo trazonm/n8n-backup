@@ -766,7 +766,7 @@
           "value": "={{ $json.body.channelId }}",
           "mode": "id"
         },
-        "content": "you got it daddy 😫 (generation takes 5-15s)",
+        "content": "on it! (generation takes 5-15s)",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -945,7 +945,7 @@
       "parameters": {
         "agent": "conversationalAgent",
         "promptType": "define",
-        "text": "=User input: {{ $json.content }}\n\nImage Description: {{ $('HTTP Request1').item.json.candidates[0].content.parts[0].text }}",
+        "text": "=User input: {{ $json.content }}\n\nDescription of the math problem: {{ $('HTTP Request1').item.json.candidates[0].content.parts[0].text }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1412,8 +1412,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2740,
-        1080
+        2680,
+        1100
       ],
       "id": "253e4e9e-16f8-44f5-b956-e87456461a65",
       "name": "Groq Chat Model1",
@@ -1433,8 +1433,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        2860,
-        1080
+        2800,
+        1100
       ],
       "id": "fef8cf5f-6a39-44e9-9146-e55954371097",
       "name": "Postgres Chat Memory2",
@@ -1509,6 +1509,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-04-19T23:57:19.000Z",
-  "versionId": "7806086c-7db9-467d-9b3d-5d051a4fb545"
+  "updatedAt": "2025-05-16T15:17:14.000Z",
+  "versionId": "882d5f9e-bc6d-4de5-92fa-0cba2b0afadf"
 }
