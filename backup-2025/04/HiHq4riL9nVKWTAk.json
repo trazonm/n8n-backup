@@ -53,7 +53,7 @@
       "ai_outputParser": [
         [
           {
-            "node": "Basic LLM Chain",
+            "node": "Auto-fixing Output Parser",
             "type": "ai_outputParser",
             "index": 0
           }
@@ -87,13 +87,7 @@
             "index": 0
           }
         ],
-        [
-          {
-            "node": "Discord1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "ETFs": {
@@ -202,6 +196,11 @@
             "node": "Make Tweet",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Prepare Discord Message",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -266,11 +265,6 @@
         []
       ]
     },
-    "Discord1": {
-      "main": [
-        []
-      ]
-    },
     "Get Time": {
       "main": [
         [
@@ -325,6 +319,28 @@
           }
         ]
       ]
+    },
+    "Auto-fixing Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Auto-fixing Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-18T23:02:55.526Z",
@@ -372,7 +388,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Given the option contract details below, make a buy or don't buy recommendation based on short-term flipping potential — not based on whether the option expires in the money.\n\nThe trader is looking to profit from a quick premium increase, not to exercise the contract. Trades are typically exited within minutes, hours, or up to 1–2 days.\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes. Assume the trader may enter the position immediately.\n\nFocus your analysis on momentum, liquidity, and short-term risk/reward — not on expiration value or long-term outcomes.\n\nOption details:\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n- Current Bid: {{ $json.bid }}\n- Current Ask: {{ $json.ask }}\n- Midpoint: {{ $json.mid }}\n- Last Traded Price: {{ $json.last }}\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes.\n\nRespond in JSON format:\n{\n  \"shouldBuy\": boolean,\n  \"confidence\": float,\n  \"idealEntryPrice\": float,\n  \"opinion\": \"short reason why this is or isn’t a good trade\"\n}\n",
+        "text": "=Given the option contract details below, make a buy or don't buy recommendation based on short-term flipping potential — not based on whether the option expires in the money.\n\nThe trader is looking to profit from a quick premium increase, not to exercise the contract. Trades are typically exited within minutes, hours, or up to 1–2 days.\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes. Assume the trader may enter the position immediately.\n\nFocus your analysis on momentum, liquidity, and short-term risk/reward — not on expiration value or long-term outcomes.\n\nOption details:\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n- Current Bid: {{ $json.bid }}\n- Current Ask: {{ $json.ask }}\n- Midpoint: {{ $json.mid }}\n- Last Traded Price: {{ $json.last }}\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes.\n",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -393,7 +409,7 @@
       "retryOnFail": true,
       "waitBetweenTries": 5000,
       "maxTries": 5,
-      "onError": "continueErrorOutput"
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -424,8 +440,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        2940,
-        120
+        3000,
+        500
       ],
       "id": "2d1b238c-6743-48d5-9569-3cc5aa31e6e1",
       "name": "Structured Output Parser"
@@ -830,36 +846,6 @@
     },
     {
       "parameters": {
-        "authentication": "webhook",
-        "content": "<@246812164885577729>",
-        "options": {},
-        "embeds": {
-          "values": [
-            {
-              "description": "=We got an error I fear\n\n{{ $json.error }}",
-              "color": "#FF6358"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        3120,
-        100
-      ],
-      "id": "502758a5-9485-4af7-8e32-d2bd9500dbc2",
-      "name": "Discord1",
-      "webhookId": "ae37aa6b-2500-45b5-bf30-de22bd5dcb42",
-      "credentials": {
-        "discordWebhookApi": {
-          "id": "KYLbLPDB4dbpWjW6",
-          "name": "Baka Stonks"
-        }
-      }
-    },
-    {
-      "parameters": {
         "jsCode": "\nconst nowET = DateTime.now().setZone(\"America/New_York\");\nconst marketClose = nowET.set({ hour: 16, minute: 0, second: 0, millisecond: 0 });\n\nconst minutesUntilClose = Math.max(0, Math.round(marketClose.diff(nowET, \"minutes\").minutes));\nconst currentTimeET = nowET.toISO();\n\nconst items = $input.all().map(item => {\n  item.json.currentTimeET = currentTimeET;\n  item.json.minutesUntilClose = minutesUntilClose;\n  return item;\n});\n\nreturn items;\n"
       },
       "type": "n8n-nodes-base.code",
@@ -975,22 +961,55 @@
           "name": "Stonk Bot"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        280
+      ],
+      "id": "b4bd2271-cf65-4723-a298-b8a1b3e68ffb",
+      "name": "Auto-fixing Output Parser"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        500
+      ],
+      "id": "cd7870e3-dda8-4087-9b1d-6100e28a7a1c",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "Yi51lX7Jst94KFYD",
+          "name": "Groq account"
+        }
+      }
     }
   ],
   "pinData": {
     "Schedule Trigger": [
       {
         "json": {
-          "timestamp": "2025-05-07T16:30:12.002-04:00",
-          "Readable date": "May 7th 2025, 4:30:12 pm",
-          "Readable time": "4:30:12 pm",
-          "Day of week": "Wednesday",
+          "timestamp": "2025-06-06T21:36:37.004-04:00",
+          "Readable date": "June 6th 2025, 9:36:37 pm",
+          "Readable time": "9:36:37 pm",
+          "Day of week": "Friday",
           "Year": "2025",
-          "Month": "May",
-          "Day of month": "07",
-          "Hour": "16",
-          "Minute": "30",
-          "Second": "12",
+          "Month": "June",
+          "Day of month": "06",
+          "Hour": "21",
+          "Minute": "36",
+          "Second": "37",
           "Timezone": "America/New_York (UTC-04:00)"
         }
       }
@@ -1441,7 +1460,15 @@
         "IWM|20250519|208.00C",
         "QQQ|20250519|518.00C",
         "MRNA|20250530|28.50C",
-        "APPN|20250815|27.50P"
+        "APPN|20250815|27.50P",
+        "SPY|20250609|600.00P",
+        "SPY|20250609|601.00P",
+        "QQQ|20250609|531.00P",
+        "MSTR|20250627|180.00P",
+        "VRT|20250815|140.00C",
+        "BUR|20250815|10.00P",
+        "RLX|20260116|2.00C",
+        "MRVL|20250627|75.00C"
       ],
       "tweetedOptionSymbols": [
         "QQQ|20250512|430.00P",
@@ -2047,7 +2074,31 @@
         "V|20270115|400.00C",
         "QQQ|20250605|533.00P",
         "SPY|20250605|594.00P",
-        "LQD|20250919|98.00P"
+        "LQD|20250919|98.00P",
+        "IWM|20250606|211.00P",
+        "APLD|20270115|25.00C",
+        "SOXL|20250718|29.00C",
+        "MSFT|20251219|505.00C",
+        "UPST|20250606|53.00P",
+        "SPY|20250606|601.00P",
+        "SPY|20250609|601.00P",
+        "GLW|20250718|50.00P",
+        "ZIM|20251017|22.00C",
+        "SPY|20250711|555.00P",
+        "SPY|20250711|585.00P",
+        "MSFT|20250606|472.50P",
+        "SPY|20250606|599.00P",
+        "SPY|20250609|599.00P",
+        "MSTR|20250627|180.00P",
+        "META|20250606|695.00P",
+        "SPY|20250606|600.00P",
+        "VRT|20250815|140.00C",
+        "SPY|20250606|598.00P",
+        "BUR|20250815|10.00P",
+        "RLX|20260116|2.00C",
+        "SPY|20250609|600.00P",
+        "MRVL|20250627|75.00C",
+        "QQQ|20250609|531.00P"
       ]
     }
   },
@@ -2060,6 +2111,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2025-05-19T14:25:52.000Z",
-  "versionId": "e43aaf9d-4f67-40b7-a189-c69039a6bf37"
+  "updatedAt": "2025-06-07T02:38:48.000Z",
+  "versionId": "b62c2b7b-88ed-45d9-b861-6f597977295d"
 }
