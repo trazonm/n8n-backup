@@ -265,17 +265,6 @@
         []
       ]
     },
-    "Get Time": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Wait": {
       "main": [
         [
@@ -341,6 +330,17 @@
           }
         ]
       ]
+    },
+    "Get Time": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-18T23:02:55.526Z",
@@ -358,6 +358,19 @@
             {
               "field": "minutes",
               "minutesInterval": 6
+            },
+            {
+              "field": "weeks",
+              "weeksInterval": 0,
+              "triggerAtDay": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "triggerAtHour": 9,
+              "triggerAtMinute": 30
             }
           ]
         }
@@ -513,7 +526,7 @@
       "typeVersion": 2,
       "position": [
         3200,
-        -160
+        -140
       ],
       "id": "2e531336-7d8f-4ccb-8dda-19d46c589709",
       "name": "Code"
@@ -846,19 +859,6 @@
     },
     {
       "parameters": {
-        "jsCode": "\nconst nowET = DateTime.now().setZone(\"America/New_York\");\nconst marketClose = nowET.set({ hour: 16, minute: 0, second: 0, millisecond: 0 });\n\nconst minutesUntilClose = Math.max(0, Math.round(marketClose.diff(nowET, \"minutes\").minutes));\nconst currentTimeET = nowET.toISO();\n\nconst items = $input.all().map(item => {\n  item.json.currentTimeET = currentTimeET;\n  item.json.minutesUntilClose = minutesUntilClose;\n  return item;\n});\n\nreturn items;\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2180,
-        -160
-      ],
-      "id": "20ed009e-047d-468b-ab64-b72c6bf9e3c9",
-      "name": "Get Time"
-    },
-    {
-      "parameters": {
         "amount": 30
       },
       "type": "n8n-nodes-base.wait",
@@ -994,6 +994,19 @@
           "name": "Groq account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "const nowET = DateTime.now().setZone(\"America/New_York\");\nconst marketClose = nowET.set({ hour: 16, minute: 0, second: 0, millisecond: 0 });\n\nconst minutesUntilClose = Math.max(0, Math.round(marketClose.diff(nowET, \"minutes\").minutes));\nconst currentTimeET = nowET.toISO();\n\nconst items = $input.all().map(item => {\n  item.json.currentTimeET = currentTimeET;\n  item.json.minutesUntilClose = minutesUntilClose;\n  return item;\n});\n\nreturn items;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        -160
+      ],
+      "id": "058b9e3c-368a-41e3-b11a-326339679981",
+      "name": "Get Time"
     }
   ],
   "pinData": {
@@ -1487,7 +1500,32 @@
         "QQQ|20250610|535.00P",
         "IYR|20250718|89.00P",
         "SLV|20250815|47.00C",
-        "ASTS|20250613|35.00P"
+        "ASTS|20250613|35.00P",
+        "NVDA|20250725|142.00P",
+        "PAAS|20250620|29.00P",
+        "KRE|20250919|67.00C",
+        "FXI|20250815|35.00P",
+        "$VIX|20251217|17.00P",
+        "NVDA|20250725|130.00P",
+        "COGT|20250815|7.00C",
+        "DK|20250718|22.50C",
+        "HAL|20250627|20.00P",
+        "GDX|20271217|50.00P",
+        "SPY|20250610|602.00P",
+        "$VIX|20260121|14.50C",
+        "CSX|20250620|33.50C",
+        "IWM|20250610|215.00P",
+        "TEVA|20251219|24.00C",
+        "SPY|20250610|601.00P",
+        "GOOG|20250613|180.00P",
+        "DXC|20250919|16.00C",
+        "IONQ|20250718|32.00P",
+        "QQQ|20250610|533.00C",
+        "SPY|20250610|603.00P",
+        "SLV|20251017|34.50C",
+        "QQQ|20250616|526.00C",
+        "MSFT|20250627|477.50C",
+        "KRE|20251017|51.00P"
       ],
       "tweetedOptionSymbols": [
         "QQQ|20250512|430.00P",
@@ -2136,7 +2174,32 @@
         "QQQ|20250610|535.00P",
         "IYR|20250718|89.00P",
         "SLV|20250815|47.00C",
-        "ASTS|20250613|35.00P"
+        "ASTS|20250613|35.00P",
+        "NVDA|20250725|142.00P",
+        "PAAS|20250620|29.00P",
+        "KRE|20250919|67.00C",
+        "FXI|20250815|35.00P",
+        "$VIX|20251217|17.00P",
+        "NVDA|20250725|130.00P",
+        "COGT|20250815|7.00C",
+        "DK|20250718|22.50C",
+        "HAL|20250627|20.00P",
+        "GDX|20271217|50.00P",
+        "SPY|20250610|602.00P",
+        "$VIX|20260121|14.50C",
+        "CSX|20250620|33.50C",
+        "IWM|20250610|215.00P",
+        "TEVA|20251219|24.00C",
+        "SPY|20250610|601.00P",
+        "GOOG|20250613|180.00P",
+        "DXC|20250919|16.00C",
+        "IONQ|20250718|32.00P",
+        "QQQ|20250610|533.00C",
+        "SPY|20250610|603.00P",
+        "SLV|20251017|34.50C",
+        "QQQ|20250616|526.00C",
+        "MSFT|20250627|477.50C",
+        "KRE|20251017|51.00P"
       ]
     }
   },
@@ -2149,6 +2212,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2025-06-07T02:38:48.000Z",
-  "versionId": "b62c2b7b-88ed-45d9-b861-6f597977295d"
+  "updatedAt": "2025-06-15T21:02:39.000Z",
+  "versionId": "b82a2a1b-4e17-4188-8733-b8633ae57d0d"
 }
