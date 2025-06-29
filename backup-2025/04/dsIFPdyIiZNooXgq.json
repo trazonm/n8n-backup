@@ -12,22 +12,22 @@
         ]
       ]
     },
-    "Local File Trigger": {
+    "Code": {
       "main": [
         [
           {
-            "node": "Filter",
+            "node": "SSH",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code": {
+    "Local File Trigger": {
       "main": [
         [
           {
-            "node": "SSH",
+            "node": "Filter",
             "type": "main",
             "index": 0
           }
@@ -84,7 +84,7 @@
       "type": "n8n-nodes-base.ssh",
       "typeVersion": 1,
       "position": [
-        680,
+        660,
         0
       ],
       "id": "0c5d3e65-c1c5-47fa-9a2d-1da300cf4a47",
@@ -95,6 +95,19 @@
           "name": "SSH Password account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      filePath: $input.first().json.path,\n      fileName: $input.first().json.path.split('/').pop()\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "1f3a0642-1944-440f-8546-14979890be5d",
+      "name": "Code"
     },
     {
       "parameters": {
@@ -113,33 +126,11 @@
         0,
         0
       ],
-      "id": "052feec3-73f9-4e03-ad22-e37be020794e",
+      "id": "51925203-bd93-4856-a548-f0355cc073b3",
       "name": "Local File Trigger"
-    },
-    {
-      "parameters": {
-        "jsCode": "return [\n  {\n    json: {\n      filePath: $input.first().json.path,\n      fileName: $input.first().json.path.split('/').pop()\n    }\n  }\n];\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        440,
-        0
-      ],
-      "id": "1f3a0642-1944-440f-8546-14979890be5d",
-      "name": "Code"
     }
   ],
-  "pinData": {
-    "Local File Trigger": [
-      {
-        "json": {
-          "event": "add",
-          "path": "/home/node/n8n-watched/plexmediaserver_1.41.7.9749-ce0b45d6e_amd64.deb"
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -162,6 +153,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-05-04T05:38:02.000Z",
-  "versionId": "d995a4b9-ccfe-4664-98ad-f065c43fd262"
+  "updatedAt": "2025-06-28T17:43:03.000Z",
+  "versionId": "de3ddf17-5b8e-4532-aa92-ef27e0c0dfb7"
 }
