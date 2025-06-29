@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "Wait",
+            "node": "Code1",
             "type": "main",
             "index": 0
           }
@@ -341,6 +341,28 @@
           }
         ]
       ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Filter3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter3": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-18T23:02:55.526Z",
@@ -358,19 +380,6 @@
             {
               "field": "minutes",
               "minutesInterval": 6
-            },
-            {
-              "field": "weeks",
-              "weeksInterval": 0,
-              "triggerAtDay": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
-              "triggerAtHour": 9,
-              "triggerAtMinute": 30
             }
           ]
         }
@@ -379,7 +388,7 @@
       "typeVersion": 1.2,
       "position": [
         -140,
-        -160
+        20
       ],
       "id": "4a45c39d-21d4-4e48-91c7-7015548069fa",
       "name": "Schedule Trigger"
@@ -392,8 +401,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        340,
-        -160
+        740,
+        120
       ],
       "id": "81a2d5fb-0cde-448d-8841-2be57fa296af",
       "name": "Get Stock Options"
@@ -414,8 +423,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.6,
       "position": [
-        2780,
-        -140
+        2296,
+        20
       ],
       "id": "d1f984d1-33fa-426f-887a-94c6c3c1e25e",
       "name": "Basic LLM Chain",
@@ -434,8 +443,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2780,
-        120
+        2280,
+        240
       ],
       "id": "9b6b0106-99d4-4ded-945b-132358da77ec",
       "name": "Groq Chat Model",
@@ -453,8 +462,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        3000,
-        500
+        2548,
+        440
       ],
       "id": "2d1b238c-6743-48d5-9569-3cc5aa31e6e1",
       "name": "Structured Output Parser"
@@ -469,8 +478,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        2460,
-        -160
+        2060,
+        -5
       ],
       "id": "2f50df75-cad7-404c-ba9a-4d286a822aff",
       "name": "Loop Over Items"
@@ -483,8 +492,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        620,
-        -380
+        960,
+        -205
       ],
       "id": "053e345e-cfea-4038-8827-1b3c798fd92c",
       "name": "ETFs"
@@ -497,8 +506,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        620,
-        -160
+        960,
+        -5
       ],
       "id": "fba36e2b-4839-44a0-bcc4-02de7e32c70f",
       "name": "Indices"
@@ -511,8 +520,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        620,
-        60
+        960,
+        195
       ],
       "id": "7ee732f1-342c-4551-a002-0f9be8695e27",
       "name": "Stocks"
@@ -525,8 +534,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3200,
-        -140
+        2776,
+        95
       ],
       "id": "2e531336-7d8f-4ccb-8dda-19d46c589709",
       "name": "Code"
@@ -558,8 +567,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        3040,
-        -480
+        2418,
+        -380
       ],
       "id": "a424a917-0c68-4270-add3-7d694209a036",
       "name": "Filter"
@@ -582,8 +591,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1020,
-        60
+        1180,
+        195
       ],
       "id": "451b6360-9bfc-4b48-ade6-543e62713d19",
       "name": "stock_category"
@@ -606,8 +615,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1020,
-        -160
+        1180,
+        -5
       ],
       "id": "1ea3fd23-5cd2-4dac-9ab7-6fe72bff2e1b",
       "name": "index_categorgy"
@@ -619,8 +628,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1920,
-        -160
+        1620,
+        -5
       ],
       "id": "8c42ec29-d8bb-4eeb-b0ae-d6439e8e330d",
       "name": "Merge"
@@ -643,8 +652,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1020,
-        -380
+        1180,
+        -205
       ],
       "id": "ad3c028b-b484-4f30-b956-b299edc29fcf",
       "name": "etf_category"
@@ -657,8 +666,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        3300,
-        -480
+        2776,
+        -380
       ],
       "id": "f9681726-88bd-4e54-a038-f94b4c40ede7",
       "name": "Aggregate"
@@ -690,7 +699,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        3820,
+        3216,
         -480
       ],
       "id": "f8b9d4db-ace6-441b-a9c1-5cfdb880cf33",
@@ -723,8 +732,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1300,
-        -380
+        1400,
+        -205
       ],
       "id": "c25cc25b-6860-4258-9a92-2c2f517b1228",
       "name": "ETF Quality Filter"
@@ -756,8 +765,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1300,
-        -160
+        1400,
+        -5
       ],
       "id": "3ef485c3-e15c-4079-a9da-747c50e6fe54",
       "name": "Index Quality Filter"
@@ -789,8 +798,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1300,
-        60
+        1400,
+        195
       ],
       "id": "61923a2c-ff4d-448c-9791-c5c521531d7c",
       "name": "Stock Quality Filter"
@@ -812,7 +821,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        4080,
+        3436,
         -480
       ],
       "id": "2341e466-3bcd-4b2e-b89a-ebf2cbb6c39d",
@@ -835,8 +844,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -140,
-        80
+        520,
+        220
       ],
       "id": "e9a26dbb-a1f0-49a0-bcac-dafc882f49bb",
       "name": "Webhook",
@@ -851,8 +860,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.2,
       "position": [
-        620,
-        280
+        960,
+        395
       ],
       "id": "c593d47f-f37d-4dcc-8bdc-c2f1b4801447",
       "name": "Respond to Webhook"
@@ -864,8 +873,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        100,
-        -160
+        520,
+        20
       ],
       "id": "ccad4ebd-e69a-46f2-bf7a-373fbb120007",
       "name": "Wait",
@@ -878,8 +887,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3560,
-        -160
+        2996,
+        -280
       ],
       "id": "30bce927-4aac-48e4-b63a-73018aa96046",
       "name": "Make Tweet"
@@ -891,7 +900,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3560,
+        2996,
         -480
       ],
       "id": "294a67e1-f6a5-4e64-b183-f93425a21e88",
@@ -934,8 +943,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        3820,
-        -160
+        3216,
+        -280
       ],
       "id": "8e16dd19-0614-4247-9017-b24374b073a6",
       "name": "Filter2"
@@ -948,8 +957,8 @@
       "type": "n8n-nodes-base.twitter",
       "typeVersion": 2,
       "position": [
-        4080,
-        -160
+        3436,
+        -280
       ],
       "id": "ea14a923-d7cb-492d-9ead-cfb49586ff8d",
       "name": "X1",
@@ -969,8 +978,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
       "typeVersion": 1,
       "position": [
-        2860,
-        280
+        2400,
+        242.5
       ],
       "id": "b4bd2271-cf65-4723-a298-b8a1b3e68ffb",
       "name": "Auto-fixing Output Parser"
@@ -983,8 +992,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2860,
-        500
+        2428,
+        440
       ],
       "id": "cd7870e3-dda8-4087-9b1d-6100e28a7a1c",
       "name": "Groq Chat Model1",
@@ -1002,11 +1011,58 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2180,
-        -160
+        1840,
+        -5
       ],
       "id": "058b9e3c-368a-41e3-b11a-326339679981",
       "name": "Get Time"
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date();\nconst options = { timeZone: 'America/New_York', hour12: false };\n\n// Extract EST components\nconst estHour = parseInt(now.toLocaleString('en-US', { ...options, hour: '2-digit' }));\nconst estMinute = parseInt(now.toLocaleString('en-US', { ...options, minute: '2-digit' }));\nconst weekday = now.toLocaleString('en-US', { ...options, weekday: 'short' });\n\n// Check if weekday is Mon–Fri\nconst isWeekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].includes(weekday);\n\n// Check if time is between 9:30 AM and 4:00 PM EST\nconst afterOpen = estHour > 9 || (estHour === 9 && estMinute >= 30);\nconst beforeClose = estHour < 16;\n\nif (isWeekday && afterOpen && beforeClose) {\n  return [{ run: true }];\n} else {\n  return [];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        20
+      ],
+      "id": "1cbad5d8-1416-41dc-accf-97efc2adec6e",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "55d562fe-3713-4e68-afab-39c14288ebdc",
+              "leftValue": "={{ $json.run }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        20
+      ],
+      "id": "4db3bc72-4fd1-4c1a-9a0e-5e2f1fdc4b84",
+      "name": "Filter3"
     }
   ],
   "pinData": {
@@ -1525,7 +1581,18 @@
         "SLV|20251017|34.50C",
         "QQQ|20250616|526.00C",
         "MSFT|20250627|477.50C",
-        "KRE|20251017|51.00P"
+        "KRE|20251017|51.00P",
+        "SPY|20250626|601.00C",
+        "SPY|20250626|599.00C",
+        "BAC|20250711|41.00P",
+        "SPY|20250815|455.00P",
+        "SPY|20250815|410.00P",
+        "TMC|20250718|4.50P",
+        "SMR|20250815|50.00C",
+        "VRNA|20250718|75.00P",
+        "ARKK|20250718|64.00P",
+        "MPW|20250919|4.00P",
+        "SNAP|20250815|6.00P"
       ],
       "tweetedOptionSymbols": [
         "QQQ|20250512|430.00P",
@@ -2199,7 +2266,18 @@
         "SLV|20251017|34.50C",
         "QQQ|20250616|526.00C",
         "MSFT|20250627|477.50C",
-        "KRE|20251017|51.00P"
+        "KRE|20251017|51.00P",
+        "SPY|20250626|601.00C",
+        "SPY|20250626|599.00C",
+        "BAC|20250711|41.00P",
+        "SPY|20250815|455.00P",
+        "SPY|20250815|410.00P",
+        "TMC|20250718|4.50P",
+        "SMR|20250815|50.00C",
+        "VRNA|20250718|75.00P",
+        "ARKK|20250718|64.00P",
+        "MPW|20250919|4.00P",
+        "SNAP|20250815|6.00P"
       ]
     }
   },
@@ -2212,6 +2290,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2025-06-15T21:02:39.000Z",
-  "versionId": "b82a2a1b-4e17-4188-8733-b8633ae57d0d"
+  "updatedAt": "2025-06-16T14:16:29.000Z",
+  "versionId": "adb47fb1-60dd-4c08-b12d-540a4e182c07"
 }
