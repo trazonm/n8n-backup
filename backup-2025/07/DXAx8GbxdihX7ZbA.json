@@ -1,0 +1,109 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "Clear Downloads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-07-04T19:51:44.920Z",
+  "id": "DXAx8GbxdihX7ZbA",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Delete BakaWorld Downloads every 30 days",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -280,
+        0
+      ],
+      "id": "7cb0912a-5fb0-49b7-8632-eb4aae256336",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE users\nSET downloads = '[]'::jsonb\nWHERE username = 'bakaboi341';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        440,
+        0
+      ],
+      "id": "995e2c38-63cc-4216-a7c7-7b5638be9c1e",
+      "name": "Clear Downloads",
+      "credentials": {
+        "postgres": {
+          "id": "63Uzmf3H0VuXxdXP",
+          "name": "BakaWorld DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  downloads_item ->> 'id' AS download_id \nFROM \n  users, \n  LATERAL jsonb_array_elements(downloads) AS downloads_item \nWHERE \n  downloads IS NOT NULL \n  AND username = 'bakaboi341';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -60,
+        0
+      ],
+      "id": "9058c5da-6655-45f6-8524-2149d5cd1ca2",
+      "name": "Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "63Uzmf3H0VuXxdXP",
+          "name": "BakaWorld DB"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-07-04T20:26:01.000Z",
+  "versionId": "88cb6cb6-504c-434d-9786-07803ed2de82"
+}
