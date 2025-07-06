@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Schedule Trigger": {
       "main": [
@@ -13,6 +13,17 @@
       ]
     },
     "Postgres": {
+      "main": [
+        [
+          {
+            "node": "Delete Download(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Download(s)": {
       "main": [
         [
           {
@@ -54,13 +65,13 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE users\nSET downloads = '[]'::jsonb\nWHERE username = 'bakaboi341';",
+        "query": "UPDATE users\nSET downloads = '[]'::jsonb",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        440,
+        380,
         0
       ],
       "id": "995e2c38-63cc-4216-a7c7-7b5638be9c1e",
@@ -75,7 +86,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT \n  downloads_item ->> 'id' AS download_id \nFROM \n  users, \n  LATERAL jsonb_array_elements(downloads) AS downloads_item \nWHERE \n  downloads IS NOT NULL \n  AND username = 'bakaboi341';",
+        "query": "SELECT \n  downloads_item ->> 'id' AS download_id \nFROM \n  users, \n  LATERAL jsonb_array_elements(downloads) AS downloads_item \nWHERE \n  downloads IS NOT NULL;",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -92,6 +103,40 @@
           "name": "BakaWorld DB"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://api.real-debrid.com/rest/1.0/torrents/delete/{{ $json.download_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        0
+      ],
+      "id": "60118b5d-7cea-4de7-bba2-9c8861594555",
+      "name": "Delete Download(s)",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "nD7ei1tu51CS9KxZ",
+          "name": "Google Gemini API Key"
+        },
+        "httpBearerAuth": {
+          "id": "mSOiWK3SFXOS21ri",
+          "name": "RD Token"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -101,9 +146,13 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-07-04T20:26:01.000Z",
-  "versionId": "88cb6cb6-504c-434d-9786-07803ed2de82"
+  "triggerCount": 1,
+  "updatedAt": "2025-07-05T19:59:42.000Z",
+  "versionId": "955e8ad3-2821-435d-9566-f9fa77cf2ca6"
 }
