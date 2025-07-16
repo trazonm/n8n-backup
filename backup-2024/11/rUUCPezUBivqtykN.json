@@ -143,7 +143,7 @@
       "typeVersion": 1.2,
       "position": [
         700,
-        340
+        250
       ]
     },
     {
@@ -155,8 +155,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        1960,
-        340
+        1580,
+        250
       ]
     },
     {
@@ -168,8 +168,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1580,
-        340
+        1360,
+        250
       ]
     },
     {
@@ -185,7 +185,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        2200,
+        1800,
         100
       ],
       "executeOnce": true,
@@ -216,8 +216,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2360,
-        360
+        1800,
+        300
       ]
     },
     {
@@ -261,8 +261,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2580,
-        360
+        2020,
+        300
       ]
     },
     {
@@ -287,8 +287,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2780,
-        360
+        2240,
+        300
       ],
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
@@ -315,8 +315,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2980,
-        360
+        2460,
+        300
       ],
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
@@ -333,8 +333,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1000,
-        500
+        920,
+        300
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -355,8 +355,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1000,
-        220
+        920,
+        100
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -370,32 +370,14 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1320,
-        340
+        1140,
+        250
       ],
       "id": "72a36961-7a4d-441e-8517-8ad0ebb80be3",
       "name": "Merge"
     }
   ],
-  "pinData": {
-    "Schedule Trigger": [
-      {
-        "json": {
-          "timestamp": "2024-11-18T05:00:24.012-05:00",
-          "Readable date": "November 18th 2024, 5:00:24 am",
-          "Readable time": "5:00:24 am",
-          "Day of week": "Monday",
-          "Year": "2024",
-          "Month": "November",
-          "Day of month": "18",
-          "Hour": "05",
-          "Minute": "00",
-          "Second": "24",
-          "Timezone": "America/New_York (UTC-05:00)"
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -418,6 +400,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-04-24T04:24:51.000Z",
-  "versionId": "ce154fca-eb88-47d6-8298-ab36320ed7af"
+  "updatedAt": "2025-07-16T02:49:52.000Z",
+  "versionId": "a4abd25b-c170-4c18-b8bb-37ca3cc84688"
 }
