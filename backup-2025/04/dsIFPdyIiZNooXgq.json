@@ -33,6 +33,17 @@
           }
         ]
       ]
+    },
+    "SSH": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-24T03:23:40.547Z",
@@ -128,9 +139,31 @@
       ],
       "id": "51925203-bd93-4856-a548-f0355cc073b3",
       "name": "Local File Trigger"
+    },
+    {
+      "parameters": {
+        "command": "=rm {{ $('Local File Trigger').item.json.path }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        880,
+        0
+      ],
+      "id": "6d576b8a-a237-4590-8dda-abe4fc675b51",
+      "name": "Execute Command"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Local File Trigger": [
+      {
+        "json": {
+          "event": "add",
+          "path": "/home/node/n8n-watched/plexmediaserver_1.42.0.9975-6b2b441e1_amd64 (1).deb"
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -153,6 +186,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-28T17:43:03.000Z",
-  "versionId": "de3ddf17-5b8e-4532-aa92-ef27e0c0dfb7"
+  "updatedAt": "2025-07-16T02:41:18.000Z",
+  "versionId": "80b12432-f212-4e91-b5b2-8b06719d8ceb"
 }
