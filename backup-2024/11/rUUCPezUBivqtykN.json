@@ -131,7 +131,6 @@
         "rule": {
           "interval": [
             {
-              "daysInterval": 2,
               "triggerAtHour": 5
             }
           ]
@@ -142,8 +141,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        700,
-        250
+        704,
+        256
       ]
     },
     {
@@ -155,8 +154,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        1580,
-        250
+        1584,
+        256
       ]
     },
     {
@@ -169,7 +168,7 @@
       "typeVersion": 2,
       "position": [
         1360,
-        250
+        256
       ]
     },
     {
@@ -185,8 +184,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1800,
-        100
+        1808,
+        112
       ],
       "executeOnce": true,
       "webhookId": "356312cb-cf09-4a32-846d-ad1aa7ca133e",
@@ -216,8 +215,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1800,
-        300
+        1808,
+        304
       ]
     },
     {
@@ -261,8 +260,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2020,
-        300
+        2032,
+        304
       ]
     },
     {
@@ -288,7 +287,7 @@
       "typeVersion": 4.2,
       "position": [
         2240,
-        300
+        304
       ],
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
@@ -315,8 +314,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2460,
-        300
+        2464,
+        304
       ],
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
@@ -333,8 +332,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        920,
-        300
+        928,
+        304
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -355,8 +354,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        920,
-        100
+        928,
+        112
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -370,8 +369,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1140,
-        250
+        1152,
+        256
       ],
       "id": "72a36961-7a4d-441e-8517-8ad0ebb80be3",
       "name": "Merge"
@@ -400,6 +399,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-16T02:49:52.000Z",
-  "versionId": "a4abd25b-c170-4c18-b8bb-37ca3cc84688"
+  "updatedAt": "2025-07-16T19:18:51.000Z",
+  "versionId": "41d6f2af-2f97-442f-95ba-89e52b742c63"
 }
