@@ -131,6 +131,7 @@
         "rule": {
           "interval": [
             {
+              "daysInterval": 2,
               "triggerAtHour": 5
             }
           ]
@@ -399,6 +400,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-16T19:18:51.000Z",
-  "versionId": "41d6f2af-2f97-442f-95ba-89e52b742c63"
+  "updatedAt": "2025-07-22T13:39:07.000Z",
+  "versionId": "74499ed4-78b1-44c0-b66c-b9948ff1ac3f"
 }
