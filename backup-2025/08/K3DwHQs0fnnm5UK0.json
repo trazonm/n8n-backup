@@ -1,0 +1,193 @@
+{
+  "active": true,
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-13T03:11:04.119Z",
+  "id": "K3DwHQs0fnnm5UK0",
+  "isArchived": false,
+  "meta": {
+    "templateId": "rag-starter-template",
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Arize Demo",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.0.190:8000/ingest",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "file"
+            },
+            {
+              "name": "filename",
+              "value": "={{ $json.file.filename }}"
+            },
+            {
+              "name": "documentType",
+              "value": "={{ $json.file.mimetype }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        816
+      ],
+      "id": "4f087385-1516-489d-89b2-397db88b315e",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "formTitle": "Upload File for Context",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "file",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".pdf, .csv",
+              "requiredField": true
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "appendAttribution": false,
+          "path": "upload",
+          "respondWithOptions": {
+            "values": {
+              "respondWith": "redirect",
+              "redirectUrl": "https://bakaflow.gleeze.com/webhook/a7838423-1c4c-4989-84c3-7a7d9f710fb6/chat"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -432,
+        816
+      ],
+      "id": "6a85f54d-2443-4336-a33e-6d784780f317",
+      "name": "On form submission",
+      "webhookId": "0a656c88-e4ce-4719-be48-f25ba1d47d28"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.0.190:8000/ask",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "question",
+              "value": "={{ $json.chatInput }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -192,
+        592
+      ],
+      "id": "0d5773cc-80c8-4136-b8f1-84db5a8f815c",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {
+          "allowFileUploads": false,
+          "loadPreviousSession": "notSupported",
+          "responseMode": "responseNode"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -432,
+        592
+      ],
+      "id": "23b619a7-9f0d-4718-926b-c0a0a3deb523",
+      "name": "When chat message received",
+      "webhookId": "a7838423-1c4c-4989-84c3-7a7d9f710fb6"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.answer }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        16,
+        592
+      ],
+      "id": "36bbac69-b0d6-41e4-a339-97c5f771ed59",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2025-08-13T04:21:20.000Z",
+  "versionId": "eafe7d01-115a-40ed-ae2d-4cfdcf16d631"
+}
