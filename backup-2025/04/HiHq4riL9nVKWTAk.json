@@ -387,8 +387,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -140,
-        20
+        -144,
+        16
       ],
       "id": "4a45c39d-21d4-4e48-91c7-7015548069fa",
       "name": "Schedule Trigger"
@@ -401,8 +401,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        740,
-        120
+        752,
+        112
       ],
       "id": "81a2d5fb-0cde-448d-8841-2be57fa296af",
       "name": "Get Stock Options"
@@ -423,8 +423,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.6,
       "position": [
-        2296,
-        20
+        2336,
+        16
       ],
       "id": "d1f984d1-33fa-426f-887a-94c6c3c1e25e",
       "name": "Basic LLM Chain",
@@ -443,7 +443,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2280,
+        2320,
         240
       ],
       "id": "9b6b0106-99d4-4ded-945b-132358da77ec",
@@ -462,8 +462,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        2548,
-        440
+        2608,
+        448
       ],
       "id": "2d1b238c-6743-48d5-9569-3cc5aa31e6e1",
       "name": "Structured Output Parser"
@@ -478,8 +478,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        2060,
-        -5
+        2096,
+        0
       ],
       "id": "2f50df75-cad7-404c-ba9a-4d286a822aff",
       "name": "Loop Over Items"
@@ -492,8 +492,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        960,
-        -205
+        976,
+        -192
       ],
       "id": "053e345e-cfea-4038-8827-1b3c798fd92c",
       "name": "ETFs"
@@ -506,8 +506,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        960,
-        -5
+        976,
+        0
       ],
       "id": "fba36e2b-4839-44a0-bcc4-02de7e32c70f",
       "name": "Indices"
@@ -520,8 +520,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        960,
-        195
+        976,
+        192
       ],
       "id": "7ee732f1-342c-4551-a002-0f9be8695e27",
       "name": "Stocks"
@@ -534,8 +534,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2776,
-        95
+        2848,
+        96
       ],
       "id": "2e531336-7d8f-4ccb-8dda-19d46c589709",
       "name": "Code"
@@ -567,8 +567,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2418,
-        -380
+        2472,
+        -384
       ],
       "id": "a424a917-0c68-4270-add3-7d694209a036",
       "name": "Filter"
@@ -591,8 +591,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1180,
-        195
+        1200,
+        192
       ],
       "id": "451b6360-9bfc-4b48-ade6-543e62713d19",
       "name": "stock_category"
@@ -615,8 +615,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1180,
-        -5
+        1200,
+        0
       ],
       "id": "1ea3fd23-5cd2-4dac-9ab7-6fe72bff2e1b",
       "name": "index_categorgy"
@@ -628,8 +628,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1620,
-        -5
+        1648,
+        -16
       ],
       "id": "8c42ec29-d8bb-4eeb-b0ae-d6439e8e330d",
       "name": "Merge"
@@ -652,8 +652,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1180,
-        -205
+        1200,
+        -192
       ],
       "id": "ad3c028b-b484-4f30-b956-b299edc29fcf",
       "name": "etf_category"
@@ -666,8 +666,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        2776,
-        -380
+        2848,
+        -384
       ],
       "id": "f9681726-88bd-4e54-a038-f94b4c40ede7",
       "name": "Aggregate"
@@ -699,7 +699,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        3216,
+        3296,
         -480
       ],
       "id": "f8b9d4db-ace6-441b-a9c1-5cfdb880cf33",
@@ -732,8 +732,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1400,
-        -205
+        1424,
+        -192
       ],
       "id": "c25cc25b-6860-4258-9a92-2c2f517b1228",
       "name": "ETF Quality Filter"
@@ -765,8 +765,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1400,
-        -5
+        1424,
+        0
       ],
       "id": "3ef485c3-e15c-4079-a9da-747c50e6fe54",
       "name": "Index Quality Filter"
@@ -798,8 +798,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        1400,
-        195
+        1424,
+        192
       ],
       "id": "61923a2c-ff4d-448c-9791-c5c521531d7c",
       "name": "Stock Quality Filter"
@@ -821,7 +821,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3436,
+        3520,
         -480
       ],
       "id": "2341e466-3bcd-4b2e-b89a-ebf2cbb6c39d",
@@ -844,8 +844,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        520,
-        220
+        528,
+        208
       ],
       "id": "e9a26dbb-a1f0-49a0-bcac-dafc882f49bb",
       "name": "Webhook",
@@ -860,8 +860,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.2,
       "position": [
-        960,
-        395
+        976,
+        384
       ],
       "id": "c593d47f-f37d-4dcc-8bdc-c2f1b4801447",
       "name": "Respond to Webhook"
@@ -873,8 +873,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        520,
-        20
+        528,
+        16
       ],
       "id": "ccad4ebd-e69a-46f2-bf7a-373fbb120007",
       "name": "Wait",
@@ -887,8 +887,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2996,
-        -280
+        3072,
+        -288
       ],
       "id": "30bce927-4aac-48e4-b63a-73018aa96046",
       "name": "Make Tweet"
@@ -900,7 +900,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2996,
+        3072,
         -480
       ],
       "id": "294a67e1-f6a5-4e64-b183-f93425a21e88",
@@ -943,8 +943,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        3216,
-        -280
+        3296,
+        -288
       ],
       "id": "8e16dd19-0614-4247-9017-b24374b073a6",
       "name": "Filter2"
@@ -957,8 +957,8 @@
       "type": "n8n-nodes-base.twitter",
       "typeVersion": 2,
       "position": [
-        3436,
-        -280
+        3520,
+        -288
       ],
       "id": "ea14a923-d7cb-492d-9ead-cfb49586ff8d",
       "name": "X1",
@@ -978,8 +978,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
       "typeVersion": 1,
       "position": [
-        2400,
-        242.5
+        2448,
+        240
       ],
       "id": "b4bd2271-cf65-4723-a298-b8a1b3e68ffb",
       "name": "Auto-fixing Output Parser"
@@ -992,8 +992,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        2428,
-        440
+        2480,
+        448
       ],
       "id": "cd7870e3-dda8-4087-9b1d-6100e28a7a1c",
       "name": "Groq Chat Model1",
@@ -1011,8 +1011,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1840,
-        -5
+        1872,
+        0
       ],
       "id": "058b9e3c-368a-41e3-b11a-326339679981",
       "name": "Get Time"
@@ -1025,7 +1025,7 @@
       "typeVersion": 2,
       "position": [
         80,
-        20
+        16
       ],
       "id": "1cbad5d8-1416-41dc-accf-97efc2adec6e",
       "name": "Code1"
@@ -1058,8 +1058,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        300,
-        20
+        304,
+        16
       ],
       "id": "4db3bc72-4fd1-4c1a-9a0e-5e2f1fdc4b84",
       "name": "Filter3"
@@ -2272,7 +2272,40 @@
         "SPY|20250814|644.00P",
         "IONQ|20250822|43.50C",
         "SPY|20250813|644.00P",
-        "HPE|20250829|20.50P"
+        "HPE|20250829|20.50P",
+        "IWM|20250814|230.00P",
+        "QQQ|20250825|567.00P",
+        "QQQ|20250825|560.00P",
+        "RGTI|20250822|18.50C",
+        "AAP|20250822|54.00C",
+        "XRT|20250919|87.00C",
+        "MSOS|20250822|6.00C",
+        "NICE|20250919|130.00P",
+        "RIOT|20250912|13.50C",
+        "FDX|20250829|235.00C",
+        "SLV|20250926|32.50P",
+        "XBI|20250919|78.00P",
+        "ETHA|20250912|45.00C",
+        "APD|20251219|330.00C",
+        "CRWV|20250822|107.00P",
+        "IREN|20260320|40.00C",
+        "ONDS|20250912|3.00P",
+        "GLXY|20250822|26.00P",
+        "IWM|20250919|247.00C",
+        "EEM|20260320|46.00P",
+        "DIA|20250822|457.00C",
+        "PONY|20251219|15.00P",
+        "AES|20250822|12.50P",
+        "FXI|20250829|38.50C",
+        "UPST|20250822|66.00C",
+        "WULF|20250829|10.00C",
+        "WULF|20250919|6.00P",
+        "AFRM|20250822|72.00P",
+        "UPST|20250822|59.00P",
+        "SMR|20250822|37.00C",
+        "SPY|20260130|450.00P",
+        "CF|20250815|77.50C",
+        "RUN|20250829|9.50C"
       ],
       "tweetedOptionSymbols": [
         "QQQ|20250512|430.00P",
@@ -3637,7 +3670,40 @@
         "SPY|20250814|644.00P",
         "IONQ|20250822|43.50C",
         "SPY|20250813|644.00P",
-        "HPE|20250829|20.50P"
+        "HPE|20250829|20.50P",
+        "IWM|20250814|230.00P",
+        "QQQ|20250825|567.00P",
+        "QQQ|20250825|560.00P",
+        "RGTI|20250822|18.50C",
+        "AAP|20250822|54.00C",
+        "XRT|20250919|87.00C",
+        "MSOS|20250822|6.00C",
+        "NICE|20250919|130.00P",
+        "RIOT|20250912|13.50C",
+        "FDX|20250829|235.00C",
+        "SLV|20250926|32.50P",
+        "XBI|20250919|78.00P",
+        "ETHA|20250912|45.00C",
+        "APD|20251219|330.00C",
+        "CRWV|20250822|107.00P",
+        "IREN|20260320|40.00C",
+        "ONDS|20250912|3.00P",
+        "GLXY|20250822|26.00P",
+        "IWM|20250919|247.00C",
+        "EEM|20260320|46.00P",
+        "DIA|20250822|457.00C",
+        "PONY|20251219|15.00P",
+        "AES|20250822|12.50P",
+        "FXI|20250829|38.50C",
+        "UPST|20250822|66.00C",
+        "WULF|20250829|10.00C",
+        "WULF|20250919|6.00P",
+        "AFRM|20250822|72.00P",
+        "UPST|20250822|59.00P",
+        "SMR|20250822|37.00C",
+        "SPY|20260130|450.00P",
+        "CF|20250815|77.50C",
+        "RUN|20250829|9.50C"
       ]
     }
   },
@@ -3650,6 +3716,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2025-07-16T21:49:24.000Z",
-  "versionId": "adb47fb1-60dd-4c08-b12d-540a4e182c07"
+  "updatedAt": "2025-08-14T14:27:36.000Z",
+  "versionId": "6969a992-8639-4db0-81be-d321d0cfb9af"
 }
