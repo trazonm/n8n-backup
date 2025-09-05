@@ -413,6 +413,15 @@
   "settings": {
     "executionOrder": "v1"
   },
+  "shared": [
+    {
+      "createdAt": "2024-11-15T04:00:56.943Z",
+      "updatedAt": "2024-11-15T04:00:56.943Z",
+      "role": "workflow:owner",
+      "workflowId": "ocSADhSmeHL527zb",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
   "staticData": {
     "node:Reboot server": {
       "518-Reboot server": {
