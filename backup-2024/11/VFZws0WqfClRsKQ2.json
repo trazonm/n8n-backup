@@ -824,6 +824,15 @@
   "repo_owner": "trazonm",
   "repo_path": "backup-",
   "settings": {},
+  "shared": [
+    {
+      "createdAt": "2024-11-29T17:15:22.271Z",
+      "updatedAt": "2024-11-29T17:15:22.271Z",
+      "role": "workflow:owner",
+      "workflowId": "VFZws0WqfClRsKQ2",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": []
