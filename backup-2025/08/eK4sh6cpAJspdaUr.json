@@ -65,12 +65,7 @@
       "main": [
         [
           {
-            "node": "Code1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Get an execution",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -158,6 +153,46 @@
           }
         ]
       ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a channel": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-08-06T05:34:34.712Z",
@@ -187,7 +222,7 @@
       "typeVersion": 1.1,
       "position": [
         16,
-        1320
+        1120
       ],
       "id": "94aecac0-03f9-4915-932b-d14a2576607b",
       "name": "Default Data Loader"
@@ -195,6 +230,7 @@
     {
       "parameters": {
         "options": {
+          "systemMessage": "You are a domain-aware assistant that answers user questions using only the information retrieved from the knowledge index.\n\nRules:\n\nOnly use retrieved context for answers. Do not rely on general world knowledge unless explicitly supported by context.\n\nDo not hallucinate. If context is insufficient or conflicting, say so and request clarification or additional retrieval.\n\nCite sources for any claim. Use the format: Sources: [Document Title Section|p.X]. Keep citations minimal but specific.\n\nIgnore irrelevant or outdated context. Prefer canonical or recent sources.\n\nIf sources disagree, state the disagreement with citations.\n\nDo not expose secrets (API keys, credentials, PII). Redact and warn instead.\n\nProvide direct answers first, then rationale if useful, then citations.\n\nUse clear, concise language. Lists or tables only if they improve clarity.\n\nWhen evidence is weak, propose 1–3 targeted follow-up queries to improve retrieval.\n\nIf asked to perform actions outside of QA (running code, purchases, etc.), explain limitations and suggest safe alternatives.\n\nOutput style:\n\nConcise and neutral.\n\nFor procedures, use step-by-step.\n\nFor code, provide minimal runnable examples and note versions if known.\n\nWhen evidence is missing:\nSay “I don’t have enough evidence in the retrieved context to answer confidently.” Offer clarifying questions or retrieval suggestions.\n\nProhibited:\n\nFabricating facts or APIs.\n\nMixing guesses with cited facts.\n\nCopy-pasting long text; summarize instead (quote only when exact wording is required).",
           "returnIntermediateSteps": true
         }
       },
@@ -202,7 +238,7 @@
       "typeVersion": 2,
       "position": [
         -176,
-        384
+        288
       ],
       "id": "579aed76-9644-42d1-ac13-7369059ff1c2",
       "name": "AI Agent"
@@ -220,7 +256,7 @@
       "typeVersion": 1.1,
       "position": [
         -432,
-        592
+        496
       ],
       "id": "9c30de61-935a-471f-ae88-ec5f67beeefc",
       "name": "When chat message received",
@@ -232,7 +268,7 @@
       "typeVersion": 1,
       "position": [
         80,
-        816
+        720
       ],
       "id": "0047e212-7efc-435e-a2b2-d0bb53bd9315",
       "name": "Embeddings Google Gemini",
@@ -245,13 +281,15 @@
     },
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "temperature": 0.1
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
         -208,
-        608
+        512
       ],
       "id": "d4f789c1-921a-4f7c-9496-e0eb4beaf341",
       "name": "Google Gemini Chat Model",
@@ -268,7 +306,7 @@
       "typeVersion": 1.3,
       "position": [
         -80,
-        608
+        512
       ],
       "id": "351e447b-9658-41ea-8251-99b76fea65bf",
       "name": "Postgres Chat Memory",
@@ -333,8 +371,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1120,
-        688
+        240,
+        1328
       ],
       "id": "bb5dbd1e-5834-433b-bf2f-181f24685629",
       "name": "HTTP Request"
@@ -365,7 +403,7 @@
       "typeVersion": 2.2,
       "position": [
         -432,
-        1096
+        1008
       ],
       "id": "f7a656ec-83fc-4ed2-a089-57a9def662b7",
       "name": "Upload File",
@@ -377,7 +415,7 @@
       "typeVersion": 1,
       "position": [
         208,
-        816
+        720
       ],
       "id": "5a362027-1a0a-4092-9956-cd60f9b21113",
       "name": "Reranker Cohere",
@@ -395,26 +433,11 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        896,
-        688
+        16,
+        1328
       ],
       "id": "394391b6-8894-4cb9-8c5c-d96535c03c48",
       "name": "Code"
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\n  \"output\": {{ $json.output }}\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.4,
-      "position": [
-        672,
-        496
-      ],
-      "id": "1fcb48d5-1c7a-4eb7-9ad5-ed6ec57ff4c9",
-      "name": "Respond to Webhook"
     },
     {
       "parameters": {
@@ -425,7 +448,7 @@
       "typeVersion": 1.3,
       "position": [
         -80,
-        1096
+        896
       ],
       "id": "c2579249-ed02-49f6-a1c3-1123b2da05d2",
       "name": "Add File to Vector Store",
@@ -448,7 +471,7 @@
       "typeVersion": 1.3,
       "position": [
         48,
-        608
+        512
       ],
       "id": "b53757c8-36d4-462d-937f-069aa01fceed",
       "name": "Retrieve File(s) from Vector Store",
@@ -466,8 +489,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        448,
-        496
+        672,
+        400
       ],
       "id": "279f98a4-5416-4429-9564-d1551a8b946d",
       "name": "Code1"
@@ -479,8 +502,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        672,
-        688
+        -208,
+        1328
       ],
       "id": "3c4dfccb-46f2-476d-9cc6-5949f8a56f54",
       "name": "Code2"
@@ -498,8 +521,8 @@
       "type": "n8n-nodes-base.n8n",
       "typeVersion": 1,
       "position": [
-        448,
-        688
+        -432,
+        1328
       ],
       "id": "12a0bd66-924e-4e63-93ab-0963e3723ea9",
       "name": "Get an execution",
@@ -509,6 +532,155 @@
           "name": "n8n account"
         }
       }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intermediateSteps }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "5fe591d8-d4e9-45bf-b1e5-6f4db4fc9ac5"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "09f8d88d-e611-49b9-8a62-bd46c31fc2a5",
+                    "leftValue": "={{ $json.intermediateSteps }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        448,
+        496
+      ],
+      "id": "50c750f3-a040-4f73-9093-5c9c686c265f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"output\": {{ $json.output }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        896,
+        400
+      ],
+      "id": "1fcb48d5-1c7a-4eb7-9ad5-ed6ec57ff4c9",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "operation": "sendAndWait",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1313893408166772756",
+          "mode": "list",
+          "cachedResultName": "testing2",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1313893408166772756"
+        },
+        "message": "=A user has a query that the chat bot couldn't handle:\n\nUser Input: {{ $('When chat message received').item.json.chatInput }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        672,
+        592
+      ],
+      "id": "a3d2b528-7aae-47a4-b862-bca350b228ed",
+      "name": "Create a channel",
+      "webhookId": "f29de0b3-5466-489f-a425-40ca30260f3f",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"output\": \"{{ $json.output }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1168,
+        592
+      ],
+      "id": "1cb3baf6-ca75-4b22-969f-0d88f704f256",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "jsCode": "let output = $input.first().json.data.text;\n\nreturn [\n  {\n    json: {\n      output: output\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        592
+      ],
+      "id": "c1d01ea4-151f-4513-b802-8dc6c120fa1f",
+      "name": "Code3"
     }
   ],
   "pinData": {
@@ -534,9 +706,18 @@
   "settings": {
     "executionOrder": "v1"
   },
+  "shared": [
+    {
+      "createdAt": "2025-08-06T05:34:34.720Z",
+      "updatedAt": "2025-08-06T05:34:34.720Z",
+      "role": "workflow:owner",
+      "workflowId": "eK4sh6cpAJspdaUr",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-08-06T23:02:20.000Z",
-  "versionId": "c2616d3b-6af4-479e-a1d8-f6e240495f30"
+  "updatedAt": "2025-09-05T03:57:05.000Z",
+  "versionId": "c6626770-9049-43d7-a7ad-5f52a2b70454"
 }
