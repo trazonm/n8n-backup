@@ -1,0 +1,83 @@
+{
+  "active": false,
+  "connections": {
+    "Discord Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send to Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T19:14:05.085Z",
+  "id": "oB2Q3sv9UGeCjwpN",
+  "isArchived": false,
+  "meta": null,
+  "name": "Discord Notifications Handler [ACTIVE]",
+  "nodes": [
+    {
+      "id": "webhook_1",
+      "name": "Discord Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {
+        "path": "discord-notify",
+        "method": "POST",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      }
+    },
+    {
+      "id": "discord_1",
+      "name": "Send to Discord",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "channel": "={{ $env.DISCORD_CHANNEL_ID }}",
+        "messageContent": "={{ $json.content }}",
+        "embeds": "={{ $json.embeds || [] }}",
+        "options": {}
+      }
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "executionTimeout": 60
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T19:14:05.087Z",
+      "updatedAt": "2025-09-13T19:14:05.087Z",
+      "role": "workflow:owner",
+      "workflowId": "oB2Q3sv9UGeCjwpN",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:14:36.057Z",
+  "versionId": "5e9d41f2-4c04-40a9-9acd-65de980f2f8b"
+}
