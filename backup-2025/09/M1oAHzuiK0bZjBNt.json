@@ -1,0 +1,206 @@
+{
+  "active": false,
+  "connections": {
+    "Log Results": {
+      "main": [
+        []
+      ]
+    },
+    "Score & Report": {
+      "main": [
+        [
+          {
+            "node": "Discord Notification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process All Data": {
+      "main": [
+        [
+          {
+            "node": "Score & Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch All Sources": {
+      "main": [
+        [
+          {
+            "node": "Process All Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Test Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch All Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Notification": {
+      "main": [
+        [
+          {
+            "node": "Log Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T18:52:30.797Z",
+  "id": "M1oAHzuiK0bZjBNt",
+  "isArchived": true,
+  "meta": null,
+  "name": "Niche Hunter - FIXED DISCORD ✅",
+  "nodes": [
+    {
+      "id": "manual-trigger",
+      "name": "Manual Test Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        100,
+        200
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "fetch-all",
+      "name": "Fetch All Sources",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        320,
+        200
+      ],
+      "parameters": {
+        "jsCode": "// Mock data for testing\nconst mockData = [\n  {\n    label: 'notion template',\n    signals: {\n      reddit_posts: 20,\n      reddit_questions: 8,\n      reddit_upvotes: 1200,\n      gum_count: 25,\n      gum_avg_price: 15,\n      trend_ratio: 1.2,\n      pinterest_signal: 45\n    }\n  },\n  {\n    label: 'client onboarding',\n    signals: {\n      reddit_posts: 15,\n      reddit_questions: 12,\n      reddit_upvotes: 800,\n      gum_count: 18,\n      gum_avg_price: 22,\n      trend_ratio: 1.4,\n      pinterest_signal: 38\n    }\n  },\n  {\n    label: 'meal prep guide',\n    signals: {\n      reddit_posts: 18,\n      reddit_questions: 6,\n      reddit_upvotes: 950,\n      gum_count: 32,\n      gum_avg_price: 12,\n      trend_ratio: 0.8,\n      pinterest_signal: 52\n    }\n  }\n];\n\nconsole.log('Using mock data for testing');\nreturn mockData.map(item => ({ json: item }));"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "process-data",
+      "name": "Process All Data",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        540,
+        200
+      ],
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconsole.log(`Processing ${items.length} items`);\n\nconst validItems = items.filter(item => item.json && !item.json.error);\n\nif (validItems.length === 0) {\n  console.log('No valid data to process');\n  return [{\n    json: {\n      processed_niches: [],\n      timestamp: new Date().toISOString(),\n      status: 'no_data'\n    }\n  }];\n}\n\nconsole.log(`Found ${validItems.length} valid niches to process`);\n\nconst result = {\n  processed_niches: validItems.map(item => item.json),\n  timestamp: new Date().toISOString(),\n  status: 'success'\n};\n\nreturn [{ json: result }];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "score-report",
+      "name": "Score & Report",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        760,
+        200
+      ],
+      "parameters": {
+        "jsCode": "const data = $input.item.json;\n\nif (data.status !== 'success' || !data.processed_niches) {\n  const errorResult = {\n    report: {\n      top_3: [],\n      winner: null,\n      error: 'No data available for scoring'\n    },\n    discord_message: '🎯 **Daily Niche Hunter Report**\\n\\n❌ No data available for analysis.',\n    timestamp: new Date().toISOString()\n  };\n  return [{ json: errorResult }];\n}\n\nconst niches = data.processed_niches;\n\n// Score each niche\nconst scoredNiches = niches.map(niche => {\n  const signals = niche.signals;\n  \n  const demand = Math.min(signals.reddit_questions / 5, 1) * 20 + Math.min(signals.reddit_upvotes / 500, 1) * 15;\n  const monet = Math.min(signals.gum_count / 20, 1) * 10 + Math.min(signals.gum_avg_price / 40, 1) * 15;\n  const comp = (1 - Math.min(signals.gum_count / 30, 1)) * 20;\n  const trend = Math.min(signals.trend_ratio / 1.3, 1) * 15 + Math.min(signals.pinterest_signal / 50, 1) * 5;\n  const total = Math.round(demand + monet + comp + trend);\n  \n  const go = total >= 65 && signals.gum_avg_price >= 9 && signals.trend_ratio >= 0.9 && signals.gum_count <= 45;\n  \n  return {\n    label: niche.label,\n    signals: signals,\n    scores: {\n      demand: Math.round(demand),\n      monet: Math.round(monet),\n      comp: Math.round(comp),\n      trend: Math.round(trend),\n      total: total\n    },\n    go: go\n  };\n});\n\n// Sort by total score descending\nscoredNiches.sort((a, b) => b.scores.total - a.scores.total);\nconst top3 = scoredNiches.slice(0, 3);\n\n// Product ideas and pricing functions\nfunction getProductIdea(niche) {\n  const templates = [\n    'Complete ' + niche + ' Template Bundle',\n    niche + ' Checklist & Planning Kit',\n    'Ultimate ' + niche + ' Guide with Templates'\n  ];\n  return templates[Math.floor(Math.random() * templates.length)];\n}\n\nfunction suggestPrice(scores) {\n  if (scores.total >= 80) return 29;\n  if (scores.total >= 70) return 19;\n  return 12;\n}\n\n// Create report\nconst report = {\n  top_3: top3.map(item => ({\n    niche: item.label,\n    score: item.scores.total,\n    product_idea: getProductIdea(item.label),\n    price_usd: suggestPrice(item.scores),\n    go: item.go\n  })),\n  winner: null\n};\n\n// Set winner\nconst winner = top3.find(item => item.go) || top3[0];\nif (winner) {\n  const baseKeywords = ['template', 'checklist', 'planner', 'guide', 'notion'];\n  const nicheTokens = winner.label.toLowerCase().split(/[\\s+]+/).filter(t => t.length > 2);\n  const seedKeywords = [...new Set([...nicheTokens, ...baseKeywords])].slice(0, 8);\n  \n  report.winner = {\n    niche: winner.label,\n    seed_keywords: seedKeywords,\n    score: winner.scores.total\n  };\n}\n\n// Create Discord message - COMPLETELY FIXED\nlet message = '🎯 **Daily Niche Hunter Report** - ' + new Date().toLocaleDateString() + '\\n\\n**TOP 3 NICHES:**\\n\\n';\n\n// Use simple string concatenation to avoid template issues\nfor (let i = 0; i < top3.length; i++) {\n  const item = top3[i];\n  const goEmoji = item.go ? '✅ GO' : '⏸️ HOLD';\n  const productName = getProductIdea(item.label);\n  const priceAmount = suggestPrice(item.scores);\n  \n  message += '**' + (i + 1) + '. ' + item.label + '** (' + goEmoji + ')\\n';\n  message += '   📊 Score: ' + item.scores.total + '/100\\n';\n  message += '   💡 Product: ' + productName + '\\n';\n  message += '   💰 Price: $' + priceAmount + '\\n\\n';\n}\n\nif (report.winner) {\n  message += '🏆 **WINNER:** ' + report.winner.niche + '\\n';\n  message += '🔑 **Keywords:** ' + report.winner.seed_keywords.join(', ') + '\\n\\n';\n} else {\n  message += '❌ **No winner** - No niches met Go criteria.\\n\\n';\n}\n\nmessage += '*Analyzed ' + niches.length + ' niches*';\n\nconst finalResult = {\n  report: report,\n  discord_message: message,\n  timestamp: data.timestamp,\n  analyzed_count: niches.length\n};\n\nreturn [{ json: finalResult }];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "discord-notify",
+      "name": "Discord Notification",
+      "type": "n8n-nodes-base.discord",
+      "onError": "continueRegularOutput",
+      "position": [
+        980,
+        100
+      ],
+      "parameters": {
+        "content": "={{ $json.discord_message }}",
+        "guildId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "745447586697052201",
+          "cachedResultName": "BakaBoi's Mall"
+        },
+        "resource": "message",
+        "channelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1416490152985104494",
+          "cachedResultName": "niche-hunter"
+        },
+        "authentication": "oAuth2"
+      },
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "log-results",
+      "name": "Log Results",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        980,
+        300
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "execution_log",
+              "name": "execution_log",
+              "type": "object",
+              "value": "={{ {\n  timestamp: $json.timestamp || $now.toISO(),\n  analyzed_count: $json.analyzed_count || 0,\n  top_niche: $json.report && $json.report.top_3 && $json.report.top_3.length > 0 ? $json.report.top_3[0].niche : 'none',\n  winner: $json.report && $json.report.winner ? $json.report.winner.niche : 'none',\n  winner_score: $json.report && $json.report.winner ? $json.report.winner.score : 0,\n  status: 'completed'\n} }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T18:52:30.799Z",
+      "updatedAt": "2025-09-13T18:52:30.799Z",
+      "role": "workflow:owner",
+      "workflowId": "M1oAHzuiK0bZjBNt",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:18:58.000Z",
+  "versionId": "ed3b6d37-d9f2-4d87-b5ad-a51ee1d45af3"
+}
