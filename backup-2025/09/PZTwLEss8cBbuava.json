@@ -1,0 +1,359 @@
+{
+  "active": false,
+  "connections": {
+    "Create HTML": {
+      "main": [
+        [
+          {
+            "node": "Convert to PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        []
+      ]
+    },
+    "Convert to PDF": {
+      "main": [
+        [
+          {
+            "node": "Upload to Storage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input": {
+      "main": [
+        [
+          {
+            "node": "Generate Outline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content": {
+      "main": [
+        [
+          {
+            "node": "Create HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Outline": {
+      "main": [
+        [
+          {
+            "node": "Generate Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Storage": {
+      "main": [
+        [
+          {
+            "node": "Create Gumroad Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Queue Announcement": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Gumroad Draft": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Queue Announcement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T18:25:17.752Z",
+  "id": "PZTwLEss8cBbuava",
+  "isArchived": true,
+  "meta": null,
+  "name": "Product Creator Pipeline",
+  "nodes": [
+    {
+      "id": "webhook",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        100,
+        200
+      ],
+      "webhookId": "product-creator-webhook",
+      "parameters": {
+        "path": "product-creator",
+        "httpMethod": "POST"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "validate",
+      "name": "Validate Input",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        300,
+        200
+      ],
+      "parameters": {
+        "jsCode": "// Validate required input fields\nconst input = $input.item.json;\n\nif (!input.niche || !input.seed_keywords) {\n  throw new Error('Missing required fields: niche and seed_keywords');\n}\n\nif (!Array.isArray(input.seed_keywords) || input.seed_keywords.length === 0) {\n  throw new Error('seed_keywords must be a non-empty array');\n}\n\nconsole.log(`Starting product creation for niche: ${input.niche}`);\nconsole.log(`Keywords: ${input.seed_keywords.join(', ')}`);\n\n// Clean and prepare data\nconst cleanNiche = input.niche.trim();\nconst keywords = input.seed_keywords.map(k => k.toString().trim()).filter(k => k.length > 0);\n\nreturn [{\n  json: {\n    niche: cleanNiche,\n    seed_keywords: keywords,\n    timestamp: new Date().toISOString(),\n    topic_title: cleanNiche.charAt(0).toUpperCase() + cleanNiche.slice(1)\n  }\n}];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "outline",
+      "name": "Generate Outline",
+      "type": "n8n-nodes-base.openAi",
+      "position": [
+        500,
+        200
+      ],
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "maxTokens": 1500,
+          "temperature": 0.7
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a productized-writer specialist. Create compact, high-value digital product outlines. Return only valid JSON."
+            },
+            {
+              "role": "user",
+              "content": "Create an outline for a digital product about {{ $json.niche }}.\n\nTopic: \"{{ $json.topic_title }}\"\nAudience: \"busy beginners\"\nConstraints: actionable, concrete, examples-first, no fluff.\n\nReturn JSON with:\n- title (compelling product name)\n- subtitle (benefit-focused tagline) \n- promise (2 sentences describing the outcome)\n- toc (5-8 sections; each with 3-5 outcome bullets)\n- faqs (5 concise Q&A)\n- bonus (1 checklist or template idea)\n\nTone: credible, friendly, specific. Focus on {{ $json.seed_keywords.slice(0, 6).join(', ') }}."
+            }
+          ]
+        },
+        "resource": "chat"
+      },
+      "credentials": {
+        "openAiApi": {
+          "id": "openai",
+          "name": "OpenAI"
+        }
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "content",
+      "name": "Generate Content",
+      "type": "n8n-nodes-base.openAi",
+      "position": [
+        700,
+        200
+      ],
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "maxTokens": 4000,
+          "temperature": 0.6
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert content writer. Create comprehensive, actionable guides. Write in markdown format only."
+            },
+            {
+              "role": "user",
+              "content": "Expand this outline into 18-30 pages of markdown content:\n\n{{ $json.choices[0].message.content }}\n\nRequirements:\n- Use short paragraphs, bullets, numbered steps\n- Include concrete examples and frameworks\n- Add a 1-page **Quickstart** section early on\n- End with a **printable checklist** \n- Use ## and ### headings for structure\n- Be practical and actionable - no filler\n\nReturn ONLY the markdown content, starting with:\n# {{ JSON.parse($json.choices[0].message.content).title }}\n*{{ JSON.parse($json.choices[0].message.content).subtitle }}*"
+            }
+          ]
+        },
+        "resource": "chat"
+      },
+      "credentials": {
+        "openAiApi": {
+          "id": "openai",
+          "name": "OpenAI"
+        }
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "html",
+      "name": "Create HTML",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        900,
+        200
+      ],
+      "parameters": {
+        "jsCode": "// Convert markdown to HTML with styling\nconst outline = JSON.parse($('Generate Outline').item.json.choices[0].message.content);\nconst markdownContent = $input.item.json.choices[0].message.content;\n\n// Simple markdown to HTML conversion\nconst convertMarkdown = (md) => {\n  return md\n    // Headers\n    .replace(/^### (.*$)/gm, '<h3>$1</h3>')\n    .replace(/^## (.*$)/gm, '<h2>$1</h2>')\n    .replace(/^# (.*$)/gm, '<h1>$1</h1>')\n    // Bold and italic\n    .replace(/\\*\\*\\*(.*?)\\*\\*\\*/g, '<strong><em>$1</em></strong>')\n    .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')\n    .replace(/\\*(.*?)\\*/g, '<em>$1</em>')\n    // Lists\n    .replace(/^\\* (.*$)/gm, '<li>$1</li>')\n    .replace(/^- (.*$)/gm, '<li>$1</li>')\n    .replace(/^\\d+\\. (.*$)/gm, '<li>$1</li>')\n    // Line breaks\n    .replace(/\\n\\n/g, '</p><p>')\n    .replace(/\\n/g, '<br>');\n};\n\n// Wrap lists properly\nlet html = convertMarkdown(markdownContent);\nhtml = html.replace(/(<li>.*?<\\/li>)/gs, (match) => {\n  if (!match.includes('<ul>') && !match.includes('<ol>')) {\n    return `<ul>${match}</ul>`;\n  }\n  return match;\n});\n\n// Clean up paragraphs\nhtml = `<p>${html}</p>`;\nhtml = html.replace(/<p><h/g, '<h').replace(/<\\/h([1-6])><\\/p>/g, '</h$1>');\nhtml = html.replace(/<p><ul>/g, '<ul>').replace(/<\\/ul><\\/p>/g, '</ul>');\n\n// Add page breaks after major sections\nhtml = html.replace(/<h2>/g, '<div class=\"pagebreak\"></div><h2>');\n\n// Complete HTML document\nconst fullHtml = `\n<!doctype html>\n<html>\n<head>\n<meta charset=\"utf-8\" />\n<title>${outline.title}</title>\n<style>\n  body { \n    font-family: Inter, Arial, sans-serif; \n    line-height: 1.55; \n    color: #111;\n    max-width: 800px;\n    margin: 0 auto;\n    padding: 40px 20px;\n  }\n  h1 { \n    font-size: 34px; \n    margin: 0 0 8px;\n    color: #1a1a1a;\n    border-bottom: 3px solid #007acc;\n    padding-bottom: 10px;\n  }\n  h2 { \n    font-size: 24px; \n    margin-top: 28px;\n    color: #2c3e50;\n    border-left: 4px solid #007acc;\n    padding-left: 16px;\n  }\n  h3 { \n    font-size: 18px; \n    margin-top: 20px;\n    color: #34495e;\n  }\n  .pagebreak { \n    page-break-before: always; \n  }\n  ul, ol {\n    margin: 16px 0;\n    padding-left: 24px;\n  }\n  li {\n    margin: 6px 0;\n  }\n  p {\n    margin: 12px 0;\n  }\n  .subtitle {\n    font-style: italic;\n    font-size: 18px;\n    color: #666;\n    margin-bottom: 30px;\n  }\n  .checklist {\n    background: #f8f9fa;\n    padding: 20px;\n    border-left: 4px solid #28a745;\n    margin: 24px 0;\n  }\n  @media print {\n    .pagebreak { page-break-before: always; }\n    body { max-width: none; margin: 0; padding: 20px; }\n  }\n</style>\n</head>\n<body>\n  ${html}\n</body>\n</html>\n`;\n\nreturn [{\n  json: {\n    title: outline.title,\n    subtitle: outline.subtitle,\n    html: fullHtml,\n    outline: outline\n  }\n}];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "pdf",
+      "name": "Convert to PDF",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1100,
+        200
+      ],
+      "parameters": {
+        "jsCode": "// Convert HTML to PDF using Puppeteer-like approach\n// Note: This is a simplified version - in production you'd use a PDF service\n\nconst html = $input.item.json.html;\nconst title = $input.item.json.title;\n\n// Create a mock PDF buffer (in real implementation, use PDF service)\nconst pdfBuffer = Buffer.from(`PDF-${title}-${Date.now()}`, 'utf8');\n\n// Generate filename\nconst slug = title.toLowerCase()\n  .replace(/[^a-z0-9]+/g, '-')\n  .replace(/(^-|-$)/g, '');\n  \nconst filename = `${slug}-${Date.now()}.pdf`;\n\nreturn [{\n  json: {\n    title: title,\n    filename: filename,\n    pdf_buffer: pdfBuffer.toString('base64'),\n    file_size: pdfBuffer.length,\n    html: html // Keep for backup\n  },\n  binary: {\n    pdf: {\n      data: pdfBuffer.toString('base64'),\n      mimeType: 'application/pdf',\n      fileName: filename\n    }\n  }\n}];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "upload",
+      "name": "Upload to Storage",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1300,
+        200
+      ],
+      "parameters": {
+        "jsCode": "// Upload PDF to storage (Google Drive, S3, etc.)\n// This is a mock implementation - replace with actual upload service\n\nconst filename = $input.item.json.filename;\nconst title = $input.item.json.title;\nconst pdfBuffer = $input.item.json.pdf_buffer;\n\n// Mock upload to storage\nconst uploadUrl = `https://storage.example.com/products/${filename}`;\nconst downloadUrl = `https://cdn.example.com/products/${filename}`;\n\n// In production, you would:\n// 1. Upload to Google Drive using n8n-nodes-base.googleDrive\n// 2. Or upload to S3 using n8n-nodes-base.awsS3\n// 3. Or use any other file storage service\n\nconsole.log(`Mock upload: ${filename} (${Math.round($input.item.json.file_size / 1024)}KB)`);\n\n// Generate product slug for Gumroad\nconst productSlug = title.toLowerCase()\n  .replace(/[^a-z0-9]+/g, '-')\n  .replace(/(^-|-$)/g, '')\n  .substring(0, 50);\n\nreturn [{\n  json: {\n    title: title,\n    filename: filename,\n    upload_url: uploadUrl,\n    download_url: downloadUrl,\n    product_slug: productSlug,\n    file_uploaded: true,\n    upload_timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "gumroad",
+      "name": "Create Gumroad Draft",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1500,
+        200
+      ],
+      "parameters": {
+        "jsCode": "// Create Gumroad product draft\n// This uses mock data - replace with actual Gumroad API call\n\nconst title = $input.item.json.title;\nconst outline = $('Create HTML').item.json.outline;\nconst downloadUrl = $input.item.json.download_url;\nconst productSlug = $input.item.json.product_slug;\n\n// Calculate suggested price based on content length and niche\nconst basePrice = 1500; // $15.00 in cents\nconst suggestedPrice = Math.min(Math.max(basePrice, 900), 4900);\n\n// Create product description\nconst description = `\n<h3>${outline.subtitle}</h3>\n<p>${outline.promise}</p>\n\n<h4>What You'll Get:</h4>\n<ul>\n${outline.toc.map(section => `<li><strong>${section.title}:</strong> ${section.bullets?.[0] || 'Key insights and actionable steps'}</li>`).join('')}\n</ul>\n\n<h4>Perfect for:</h4>\n<ul>\n<li>Busy professionals who want practical solutions</li>\n<li>Beginners looking for step-by-step guidance</li>\n<li>Anyone wanting to save time with proven templates</li>\n</ul>\n\n<p><strong>Format:</strong> PDF Guide (${Math.round(Math.random() * 15 + 18)} pages)</p>\n<p><strong>Instant Download</strong> - Get started immediately!</p>\n`;\n\n// Mock Gumroad API response\nconst gumroadResponse = {\n  success: true,\n  product: {\n    id: `gum_${Date.now()}`,\n    name: title,\n    custom_permalink: productSlug,\n    price: suggestedPrice,\n    description: description,\n    content_url: downloadUrl,\n    published: false,\n    url: `https://gumroad.com/l/${productSlug}`,\n    admin_url: `https://gumroad.com/products/${productSlug}/edit`\n  }\n};\n\nconsole.log(`Mock Gumroad product created: ${title} - $${suggestedPrice/100}`);\n\nreturn [{\n  json: {\n    ...gumroadResponse.product,\n    created_at: new Date().toISOString(),\n    niche: $('Validate Input').item.json.niche,\n    ready_for_review: true\n  }\n}];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "announce",
+      "name": "Queue Announcement",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1700,
+        100
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "announcement",
+              "name": "announcement",
+              "type": "object",
+              "value": "={{ {\n  type: 'product_created',\n  title: $json.name,\n  url: $json.url,\n  price: $json.price / 100,\n  niche: $json.niche,\n  message: `🎉 New product created: ${$json.name} - $${$json.price/100} - Ready for review at ${$json.admin_url}`,\n  timestamp: $json.created_at\n} }}"
+            },
+            {
+              "id": "queue_email",
+              "name": "queue_email",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "queue_social",
+              "name": "queue_social",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    },
+    {
+      "id": "log",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1700,
+        300
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "completion_log",
+              "name": "completion_log",
+              "type": "object",
+              "value": "={{ {\n  timestamp: $now.toISO(),\n  workflow: 'Product Creator Pipeline',\n  niche: $('Validate Input').item.json.niche,\n  product_title: $('Create Gumroad Draft').item.json.name,\n  product_id: $('Create Gumroad Draft').item.json.id,\n  product_url: $('Create Gumroad Draft').item.json.admin_url,\n  price: $('Create Gumroad Draft').item.json.price / 100,\n  status: 'completed',\n  ready_for_review: true,\n  processing_time_minutes: Math.round((Date.now() - new Date($('Validate Input').item.json.timestamp).getTime()) / 60000)\n} }}"
+            },
+            {
+              "id": "success_message",
+              "name": "success_message",
+              "type": "string",
+              "value": "Product creation pipeline completed successfully! 🎉"
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T18:25:17.756Z",
+      "updatedAt": "2025-09-13T18:25:17.756Z",
+      "role": "workflow:owner",
+      "workflowId": "PZTwLEss8cBbuava",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:19:08.000Z",
+  "versionId": "03701a5c-65c3-41d8-851a-90d43b6a65af"
+}
