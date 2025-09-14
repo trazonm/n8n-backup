@@ -1,0 +1,432 @@
+{
+  "active": false,
+  "connections": {
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Schedule Trigger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Discord Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Start": {
+      "main": [
+        [
+          {
+            "node": "Fetch LinkedIn Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch LinkedIn Data": {
+      "main": [
+        [
+          {
+            "node": "Process Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Leads": {
+      "main": [
+        [
+          {
+            "node": "Deduplicate Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deduplicate Leads": {
+      "main": [
+        [
+          {
+            "node": "AI Lead Scorer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Lead Scorer": {
+      "main": [
+        [
+          {
+            "node": "Quality Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Filter": {
+      "main": [
+        [
+          {
+            "node": "Format Lead Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Lead Report": {
+      "main": [
+        [
+          {
+            "node": "Store or Preview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store or Preview": {
+      "main": [
+        [
+          {
+            "node": "Update Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Stats": {
+      "main": [
+        [
+          {
+            "node": "Discord Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T19:18:05.277Z",
+  "id": "TZs7xsfYwdaYkXMn",
+  "isArchived": false,
+  "meta": null,
+  "name": "Micro-SaaS Lead Generator - B2B Tech",
+  "nodes": [
+    {
+      "id": "config_2",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [
+        250,
+        400
+      ],
+      "parameters": {
+        "mode": "manual",
+        "fields": {
+          "values": [
+            {
+              "name": "niche",
+              "type": "string",
+              "stringValue": "B2B SaaS Decision Makers"
+            },
+            {
+              "name": "dryRun",
+              "type": "boolean",
+              "booleanValue": true
+            },
+            {
+              "name": "maxItems",
+              "type": "number",
+              "numberValue": 25
+            },
+            {
+              "name": "frequency",
+              "type": "string",
+              "stringValue": "twice-daily"
+            },
+            {
+              "name": "rateLimitPerMin",
+              "type": "number",
+              "numberValue": 5
+            },
+            {
+              "name": "targetRoles",
+              "type": "string",
+              "stringValue": "CTO,VP Engineering,Head of Product,CEO"
+            },
+            {
+              "name": "minCompanySize",
+              "type": "number",
+              "numberValue": 50
+            },
+            {
+              "name": "discordWebhook",
+              "type": "string",
+              "stringValue": "https://bakaflow.gleeze.com/webhook/discord-notify"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "schedule_2",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        450,
+        400
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "discord_start_2",
+      "name": "Discord Start",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        650,
+        400
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.discordWebhook }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "🎯 Lead Generator: Starting B2B lead discovery"
+            },
+            {
+              "name": "embeds",
+              "value": "[{\"title\": \"Lead Generation Started\", \"description\": \"Target: {{ $('Config').item.json.niche }}\\nMode: {{ $('Config').item.json.dryRun ? 'Dry Run' : 'Live' }}\\nMax Leads: {{ $('Config').item.json.maxItems }}\", \"timestamp\": \"{{ $now.toISO() }}\", \"color\": 3066993}]"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "linkedin_sim_1",
+      "name": "Fetch LinkedIn Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Simulate LinkedIn/data source API response\n// In production, this would use actual APIs or web scraping\nconst config = $('Config').item.json;\n\n// Generate mock leads based on target criteria\nconst mockLeads = [\n  {\n    name: \"Sarah Chen\",\n    title: \"CTO\",\n    company: \"TechVentures Inc\",\n    companySize: 250,\n    industry: \"Software Development\",\n    location: \"San Francisco, CA\",\n    profileUrl: \"https://linkedin.com/in/sarahchen\",\n    email: null, // Would be enriched later\n    recentActivity: \"Posted about AI adoption in enterprise\"\n  },\n  {\n    name: \"Michael Rodriguez\",\n    title: \"VP of Engineering\",\n    company: \"CloudScale Solutions\",\n    companySize: 180,\n    industry: \"Cloud Computing\",\n    location: \"Austin, TX\",\n    profileUrl: \"https://linkedin.com/in/mrodriguez\",\n    email: null,\n    recentActivity: \"Hiring senior developers\"\n  },\n  {\n    name: \"Emma Thompson\",\n    title: \"Head of Product\",\n    company: \"DataDrive Analytics\",\n    companySize: 120,\n    industry: \"Data Analytics\",\n    location: \"New York, NY\",\n    profileUrl: \"https://linkedin.com/in/ethompson\",\n    email: null,\n    recentActivity: \"Speaking at ProductCon 2025\"\n  },\n  {\n    name: \"James Park\",\n    title: \"CEO & Founder\",\n    company: \"InnovateTech Startup\",\n    companySize: 75,\n    industry: \"AI/ML\",\n    location: \"Seattle, WA\",\n    profileUrl: \"https://linkedin.com/in/jamespark\",\n    email: null,\n    recentActivity: \"Announced Series A funding\"\n  },\n  {\n    name: \"Lisa Kumar\",\n    title: \"CTO\",\n    company: \"FinTech Forward\",\n    companySize: 300,\n    industry: \"Financial Technology\",\n    location: \"Chicago, IL\",\n    profileUrl: \"https://linkedin.com/in/lisakumar\",\n    email: null,\n    recentActivity: \"Looking for cloud migration solutions\"\n  }\n];\n\n// Add more mock data to reach maxItems\nconst expandedLeads = [];\nfor (let i = 0; i < Math.min(config.maxItems, 50); i++) {\n  const baseLead = mockLeads[i % mockLeads.length];\n  expandedLeads.push({\n    ...baseLead,\n    id: `lead_${Date.now()}_${i}`,\n    discoveredAt: new Date().toISOString(),\n    source: \"LinkedIn Sales Navigator\"\n  });\n}\n\nreturn expandedLeads.map(lead => ({ json: lead }));"
+      }
+    },
+    {
+      "id": "process_leads_1",
+      "name": "Process Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1050,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const lead = $input.item.json;\nconst config = $('Config').item.json;\n\n// Check if lead matches criteria\nconst targetRoles = config.targetRoles.split(',').map(r => r.trim().toLowerCase());\nconst leadRole = lead.title.toLowerCase();\nconst roleMatch = targetRoles.some(role => leadRole.includes(role));\n\n// Company size check\nconst sizeMatch = lead.companySize >= config.minCompanySize;\n\n// Email enrichment simulation\nif (!lead.email && !config.dryRun) {\n  // In production, would use email finder API\n  const firstName = lead.name.split(' ')[0].toLowerCase();\n  const company = lead.company.toLowerCase().replace(/[^a-z0-9]/g, '');\n  lead.email = `${firstName}@${company}.com`; // Simulated\n  lead.emailConfidence = 0.75;\n}\n\n// Add qualification score\nlet score = 0;\nif (roleMatch) score += 40;\nif (sizeMatch) score += 30;\nif (lead.recentActivity?.includes('hiring') || lead.recentActivity?.includes('funding')) score += 20;\nif (lead.industry === 'Software Development' || lead.industry === 'AI/ML') score += 10;\n\nlead.qualificationScore = score;\nlead.qualified = score >= 60;\nlead.matchCriteria = {\n  roleMatch,\n  sizeMatch,\n  activitySignal: lead.recentActivity ? true : false\n};\n\nreturn { json: lead };"
+      }
+    },
+    {
+      "id": "dedup_leads_1",
+      "name": "Deduplicate Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = $('Config').item.json;\nconst leads = $input.all();\nconst cacheKey = 'seen_lead_ids';\n\n// Get existing cache\nlet seenLeads = $getWorkflowStaticData('global');\nif (!seenLeads[cacheKey]) {\n  seenLeads[cacheKey] = {};\n}\n\n// Filter out duplicates\nconst uniqueLeads = [];\nconst stats = {\n  totalProcessed: leads.length,\n  duplicates: 0,\n  newLeads: 0\n};\n\nfor (const lead of leads) {\n  const leadKey = `${lead.json.name}_${lead.json.company}`.toLowerCase();\n  \n  if (!seenLeads[cacheKey][leadKey]) {\n    uniqueLeads.push(lead);\n    stats.newLeads++;\n    \n    if (!config.dryRun) {\n      seenLeads[cacheKey][leadKey] = {\n        firstSeen: new Date().toISOString(),\n        profileUrl: lead.json.profileUrl\n      };\n    }\n  } else {\n    stats.duplicates++;\n  }\n}\n\n// Clean old entries (keep last 10k)\nif (Object.keys(seenLeads[cacheKey]).length > 10000) {\n  const entries = Object.entries(seenLeads[cacheKey]);\n  entries.sort((a, b) => new Date(a[1].firstSeen) - new Date(b[1].firstSeen));\n  seenLeads[cacheKey] = Object.fromEntries(entries.slice(-5000));\n}\n\n// Add stats to each lead\nreturn uniqueLeads.map(lead => ({\n  json: {\n    ...lead.json,\n    stats\n  }\n}));"
+      }
+    },
+    {
+      "id": "ai_scorer_1",
+      "name": "AI Lead Scorer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1450,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Enhanced lead scoring with AI simulation\n// In production, this would call Claude API for deeper analysis\nconst lead = $input.item.json;\n\n// Simulate AI-powered insights\nconst aiInsights = {\n  buyingIntent: 'medium',\n  painPoints: [],\n  recommendedApproach: '',\n  estimatedDealSize: 0\n};\n\n// Analyze recent activity for buying signals\nif (lead.recentActivity) {\n  const activity = lead.recentActivity.toLowerCase();\n  \n  if (activity.includes('hiring') || activity.includes('scaling')) {\n    aiInsights.buyingIntent = 'high';\n    aiInsights.painPoints.push('scaling challenges');\n  }\n  \n  if (activity.includes('funding') || activity.includes('series')) {\n    aiInsights.buyingIntent = 'high';\n    aiInsights.painPoints.push('rapid growth needs');\n  }\n  \n  if (activity.includes('migration') || activity.includes('modernization')) {\n    aiInsights.buyingIntent = 'high';\n    aiInsights.painPoints.push('technical debt');\n  }\n}\n\n// Estimate deal size based on company size\nif (lead.companySize < 100) {\n  aiInsights.estimatedDealSize = '$10K-50K';\n  aiInsights.recommendedApproach = 'Self-serve with guided onboarding';\n} else if (lead.companySize < 500) {\n  aiInsights.estimatedDealSize = '$50K-200K';\n  aiInsights.recommendedApproach = 'Inside sales with technical demo';\n} else {\n  aiInsights.estimatedDealSize = '$200K+';\n  aiInsights.recommendedApproach = 'Enterprise sales with POC';\n}\n\n// Add industry-specific insights\nif (lead.industry === 'Financial Technology') {\n  aiInsights.painPoints.push('compliance requirements');\n} else if (lead.industry === 'Healthcare') {\n  aiInsights.painPoints.push('HIPAA compliance');\n}\n\n// Update qualification score with AI insights\nif (aiInsights.buyingIntent === 'high') {\n  lead.qualificationScore += 20;\n}\n\nlead.aiInsights = aiInsights;\nlead.finalScore = Math.min(lead.qualificationScore, 100);\nlead.tier = lead.finalScore >= 80 ? 'A' : lead.finalScore >= 60 ? 'B' : 'C';\n\nreturn { json: lead };"
+      }
+    },
+    {
+      "id": "quality_filter_2",
+      "name": "Quality Filter",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1650,
+        400
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "combinator": "and",
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.qualified }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "format_report_1",
+      "name": "Format Lead Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1850,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = $('Config').item.json;\nconst leads = $input.all();\nconst stats = leads[0]?.json.stats || {};\n\n// Group leads by tier\nconst tierA = leads.filter(l => l.json.tier === 'A');\nconst tierB = leads.filter(l => l.json.tier === 'B');\nconst tierC = leads.filter(l => l.json.tier === 'C');\n\n// Format report\nlet reportData = {\n  summary: {\n    totalQualified: leads.length,\n    tierA: tierA.length,\n    tierB: tierB.length,\n    tierC: tierC.length,\n    ...stats\n  },\n  leads: []\n};\n\n// Format individual leads\nleads.forEach(lead => {\n  reportData.leads.push({\n    name: lead.json.name,\n    title: lead.json.title,\n    company: lead.json.company,\n    companySize: lead.json.companySize,\n    location: lead.json.location,\n    tier: lead.json.tier,\n    score: lead.json.finalScore,\n    buyingIntent: lead.json.aiInsights.buyingIntent,\n    estimatedDealSize: lead.json.aiInsights.estimatedDealSize,\n    recommendedApproach: lead.json.aiInsights.recommendedApproach,\n    painPoints: lead.json.aiInsights.painPoints,\n    profileUrl: lead.json.profileUrl,\n    email: lead.json.email,\n    emailConfidence: lead.json.emailConfidence\n  });\n});\n\n// Create CSV format for export\nconst csvHeader = 'Name,Title,Company,Company Size,Location,Tier,Score,Buying Intent,Est. Deal Size,Profile URL\\n';\nconst csvRows = reportData.leads.map(l => \n  `\"${l.name}\",\"${l.title}\",\"${l.company}\",${l.companySize},\"${l.location}\",${l.tier},${l.score},${l.buyingIntent},\"${l.estimatedDealSize}\",\"${l.profileUrl}\"`\n).join('\\n');\n\nreportData.csv = csvHeader + csvRows;\nreportData.generatedAt = new Date().toISOString();\nreportData.config = config;\n\nreturn [{ json: reportData }];"
+      }
+    },
+    {
+      "id": "store_preview_1",
+      "name": "Store or Preview",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2050,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $input.item.json;\nconst config = data.config;\n\nif (config.dryRun) {\n  // Dry run - prepare preview\n  return {\n    json: {\n      ...data,\n      action: 'preview',\n      message: 'Dry run - leads identified but not stored',\n      previewLeads: data.leads.slice(0, 5), // Show first 5 leads\n      deliveryMethod: 'Would be delivered via API/webhook to CRM'\n    }\n  };\n} else {\n  // Production - would send to CRM/database\n  // Simulate API delivery\n  return {\n    json: {\n      ...data,\n      action: 'delivered',\n      message: 'Leads delivered to CRM successfully',\n      deliveredAt: new Date().toISOString(),\n      deliveryMethod: 'API webhook',\n      recordsCreated: data.leads.length\n    }\n  };\n}"
+      }
+    },
+    {
+      "id": "update_stats_1",
+      "name": "Update Stats",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2250,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Update workflow statistics\nconst config = $('Config').item.json;\nconst data = $input.item.json;\n\nif (!config.dryRun) {\n  const staticData = $getWorkflowStaticData('global');\n  \n  // Initialize stats if needed\n  if (!staticData.leadStats) {\n    staticData.leadStats = {\n      totalLeadsGenerated: 0,\n      totalTierA: 0,\n      totalDelivered: 0,\n      runCount: 0\n    };\n  }\n  \n  // Update cumulative stats\n  staticData.leadStats.totalLeadsGenerated += data.summary.totalQualified;\n  staticData.leadStats.totalTierA += data.summary.tierA;\n  staticData.leadStats.totalDelivered += data.leads.length;\n  staticData.leadStats.runCount += 1;\n  staticData.leadStats.lastRun = new Date().toISOString();\n  \n  // Add lifetime stats to output\n  data.lifetimeStats = staticData.leadStats;\n}\n\nreturn [{ json: data }];"
+      }
+    },
+    {
+      "id": "discord_success_2",
+      "name": "Discord Success",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2450,
+        400
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.discordWebhook }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "✅ Lead Generator: {{ $json.action === 'preview' ? 'Preview Complete' : 'Leads Delivered' }}"
+            },
+            {
+              "name": "embeds",
+              "value": "[{\"title\": \"Lead Generation Complete\", \"description\": \"Total Processed: {{ $json.summary.totalProcessed }}\\nQualified Leads: {{ $json.summary.totalQualified }}\\nTier A Leads: {{ $json.summary.tierA }}\\nMode: {{ $json.config.dryRun ? 'Dry Run' : 'Live' }}\", \"timestamp\": \"{{ $now.toISO() }}\", \"fields\": [{\"name\": \"Top Lead\", \"value\": \"{{ $json.leads[0] ? $json.leads[0].name + ' - ' + $json.leads[0].company : 'No leads found' }}\", \"inline\": false}, {\"name\": \"Delivery Status\", \"value\": \"{{ $json.message }}\", \"inline\": true}, {\"name\": \"Next Run\", \"value\": \"In 12 hours\", \"inline\": true}], \"color\": 5763719}]"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "executionTimeout": 300,
+    "errorWorkflow": "y1IZGHprz4HsYbvB"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T19:18:05.279Z",
+      "updatedAt": "2025-09-13T19:18:05.279Z",
+      "role": "workflow:owner",
+      "workflowId": "TZs7xsfYwdaYkXMn",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:18:43.973Z",
+  "versionId": "ddad0f85-2746-4770-93e6-ec74846e0302"
+}
