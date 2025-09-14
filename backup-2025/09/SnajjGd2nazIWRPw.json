@@ -1,0 +1,119 @@
+{
+  "active": false,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Format Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error": {
+      "main": [
+        [
+          {
+            "node": "Discord Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T19:16:16.082Z",
+  "id": "SnajjGd2nazIWRPw",
+  "isArchived": false,
+  "meta": null,
+  "name": "AI Newsletter Curator - Error Handler",
+  "nodes": [
+    {
+      "id": "error_trigger_1",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "format_error_1",
+      "name": "Format Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        450,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const error = $input.item.json;\n\n// Extract error details\nconst errorMessage = error.message || 'Unknown error';\nconst nodeName = error.node?.name || 'Unknown node';\nconst workflowName = error.workflow?.name || 'AI Newsletter Curator';\nconst executionId = error.execution?.id || 'N/A';\nconst timestamp = new Date().toISOString();\n\n// Format error for Discord\nreturn {\n  json: {\n    content: `❌ **Error in ${workflowName}**`,\n    embeds: [{\n      title: 'Workflow Error Alert',\n      description: errorMessage,\n      color: 15158332, // Red\n      fields: [\n        {\n          name: 'Failed Node',\n          value: nodeName,\n          inline: true\n        },\n        {\n          name: 'Execution ID',\n          value: executionId,\n          inline: true\n        },\n        {\n          name: 'Error Type',\n          value: error.name || 'ExecutionError',\n          inline: true\n        },\n        {\n          name: 'Stack Trace',\n          value: (error.stack || 'No stack trace available').substring(0, 500) + '...',\n          inline: false\n        }\n      ],\n      timestamp: timestamp\n    }]\n  }\n};"
+      }
+    },
+    {
+      "id": "discord_error_1",
+      "name": "Discord Error Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        650,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://bakaflow.gleeze.com/webhook/discord-notify",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.content }}"
+            },
+            {
+              "name": "embeds",
+              "value": "={{ $json.embeds }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "errorWorkflow": "6E3LWYmQJtMfrqre"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T19:16:16.084Z",
+      "updatedAt": "2025-09-13T19:16:16.084Z",
+      "role": "workflow:owner",
+      "workflowId": "SnajjGd2nazIWRPw",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:16:16.082Z",
+  "versionId": "302eafe4-f3cd-4f88-b0e4-b40f488eb822"
+}
