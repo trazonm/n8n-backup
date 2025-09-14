@@ -1,0 +1,498 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Initialize Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Configuration": {
+      "main": [
+        [
+          {
+            "node": "Build Target URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Target URLs": {
+      "main": [
+        [
+          {
+            "node": "Fetch Data Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Data Sources": {
+      "main": [
+        [
+          {
+            "node": "Normalize Signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Signals": {
+      "main": [
+        [
+          {
+            "node": "Score Niches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Niches": {
+      "main": [
+        [
+          {
+            "node": "Generate Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Report": {
+      "main": [
+        [
+          {
+            "node": "Check Report Channel",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Test Mode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Report Channel": {
+      "main": [
+        [
+          {
+            "node": "Format Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Message": {
+      "main": [
+        [
+          {
+            "node": "Send Discord Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Test Mode": {
+      "main": [
+        [
+          {
+            "node": "Prepare Product Creator Handoff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Product Creator Handoff": {
+      "main": [
+        [
+          {
+            "node": "Trigger Product Creator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Product Creator": {
+      "main": [
+        [
+          {
+            "node": "Log Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Discord Message": {
+      "main": [
+        [
+          {
+            "node": "Log Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T18:21:15.776Z",
+  "id": "gGHMHylULwY93rLF",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Niche Hunter & Product Creator - FIXED",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        112,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "subreddits",
+              "name": "subreddits",
+              "value": "={{ $env.SUBREDDITS || 'Entrepreneur+SmallBusiness+Freelance,Teachers,Fitness' }}",
+              "type": "string"
+            },
+            {
+              "id": "gumroad_queries",
+              "name": "gumroad_queries",
+              "value": "={{ $env.GUMROAD_SEARCH_QUERY_SETS || 'notion template;wedding planner template;client onboarding;dog trainer;adhd planner;meal prep guide' }}",
+              "type": "string"
+            },
+            {
+              "id": "test_mode",
+              "name": "test_mode",
+              "value": "={{ $env.TEST_MODE === 'true' }}",
+              "type": "boolean"
+            },
+            {
+              "id": "timestamp",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "init-config",
+      "name": "Initialize Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build target URLs for all data sources\nconst subreddits = $input.item.json.subreddits.split(',');\nconst gumroadQueries = $input.item.json.gumroad_queries.split(';');\nconst testMode = $input.item.json.test_mode;\n\n// Limit targets in test mode\nconst finalSubreddits = testMode ? subreddits.slice(0, 1) : subreddits;\nconst finalQueries = testMode ? gumroadQueries.slice(0, 2) : gumroadQueries;\n\nconst targets = [];\n\n// Reddit URLs\nfinalSubreddits.forEach(sub => {\n  targets.push({\n    kind: 'reddit',\n    label: sub.trim(),\n    url: `https://www.reddit.com/r/${sub.trim()}/top.json?t=week&limit=20`\n  });\n});\n\n// Gumroad URLs\nfinalQueries.forEach(query => {\n  const cleanQuery = query.trim();\n  targets.push({\n    kind: 'gumroad',\n    label: cleanQuery,\n    url: `https://gumroad.com/discover?query=${encodeURIComponent(cleanQuery)}`\n  });\n  \n  // Also add Google Trends and Pinterest for same query\n  targets.push({\n    kind: 'trends',\n    label: cleanQuery,\n    url: `https://gtrends.mikko.vercel.app/api/trend/${encodeURIComponent(cleanQuery)}?geo=US`\n  });\n  \n  targets.push({\n    kind: 'pinterest',\n    label: cleanQuery,\n    url: `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(cleanQuery)}`\n  });\n});\n\nconsole.log(`Built ${targets.length} targets (test mode: ${testMode})`);\n\nreturn targets.map(target => ({ json: target }));"
+      },
+      "id": "build-targets",
+      "name": "Build Target URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -16
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "enabled": true,
+            "maxTries": 2
+          }
+        }
+      },
+      "id": "fetch-data",
+      "name": "Fetch Data Sources",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        784,
+        -16
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize raw data into signals\nconst items = $input.all();\nconst signalsMap = {};\n\nitems.forEach(item => {\n  const { kind, label } = item.json;\n  const response = item.json.response || {};\n  const body = response.body || '';\n  \n  if (!signalsMap[label]) {\n    signalsMap[label] = {\n      label,\n      signals: {\n        reddit_posts: 0,\n        reddit_questions: 0,\n        reddit_upvotes: 0,\n        gum_count: 0,\n        gum_avg_price: 0,\n        trend_ratio: 1.0,\n        pinterest_signal: 0\n      }\n    };\n  }\n  \n  const signals = signalsMap[label].signals;\n  \n  try {\n    switch (kind) {\n      case 'reddit':\n        if (typeof body === 'object' && body.data && body.data.children) {\n          const posts = body.data.children;\n          signals.reddit_posts = posts.length;\n          \n          let questions = 0;\n          let upvotes = 0;\n          \n          posts.forEach(post => {\n            const title = post.data.title || '';\n            if (/\\b(how|template|guide|planner)\\b/i.test(title)) {\n              questions++;\n            }\n            upvotes += post.data.score || 0;\n          });\n          \n          signals.reddit_questions = questions;\n          signals.reddit_upvotes = upvotes;\n        }\n        break;\n        \n      case 'gumroad':\n        if (typeof body === 'string') {\n          // Count product cards (rough heuristic)\n          const productMatches = body.match(/product-card|product-title/g) || [];\n          signals.gum_count = Math.min(productMatches.length, 100);\n          \n          // Extract prices\n          const priceMatches = body.match(/\\$([0-9]{1,3}(?:,[0-9]{3})*(?:\\.[0-9]{2})?)/g) || [];\n          if (priceMatches.length > 0) {\n            const prices = priceMatches.map(p => parseInt(p.replace(/[$,]/g, '')));\n            signals.gum_avg_price = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length);\n          }\n        }\n        break;\n        \n      case 'trends':\n        if (typeof body === 'object' && body.timeline) {\n          const timeline = body.timeline;\n          if (timeline.length >= 12) {\n            const last30 = timeline.slice(-1)[0]?.value || 50;\n            const yearAvg = timeline.reduce((sum, point) => sum + (point.value || 0), 0) / timeline.length;\n            signals.trend_ratio = yearAvg > 0 ? last30 / yearAvg : 1.0;\n          }\n        }\n        break;\n        \n      case 'pinterest':\n        if (typeof body === 'string') {\n          // Crude proxy: HTML length as activity signal\n          signals.pinterest_signal = Math.min(Math.round(body.length / 1000), 200);\n        }\n        break;\n    }\n  } catch (error) {\n    console.log(`Error processing ${kind} for ${label}:`, error.message);\n  }\n});\n\nreturn Object.values(signalsMap).map(item => ({ json: item }));"
+      },
+      "id": "normalize-signals",
+      "name": "Normalize Signals",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        -16
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Score each niche according to rubric\nconst items = $input.all();\n\nif (!items || items.length === 0) {\n  return [{ json: { error: 'No data to score', items: [] } }];\n}\n\nconst scoredNiches = items.map(item => {\n  const { label, signals } = item.json;\n  \n  // Scoring rubric (0-100 total)\n  const demand = Math.min(signals.reddit_questions / 5, 1) * 20 + \n                Math.min(signals.reddit_upvotes / 500, 1) * 15;\n  \n  const monet = Math.min(signals.gum_count / 20, 1) * 10 + \n               Math.min(signals.gum_avg_price / 40, 1) * 15;\n  \n  const comp = (1 - Math.min(signals.gum_count / 30, 1)) * 20;\n  \n  const trend = Math.min(signals.trend_ratio / 1.3, 1) * 15 + \n               Math.min(signals.pinterest_signal / 50, 1) * 5;\n  \n  const total = Math.round(demand + monet + comp + trend);\n  \n  // Go/No-Go criteria\n  const go = total >= 65 && \n            signals.gum_avg_price >= 9 && \n            signals.trend_ratio >= 0.9 && \n            signals.gum_count <= 45;\n  \n  return {\n    json: {\n      label,\n      signals,\n      scores: {\n        demand: Math.round(demand),\n        monet: Math.round(monet),\n        comp: Math.round(comp),\n        trend: Math.round(trend),\n        total\n      },\n      go\n    }\n  };\n});\n\n// Sort by total score descending\nscoredNiches.sort((a, b) => b.json.scores.total - a.json.scores.total);\n\nreturn scoredNiches;"
+      },
+      "id": "score-niches",
+      "name": "Score Niches",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        -16
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate top 3 report and winner\nconst allNiches = $input.all();\n\nif (!allNiches || allNiches.length === 0) {\n  return [{\n    json: {\n      report: {\n        top_3: [],\n        winner: null,\n        error: 'No niches data available'\n      },\n      metadata: {\n        timestamp: new Date().toISOString(),\n        targets: 0,\n        groups: 0,\n        top_label: 'none',\n        winner_total: 0,\n        degraded: true\n      },\n      allNiches: []\n    }\n  }];\n}\n\nconst top3 = allNiches.slice(0, 3);\n\n// Product ideas based on niche\nconst getProductIdea = (niche) => {\n  const templates = [\n    `Complete ${niche} Template Bundle`,\n    `${niche} Checklist & Planning Kit`,\n    `Ultimate ${niche} Guide with Templates`,\n    `${niche} Workflow & Process Templates`,\n    `${niche} Planner & Tracking System`\n  ];\n  return templates[Math.floor(Math.random() * templates.length)];\n};\n\n// Price suggestion based on scores\nconst suggestPrice = (scores) => {\n  if (scores.total >= 80) return 29;\n  if (scores.total >= 70) return 19;\n  return 12;\n};\n\nconst report = {\n  top_3: top3.map(item => ({\n    niche: item.json.label,\n    why: `High ${item.json.scores.total}/100 score with ${item.json.signals.reddit_questions} questions and $${item.json.signals.gum_avg_price} avg price`,\n    product_idea: getProductIdea(item.json.label),\n    price_usd: suggestPrice(item.json.scores),\n    go: item.json.go\n  })),\n  winner: null\n};\n\n// Set winner (first Go item or highest scoring)\nconst winner = top3.find(item => item.json.go) || top3[0];\nif (winner) {\n  // Generate seed keywords\n  const baseKeywords = ['template', 'checklist', 'planner', 'guide', 'notion', 'excel', 'client', 'onboarding', 'bundle'];\n  const nicheTokens = winner.json.label.toLowerCase().split(/[\\s+]+/).filter(t => t.length > 2);\n  const seedKeywords = [...new Set([...nicheTokens, ...baseKeywords])].slice(0, 12);\n  \n  report.winner = {\n    niche: winner.json.label,\n    seed_keywords: seedKeywords\n  };\n}\n\n// Add metadata - Get timestamp from previous node with fallback\nlet timestamp;\ntry {\n  timestamp = $('Initialize Configuration').item.json.timestamp;\n} catch {\n  timestamp = new Date().toISOString();\n}\n\n// Get targets count with fallback\nlet targetsCount = 0;\ntry {\n  targetsCount = $('Build Target URLs').all().length;\n} catch {\n  targetsCount = 0;\n}\n\nconst metadata = {\n  timestamp: timestamp,\n  targets: targetsCount,\n  groups: allNiches.length,\n  top_label: top3[0]?.json.label || 'none',\n  winner_total: winner?.json.scores.total || 0,\n  degraded: allNiches.some(item => \n    Object.values(item.json.signals).every(v => v === 0)\n  )\n};\n\nreturn [{ json: { report, metadata, allNiches: allNiches.map(n => n.json) } }];"
+      },
+      "id": "generate-report",
+      "name": "Generate Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1456,
+        -16
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "leftValue": "={{ $env.REPORT_CHANNEL }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ]
+        }
+      },
+      "id": "check-report-channel",
+      "name": "Check Report Channel",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format Discord/Slack message\nconst data = $input.item.json;\nconst report = data.report;\nconst metadata = data.metadata;\n\nif (!report.top_3 || report.top_3.length === 0) {\n  return [{\n    json: {\n      message: `🎯 **Daily Niche Hunter Report** - ${metadata.timestamp.split('T')[0]}\\n\\n❌ **No niches found** - All data sources may be unavailable.\\n\\nTargets: ${metadata.targets} | Degraded: ${metadata.degraded}`\n    }\n  }];\n}\n\nlet message = `🎯 **Daily Niche Hunter Report** - ${metadata.timestamp.split('T')[0]}\\n\\n**TOP 3 NICHES:**\\n`;\n\nreport.top_3.forEach((item, index) => {\n  const emoji = item.go ? '✅ GO' : '⏸️ HOLD';\n  message += `${index + 1}. **${item.niche}** (${emoji})\\n`;\n  message += `   • Product: ${item.product_idea}\\n`;\n  message += `   • Price: $${item.price_usd}\\n`;\n  message += `   • Why: ${item.why}\\n\\n`;\n});\n\nif (report.winner) {\n  message += `**🏆 WINNER:** ${report.winner.niche}\\n`;\n  message += `**Keywords:** ${report.winner.seed_keywords.join(', ')}\\n\\n`;\n  message += `---\\n**Handoff Payload:**\\n\\`\\`\\`json\\n${JSON.stringify({niche: report.winner.niche, seed_keywords: report.winner.seed_keywords}, null, 2)}\\n\\`\\`\\``;\n} else {\n  message += `**No winner selected** - No niches met Go criteria.`;\n}\n\nreturn [{ json: { message } }];"
+      },
+      "id": "format-message",
+      "name": "Format Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1904,
+        -112
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "leftValue": "={{ $('Initialize Configuration').item.json.test_mode }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ]
+        }
+      },
+      "id": "check-test-mode",
+      "name": "Check Test Mode",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "handoff_payload",
+              "name": "handoff_payload",
+              "value": "={{ $json.report.winner ? { niche: $json.report.winner.niche, seed_keywords: $json.report.winner.seed_keywords } : null }}",
+              "type": "object"
+            },
+            {
+              "id": "webhook_url",
+              "name": "webhook_url",
+              "value": "={{ $env.PRODUCT_CREATOR_WEBHOOK_URL || 'https://bakaflow.gleeze.com/webhook/product-creator' }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "prepare-handoff",
+      "name": "Prepare Product Creator Handoff",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1904,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.webhook_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.handoff_payload }}"
+      },
+      "id": "trigger-product-creator",
+      "name": "Trigger Product Creator",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2128,
+        80
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1416490152985104494",
+          "mode": "list",
+          "cachedResultName": "niche-hunter"
+        },
+        "content": "={{ $json.message }}"
+      },
+      "id": "send-discord",
+      "name": "Send Discord Message",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        -112
+      ],
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "completion_log",
+              "name": "completion_log",
+              "value": "={{ {\n  timestamp: $('Generate Report').item.json.metadata.timestamp,\n  targets: $('Generate Report').item.json.metadata.targets,\n  groups: $('Generate Report').item.json.metadata.groups,\n  top_label: $('Generate Report').item.json.metadata.top_label,\n  winner_total: $('Generate Report').item.json.metadata.winner_total,\n  degraded: $('Generate Report').item.json.metadata.degraded,\n  test_mode: $('Initialize Configuration').item.json.test_mode,\n  product_creator_triggered: !$('Initialize Configuration').item.json.test_mode && !!$('Generate Report').item.json.report.winner\n} }}",
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "id": "log-completion",
+      "name": "Log Completion",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2352,
+        -16
+      ]
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/New_York",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T18:21:15.781Z",
+      "updatedAt": "2025-09-13T18:21:15.781Z",
+      "role": "workflow:owner",
+      "workflowId": "gGHMHylULwY93rLF",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:19:14.000Z",
+  "versionId": "8b99b877-8d27-4652-8bad-681a9725bdc4"
+}
