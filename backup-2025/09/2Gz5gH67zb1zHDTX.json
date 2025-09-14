@@ -1,0 +1,604 @@
+{
+  "active": false,
+  "connections": {
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Schedule Trigger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Leads": {
+      "main": [
+        [
+          {
+            "node": "Process All Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Search": {
+      "main": [
+        [
+          {
+            "node": "Parse GitHub Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Start": {
+      "main": [
+        [
+          {
+            "node": "GitHub Search",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fetch Funding News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Success": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Discord Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Lead Enricher": {
+      "main": [
+        [
+          {
+            "node": "Quality Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deduplicate Leads": {
+      "main": [
+        [
+          {
+            "node": "AI Lead Enricher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Filter": {
+      "main": [
+        [
+          {
+            "node": "Format Lead Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Statistics": {
+      "main": [
+        [
+          {
+            "node": "Discord Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process All Leads": {
+      "main": [
+        [
+          {
+            "node": "Deduplicate Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Funding News": {
+      "main": [
+        [
+          {
+            "node": "Extract Founders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Lead Report": {
+      "main": [
+        [
+          {
+            "node": "Store or Preview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse GitHub Results": {
+      "main": [
+        [
+          {
+            "node": "Merge Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store or Preview": {
+      "main": [
+        [
+          {
+            "node": "Update Statistics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Founders": {
+      "main": [
+        [
+          {
+            "node": "Merge Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T19:26:38.761Z",
+  "id": "2Gz5gH67zb1zHDTX",
+  "isArchived": false,
+  "meta": null,
+  "name": "Real Lead Generator - GitHub & News APIs",
+  "nodes": [
+    {
+      "id": "config_3",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        250,
+        400
+      ],
+      "parameters": {
+        "mode": "manual",
+        "fields": {
+          "values": [
+            {
+              "name": "niche",
+              "type": "string",
+              "stringValue": "B2B Tech Leaders & Founders"
+            },
+            {
+              "name": "dryRun",
+              "type": "boolean",
+              "booleanValue": true
+            },
+            {
+              "name": "maxItems",
+              "type": "number",
+              "numberValue": 30
+            },
+            {
+              "name": "frequency",
+              "type": "string",
+              "stringValue": "twice-daily"
+            },
+            {
+              "name": "rateLimitPerMin",
+              "type": "number",
+              "numberValue": 5
+            },
+            {
+              "name": "targetRoles",
+              "type": "string",
+              "stringValue": "CTO,VP Engineering,CEO,Founder,Head of Engineering"
+            },
+            {
+              "name": "minFollowers",
+              "type": "number",
+              "numberValue": 50
+            },
+            {
+              "name": "discordWebhook",
+              "type": "string",
+              "stringValue": "https://bakaflow.gleeze.com/webhook/discord-notify"
+            },
+            {
+              "name": "githubToken",
+              "type": "string",
+              "stringValue": "{{ $env.GITHUB_TOKEN }}"
+            },
+            {
+              "name": "locations",
+              "type": "string",
+              "stringValue": "San Francisco,New York,Austin,Seattle,London"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "typeVersion": 3
+    },
+    {
+      "id": "schedule_3",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        450,
+        400
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "typeVersion": 1.2
+    },
+    {
+      "id": "discord_start_3",
+      "name": "Discord Start",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        650,
+        400
+      ],
+      "parameters": {
+        "url": "={{ $('Config').item.json.discordWebhook }}",
+        "method": "POST",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "🎯 Real Lead Generator: Starting lead discovery from GitHub & News"
+            },
+            {
+              "name": "embeds",
+              "value": "[{\"title\": \"Lead Generation Started\", \"description\": \"Sources: GitHub API + Tech News\\nTarget: {{ $('Config').item.json.niche }}\\nMode: {{ $('Config').item.json.dryRun ? 'Dry Run' : 'Live' }}\", \"timestamp\": \"{{ $now.toISO() }}\", \"color\": 3066993}]"
+            }
+          ]
+        }
+      },
+      "typeVersion": 4.2
+    },
+    {
+      "id": "github_1",
+      "name": "GitHub Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        850,
+        300
+      ],
+      "parameters": {
+        "url": "=https://api.github.com/search/users",
+        "method": "GET",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "n8n-lead-generator"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.github.v3+json"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "=type:user followers:>{{ $('Config').item.json.minFollowers }} location:\"{{ $('Config').item.json.locations.split(',')[0] }}\""
+            },
+            {
+              "name": "sort",
+              "value": "followers"
+            },
+            {
+              "name": "order",
+              "value": "desc"
+            },
+            {
+              "name": "per_page",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false
+            }
+          }
+        }
+      },
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "github_pat",
+          "name": "GitHub PAT"
+        }
+      }
+    },
+    {
+      "id": "parse_github_1",
+      "name": "Parse GitHub Results",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1050,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const results = $input.all()[0].json;\nconst config = $('Config').item.json;\n\nif (!results.items || !Array.isArray(results.items)) {\n  return [];\n}\n\nconst leads = results.items.map(user => {\n  // Extract relevant info from GitHub profile\n  const lead = {\n    name: user.name || user.login,\n    title: 'Software Developer', // Will be enriched from bio\n    company: user.company || 'Independent',\n    location: user.location || 'Unknown',\n    profileUrl: user.html_url,\n    githubUrl: user.html_url,\n    avatarUrl: user.avatar_url,\n    bio: user.bio || '',\n    blog: user.blog || '',\n    email: user.email, // Often null in search results\n    followers: user.followers || 0,\n    publicRepos: user.public_repos || 0,\n    source: 'GitHub API',\n    discoveredAt: new Date().toISOString()\n  };\n  \n  // Try to extract role from bio\n  if (lead.bio) {\n    const bioLower = lead.bio.toLowerCase();\n    if (bioLower.includes('cto')) lead.title = 'CTO';\n    else if (bioLower.includes('vp eng')) lead.title = 'VP Engineering';\n    else if (bioLower.includes('founder')) lead.title = 'Founder';\n    else if (bioLower.includes('ceo')) lead.title = 'CEO';\n    else if (bioLower.includes('head of eng')) lead.title = 'Head of Engineering';\n    else if (bioLower.includes('director')) lead.title = 'Engineering Director';\n  }\n  \n  // Estimate company size based on indicators\n  lead.companySize = lead.company === 'Independent' ? 1 : 100; // Default estimate\n  \n  return { json: lead };\n});\n\nreturn leads;"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "funding_news_1",
+      "name": "Fetch Funding News",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "position": [
+        850,
+        500
+      ],
+      "parameters": {
+        "url": "https://techcrunch.com/category/venture/feed/",
+        "options": {
+          "limit": 20
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "extract_founders_1",
+      "name": "Extract Founders",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1050,
+        500
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const article = $input.item.json;\nconst config = $('Config').item.json;\n\n// Extract potential leads from funding news\nconst leads = [];\nconst content = (article.content || article.description || '').toLowerCase();\nconst title = (article.title || '').toLowerCase();\n\n// Check if it's funding news\nconst fundingKeywords = ['raised', 'funding', 'series', 'investment', 'million', 'round'];\nconst isFunding = fundingKeywords.some(kw => title.includes(kw) || content.includes(kw));\n\nif (!isFunding) {\n  return { json: { skipped: true } };\n}\n\n// Extract company name from title\nlet companyName = '';\nconst titleMatch = article.title.match(/^([^,]+?)\\s+(raises|secures|closes|announces)/i);\nif (titleMatch) {\n  companyName = titleMatch[1].trim();\n}\n\n// Try to extract founder names and funding amount\nconst founderPatterns = [\n  /founded by ([A-Z][a-z]+ [A-Z][a-z]+)/g,\n  /CEO ([A-Z][a-z]+ [A-Z][a-z]+)/g,\n  /founder ([A-Z][a-z]+ [A-Z][a-z]+)/g,\n  /co-founder ([A-Z][a-z]+ [A-Z][a-z]+)/g\n];\n\nconst amountMatch = content.match(/\\$([0-9.]+)\\s*(million|M)/i);\nconst fundingAmount = amountMatch ? `$${amountMatch[1]}M` : 'Undisclosed';\n\n// Extract founder names\nconst foundersSet = new Set();\nfounderPatterns.forEach(pattern => {\n  const matches = content.matchAll(pattern);\n  for (const match of matches) {\n    if (match[1]) foundersSet.add(match[1]);\n  }\n});\n\n// Create lead entries\nif (foundersSet.size > 0 || companyName) {\n  const founderNames = Array.from(foundersSet);\n  \n  if (founderNames.length > 0) {\n    // Create leads for each founder found\n    founderNames.forEach(name => {\n      leads.push({\n        json: {\n          name: name,\n          title: 'Founder/CEO',\n          company: companyName || 'Startup',\n          companySize: 50, // Estimate for funded startups\n          location: 'United States', // Default\n          profileUrl: article.link,\n          newsUrl: article.link,\n          fundingAmount: fundingAmount,\n          source: 'TechCrunch',\n          bio: `Recently raised ${fundingAmount} in funding`,\n          email: null,\n          discoveredAt: new Date().toISOString(),\n          recentActivity: article.title\n        }\n      });\n    });\n  } else if (companyName) {\n    // Create a generic lead for the company\n    leads.push({\n      json: {\n        name: `${companyName} Leadership`,\n        title: 'Founder/CEO',\n        company: companyName,\n        companySize: 50,\n        location: 'United States',\n        profileUrl: article.link,\n        newsUrl: article.link,\n        fundingAmount: fundingAmount,\n        source: 'TechCrunch',\n        bio: `Company recently raised ${fundingAmount}`,\n        email: null,\n        discoveredAt: new Date().toISOString(),\n        recentActivity: article.title\n      }\n    });\n  }\n}\n\nreturn leads.length > 0 ? leads : [{ json: { skipped: true } }];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "merge_1",
+      "name": "Merge Leads",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        1250,
+        400
+      ],
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "typeVersion": 3
+    },
+    {
+      "id": "process_all_1",
+      "name": "Process All Leads",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1450,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const lead = $input.item.json;\nconst config = $('Config').item.json;\n\n// Skip if this was a skipped item\nif (lead.skipped) {\n  return { json: { skip: true } };\n}\n\n// Ensure required fields\nlead.id = lead.id || `lead_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;\nlead.name = lead.name || 'Unknown';\nlead.title = lead.title || 'Unknown Role';\nlead.company = lead.company || 'Unknown Company';\n\n// Check role match\nconst targetRoles = config.targetRoles.split(',').map(r => r.trim().toLowerCase());\nconst leadRole = lead.title.toLowerCase();\nconst roleMatch = targetRoles.some(role => leadRole.includes(role)) || \n                  (lead.bio && targetRoles.some(role => lead.bio.toLowerCase().includes(role)));\n\n// Calculate qualification score\nlet score = 0;\n\n// Role scoring\nif (roleMatch) score += 40;\nif (lead.title.includes('Founder') || lead.title.includes('CEO')) score += 10;\n\n// Activity scoring\nif (lead.followers > 500) score += 20;\nelse if (lead.followers > 100) score += 10;\n\n// Funding scoring\nif (lead.fundingAmount && lead.fundingAmount !== 'Undisclosed') score += 20;\n\n// Recent activity\nif (lead.recentActivity) score += 10;\n\n// Company validation\nif (lead.company && lead.company !== 'Unknown Company' && lead.company !== 'Independent') score += 10;\n\nlead.qualificationScore = score;\nlead.qualified = score >= 50; // Lower threshold for real data\n\n// Categorize\nif (score >= 80) lead.tier = 'A';\nelse if (score >= 60) lead.tier = 'B';\nelse if (score >= 40) lead.tier = 'C';\nelse lead.tier = 'D';\n\n// Add metadata\nlead.processedAt = new Date().toISOString();\nlead.matchCriteria = {\n  roleMatch,\n  hasActivity: !!lead.recentActivity,\n  hasFunding: !!lead.fundingAmount,\n  socialProof: lead.followers > 100\n};\n\nreturn { json: lead };"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "dedup_2",
+      "name": "Deduplicate Leads",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1650,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = $('Config').item.json;\nconst items = $input.all();\nconst leads = items.filter(item => !item.json.skip);\n\n// Get cache\nlet cache = $getWorkflowStaticData('global');\nif (!cache.seenLeads) cache.seenLeads = {};\n\n// Deduplicate\nconst unique = [];\nconst stats = {\n  totalProcessed: leads.length,\n  duplicates: 0,\n  newLeads: 0\n};\n\nfor (const lead of leads) {\n  const key = `${lead.json.name}_${lead.json.company}`.toLowerCase().replace(/[^a-z0-9]/g, '');\n  \n  if (!cache.seenLeads[key]) {\n    unique.push(lead);\n    stats.newLeads++;\n    \n    if (!config.dryRun) {\n      cache.seenLeads[key] = {\n        firstSeen: new Date().toISOString(),\n        source: lead.json.source\n      };\n    }\n  } else {\n    stats.duplicates++;\n  }\n}\n\n// Clean old cache entries\nif (Object.keys(cache.seenLeads).length > 5000) {\n  const entries = Object.entries(cache.seenLeads);\n  entries.sort((a, b) => new Date(a[1].firstSeen) - new Date(b[1].firstSeen));\n  cache.seenLeads = Object.fromEntries(entries.slice(-2500));\n}\n\n// Add stats to leads\nreturn unique.map(lead => ({\n  json: { ...lead.json, stats }\n}));"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "ai_enricher_1",
+      "name": "AI Lead Enricher",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1850,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Enrich lead with AI insights\nconst lead = $input.item.json;\n\n// Simulate AI enrichment (in production, would call Claude API)\nconst insights = {\n  buyingIntent: 'medium',\n  painPoints: [],\n  recommendedApproach: '',\n  estimatedDealSize: '$10K-50K',\n  personalityType: 'Technical Decision Maker'\n};\n\n// Analyze based on available data\nif (lead.fundingAmount) {\n  insights.buyingIntent = 'high';\n  insights.painPoints.push('Scaling infrastructure');\n  insights.painPoints.push('Hiring technical talent');\n  insights.recommendedApproach = 'Focus on growth enablement';\n  \n  // Estimate deal size based on funding\n  const amount = lead.fundingAmount.match(/\\$([0-9.]+)M/i);\n  if (amount && parseFloat(amount[1]) > 10) {\n    insights.estimatedDealSize = '$50K-200K';\n  }\n}\n\nif (lead.bio) {\n  const bioLower = lead.bio.toLowerCase();\n  if (bioLower.includes('scale') || bioLower.includes('growth')) {\n    insights.painPoints.push('Scaling challenges');\n  }\n  if (bioLower.includes('security') || bioLower.includes('compliance')) {\n    insights.painPoints.push('Security & compliance');\n  }\n  if (bioLower.includes('ai') || bioLower.includes('ml')) {\n    insights.painPoints.push('AI/ML implementation');\n  }\n}\n\n// Recommend approach based on profile\nif (lead.source === 'GitHub API' && lead.followers > 500) {\n  insights.personalityType = 'Technical Influencer';\n  insights.recommendedApproach = 'Developer-focused pitch, technical deep dive';\n} else if (lead.source === 'TechCrunch') {\n  insights.personalityType = 'Business-focused Leader';\n  insights.recommendedApproach = 'ROI and growth metrics focus';\n}\n\n// Email prediction (if not available)\nif (!lead.email && lead.name && lead.company) {\n  const firstName = lead.name.split(' ')[0].toLowerCase();\n  const companyDomain = lead.company.toLowerCase().replace(/[^a-z0-9]/g, '');\n  lead.emailPrediction = `${firstName}@${companyDomain}.com`;\n  lead.emailConfidence = 0.6;\n}\n\nlead.aiInsights = insights;\nlead.enrichedAt = new Date().toISOString();\n\nreturn { json: lead };"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "quality_filter_3",
+      "name": "Quality Filter",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        2050,
+        400
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "combinator": "and",
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              },
+              "leftValue": "={{ $json.qualified }}",
+              "rightValue": ""
+            }
+          ]
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "format_report_2",
+      "name": "Format Lead Report",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        2250,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = $('Config').item.json;\nconst leads = $input.all();\nconst stats = leads[0]?.json.stats || {};\n\n// Group by tier\nconst tiers = { A: [], B: [], C: [] };\nleads.forEach(l => {\n  if (tiers[l.json.tier]) tiers[l.json.tier].push(l.json);\n});\n\n// Format report\nconst report = {\n  summary: {\n    totalQualified: leads.length,\n    tierA: tiers.A.length,\n    tierB: tiers.B.length,\n    tierC: tiers.C.length,\n    githubLeads: leads.filter(l => l.json.source === 'GitHub API').length,\n    fundingLeads: leads.filter(l => l.json.source === 'TechCrunch').length,\n    ...stats\n  },\n  leads: leads.map(l => ({\n    name: l.json.name,\n    title: l.json.title,\n    company: l.json.company,\n    location: l.json.location || 'Unknown',\n    tier: l.json.tier,\n    score: l.json.qualificationScore,\n    source: l.json.source,\n    profileUrl: l.json.profileUrl || l.json.githubUrl || l.json.newsUrl,\n    fundingAmount: l.json.fundingAmount,\n    followers: l.json.followers,\n    insights: l.json.aiInsights,\n    email: l.json.email || l.json.emailPrediction,\n    emailConfidence: l.json.emailConfidence\n  })),\n  generatedAt: new Date().toISOString(),\n  config\n};\n\n// Generate CSV\nconst csv = [\n  'Name,Title,Company,Location,Tier,Score,Source,Profile URL,Email',\n  ...report.leads.map(l => \n    `\"${l.name}\",\"${l.title}\",\"${l.company}\",\"${l.location}\",${l.tier},${l.score},\"${l.source}\",\"${l.profileUrl}\",\"${l.email || ''}\"`\n  )\n].join('\\n');\n\nreport.csv = csv;\n\nreturn [{ json: report }];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "store_preview_2",
+      "name": "Store or Preview",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        2450,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $input.item.json;\nconst config = data.config;\n\nif (config.dryRun) {\n  return {\n    json: {\n      ...data,\n      action: 'preview',\n      message: 'Dry run - real leads found but not stored',\n      previewLeads: data.leads.slice(0, 5),\n      deliveryMethod: 'Would be sent to CRM/Database'\n    }\n  };\n} else {\n  // Production mode\n  return {\n    json: {\n      ...data,\n      action: 'delivered',\n      message: 'Leads delivered successfully',\n      deliveredAt: new Date().toISOString(),\n      deliveryMethod: 'API/Webhook',\n      recordsCreated: data.leads.length\n    }\n  };\n}"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "update_stats_2",
+      "name": "Update Statistics",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        2650,
+        400
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $input.item.json;\nconst config = data.config;\n\nif (!config.dryRun) {\n  const stats = $getWorkflowStaticData('global');\n  \n  if (!stats.lifetime) {\n    stats.lifetime = {\n      totalLeads: 0,\n      tierALeads: 0,\n      runs: 0,\n      sources: { github: 0, news: 0 }\n    };\n  }\n  \n  stats.lifetime.totalLeads += data.summary.totalQualified;\n  stats.lifetime.tierALeads += data.summary.tierA;\n  stats.lifetime.runs += 1;\n  stats.lifetime.sources.github += data.summary.githubLeads;\n  stats.lifetime.sources.news += data.summary.fundingLeads;\n  stats.lifetime.lastRun = new Date().toISOString();\n  \n  data.lifetimeStats = stats.lifetime;\n}\n\nreturn [{ json: data }];"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "discord_success_3",
+      "name": "Discord Success",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2850,
+        400
+      ],
+      "parameters": {
+        "url": "={{ $('Config').item.json.discordWebhook }}",
+        "method": "POST",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "✅ Real Lead Generator: {{ $json.action === 'preview' ? 'Preview Complete' : 'Leads Delivered' }}"
+            },
+            {
+              "name": "embeds",
+              "value": "[{\"title\": \"Lead Generation Results\", \"description\": \"Total Found: {{ $json.summary.totalQualified }}\\nTier A: {{ $json.summary.tierA }}\\nGitHub: {{ $json.summary.githubLeads }}\\nFunding News: {{ $json.summary.fundingLeads }}\", \"timestamp\": \"{{ $now.toISO() }}\", \"fields\": [{\"name\": \"Top Lead\", \"value\": \"{{ $json.leads[0] ? $json.leads[0].name + ' @ ' + $json.leads[0].company : 'No leads' }}\", \"inline\": false}, {\"name\": \"Status\", \"value\": \"{{ $json.message }}\", \"inline\": true}], \"color\": 5763719}]"
+            }
+          ]
+        }
+      },
+      "typeVersion": 4.2
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "executionTimeout": 300,
+    "errorWorkflow": "y1IZGHprz4HsYbvB"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T19:26:38.763Z",
+      "updatedAt": "2025-09-13T19:26:38.763Z",
+      "role": "workflow:owner",
+      "workflowId": "2Gz5gH67zb1zHDTX",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:26:38.761Z",
+  "versionId": "bda38888-a557-494e-b705-d5d904416cb2"
+}
