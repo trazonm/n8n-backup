@@ -1,0 +1,397 @@
+{
+  "active": false,
+  "connections": {
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Schedule Trigger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Discord Start Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Start Notification": {
+      "main": [
+        [
+          {
+            "node": "Fetch RSS Feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch RSS Feeds": {
+      "main": [
+        [
+          {
+            "node": "Deduplicate Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deduplicate Items": {
+      "main": [
+        [
+          {
+            "node": "AI Content Curator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Content Curator": {
+      "main": [
+        [
+          {
+            "node": "Quality Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Filter": {
+      "main": [
+        [
+          {
+            "node": "Format Newsletter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Newsletter": {
+      "main": [
+        [
+          {
+            "node": "Publish or Preview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish or Preview": {
+      "main": [
+        [
+          {
+            "node": "Update Cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Cache": {
+      "main": [
+        [
+          {
+            "node": "Discord Success Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-13T19:15:54.933Z",
+  "id": "6E3LWYmQJtMfrqre",
+  "isArchived": false,
+  "meta": null,
+  "name": "AI Newsletter Curator - Tech Innovation",
+  "nodes": [
+    {
+      "id": "config_1",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [
+        250,
+        200
+      ],
+      "parameters": {
+        "mode": "manual",
+        "fields": {
+          "values": [
+            {
+              "name": "niche",
+              "type": "string",
+              "stringValue": "AI and Tech Innovation"
+            },
+            {
+              "name": "dryRun",
+              "type": "boolean",
+              "booleanValue": true
+            },
+            {
+              "name": "maxItems",
+              "type": "number",
+              "numberValue": 10
+            },
+            {
+              "name": "frequency",
+              "type": "string",
+              "stringValue": "daily"
+            },
+            {
+              "name": "rateLimitPerMin",
+              "type": "number",
+              "numberValue": 10
+            },
+            {
+              "name": "discordWebhook",
+              "type": "string",
+              "stringValue": "https://bakaflow.gleeze.com/webhook/discord-notify"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "schedule_1",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        450,
+        200
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "discord_start_1",
+      "name": "Discord Start Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        650,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.discordWebhook }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "🚀 AI Newsletter Curator: Starting daily curation for {{ $('Config').item.json.niche }}"
+            },
+            {
+              "name": "embeds",
+              "value": "[{\"title\": \"Newsletter Curation Started\", \"description\": \"Mode: {{ $('Config').item.json.dryRun ? 'Dry Run' : 'Live' }}\\nMax Items: {{ $('Config').item.json.maxItems }}\", \"timestamp\": \"{{ $now.toISO() }}\", \"color\": 3447003}]"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "rss_1",
+      "name": "Fetch RSS Feeds",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [
+        850,
+        200
+      ],
+      "parameters": {
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "options": {}
+      }
+    },
+    {
+      "id": "dedup_1",
+      "name": "Deduplicate Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1050,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = $('Config').item.json;\nconst items = $input.all();\nconst cacheKey = 'newsletter_seen_urls';\n\n// Get existing cache\nlet seenUrls = $getWorkflowStaticData('global');\nif (!seenUrls[cacheKey]) {\n  seenUrls[cacheKey] = [];\n}\n\n// Filter out already seen items\nconst newItems = [];\nfor (const item of items) {\n  const url = item.json.link || item.json.guid;\n  if (!seenUrls[cacheKey].includes(url)) {\n    newItems.push(item);\n    if (!config.dryRun) {\n      seenUrls[cacheKey].push(url);\n    }\n  }\n}\n\n// Keep cache size manageable\nif (seenUrls[cacheKey].length > 1000) {\n  seenUrls[cacheKey] = seenUrls[cacheKey].slice(-500);\n}\n\n// Limit to maxItems\nconst limitedItems = newItems.slice(0, config.maxItems);\n\nreturn limitedItems.map(item => ({\n  json: {\n    ...item.json,\n    stats: {\n      totalSeen: items.length,\n      newItems: newItems.length,\n      kept: limitedItems.length,\n      skipped: items.length - limitedItems.length\n    }\n  }\n}));"
+      }
+    },
+    {
+      "id": "ai_curator_1",
+      "name": "AI Content Curator",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Simulate AI curation (in production, this would call Claude API)\nconst item = $input.item.json;\n\n// Extract key info and score relevance\nconst title = item.title || '';\nconst description = item.description || item.summary || '';\nconst content = item.content || item['content:encoded'] || description;\n\n// Simple scoring based on keywords\nconst aiKeywords = ['AI', 'machine learning', 'neural', 'GPT', 'LLM', 'automation', 'robotics'];\nlet relevanceScore = 0;\n\nfor (const keyword of aiKeywords) {\n  if (title.toLowerCase().includes(keyword.toLowerCase())) relevanceScore += 2;\n  if (description.toLowerCase().includes(keyword.toLowerCase())) relevanceScore += 1;\n}\n\n// Generate summary (simulated)\nconst summary = description.length > 200 ? \n  description.substring(0, 197) + '...' : \n  description;\n\n// Add curation metadata\nreturn {\n  json: {\n    ...item,\n    curated: {\n      relevanceScore,\n      summary,\n      category: relevanceScore > 3 ? 'Featured' : 'Standard',\n      readTime: Math.ceil(content.split(' ').length / 200) + ' min',\n      curatedAt: new Date().toISOString()\n    }\n  }\n};"
+      }
+    },
+    {
+      "id": "filter_1",
+      "name": "Quality Filter",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1450,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "combinator": "and",
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.curated.relevanceScore }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "format_1",
+      "name": "Format Newsletter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1650,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = $('Config').item.json;\nconst items = $input.all();\nconst stats = items[0]?.json.stats || {};\n\n// Group by category\nconst featured = items.filter(i => i.json.curated.category === 'Featured');\nconst standard = items.filter(i => i.json.curated.category === 'Standard');\n\n// Format newsletter content\nlet newsletterHtml = `<h1>🤖 AI & Tech Innovation Daily</h1>`;\nnesletterHtml += `<p><em>${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</em></p>`;\n\nif (featured.length > 0) {\n  newsletterHtml += `<h2>🌟 Featured Stories</h2>`;\n  featured.forEach(item => {\n    newsletterHtml += `\n      <div style=\"margin-bottom: 20px;\">\n        <h3><a href=\"${item.json.link}\">${item.json.title}</a></h3>\n        <p>${item.json.curated.summary}</p>\n        <p><small>📖 ${item.json.curated.readTime} read | Score: ${item.json.curated.relevanceScore}/10</small></p>\n      </div>\n    `;\n  });\n}\n\nif (standard.length > 0) {\n  newsletterHtml += `<h2>📰 More Stories</h2>`;\n  standard.forEach(item => {\n    newsletterHtml += `\n      <div style=\"margin-bottom: 15px;\">\n        <h4><a href=\"${item.json.link}\">${item.json.title}</a></h4>\n        <p><small>${item.json.curated.summary.substring(0, 100)}...</small></p>\n      </div>\n    `;\n  });\n}\n\n// Add footer\nnewsletterHtml += `\n  <hr>\n  <p><small>Curated by AI | ${items.length} stories selected from ${stats.totalSeen || 0} articles</small></p>\n`;\n\nreturn [{\n  json: {\n    newsletter: {\n      html: newsletterHtml,\n      subject: `AI Daily: ${featured.length} Featured Stories - ${new Date().toLocaleDateString()}`,\n      previewText: featured[0]?.json.title || 'Latest AI innovations and insights',\n      stats: {\n        ...stats,\n        featured: featured.length,\n        standard: standard.length\n      }\n    },\n    config\n  }\n}];"
+      }
+    },
+    {
+      "id": "publish_1",
+      "name": "Publish or Preview",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1850,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $input.item.json;\nconst config = data.config;\n\nif (config.dryRun) {\n  // In dry run, just prepare preview\n  return {\n    json: {\n      ...data,\n      published: false,\n      action: 'preview',\n      message: 'Dry run - newsletter prepared but not sent',\n      previewUrl: 'Newsletter would be published to subscribers'\n    }\n  };\n} else {\n  // In production, this would send to email service/blog\n  return {\n    json: {\n      ...data,\n      published: true,\n      action: 'published',\n      message: 'Newsletter published successfully',\n      publishedAt: new Date().toISOString(),\n      subscriberCount: 2500 // Simulated\n    }\n  };\n}"
+      }
+    },
+    {
+      "id": "cache_1",
+      "name": "Update Cache",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2050,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Save state only if not in dry run\nconst config = $('Config').item.json;\n\nif (!config.dryRun) {\n  const staticData = $getWorkflowStaticData('global');\n  staticData.lastRun = new Date().toISOString();\n  staticData.runCount = (staticData.runCount || 0) + 1;\n}\n\nreturn [$input.item];"
+      }
+    },
+    {
+      "id": "discord_end_1",
+      "name": "Discord Success Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2250,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.discordWebhook }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "✅ AI Newsletter Curator: {{ $json.action === 'preview' ? 'Preview Generated' : 'Published Successfully' }}"
+            },
+            {
+              "name": "embeds",
+              "value": "[{\"title\": \"Newsletter Curation Complete\", \"description\": \"Items seen: {{ $json.newsletter.stats.totalSeen }}\\nItems kept: {{ $json.newsletter.stats.kept }}\\nFeatured: {{ $json.newsletter.stats.featured }}\\nMode: {{ $json.config.dryRun ? 'Dry Run' : 'Live' }}\", \"timestamp\": \"{{ $now.toISO() }}\", \"fields\": [{\"name\": \"Subject\", \"value\": \"{{ $json.newsletter.subject }}\", \"inline\": false}, {\"name\": \"Status\", \"value\": \"{{ $json.message }}\", \"inline\": true}], \"color\": 5763719}]"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "executionTimeout": 300,
+    "errorWorkflow": "SnajjGd2nazIWRPw"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-13T19:15:54.935Z",
+      "updatedAt": "2025-09-13T19:15:54.935Z",
+      "role": "workflow:owner",
+      "workflowId": "6E3LWYmQJtMfrqre",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-13T19:18:35.846Z",
+  "versionId": "3bca08f6-788b-4e86-97a5-c4e4d948cbf8"
+}
