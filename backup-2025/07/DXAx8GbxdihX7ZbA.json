@@ -31,6 +31,31 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clear Downloads1",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     }
@@ -56,8 +81,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -280,
-        0
+        -288,
+        -48
       ],
       "id": "7cb0912a-5fb0-49b7-8632-eb4aae256336",
       "name": "Schedule Trigger"
@@ -71,8 +96,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        380,
-        0
+        384,
+        -144
       ],
       "id": "995e2c38-63cc-4216-a7c7-7b5638be9c1e",
       "name": "Clear Downloads",
@@ -92,8 +117,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -60,
-        0
+        -64,
+        -48
       ],
       "id": "9058c5da-6655-45f6-8524-2149d5cd1ca2",
       "name": "Postgres",
@@ -111,6 +136,12 @@
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 25,
+              "batchInterval": 60000
+            }
+          },
           "response": {
             "response": {
               "fullResponse": true,
@@ -123,10 +154,12 @@
       "typeVersion": 4.2,
       "position": [
         160,
-        0
+        -48
       ],
       "id": "60118b5d-7cea-4de7-bba2-9c8861594555",
       "name": "Delete Download(s)",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
       "credentials": {
         "httpQueryAuth": {
           "id": "nD7ei1tu51CS9KxZ",
@@ -135,6 +168,117 @@
         "httpBearerAuth": {
           "id": "mSOiWK3SFXOS21ri",
           "name": "RD Token"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.error.message }}",
+                    "rightValue": "\"error_code\":7",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notContains"
+                    },
+                    "id": "8ff6aeb2-6f97-4bc9-9ca4-d9502badfeb2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Other Error"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6d0af652-db80-4e0c-b53b-1806a3377a7a",
+                    "leftValue": "={{ $json.error.message }}",
+                    "rightValue": "\"error_code\":7",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Already Deleted"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        384,
+        48
+      ],
+      "id": "d3c9d34b-c9e7-4ffd-8651-1d7a92072441",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE users\nSET downloads = '[]'::jsonb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        608,
+        144
+      ],
+      "id": "dd72248d-fcc7-4a3f-8484-615c7e690980",
+      "name": "Clear Downloads1",
+      "credentials": {
+        "postgres": {
+          "id": "63Uzmf3H0VuXxdXP",
+          "name": "BakaWorld DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "<@246812164885577729> Error deleting BakaWorld downloads. Check pls\n\nhttps://bakaflow.gleeze.com/workflow/DXAx8GbxdihX7ZbA/executions",
+        "options": {
+          "avatar_url": "https://static.wikia.nocookie.net/intothespiderverse/images/5/56/MargoKess.webp/revision/latest/scale-to-width-down/780?cb=20231208220103"
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -48
+      ],
+      "id": "587413fb-5b55-486e-9ac9-176c78e05210",
+      "name": "Discord",
+      "webhookId": "04e1b7ba-a135-41a7-9ccc-ef3d4b25afac",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "0EPErYhwZVQ4Feqt",
+          "name": "Discord Dev Notis"
         }
       }
     }
@@ -162,6 +306,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-07-16T03:29:56.000Z",
-  "versionId": "955e8ad3-2821-435d-9566-f9fa77cf2ca6"
+  "updatedAt": "2025-09-14T19:57:15.000Z",
+  "versionId": "3061c6d9-87c6-44f0-9ee5-e7cf3cb223d9"
 }
