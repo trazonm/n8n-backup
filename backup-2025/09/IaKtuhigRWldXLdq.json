@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Google Sheets Trigger": {
       "main": [
@@ -13171,6 +13171,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-09-24T05:08:38.000Z",
+  "updatedAt": "2025-09-24T13:47:38.000Z",
   "versionId": "55e26b70-b87f-4596-9487-eb6d33f5ae77"
 }
