@@ -8,11 +8,6 @@
             "node": "Get all Anime (New Library)",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Get all Anime (Legacy Library)",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -88,28 +83,6 @@
       "main": [
         [
           {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Get all Anime (Legacy Library)": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge": {
-      "main": [
-        [
-          {
             "node": "Extract Rating Keys",
             "type": "main",
             "index": 0
@@ -155,7 +128,7 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        1584,
+        1376,
         256
       ]
     },
@@ -168,7 +141,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1360,
+        1152,
         256
       ]
     },
@@ -185,7 +158,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1808,
+        1600,
         112
       ],
       "executeOnce": true,
@@ -200,15 +173,9 @@
     {
       "parameters": {
         "url": "=http://192.168.0.107:32400/library/metadata/{{ $json.ratingKey }}?checkFiles=1&includeAllConcerts=1&includeBandwidths=1&includeChapters=1&includeChildren=1&includeConcerts=1&includeExtras=1&includeFields=1&includeGeolocation=1&includeLoudnessRamps=1&includeMarkers=1&includeOnDeck=1&includePopularLeaves=1&includePreferences=1&includeRelated=1&includeRelatedCount=1&includeReviews=1&includeStations=1&X-Plex-Token=NFQRt6V-sZxB4GFPtfDn",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "X-Plex-Token",
-              "value": "j7zrsCCz6krUpWhKdz6p"
-            }
-          ]
-        },
         "options": {}
       },
       "id": "225f8942-0304-4563-9c45-8466d07e535a",
@@ -216,9 +183,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1808,
+        1600,
         304
-      ]
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Cxr51jaB8HusrbRA",
+          "name": "BakaPlex"
+        }
+      }
     },
     {
       "parameters": {
@@ -261,7 +234,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2032,
+        1824,
         304
       ]
     },
@@ -269,13 +242,12 @@
       "parameters": {
         "method": "PUT",
         "url": "=http://192.168.0.107:32400/library/metadata/{{ $('Loop Over Items').item.json.ratingKey }}/analyze",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            {
-              "name": "X-Plex-Token",
-              "value": "j7zrsCCz6krUpWhKdz6p"
-            }
+            {}
           ]
         },
         "options": {
@@ -287,23 +259,28 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2240,
+        2048,
         304
       ],
       "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Cxr51jaB8HusrbRA",
+          "name": "BakaPlex"
+        }
+      },
       "onError": "continueRegularOutput"
     },
     {
       "parameters": {
         "method": "PUT",
         "url": "=http://192.168.0.107:32400/library/metadata/{{ $('Loop Over Items').item.json.ratingKey }}/refresh",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            {
-              "name": "X-Plex-Token",
-              "value": "j7zrsCCz6krUpWhKdz6p"
-            }
+            {}
           ]
         },
         "options": {
@@ -315,10 +292,16 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2464,
+        2272,
         304
       ],
       "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Cxr51jaB8HusrbRA",
+          "name": "BakaPlex"
+        }
+      },
       "onError": "continueRegularOutput"
     },
     {
@@ -334,47 +317,14 @@
       "typeVersion": 4.2,
       "position": [
         928,
-        304
-      ],
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "Cxr51jaB8HusrbRA",
-          "name": "BakaPlex"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "url": "http://192.168.0.107:32400/library/sections/2/all?genre=4376",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "options": {}
-      },
-      "id": "9dedf93a-915a-40ad-a09f-a6adb4ef4953",
-      "name": "Get all Anime (Legacy Library)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        928,
-        112
-      ],
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "Cxr51jaB8HusrbRA",
-          "name": "BakaPlex"
-        }
-      }
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3,
-      "position": [
-        1152,
         256
       ],
-      "id": "72a36961-7a4d-441e-8517-8ad0ebb80be3",
-      "name": "Merge"
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Cxr51jaB8HusrbRA",
+          "name": "BakaPlex"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -409,6 +359,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-28T07:29:54.000Z",
-  "versionId": "0a7de5bf-ca58-475d-881c-23f14d7d4c49"
+  "updatedAt": "2025-09-30T04:13:43.000Z",
+  "versionId": "da9dd132-fcc2-4cf5-ac52-0cafe0092fc3"
 }
