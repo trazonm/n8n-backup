@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Delete Download(s)",
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -58,6 +58,46 @@
           }
         ]
       ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Delete Download(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear Downloads1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-07-04T19:51:44.920Z",
@@ -82,7 +122,7 @@
       "typeVersion": 1.2,
       "position": [
         -288,
-        -48
+        -368
       ],
       "id": "7cb0912a-5fb0-49b7-8632-eb4aae256336",
       "name": "Schedule Trigger"
@@ -96,8 +136,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        384,
-        -144
+        832,
+        -464
       ],
       "id": "995e2c38-63cc-4216-a7c7-7b5638be9c1e",
       "name": "Clear Downloads",
@@ -118,7 +158,7 @@
       "typeVersion": 2.6,
       "position": [
         -64,
-        -48
+        -368
       ],
       "id": "9058c5da-6655-45f6-8524-2149d5cd1ca2",
       "name": "Postgres",
@@ -132,7 +172,7 @@
     {
       "parameters": {
         "method": "DELETE",
-        "url": "=https://api.real-debrid.com/rest/1.0/torrents/delete/{{ $json.download_id }}",
+        "url": "=https://api.real-debrid.com/rest/1.0/torrents/delete/{{ $('Loop Over Items').item.json.download_id }}",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "options": {
@@ -153,8 +193,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        160,
-        -48
+        608,
+        -368
       ],
       "id": "60118b5d-7cea-4de7-bba2-9c8861594555",
       "name": "Delete Download(s)",
@@ -231,8 +271,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        384,
-        48
+        832,
+        -272
       ],
       "id": "d3c9d34b-c9e7-4ffd-8651-1d7a92072441",
       "name": "Switch"
@@ -246,8 +286,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        608,
-        144
+        1056,
+        -104
       ],
       "id": "dd72248d-fcc7-4a3f-8484-615c7e690980",
       "name": "Clear Downloads1",
@@ -269,8 +309,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        608,
-        -48
+        1056,
+        -320
       ],
       "id": "587413fb-5b55-486e-9ac9-176c78e05210",
       "name": "Discord",
@@ -281,9 +321,79 @@
           "name": "Discord Dev Notis"
         }
       }
+    },
+    {
+      "parameters": {
+        "amount": 6
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        384,
+        -368
+      ],
+      "id": "e54266b7-8288-4f6a-b633-ba52329df74c",
+      "name": "Wait",
+      "webhookId": "12664654-5c5e-4304-828c-83f75a5cbc71",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        160,
+        -368
+      ],
+      "id": "ddc5578e-505e-449e-85ed-696f1e182701",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "<@246812164885577729> BakaWorld downloads have been cleared!\n\nhttps://bakaflow.gleeze.com/workflow/DXAx8GbxdihX7ZbA/executions",
+        "options": {
+          "avatar_url": "https://static.wikia.nocookie.net/intothespiderverse/images/5/56/MargoKess.webp/revision/latest/scale-to-width-down/780?cb=20231208220103"
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -560
+      ],
+      "id": "efa47721-140d-4399-8128-98727e03ecfc",
+      "name": "Discord1",
+      "webhookId": "04e1b7ba-a135-41a7-9ccc-ef3d4b25afac",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "0EPErYhwZVQ4Feqt",
+          "name": "Discord Dev Notis"
+        }
+      }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-10-01T00:00:14.014-04:00",
+          "Readable date": "October 1st 2025, 12:00:14 am",
+          "Readable time": "12:00:14 am",
+          "Day of week": "Wednesday",
+          "Year": "2025",
+          "Month": "October",
+          "Day of month": "01",
+          "Hour": "00",
+          "Minute": "00",
+          "Second": "14",
+          "Timezone": "America/New_York (UTC-04:00)"
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
@@ -306,6 +416,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-09-14T19:57:15.000Z",
-  "versionId": "3061c6d9-87c6-44f0-9ee5-e7cf3cb223d9"
+  "updatedAt": "2025-10-01T04:54:08.000Z",
+  "versionId": "f9786422-364d-4b9d-9162-343570c3553d"
 }
