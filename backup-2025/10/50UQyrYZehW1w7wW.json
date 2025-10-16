@@ -1,0 +1,158 @@
+{
+  "active": false,
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get items item by column value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get items item by column value": {
+      "main": [
+        [
+          {
+            "node": "Change a column value for a board item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-15T20:52:31.801Z",
+  "id": "50UQyrYZehW1w7wW",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1J6Tr0XZfmeUjn3KsoMxW60x4Ib_hru70L64RsAwhi0g",
+          "mode": "list",
+          "cachedResultName": "monday mass update 10.15.25",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1J6Tr0XZfmeUjn3KsoMxW60x4Ib_hru70L64RsAwhi0g/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1J6Tr0XZfmeUjn3KsoMxW60x4Ib_hru70L64RsAwhi0g/edit#gid=0"
+        },
+        "event": "rowUpdate",
+        "options": {
+          "columnsToWatch": [
+            "Trigger?"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ff463340-2a07-49c1-af73-58760d28429e",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "bTcuDwnsZlUNgDn8",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "7851624642",
+        "columnId": "name",
+        "columnValue": "={{ $json.Name }}",
+        "limit": 1
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "9709b039-9c71-478f-9d8f-85eacd18b101",
+      "name": "Get items item by column value",
+      "executeOnce": false,
+      "credentials": {
+        "mondayComApi": {
+          "id": "GM3Ug5zZ3SY9ePJb",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "7851624642",
+        "itemId": "={{ $json.id }}",
+        "columnId": "dropdown_mkqgrya7",
+        "value": "={{ JSON.stringify({\"labels\": [$('Google Sheets Trigger').item.json['Report Type'], \"Local SEO\"]}) }}"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "b58304f5-2b4d-47b5-8363-51c30bee106f",
+      "name": "Change a column value for a board item",
+      "credentials": {
+        "mondayComApi": {
+          "id": "GM3Ug5zZ3SY9ePJb",
+          "name": "Monday.com account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-15T20:52:31.805Z",
+      "updatedAt": "2025-10-15T20:52:31.805Z",
+      "role": "workflow:owner",
+      "workflowId": "50UQyrYZehW1w7wW",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": {
+    "node:Google Sheets Trigger": {
+      "documentId": "1J6Tr0XZfmeUjn3KsoMxW60x4Ib_hru70L64RsAwhi0g",
+      "sheetId": 0,
+      "lastRevision": 10,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1J6Tr0XZfmeUjn3KsoMxW60x4Ib_hru70L64RsAwhi0g&revision=10&exportFormat=xlsx"
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-15T21:18:18.000Z",
+  "versionId": "67ca76a7-7d7d-4a0b-a7b3-2a7828d8fe5c"
+}
