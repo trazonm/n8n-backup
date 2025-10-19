@@ -1,0 +1,31 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-10-19T00:15:38.177Z",
+  "id": "upMbMrLMFCnF9Pkc",
+  "isArchived": false,
+  "meta": null,
+  "name": "Ideal RAG+ Reranking",
+  "nodes": [],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-19T00:15:38.181Z",
+      "updatedAt": "2025-10-19T00:15:38.181Z",
+      "role": "workflow:owner",
+      "workflowId": "upMbMrLMFCnF9Pkc",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-19T00:15:38.177Z",
+  "versionId": "9958a5f8-ead9-4cb9-8748-f8c3c647f7fb"
+}
