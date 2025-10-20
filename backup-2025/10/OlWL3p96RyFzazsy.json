@@ -1,0 +1,80 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-19T20:47:57.353Z",
+  "id": "OlWL3p96RyFzazsy",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -144
+      ],
+      "id": "37f642d5-e512-4b0f-9255-2a49b843a731",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Follow the directions given and produce a paragraph that is 6 or 7 sentences long that answers the question exactly "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -240,
+        -144
+      ],
+      "id": "91582fbb-09e2-4253-ae5f-f1745ed83a85",
+      "name": "Message a model"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-19T20:47:57.356Z",
+      "updatedAt": "2025-10-19T20:47:57.356Z",
+      "role": "workflow:owner",
+      "workflowId": "OlWL3p96RyFzazsy",
+      "projectId": "jywi8k9Nq56se6rX"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-19T20:47:57.353Z",
+  "versionId": "56ebdabb-71bb-4235-a5b7-8b711d95a65b"
+}
