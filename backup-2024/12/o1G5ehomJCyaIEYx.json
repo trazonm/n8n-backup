@@ -16,23 +16,12 @@
       "main": [
         [
           {
-            "node": "Discord1",
+            "node": "Switch",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Discord1": {
-      "main": [
-        [
-          {
-            "node": "Merge",
+            "node": "Send a message",
             "type": "main",
             "index": 0
           }
@@ -162,12 +151,25 @@
           }
         ]
       ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-12-23T19:43:18.826Z",
   "id": "o1G5ehomJCyaIEYx",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "Baka YN",
   "nodes": [
     {
@@ -205,8 +207,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1340,
-        -160
+        640,
+        -164
       ],
       "id": "004c47f4-62cb-4c9c-ba34-fcf3c8404d41",
       "name": "Discord",
@@ -252,8 +254,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        540,
-        260
+        -32,
+        28
       ],
       "id": "95a309bd-1241-4e98-b639-7934ce71da28",
       "name": "Discord4",
@@ -276,7 +278,7 @@
       "typeVersion": 2,
       "position": [
         -1280,
-        -80
+        -192
       ],
       "id": "9cd0b11f-f8ff-4d80-a570-83c8fac2c5f8",
       "name": "Webhook",
@@ -311,55 +313,19 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -1080,
-        -80
+        -1056,
+        -192
       ],
       "id": "cf0caf80-d76b-4400-a39d-23bb44e30089",
       "name": "Filter"
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "745447586697052201",
-          "mode": "list",
-          "cachedResultName": "BakaBoi's Mall",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "={{ $json.body.channelId }}",
-          "mode": "id"
-        },
-        "content": "Alright bro, lemme cook 🤌🏾 (generation takes 10-20s)",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -680,
-        -380
-      ],
-      "id": "9edefbb2-8109-4671-9fd7-28f6a1dd0073",
-      "name": "Discord1",
-      "webhookId": "e9fcbf30-fd34-4e0e-8728-dd6313a3d47e",
-      "retryOnFail": true,
-      "credentials": {
-        "discordOAuth2Api": {
-          "id": "2Ec2rSOgohgNIpaO",
-          "name": "Baka YN"
-        }
-      }
     },
     {
       "parameters": {},
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1560,
-        -360
+        864,
+        -288
       ],
       "id": "f9583d73-d3ac-47f7-944d-57723d4a2b4e",
       "name": "Merge"
@@ -386,8 +352,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1800,
-        -360
+        1088,
+        -288
       ],
       "id": "732b85ef-8e48-4337-931b-627c7972f667",
       "name": "Discord2",
@@ -427,8 +393,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        820,
-        -160
+        192,
+        -164
       ],
       "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
       "name": "HTTP Request"
@@ -441,8 +407,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1100,
-        -160
+        416,
+        -164
       ],
       "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
       "name": "HTTP Request1"
@@ -459,8 +425,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        -40,
-        60
+        -384,
+        -68
       ],
       "id": "5e3f84c0-d3cc-4804-8b3b-3b0d31190ee3",
       "name": "AI Agent",
@@ -476,15 +442,15 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        80,
-        400
+        -248,
+        156
       ],
       "id": "7f40a6ef-0339-4086-9f44-3cdbe3d17118",
       "name": "Postgres Chat Memory",
       "credentials": {
         "postgres": {
           "id": "d2lXGCTjZwwS5QLF",
-          "name": "Postgres account"
+          "name": "n8n DataBase"
         }
       }
     },
@@ -517,8 +483,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -40,
-        400
+        -376,
+        156
       ],
       "id": "ac2f3b97-72c4-47bf-8deb-31c83de9a54d",
       "name": "Google Gemini Chat Model",
@@ -585,8 +551,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -880,
-        40
+        -832,
+        -68
       ],
       "id": "dec58d51-ff5a-4216-a3e5-cda9e05aa90e",
       "name": "Switch"
@@ -599,8 +565,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -540,
-        -140
+        -608,
+        -188
       ],
       "id": "42d1cd89-5284-47f0-a920-2c51e23090be",
       "name": "Get TXT File",
@@ -613,11 +579,46 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        540,
-        -160
+        -32,
+        -164
       ],
       "id": "b254db7e-0ef0-4ff0-a503-455d73773702",
       "name": "Code"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "Alright bro, lemme cook 🤌🏾 (generation takes 10-20s)",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        640,
+        -384
+      ],
+      "id": "9504ab16-565c-48ab-aa14-859f5b0bf283",
+      "name": "Send a message",
+      "webhookId": "e922860e-19df-4e28-bea1-0cb1ab2d7b04",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "2Ec2rSOgohgNIpaO",
+          "name": "Baka YN"
+        }
+      }
     }
   ],
   "pinData": {
@@ -631,7 +632,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "231",
+            "content-length": "191",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -640,12 +641,12 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "ellies-break-room",
-            "channelId": "930254213739581511",
+            "channel": "testing",
+            "channelId": "1292732202211086426",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1339086343179079801",
-            "content": "byn give me a summary of that txt file I gave you",
+            "messageId": "1429577237736456313",
+            "content": "byn you there bro?",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakanigga",
@@ -685,6 +686,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-04-19T23:57:04.000Z",
-  "versionId": "63d537b5-3e1d-4c96-a562-8ca532973427"
+  "updatedAt": "2025-10-19T21:38:56.000Z",
+  "versionId": "fdb43940-5862-45dd-9913-d9a915f0d339"
 }
