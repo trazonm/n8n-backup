@@ -332,7 +332,7 @@
     },
     {
       "parameters": {
-        "numberInputs": 3
+        "numberInputs": 4
       },
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
@@ -578,6 +578,31 @@
       ],
       "id": "12037fd6-3ef0-4391-80d9-d1d8186a370a",
       "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        3264,
+        1712
+      ],
+      "id": "9ed6271c-10db-4fd1-80c5-1eb017f5b787",
+      "name": "Generate an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ReeAGi73g7iXliN4",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -645,6 +670,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-27T21:44:39.000Z",
-  "versionId": "8bc018fe-c77c-4451-adaa-706bd4bca1dd"
+  "updatedAt": "2025-10-19T20:42:56.000Z",
+  "versionId": "36ee8dd1-789c-4920-82d2-9ce388d0f94d"
 }
