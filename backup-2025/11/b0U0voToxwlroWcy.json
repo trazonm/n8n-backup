@@ -1,0 +1,323 @@
+{
+  "active": true,
+  "connections": {
+    "Github Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute a command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-05T00:28:30.547Z",
+  "id": "b0U0voToxwlroWcy",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Auto Update BakaWorld χ",
+  "nodes": [
+    {
+      "parameters": {
+        "owner": {
+          "__rl": true,
+          "value": "trazonm",
+          "mode": "list",
+          "cachedResultName": "trazonm",
+          "cachedResultUrl": "https://github.com/trazonm"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "BakaWorld-X",
+          "mode": "list",
+          "cachedResultName": "BakaWorld-X",
+          "cachedResultUrl": "https://github.com/trazonm/BakaWorld-X"
+        },
+        "events": [
+          "push"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.githubTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c92a2ed8-9df7-4310-af97-ed2af9ecc134",
+      "name": "Github Trigger",
+      "webhookId": "f99b6d74-7982-4098-8583-946e8f29dff4",
+      "credentials": {
+        "githubApi": {
+          "id": "f713lVdCblhMNO7O",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "sudo git pull && \\\nsudo docker compose down && \\\nsudo docker compose build --no-cache && \\\nsudo docker compose up -d\n",
+        "cwd": "/home/bakaboi341/Documents/docker_containers/bakaworld/BakaWorld-X"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "81cdf0ac-8166-41bf-a8f9-cea35a27cb38",
+      "name": "Execute a command",
+      "credentials": {
+        "sshPassword": {
+          "id": "ZA8rkJYVLQa1TgMx",
+          "name": "SSH Password account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Github Trigger": [
+      {
+        "json": {
+          "body": {
+            "ref": "refs/heads/main",
+            "before": "96553efed37b57bbd30802608945df318690464e",
+            "after": "7c49b88ee6d1adb6a1676009eb22dff03748e762",
+            "repository": {
+              "id": 1023261560,
+              "node_id": "R_kgDOPP27eA",
+              "name": "BakaWorld-X",
+              "full_name": "trazonm/BakaWorld-X",
+              "private": false,
+              "owner": {
+                "name": "trazonm",
+                "email": "38741970+trazonm@users.noreply.github.com",
+                "login": "trazonm",
+                "id": 38741970,
+                "node_id": "MDQ6VXNlcjM4NzQxOTcw",
+                "avatar_url": "https://avatars.githubusercontent.com/u/38741970?v=4",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/trazonm",
+                "html_url": "https://github.com/trazonm",
+                "followers_url": "https://api.github.com/users/trazonm/followers",
+                "following_url": "https://api.github.com/users/trazonm/following{/other_user}",
+                "gists_url": "https://api.github.com/users/trazonm/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/trazonm/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/trazonm/subscriptions",
+                "organizations_url": "https://api.github.com/users/trazonm/orgs",
+                "repos_url": "https://api.github.com/users/trazonm/repos",
+                "events_url": "https://api.github.com/users/trazonm/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/trazonm/received_events",
+                "type": "User",
+                "user_view_type": "public",
+                "site_admin": false
+              },
+              "html_url": "https://github.com/trazonm/BakaWorld-X",
+              "description": null,
+              "fork": false,
+              "url": "https://api.github.com/repos/trazonm/BakaWorld-X",
+              "forks_url": "https://api.github.com/repos/trazonm/BakaWorld-X/forks",
+              "keys_url": "https://api.github.com/repos/trazonm/BakaWorld-X/keys{/key_id}",
+              "collaborators_url": "https://api.github.com/repos/trazonm/BakaWorld-X/collaborators{/collaborator}",
+              "teams_url": "https://api.github.com/repos/trazonm/BakaWorld-X/teams",
+              "hooks_url": "https://api.github.com/repos/trazonm/BakaWorld-X/hooks",
+              "issue_events_url": "https://api.github.com/repos/trazonm/BakaWorld-X/issues/events{/number}",
+              "events_url": "https://api.github.com/repos/trazonm/BakaWorld-X/events",
+              "assignees_url": "https://api.github.com/repos/trazonm/BakaWorld-X/assignees{/user}",
+              "branches_url": "https://api.github.com/repos/trazonm/BakaWorld-X/branches{/branch}",
+              "tags_url": "https://api.github.com/repos/trazonm/BakaWorld-X/tags",
+              "blobs_url": "https://api.github.com/repos/trazonm/BakaWorld-X/git/blobs{/sha}",
+              "git_tags_url": "https://api.github.com/repos/trazonm/BakaWorld-X/git/tags{/sha}",
+              "git_refs_url": "https://api.github.com/repos/trazonm/BakaWorld-X/git/refs{/sha}",
+              "trees_url": "https://api.github.com/repos/trazonm/BakaWorld-X/git/trees{/sha}",
+              "statuses_url": "https://api.github.com/repos/trazonm/BakaWorld-X/statuses/{sha}",
+              "languages_url": "https://api.github.com/repos/trazonm/BakaWorld-X/languages",
+              "stargazers_url": "https://api.github.com/repos/trazonm/BakaWorld-X/stargazers",
+              "contributors_url": "https://api.github.com/repos/trazonm/BakaWorld-X/contributors",
+              "subscribers_url": "https://api.github.com/repos/trazonm/BakaWorld-X/subscribers",
+              "subscription_url": "https://api.github.com/repos/trazonm/BakaWorld-X/subscription",
+              "commits_url": "https://api.github.com/repos/trazonm/BakaWorld-X/commits{/sha}",
+              "git_commits_url": "https://api.github.com/repos/trazonm/BakaWorld-X/git/commits{/sha}",
+              "comments_url": "https://api.github.com/repos/trazonm/BakaWorld-X/comments{/number}",
+              "issue_comment_url": "https://api.github.com/repos/trazonm/BakaWorld-X/issues/comments{/number}",
+              "contents_url": "https://api.github.com/repos/trazonm/BakaWorld-X/contents/{+path}",
+              "compare_url": "https://api.github.com/repos/trazonm/BakaWorld-X/compare/{base}...{head}",
+              "merges_url": "https://api.github.com/repos/trazonm/BakaWorld-X/merges",
+              "archive_url": "https://api.github.com/repos/trazonm/BakaWorld-X/{archive_format}{/ref}",
+              "downloads_url": "https://api.github.com/repos/trazonm/BakaWorld-X/downloads",
+              "issues_url": "https://api.github.com/repos/trazonm/BakaWorld-X/issues{/number}",
+              "pulls_url": "https://api.github.com/repos/trazonm/BakaWorld-X/pulls{/number}",
+              "milestones_url": "https://api.github.com/repos/trazonm/BakaWorld-X/milestones{/number}",
+              "notifications_url": "https://api.github.com/repos/trazonm/BakaWorld-X/notifications{?since,all,participating}",
+              "labels_url": "https://api.github.com/repos/trazonm/BakaWorld-X/labels{/name}",
+              "releases_url": "https://api.github.com/repos/trazonm/BakaWorld-X/releases{/id}",
+              "deployments_url": "https://api.github.com/repos/trazonm/BakaWorld-X/deployments",
+              "created_at": 1753047390,
+              "updated_at": "2025-11-03T05:29:20Z",
+              "pushed_at": 1762302578,
+              "git_url": "git://github.com/trazonm/BakaWorld-X.git",
+              "ssh_url": "git@github.com:trazonm/BakaWorld-X.git",
+              "clone_url": "https://github.com/trazonm/BakaWorld-X.git",
+              "svn_url": "https://github.com/trazonm/BakaWorld-X",
+              "homepage": null,
+              "size": 1803,
+              "stargazers_count": 0,
+              "watchers_count": 0,
+              "language": "TypeScript",
+              "has_issues": true,
+              "has_projects": true,
+              "has_downloads": true,
+              "has_wiki": true,
+              "has_pages": false,
+              "has_discussions": false,
+              "forks_count": 0,
+              "mirror_url": null,
+              "archived": false,
+              "disabled": false,
+              "open_issues_count": 0,
+              "license": null,
+              "allow_forking": true,
+              "is_template": false,
+              "web_commit_signoff_required": false,
+              "topics": [],
+              "visibility": "public",
+              "forks": 0,
+              "open_issues": 0,
+              "watchers": 0,
+              "default_branch": "main",
+              "stargazers": 0,
+              "master_branch": "main"
+            },
+            "pusher": {
+              "name": "trazonm",
+              "email": "38741970+trazonm@users.noreply.github.com"
+            },
+            "sender": {
+              "login": "trazonm",
+              "id": 38741970,
+              "node_id": "MDQ6VXNlcjM4NzQxOTcw",
+              "avatar_url": "https://avatars.githubusercontent.com/u/38741970?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/trazonm",
+              "html_url": "https://github.com/trazonm",
+              "followers_url": "https://api.github.com/users/trazonm/followers",
+              "following_url": "https://api.github.com/users/trazonm/following{/other_user}",
+              "gists_url": "https://api.github.com/users/trazonm/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/trazonm/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/trazonm/subscriptions",
+              "organizations_url": "https://api.github.com/users/trazonm/orgs",
+              "repos_url": "https://api.github.com/users/trazonm/repos",
+              "events_url": "https://api.github.com/users/trazonm/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/trazonm/received_events",
+              "type": "User",
+              "user_view_type": "public",
+              "site_admin": false
+            },
+            "created": false,
+            "deleted": false,
+            "forced": false,
+            "base_ref": null,
+            "compare": "https://github.com/trazonm/BakaWorld-X/compare/96553efed37b...7c49b88ee6d1",
+            "commits": [
+              {
+                "id": "7c49b88ee6d1adb6a1676009eb22dff03748e762",
+                "tree_id": "53057479d7216ec6009b50ce9253278421c4c71a",
+                "distinct": true,
+                "message": "Fix Workbox PWA navigation fallback error for SvelteKit",
+                "timestamp": "2025-11-04T19:29:37-05:00",
+                "url": "https://github.com/trazonm/BakaWorld-X/commit/7c49b88ee6d1adb6a1676009eb22dff03748e762",
+                "author": {
+                  "name": "trazonm",
+                  "email": "trazon0430@gmail.com",
+                  "username": "trazonm"
+                },
+                "committer": {
+                  "name": "trazonm",
+                  "email": "trazon0430@gmail.com",
+                  "username": "trazonm"
+                },
+                "added": [],
+                "removed": [],
+                "modified": [
+                  "vite.config.ts"
+                ]
+              }
+            ],
+            "head_commit": {
+              "id": "7c49b88ee6d1adb6a1676009eb22dff03748e762",
+              "tree_id": "53057479d7216ec6009b50ce9253278421c4c71a",
+              "distinct": true,
+              "message": "Fix Workbox PWA navigation fallback error for SvelteKit",
+              "timestamp": "2025-11-04T19:29:37-05:00",
+              "url": "https://github.com/trazonm/BakaWorld-X/commit/7c49b88ee6d1adb6a1676009eb22dff03748e762",
+              "author": {
+                "name": "trazonm",
+                "email": "trazon0430@gmail.com",
+                "username": "trazonm"
+              },
+              "committer": {
+                "name": "trazonm",
+                "email": "trazon0430@gmail.com",
+                "username": "trazonm"
+              },
+              "added": [],
+              "removed": [],
+              "modified": [
+                "vite.config.ts"
+              ]
+            }
+          },
+          "headers": {
+            "connection": "close",
+            "host": "bakaflow.gleeze.com",
+            "x-forwarded-scheme": "https",
+            "x-forwarded-proto": "https",
+            "x-forwarded-for": "140.82.115.168",
+            "x-real-ip": "140.82.115.168",
+            "content-length": "7417",
+            "user-agent": "GitHub-Hookshot/54a11ea",
+            "accept": "*/*",
+            "content-type": "application/json",
+            "x-github-delivery": "837bdadc-b9de-11f0-8def-47ecea68c62f",
+            "x-github-event": "push",
+            "x-github-hook-id": "579198160",
+            "x-github-hook-installation-target-id": "1023261560",
+            "x-github-hook-installation-target-type": "repository"
+          },
+          "query": {}
+        }
+      }
+    ]
+  },
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-05T00:28:30.551Z",
+      "updatedAt": "2025-11-05T00:28:30.551Z",
+      "role": "workflow:owner",
+      "workflowId": "b0U0voToxwlroWcy",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": {
+    "node:Github Trigger": {
+      "webhookId": 579199409,
+      "webhookEvents": [
+        "push"
+      ]
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-05T00:39:32.000Z",
+  "versionId": "e5178e5c-e278-4487-8f6b-32b896eb4668"
+}
