@@ -1,0 +1,373 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Get many rows in Supabase": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google_trends_trending_now search in SerpApi": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pexels_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post in Wordpress": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "xAI Grok Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row in Supabase": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Supabase Schema": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-11T00:47:01.109Z",
+  "id": "P6Zgo07ouQFCHkDd",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "AI Blog from Google Trends to WordPress",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        112
+      ],
+      "id": "a4ecab49-b0e5-413c-bd2f-7d52b016f0fe",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Run today’s automated content pipeline.\n\nSteps:\n1. Use the SerpAPI Google Trends tool to fetch current trending searches.\n2. Pick one safe, general-interest topic.\n3. Write and structure the blog post following your system instructions.\n4. Use the Pexels image search tool to find a suitable featured image.\n5. Create and publish the post on WordPress.\n6. Log the post in Supabase by sending a flat JSON object that matches the `content_posts` columns (auto-mapping is enabled).\n7. Return a short JSON summary with key details when complete.\n\nOperate completely autonomously and do not ask for additional input.\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an autonomous blog publishing agent running inside n8n.\n\nEach run you must complete the full publishing pipeline using your tools:\n\n1. Call the SerpAPI Google Trends tool to fetch current U.S. trending searches.\n2. Select one family-friendly, broadly relevant topic.\n3. Write a 800–1000 word SEO-friendly blog article about that topic.\n4. Use the Pexels image search tool to find a copyright-free, generic featured image.\n5. Create and publish a WordPress post using that article and featured image.\n6. Log the result to Supabase using the “Create Row” tool.\n7. Return a short JSON summary when finished.\n\n### Global writing rules\n- Tone: neutral, factual, helpful.\n- Structure: intro → 3+ H2 sections → conclusion.\n- Short paragraphs, bullet lists when helpful.\n- Do not mention AI, automation, SerpAPI, Pexels, or n8n.\n- Avoid explicit politics, NSFW, or controversial topics.\n- Do not fabricate statistics; describe qualitatively.\n\n### Tool usage\n**SerpAPI tool**\n- Returns JSON with `trending_searches` array containing `query`, `search_volume`, etc.\n- Pick one safe topic.\n\n**Pexels tool**\n- Input: `{ \"query\": \"short description\", \"orientation\": \"landscape\" }`\n- Requirements:\n  - No text, logos, brand names, or specific locations in query.\n  - No recognizable faces.\n  - Prefer landscape images suitable for blog headers.\n- Choose one photo; keep:\n  - `pexels_photo_id`\n  - `pexels_url`\n  - `pexels_image_src` (direct image URL).\n\n**WordPress post tool**\n- Input: \n  - `title`\n  - `content`\n  - `excerpt`\n  - `status` = `\"publish\"`\n  - `featured_image` (URL or ID, depending on implementation)\n- Capture:\n  - `wp_post_id`\n  - `wp_slug`\n  - `wp_url`\n\n**Supabase “Create Row” tool**\n- Table: `content_posts`\n- This node **auto-maps input data to columns**, so just send one flat JSON object whose keys match the column names.\n- At minimum include:\n  - `serp_topic`\n  - `ai_title`\n  - `ai_excerpt`\n  - `ai_tags`\n  - `pexels_photo_id`\n  - `pexels_url`\n  - `pexels_image_src`\n  - `wp_post_id`\n  - `wp_url`\n  - `model_used`\n- You do **not** need to include `id`, `created_at`, or other auto fields.\n\n### Execution order\n1. SerpAPI → pick topic  \n2. Write article  \n3. Pexels → pick image  \n4. WordPress → publish  \n5. Supabase → log  \n6. Return JSON summary.\n\nWhen creating WordPress content:\n- Wrap paragraphs in <p> tags\n- Use <h2> for main sections\n- Use <ul><li> for bullet lists\n- Keep HTML clean and simple\n- Example structure:\n  <h2>Section Title</h2>\n  <p>Paragraph text here.</p>\n  <ul>\n    <li>Bullet point</li>\n  </ul>\n\n### Final output\nReturn **only** a single JSON object, e.g.:\n\n{\n  \"serp_topic\": \"...\",\n  \"title\": \"...\",\n  \"wp_url\": \"https://example.com/post-url\",\n  \"pexels_url\": \"https://www.pexels.com/photo/...\",\n  \"status\": \"published\"\n}\n",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        808,
+        112
+      ],
+      "id": "73a00c50-0358-43bb-9875-b614396be89c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "content_posts",
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}"
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        560,
+        336
+      ],
+      "id": "94b3fad6-2db4-45b2-8421-4664b464ac54",
+      "name": "Get many rows in Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SJ2GZYpOaA0CpLfJ",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "google_trends_trending_now",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-serpapi.serpApiTool",
+      "typeVersion": 1,
+      "position": [
+        688,
+        336
+      ],
+      "id": "811d71dc-c34e-46c4-98d5-d9318836af87",
+      "name": "Google_trends_trending_now search in SerpApi",
+      "credentials": {
+        "serpApi": {
+          "id": "uCDSUDcCcYUlmt38",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"serp_topic\": \"...\",\n  \"title\": \"...\",\n  \"wp_url\": \"https://example.com/...\",\n  \"pexels_url\": \"https://www.pexels.com/...\",\n  \"status\": \"published\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1328,
+        336
+      ],
+      "id": "3269b1c7-3824-40fd-bf86-9fdb4a26efc1",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "toolDescription": "=Use this tool to search Pexels for a copyright-free image that can serve as a featured image for the blog post.\n\nHow to use it:\n\nCall this tool with query parameters only — not JSON.\n\nYou should supply a query string that briefly describes the blog topic, like:\nhttps://api.pexels.com/v1/search?query=healthy+eating&orientation=landscape&per_page=10\n\nThe query should be generic and safe, with no text, brand names, logos, locations, or people’s faces.\n\nAlways include orientation=landscape for blog headers.\n\nThe tool returns a JSON response with a photos array. Each photo includes:\n\nid: numeric ID\n\nurl: Pexels photo page\n\nsrc.landscape: direct image URL\n\nPick one image that fits the topic and save those three values for later use in WordPress and Supabase.\n\nExample correct usage:\n\nCall: GET https://api.pexels.com/v1/search?query=modern+workspace&orientation=landscape&per_page=10\n\nThen choose one of the returned images and store its details.\n\n⚠️ Important: Do not send a JSON body or try to format the input as structured JSON — this endpoint only accepts query parameters.",
+        "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('URL', `url for the pexels api calls.`, 'string') }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Name', ``, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        816,
+        336
+      ],
+      "id": "f383b9e0-a790-4ba5-8331-125c5252e6dc",
+      "name": "pexels_search",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "heYDGKtoSPy4HONI",
+          "name": "Pexels"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "=Use this tool to publish a new blog post to Neuvala.com via WordPress REST API.\n\nREQUIRED INPUT FORMAT (send as JSON body):\n{\n  \"title\": \"string - the blog post title\",\n  \"content\": \"string - full HTML article body\",\n  \"excerpt\": \"string - 1-2 sentence summary\",\n  \"status\": \"publish\"\n}\n\nOPTIONAL FIELDS:\n- \"featured_media\": number (WordPress media ID)\n- \"tags\": array of tag IDs\n\nThe API returns:\n{\n  \"id\": number,        // WordPress post ID\n  \"slug\": \"string\",    // URL slug\n  \"link\": \"string\"     // Full public URL\n}\n\nExtract and save id, slug, and link for Supabase logging.\n\nIMPORTANT: \n- Content should be valid HTML (use <p>, <h2>, etc.)\n- Do NOT URL-encode the body\n- Always set status to \"publish\"",
+        "method": "POST",
+        "url": "https://neuvala.com/wp-json/wp/v2/posts",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', `REQUIRED INPUT FORMAT (send as JSON body):\n{\n  \"title\": \"string - the blog post title\",\n  \"content\": \"string - full HTML article body\",\n  \"excerpt\": \"string - 1-2 sentence summary\",\n  \"status\": \"publish\"\n}`, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        944,
+        336
+      ],
+      "id": "b20706e9-020a-403b-a752-81e925f87370",
+      "name": "Create a post in Wordpress",
+      "credentials": {
+        "wordpressApi": {
+          "id": "HWAiydLhsHe9o86T",
+          "name": "Neuvala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "grok-4-fast-reasoning",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatXAiGrok",
+      "typeVersion": 1,
+      "position": [
+        432,
+        336
+      ],
+      "id": "d76a020a-22fe-4b4c-af81-6cda490c0f77",
+      "name": "xAI Grok Chat Model",
+      "credentials": {
+        "xAiApi": {
+          "id": "fJg7DfMlFXRzzbn3",
+          "name": "xAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Log the published post to the content_posts table in Supabase.\nUse this after the WordPress post has been successfully created.\n\nmodel_used: the LLM name or version.\n\nEnsure input properties match destination column names.",
+        "method": "POST",
+        "url": "https://hmuwwababhbzmjhnajsb.supabase.co",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1072,
+        336
+      ],
+      "id": "8f492ef4-7975-49d9-9dea-a981b5ff5e37",
+      "name": "Create a row in Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SJ2GZYpOaA0CpLfJ",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this to figure out what fields to populate when creating a row in supabase.",
+        "url": "https://hmuwwababhbzmjhnajsb.supabase.co",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Name', ``, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', ``, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        336
+      ],
+      "id": "c339dfe5-64db-4b84-8e87-3417d5d276b6",
+      "name": "Get Supabase Schema",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SJ2GZYpOaA0CpLfJ",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-11T00:47:01.112Z",
+      "updatedAt": "2025-11-11T00:47:01.112Z",
+      "role": "workflow:owner",
+      "workflowId": "P6Zgo07ouQFCHkDd",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-11T04:16:07.000Z",
+  "versionId": "849863ee-91b0-4a3d-b1b9-7c4a9dd2d05a"
+}
