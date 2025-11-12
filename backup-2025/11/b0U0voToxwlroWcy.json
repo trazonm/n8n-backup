@@ -60,7 +60,7 @@
     },
     {
       "parameters": {
-        "command": "sudo git pull && \\\nsudo docker compose down && \\\nsudo docker compose build --no-cache && \\\nsudo docker compose up -d\n",
+        "command": "sudo git pull origin main && \\\nsudo docker compose down && \\\nsudo docker compose build --no-cache && \\\nsudo docker compose up -d\n",
         "cwd": "/home/bakaboi341/Documents/docker_containers/bakaworld/BakaWorld-X"
       },
       "type": "n8n-nodes-base.ssh",
@@ -310,7 +310,7 @@
   ],
   "staticData": {
     "node:Github Trigger": {
-      "webhookId": 579199409,
+      "webhookId": 580433999,
       "webhookEvents": [
         "push"
       ]
@@ -318,6 +318,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-05T00:39:32.000Z",
-  "versionId": "e5178e5c-e278-4487-8f6b-32b896eb4668"
+  "updatedAt": "2025-11-11T19:15:09.000Z",
+  "versionId": "37c6d578-25ac-4fbc-a414-5ad3e85bc39a"
 }
