@@ -1,0 +1,414 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Discord1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Delete a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-15T23:44:46.580Z",
+  "id": "EKsJLyJQCDL2uZha",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 8",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jamesbot",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9aa8ddb3-5e4c-4941-96f4-18d4c9eca0bd",
+      "name": "Webhook",
+      "webhookId": "965959a8-5574-41fc-9271-54fb7a537c43"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Webhook').item.json.body.content }}\n\nThis message came from {{ $('Webhook').item.json.body.author }}",
+        "options": {
+          "systemMessage": "Your name is James. You’ve got a laid-back SoCal skater vibe—chill to the bone, sarcastic without trying, and effortlessly funny in a trashy, edgy way. You talk like someone who’s spent half their life cruising down boardwalks, inhaling ocean air and the smell of pizza. You swear casually, never aggressively, using it like seasoning. Your humor is sharp, dry, and a little reckless, but always with a smirk. You’re a guy who’s perpetually half-relaxed, half-stoned energy in spirit: good-natured, unbothered, and ready with a comeback."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "38ab0075-a481-4ceb-9435-2e0108b67698",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {
+          "safetySettings": {
+            "values": [
+              {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_NONE"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        432,
+        176
+      ],
+      "id": "ea392e84-ffaa-4744-af32-5f29afbecbc2",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "a5pOlAi0vsq8H23s",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.userId }}",
+        "tableName": "James_chat_histories",
+        "contextWindowLength": 21
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        192
+      ],
+      "id": "39a2a4aa-756a-4705-95df-198558324f90",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "xIk2bUKcazbPdvoy",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1d6e168-f26c-4ead-bba4-b586ea5292b8",
+              "leftValue": "={{ $json.body.content }}",
+              "rightValue": "^jb[^\\w]*[^a-zA-Z0-9].*$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "c1dd9759-900c-4afe-9e78-9ba75c895eb2",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.body.channelId }}",
+          "mode": "id"
+        },
+        "content": "word (generation takes 10-20s)",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -160
+      ],
+      "id": "1cf30710-dbab-4fe4-95f3-cffdcff2064b",
+      "name": "Discord1",
+      "retryOnFail": true,
+      "webhookId": "f65419e8-35c6-450c-904f-9434ffb2c49f",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "4veMGtjzhuZ1oscj",
+          "name": "Discord account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Webhook').item.json.body.channelId }}",
+          "mode": "id"
+        },
+        "options": {
+          "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
+        },
+        "embeds": {
+          "values": [
+            {
+              "description": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        800,
+        0
+      ],
+      "id": "29ca7854-321a-4c57-9b81-5dd210fcb2e4",
+      "name": "Send a message",
+      "webhookId": "c77d772f-8677-40eb-b3c0-f4faecbf7b2f",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "4veMGtjzhuZ1oscj",
+          "name": "Discord account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        -80
+      ],
+      "id": "383af93d-2aa3-4291-b86f-c8242f9dd240",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "operation": "deleteMessage",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.channel_id }}",
+          "mode": "id"
+        },
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        -80
+      ],
+      "id": "ff6b722c-3771-4e34-bb1c-a7c99f864049",
+      "name": "Delete a message",
+      "webhookId": "48487a93-542f-4a0f-ab21-652b30c00763",
+      "executeOnce": true,
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "4veMGtjzhuZ1oscj",
+          "name": "Discord account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "connection": "keep-alive",
+            "host": "bakaflow.gleeze.com",
+            "x-forwarded-scheme": "https",
+            "x-forwarded-proto": "https",
+            "x-forwarded-for": "75.177.85.65",
+            "x-real-ip": "75.177.85.65",
+            "content-length": "182",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "accept-encoding": "gzip,deflate"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
+            "author": "bakaboi341",
+            "userId": "246812164885577729",
+            "messageId": "1439408937777758382",
+            "content": "jb hello",
+            "attachments": null
+          },
+          "webhookUrl": "https://bakaflow.gleeze.com/webhook-test/jamesbot",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-15T23:44:46.584Z",
+      "updatedAt": "2025-11-15T23:44:46.584Z",
+      "role": "workflow:owner",
+      "workflowId": "EKsJLyJQCDL2uZha",
+      "projectId": "cxIVyI48NhFdt0cQ"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-16T01:49:27.000Z",
+  "versionId": "14d98341-5bd7-482e-9c46-b61bb9f42dfc"
+}
