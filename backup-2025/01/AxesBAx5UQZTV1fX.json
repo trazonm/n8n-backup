@@ -194,7 +194,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1340,
+        1344,
         -80
       ],
       "id": "e29e0e1d-c46c-4a8e-8556-8411330aa434",
@@ -242,7 +242,7 @@
       "typeVersion": 2,
       "position": [
         0,
-        180
+        192
       ],
       "id": "6aa12bf8-176b-49ee-a2a8-200b1f05eafe",
       "name": "Discord4",
@@ -299,7 +299,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -900,
+        -896,
         -80
       ],
       "id": "605d6ca6-0b95-4b5d-bc8b-eca281ca43bb",
@@ -328,7 +328,7 @@
       "typeVersion": 2,
       "position": [
         -640,
-        -380
+        -384
       ],
       "id": "ec230004-5917-4af4-878f-f934704a33cc",
       "name": "Discord1",
@@ -345,8 +345,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1800,
-        -360
+        1808,
+        -368
       ],
       "id": "82bb51c9-66fe-4638-912c-7cb120a79f17",
       "name": "Merge"
@@ -373,8 +373,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1980,
-        -360
+        1984,
+        -368
       ],
       "id": "4342ffe6-7f70-420c-ad7b-3c10639ea30a",
       "name": "Discord2",
@@ -414,7 +414,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        780,
+        784,
         -80
       ],
       "id": "b5e69362-5043-4f2d-b05c-5aa839778da2",
@@ -428,7 +428,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1080,
+        1088,
         -80
       ],
       "id": "3309099d-4927-43dd-9850-9155288cd349",
@@ -446,7 +446,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        -420,
+        -416,
         -80
       ],
       "id": "09844486-4a10-4bf3-8b70-7d957edb8cd6",
@@ -463,21 +463,21 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -300,
-        300
+        -304,
+        304
       ],
       "id": "72898ab1-dc31-4b00-bdb3-bb39b675d4f7",
       "name": "Postgres Chat Memory",
       "credentials": {
         "postgres": {
           "id": "d2lXGCTjZwwS5QLF",
-          "name": "Postgres account"
+          "name": "n8n DataBase"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.0-flash-exp",
+        "modelName": "models/gemini-2.5-flash-lite",
         "options": {
           "maxOutputTokens": 4096,
           "temperature": 0.7,
@@ -508,8 +508,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -420,
-        300
+        -416,
+        304
       ],
       "id": "f1bb4000-287b-455b-a2fe-8654bbf5c177",
       "name": "Google Gemini Chat Model",
@@ -527,8 +527,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        180,
-        -100
+        192,
+        -96
       ],
       "id": "90138cd1-a312-4cc2-8f07-32aab5b940f6",
       "name": "Code"
@@ -543,8 +543,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        420,
-        -100
+        432,
+        -96
       ],
       "id": "2f83113f-8b7f-4b85-917d-141595239651",
       "name": "Loop Over Items"
@@ -555,7 +555,7 @@
       "typeVersion": 1.2,
       "position": [
         -480,
-        520
+        528
       ],
       "id": "969939fa-2698-4bf2-a538-e5e1da8d9b0e",
       "name": "Structured Output Parser"
@@ -626,6 +626,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-04-19T23:57:01.000Z",
-  "versionId": "d6ce18ab-f705-4609-be21-d93addb1640e"
+  "updatedAt": "2025-11-15T23:22:20.000Z",
+  "versionId": "51de06a0-4f14-4022-be61-555541f79f7c"
 }
