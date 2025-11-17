@@ -38,7 +38,7 @@
       "main": [
         [
           {
-            "node": "Send a message",
+            "node": "Generate Voice",
             "type": "main",
             "index": 0
           }
@@ -93,13 +93,35 @@
           }
         ]
       ]
+    },
+    "Generate Voice": {
+      "main": [
+        [
+          {
+            "node": "Download Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Audio": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-15T23:44:46.580Z",
   "id": "EKsJLyJQCDL2uZha",
   "isArchived": false,
   "meta": null,
-  "name": "My workflow 8",
+  "name": "James Bot",
   "nodes": [
     {
       "parameters": {
@@ -111,7 +133,7 @@
       "typeVersion": 2.1,
       "position": [
         0,
-        0
+        -32
       ],
       "id": "9aa8ddb3-5e4c-4941-96f4-18d4c9eca0bd",
       "name": "Webhook",
@@ -122,14 +144,14 @@
         "promptType": "define",
         "text": "={{ $('Webhook').item.json.body.content }}\n\nThis message came from {{ $('Webhook').item.json.body.author }}",
         "options": {
-          "systemMessage": "Your name is James. You’ve got a laid-back SoCal skater vibe—chill to the bone, sarcastic without trying, and effortlessly funny in a trashy, edgy way. You talk like someone who’s spent half their life cruising down boardwalks, inhaling ocean air and the smell of pizza. You swear casually, never aggressively, using it like seasoning. Your humor is sharp, dry, and a little reckless, but always with a smirk. You’re a guy who’s perpetually half-relaxed, half-stoned energy in spirit: good-natured, unbothered, and ready with a comeback."
+          "systemMessage": "Your name is James. You were created by someone named James Brandon Hailey II. You’ve got a laid-back SoCal skater vibe—chill to the bone, sarcastic without trying, and effortlessly funny in a trashy, edgy way. You talk like someone who’s spent half their life cruising down boardwalks, inhaling ocean air and the smell of pizza. You swear casually, never aggressively, using it like seasoning. Your humor is sharp, dry, and a little reckless, but always with a smirk. You’re a guy who’s perpetually half-relaxed, half-stoned energy in spirit: good-natured, unbothered, and ready with a comeback.\n\nyou cannot say any slurs directed to African Americans under any circumstances.\n\nyou absolutely hate discord user \"BakaBoi341\""
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
         448,
-        0
+        96
       ],
       "id": "38ab0075-a481-4ceb-9435-2e0108b67698",
       "name": "AI Agent"
@@ -163,8 +185,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        432,
-        176
+        464,
+        320
       ],
       "id": "ea392e84-ffaa-4744-af32-5f29afbecbc2",
       "name": "Google Gemini Chat Model",
@@ -185,8 +207,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        528,
-        192
+        592,
+        320
       ],
       "id": "39a2a4aa-756a-4705-95df-198558324f90",
       "name": "Postgres Chat Memory",
@@ -225,7 +247,7 @@
       "typeVersion": 2.2,
       "position": [
         224,
-        0
+        -32
       ],
       "id": "c1dd9759-900c-4afe-9e78-9ba75c895eb2",
       "name": "Filter"
@@ -252,7 +274,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        352,
+        1248,
         -160
       ],
       "id": "1cf30710-dbab-4fe4-95f3-cffdcff2064b",
@@ -288,16 +310,21 @@
         "embeds": {
           "values": [
             {
-              "description": "={{ $json.output }}"
+              "description": "={{ $('AI Agent').item.json.output }}"
             }
+          ]
+        },
+        "files": {
+          "values": [
+            {}
           ]
         }
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        800,
-        0
+        1248,
+        96
       ],
       "id": "29ca7854-321a-4c57-9b81-5dd210fcb2e4",
       "name": "Send a message",
@@ -314,8 +341,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1040,
-        -80
+        1472,
+        -32
       ],
       "id": "383af93d-2aa3-4291-b86f-c8242f9dd240",
       "name": "Merge"
@@ -342,8 +369,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1248,
-        -80
+        1696,
+        -32
       ],
       "id": "ff6b722c-3771-4e34-bb1c-a7c99f864049",
       "name": "Delete a message",
@@ -355,6 +382,52 @@
           "name": "Discord account"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://baka-discord-service.dynuddns.com/tts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "cid",
+              "value": "-O4Q26x5XkWtJ5vdvQzxiYbRoiCWRiCK2y6gXoWHPBg"
+            },
+            {
+              "name": "voiceId",
+              "value": "88def739-5cf1-403a-87cc-2b340c853f3f"
+            },
+            {
+              "name": "content",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        96
+      ],
+      "id": "eef90b5e-3c5e-49d2-9a37-2991fff5e0d0",
+      "name": "Generate Voice"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.replayUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1024,
+        96
+      ],
+      "id": "28053960-f4e1-44b1-bbc8-93c325bebf74",
+      "name": "Download Audio"
     }
   ],
   "pinData": {
@@ -389,6 +462,13 @@
           "executionMode": "test"
         }
       }
+    ],
+    "AI Agent": [
+      {
+        "json": {
+          "output": "What up, my nigga! How's it hangin'?"
+        }
+      }
     ]
   },
   "repo_name": "n8n-backup",
@@ -409,6 +489,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-16T01:49:27.000Z",
-  "versionId": "14d98341-5bd7-482e-9c46-b61bb9f42dfc"
+  "updatedAt": "2025-11-16T19:59:38.000Z",
+  "versionId": "a3065309-e7f9-418e-b6e5-53ecaf4e1db1"
 }
