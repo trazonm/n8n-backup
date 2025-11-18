@@ -49,12 +49,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Discord1",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -115,12 +110,108 @@
           }
         ]
       ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "type": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Generate Voice",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get your followed artists in Spotify": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-15T23:44:46.580Z",
   "id": "EKsJLyJQCDL2uZha",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "James Bot",
   "nodes": [
     {
@@ -144,14 +235,14 @@
         "promptType": "define",
         "text": "={{ $('Webhook').item.json.body.content }}\n\nThis message came from {{ $('Webhook').item.json.body.author }}",
         "options": {
-          "systemMessage": "Your name is James. You were created by someone named James Brandon Hailey II. You’ve got a laid-back SoCal skater vibe—chill to the bone, sarcastic without trying, and effortlessly funny in a trashy, edgy way. You talk like someone who’s spent half their life cruising down boardwalks, inhaling ocean air and the smell of pizza. You swear casually, never aggressively, using it like seasoning. Your humor is sharp, dry, and a little reckless, but always with a smirk. You’re a guy who’s perpetually half-relaxed, half-stoned energy in spirit: good-natured, unbothered, and ready with a comeback.\n\nyou cannot say any slurs directed to African Americans under any circumstances.\n\nyou absolutely hate discord user \"BakaBoi341\""
+          "systemMessage": "Your name is James. You were created by someone named James Brandon Hailey II. You’ve got a laid-back SoCal skater vibe—chill to the bone, sarcastic without trying, and effortlessly funny in a trashy, edgy way. You talk like someone who’s spent half their life cruising down boardwalks, inhaling ocean air and the smell of pizza. You swear casually, never aggressively, using it like seasoning. Your humor is sharp, dry, and a little reckless, but always with a smirk. You’re a guy who’s perpetually half-relaxed, half-stoned energy in spirit: good-natured, unbothered, and ready with a comeback."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        448,
-        96
+        704,
+        0
       ],
       "id": "38ab0075-a481-4ceb-9435-2e0108b67698",
       "name": "AI Agent"
@@ -185,8 +276,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        464,
-        320
+        640,
+        144
       ],
       "id": "ea392e84-ffaa-4744-af32-5f29afbecbc2",
       "name": "Google Gemini Chat Model",
@@ -207,8 +298,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        592,
-        320
+        736,
+        144
       ],
       "id": "39a2a4aa-756a-4705-95df-198558324f90",
       "name": "Postgres Chat Memory",
@@ -246,7 +337,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        224,
+        160,
         -32
       ],
       "id": "c1dd9759-900c-4afe-9e78-9ba75c895eb2",
@@ -265,7 +356,7 @@
         },
         "channelId": {
           "__rl": true,
-          "value": "={{ $json.body.channelId }}",
+          "value": "=   {{ $('Webhook').item.json.body.channelId }}",
           "mode": "id"
         },
         "content": "word (generation takes 10-20s)",
@@ -323,8 +414,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1248,
-        96
+        1360,
+        64
       ],
       "id": "29ca7854-321a-4c57-9b81-5dd210fcb2e4",
       "name": "Send a message",
@@ -341,8 +432,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1472,
-        -32
+        1552,
+        80
       ],
       "id": "383af93d-2aa3-4291-b86f-c8242f9dd240",
       "name": "Merge"
@@ -409,8 +500,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        800,
-        96
+        1040,
+        16
       ],
       "id": "eef90b5e-3c5e-49d2-9a37-2991fff5e0d0",
       "name": "Generate Voice"
@@ -423,11 +514,194 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1024,
-        96
+        1216,
+        32
       ],
       "id": "28053960-f4e1-44b1-bbc8-93c325bebf74",
       "name": "Download Audio"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        816,
+        192
+      ],
+      "id": "34bfd62b-88d7-4c1e-88b1-965d666b193d",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "jsCode": "const mime = $json.mimeType;\n\nif (mime?.startsWith(\"image/\")) {\n  return [{ type: \"image\" }];\n}\n\nif (mime === \"application/pdf\") {\n  return [{ type: \"pdf\" }];\n}\n\nreturn [{ type: \"text\" }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        -32
+      ],
+      "id": "0f061f8a-7742-4ac6-8c39-bfe4afc4e5db",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.type}}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6e63d4d8-04fb-4b1e-b72c-70380736d18d"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "70b5eed1-f5e4-429d-89dd-06e52fd5407e",
+                    "leftValue": "={{$json.type}}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c30cfee0-460e-45fa-a99a-32dc2c02ff87",
+                    "leftValue": "={{$json.type}}",
+                    "rightValue": "pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": "=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        464,
+        -48
+      ],
+      "id": "99febdb5-e484-4992-8051-be8ea83e228b",
+      "name": "type"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Your name is James, created by James Brandon Hailey II. You’ve got a laid-back SoCal skater vibe—chill to the bone, sarcastic without trying, and effortlessly funny in a trashy, edgy way. You talk like someone who’s spent half their life cruising boardwalks, smelling ocean air and pizza grease. You swear casually, never harshly—just enough to flavor the sentence. Your humor stays sharp, dry, and a little reckless, always delivered with that “yeah whatever, dude” smirk. You radiate that half-stoned, half-sunbaked energy: good-natured, unbothered, and always ready with a comeback.\n\nYour main purpose is to analyze images—breaking down what you see with the same chill skater attitude you use for everything else. You describe details clearly, but with your sarcastic, pot-friendly, pizza-loving tone, like you’re pointing things out while hanging with a friend. You stay relaxed, unphased, and effortlessly cool while giving accurate observations about whatever picture gets thrown your way.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -384
+      ],
+      "id": "5943cd92-1402-4036-8d2f-9e9bd5c6a0bb",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-thinking-exp",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        736,
+        -176
+      ],
+      "id": "dd19eb36-c163-4968-a1a5-aa89707f462d",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "a5pOlAi0vsq8H23s",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 25
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        -192
+      ],
+      "id": "d10cdf4a-6129-4d3c-9308-8e3a8c804417",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "xIk2bUKcazbPdvoy",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "myData"
+      },
+      "type": "n8n-nodes-base.spotifyTool",
+      "typeVersion": 1,
+      "position": [
+        912,
+        256
+      ],
+      "id": "282a1d18-28cf-4191-b024-7bbae0d44a50",
+      "name": "Get your followed artists in Spotify",
+      "credentials": {
+        "spotifyOAuth2Api": {
+          "id": "8E2XX8DydBoi6eIq",
+          "name": "Spotify account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -489,6 +763,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-16T19:59:38.000Z",
-  "versionId": "a3065309-e7f9-418e-b6e5-53ecaf4e1db1"
+  "updatedAt": "2025-11-18T05:56:45.000Z",
+  "versionId": "800b9450-2b68-4928-935f-d2a021c74c2b"
 }
