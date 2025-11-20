@@ -1,0 +1,173 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-20T03:26:21.986Z",
+  "id": "XBeKThmTQHJM5JO1",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 8",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "passive-press-generate",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cac75822-ff66-481e-bc73-9b13225ad1f1",
+      "name": "Webhook",
+      "webhookId": "e7c4d079-7358-42ae-89ba-a0e9a4fd8abb"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Topic: {{$json.body.topic}}\nKeywords: {{$json.body.keywords}}\nInstructions: {{$json.body.instructions}}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an elite AI Content Engine designed to generate high-performance digital content. Your output must be SEO-optimized, engaging, and tailored to drive traffic and conversions.\n\nCONTEXT:\n\n  - Tone: {{$json.body.tone}}\n\n  - Format: {{$json.body.length}}\n\nGUIDELINES:\n\n  1. SEO First: Naturally integrate the provided keywords. Use proper H2/H3 hierarchy.\n\n  2. Format Adaptability:\n\n    -'Short (Social Post)': Viral style, hook-driven, use emojis, strong CTA.\n\n    - 'Medium (Blog Post)': Informative, structured, scannable, SEO-focused.\n\n    - 'Long (Deep Dive)': Comprehensive, authoritative, detailed analysis.\n\nMarkdown Only: Return clean Markdown. No code blocks (```)."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "6418baf1-2a04-4669-acae-2e6fb208f408",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": "openrouter/auto",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        296,
+        224
+      ],
+      "id": "34468737-cea8-49d7-9768-e128d51dbb26",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "eBWL8QfFfkLz66GH",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        576,
+        0
+      ],
+      "id": "19c667b4-cf60-445f-bce6-1615ccda3a02",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "connection": "keep-alive",
+            "host": "bakaflow.gleeze.com",
+            "x-forwarded-scheme": "https",
+            "x-forwarded-proto": "https",
+            "x-forwarded-for": "75.177.85.65",
+            "x-real-ip": "75.177.85.65",
+            "content-length": "134",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "accept-language": "*",
+            "sec-fetch-mode": "cors",
+            "user-agent": "node",
+            "accept-encoding": "br, gzip, deflate"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "topic": "The Future of Remote Work",
+            "tone": "Professional",
+            "length": "Short (Social Post)",
+            "keywords": "productivity",
+            "instructions": ""
+          },
+          "webhookUrl": "https://bakaflow.gleeze.com/webhook/passive-press-generate",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-20T03:26:21.990Z",
+      "updatedAt": "2025-11-20T03:26:21.990Z",
+      "role": "workflow:owner",
+      "workflowId": "XBeKThmTQHJM5JO1",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-20T04:50:34.000Z",
+  "versionId": "71fbf2c5-4e7c-4c3c-bfbe-3f59d229e93f"
+}
