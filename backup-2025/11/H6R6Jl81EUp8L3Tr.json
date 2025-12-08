@@ -296,6 +296,390 @@
           }
         ]
       ]
+    },
+    "Schedule Trigger (4x Daily)": {
+      "main": [
+        [
+          {
+            "node": "Random Delay (Anti-Detection)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Random Delay (Anti-Detection)": {
+      "main": [
+        [
+          {
+            "node": "Google Trends (What's Hot Now)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Reddit (Satisfying/Amazing Content)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Amazon Trending Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Trends (What's Hot Now)": {
+      "main": [
+        [
+          {
+            "node": "Merge All Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reddit (Satisfying/Amazing Content)": {
+      "main": [
+        [
+          {
+            "node": "Merge All Sources",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge All Sources": {
+      "main": [
+        [
+          {
+            "node": "Combine Data + Affiliate Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Data + Affiliate Config": {
+      "main": [
+        [
+          {
+            "node": "AI Content Strategist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Content Strategist": {
+      "main": [
+        [
+          {
+            "node": "Has Product to Monetize?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 2.5 Flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Content Strategist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Strategy Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Content Strategist",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Product to Monetize?": {
+      "main": [
+        [
+          {
+            "node": "Build Affiliate Link",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Affiliate Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Affiliate Link": {
+      "main": [
+        [
+          {
+            "node": "Merge Paths",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Affiliate Link": {
+      "main": [
+        [
+          {
+            "node": "Merge Paths",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Paths": {
+      "main": [
+        [
+          {
+            "node": "Video Prompt Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Prompt Template": {
+      "main": [
+        [
+          {
+            "node": "AI Video Director",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Video Director": {
+      "main": [
+        [
+          {
+            "node": "Quality & Monetization Rater",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 2.5 Pro": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Video Director",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Director Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Video Director",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality & Monetization Rater": {
+      "main": [
+        [
+          {
+            "node": "Score >= 65?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score >= 65?": {
+      "main": [
+        [
+          {
+            "node": "Generate Video (VEO2)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notify Regeneration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Regeneration": {
+      "main": [
+        [
+          {
+            "node": "AI Content Strategist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Video (VEO2)": {
+      "main": [
+        [
+          {
+            "node": "Wait 20s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 20s": {
+      "main": [
+        [
+          {
+            "node": "Check Video Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Status": {
+      "main": [
+        [
+          {
+            "node": "Video Ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Ready?": {
+      "main": [
+        [
+          {
+            "node": "Download Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait 15s More",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 15s More": {
+      "main": [
+        [
+          {
+            "node": "Check Video Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Video": {
+      "main": [
+        [
+          {
+            "node": "Multi-Platform Caption Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Multi-Platform Caption Generator": {
+      "main": [
+        [
+          {
+            "node": "Save to Analytics Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Analytics Sheet": {
+      "main": [
+        [
+          {
+            "node": "Discord Approval Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Approval Request": {
+      "main": [
+        [
+          {
+            "node": "Post to All Platforms",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to All Platforms": {
+      "main": [
+        [
+          {
+            "node": "Update Posted Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Posted Status": {
+      "main": [
+        [
+          {
+            "node": "Discord Success Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Post1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-29T05:07:34.027Z",
@@ -304,7 +688,7 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "💥 Create and Auto-Post Viral AI Videos with VEO3 and Blotato to 9 Platforms _ VIDE",
+  "name": "Viral Video Machine v2 - Monetized",
   "nodes": [
     {
       "parameters": {
@@ -375,7 +759,8 @@
           "id": "xutjopcylYCUIuRH",
           "name": "Upload-Post"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -390,10 +775,11 @@
       "typeVersion": 3,
       "position": [
         -2272,
-        -56
+        -64
       ],
       "id": "b1e91079-1128-4eb7-aef5-a0e1e4d921f3",
-      "name": "Topic Generator (Gen Z Meme)1"
+      "name": "Topic Generator (Gen Z Meme)1",
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -402,8 +788,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -2136,
-        168
+        -2144,
+        176
       ],
       "id": "ed1bcbdd-a0fc-42d4-8000-ac12dbcdcdfd",
       "name": "Structured Output Parser"
@@ -436,8 +822,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -2264,
-        168
+        -2272,
+        176
       ],
       "id": "1164c3b2-5c1b-4e71-9ec2-e2ba1797490f",
       "name": "Google Gemini Chat Model",
@@ -478,7 +864,7 @@
       "typeVersion": 2.2,
       "position": [
         -656,
-        -56
+        -64
       ],
       "id": "37f2e76d-c091-459b-ad87-3c55317bcd22",
       "name": "If1"
@@ -491,7 +877,7 @@
       "typeVersion": 1.1,
       "position": [
         240,
-        40
+        48
       ],
       "id": "3cbf806d-f6de-4786-b1e3-6b8a4422f689",
       "name": "Wait",
@@ -517,7 +903,7 @@
       "typeVersion": 4.3,
       "position": [
         -208,
-        -56
+        -64
       ],
       "id": "a0e506f7-6e28-4cb9-8582-5b7ab3b52407",
       "name": "Get Video Info",
@@ -617,7 +1003,7 @@
       "typeVersion": 1,
       "position": [
         -2720,
-        40
+        48
       ],
       "id": "8a612eaa-b5c1-4215-b371-d3ff19080cd9",
       "name": "Discord Trigger1",
@@ -801,7 +1187,7 @@
       "typeVersion": 4.2,
       "position": [
         -432,
-        -56
+        -64
       ],
       "id": "8042bfad-da43-4c43-9aaf-0f7c20ecbe87",
       "name": "Generate Video with VEO",
@@ -824,8 +1210,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -1416,
-        -56
+        -1424,
+        -64
       ],
       "id": "9fcd502a-799d-4689-b008-15c6ba817eb7",
       "name": "AI Agent: Generate Video Script1",
@@ -851,7 +1237,7 @@
       "typeVersion": 3.4,
       "position": [
         -1696,
-        -56
+        -64
       ],
       "id": "ce3beb4a-6cc6-405f-9082-807242ca07bb",
       "name": "Set Master Prompt1"
@@ -878,7 +1264,7 @@
       "typeVersion": 4.6,
       "position": [
         -1920,
-        -56
+        -64
       ],
       "id": "3087d4bb-a275-4575-bdb8-605e31471368",
       "name": "Read Video Parameters from Google Sheet1",
@@ -897,7 +1283,7 @@
       "typeVersion": 1.3,
       "position": [
         -1216,
-        168
+        176
       ],
       "id": "ed641266-dede-435f-bd8f-0809afb53bc7",
       "name": "Structured Output Parser1"
@@ -908,7 +1294,7 @@
       "typeVersion": 1,
       "position": [
         -1344,
-        168
+        176
       ],
       "id": "0c75cc87-90f4-4fbb-8671-61dd7fc453d1",
       "name": "Think1"
@@ -942,7 +1328,7 @@
       "typeVersion": 1,
       "position": [
         -1472,
-        168
+        176
       ],
       "id": "4834f732-8e3c-41c5-9528-1151ee32018c",
       "name": "Google Gemini Chat Model1",
@@ -1024,7 +1410,7 @@
       "typeVersion": 4.3,
       "position": [
         -2496,
-        -56
+        -64
       ],
       "id": "59296054-9f9b-4678-95bc-b7bc2d8c2aec",
       "name": "HTTP Request",
@@ -1054,7 +1440,7 @@
       "typeVersion": 1.3,
       "position": [
         -2944,
-        -152
+        -160
       ],
       "id": "9fbd2d41-4931-4e3f-aa79-dab8aa881e3f",
       "name": "Schedule Trigger"
@@ -1067,7 +1453,7 @@
       "typeVersion": 1.1,
       "position": [
         -2720,
-        -152
+        -160
       ],
       "id": "170e218a-6455-4d85-aafc-706ad693d0cd",
       "name": "Wait1",
@@ -1143,6 +1529,1206 @@
           "name": "BakaBot"
         }
       }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 30 7,12,17,21 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -2672,
+        1680
+      ],
+      "id": "b4a32382-e765-413b-a907-6915c171a6d0",
+      "name": "Schedule Trigger (4x Daily)",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "amount": "={{ Math.floor(Math.random() * 25) + 5 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -2432,
+        1680
+      ],
+      "id": "ffc2590f-89ff-488f-996a-8883d9b9bcb4",
+      "name": "Random Delay (Anti-Detection)",
+      "webhookId": "random-delay-1"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google_trends_trending_now"
+            },
+            {
+              "name": "geo",
+              "value": "US"
+            },
+            {
+              "name": "hl",
+              "value": "en"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -2192,
+        1520
+      ],
+      "id": "92a26324-c4be-42b2-b9c4-76da85cf6a24",
+      "name": "Google Trends (What's Hot Now)",
+      "credentials": {
+        "serpApi": {
+          "id": "uCDSUDcCcYUlmt38",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "num",
+              "value": "15"
+            },
+            {
+              "name": "gl",
+              "value": "us"
+            },
+            {
+              "name": "tbs",
+              "value": "qdr:d"
+            },
+            {
+              "name": "q",
+              "value": "site:reddit.com (r/oddlysatisfying OR r/interestingasfuck OR r/BeAmazed OR r/nextfuckinglevel OR r/Damnthatsinteresting) viral"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -2192,
+        1680
+      ],
+      "id": "34af0128-d5ee-4901-97fc-614464b6fc79",
+      "name": "Reddit (Satisfying/Amazing Content)",
+      "credentials": {
+        "serpApi": {
+          "id": "uCDSUDcCcYUlmt38",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "num",
+              "value": "10"
+            },
+            {
+              "name": "gl",
+              "value": "us"
+            },
+            {
+              "name": "tbs",
+              "value": "qdr:w"
+            },
+            {
+              "name": "q",
+              "value": "site:amazon.com best sellers 2025 viral tiktok product"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -2192,
+        1840
+      ],
+      "id": "e3764779-f444-431e-8643-e803a7ea3636",
+      "name": "Amazon Trending Products",
+      "credentials": {
+        "serpApi": {
+          "id": "uCDSUDcCcYUlmt38",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -1952,
+        1680
+      ],
+      "id": "b53194a5-0eb0-4688-9844-536227d073cf",
+      "name": "Merge All Sources"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "combined-data",
+              "name": "combined_trends",
+              "value": "={{ JSON.stringify({ google_trends: $('Google Trends (What\\'s Hot Now)').item.json, reddit: $('Reddit (Satisfying/Amazing Content)').item.json, amazon: $('Amazon Trending Products').item.json }) }}",
+              "type": "string"
+            },
+            {
+              "id": "amazon-affiliate",
+              "name": "affiliate_config",
+              "value": "={{ JSON.stringify({ store_id: 'hydronest-20', tracking_id: 'bakaboi-20', base_url: 'https://www.amazon.com/dp/' }) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1712,
+        1680
+      ],
+      "id": "858fcf2e-e90b-4419-a6cf-306c8d821d53",
+      "name": "Combine Data + Affiliate Config"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=TRENDING DATA:\n{{ $json.combined_trends }}\n\nAFFILIATE CONFIG:\n{{ $json.affiliate_config }}\n\nTASK: Analyze all data sources and select the BEST opportunity for a viral short-form video that can also monetize.\n\nPRIORITY ORDER:\n1. Amazon product that's trending + has viral potential (can include affiliate link)\n2. Satisfying/amazing visual content that can showcase a product\n3. Pure entertainment if no good product angles exist\n\nOUTPUT the single best concept.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a viral content strategist who understands both entertainment AND monetization.\n\nYour job is to find the intersection of:\n- What's trending RIGHT NOW\n- What makes people stop scrolling\n- What can be monetized (product placement, affiliate links)\n\nCONTENT TYPES THAT WORK:\n1. SATISFYING: Cleaning, organizing, ASMR, perfect fits\n2. TRANSFORMATION: Before/after, restoration, makeovers\n3. LIFE HACKS: Products that solve problems\n4. REACTIONS: Surprising reveals, unexpected outcomes\n5. RELATABLE: Daily struggles with a twist\n\nAVOID:\n- Overly niche memes that only 1% understand\n- Controversial/political content\n- Content that looks obviously AI-generated\n- Anything that could get demonetized\n\nFor Amazon products, you MUST include the ASIN if found."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -1472,
+        1680
+      ],
+      "id": "038c7f44-a17d-4666-8a86-95ec8afd5782",
+      "name": "AI Content Strategist"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"content_type\": \"product_showcase | satisfying | transformation | life_hack | entertainment\",\n  \"core_concept\": \"One sentence description\",\n  \"hook\": \"First 2 seconds - what grabs attention\",\n  \"visual_focus\": \"What the camera shows\",\n  \"emotion_target\": \"satisfying | surprising | relatable | funny | awe\",\n  \"monetization\": {\n    \"has_product\": true,\n    \"product_name\": \"Product name or null\",\n    \"amazon_asin\": \"ASIN or null\",\n    \"affiliate_angle\": \"How to naturally mention the product\"\n  },\n  \"platforms\": [\"youtube_shorts\", \"instagram_reels\", \"tiktok\"],\n  \"estimated_appeal\": \"broad | niche | medium\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -1344,
+        1920
+      ],
+      "id": "95f54675-5ee8-47ca-a679-227bfae313fa",
+      "name": "Strategy Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1472,
+        1920
+      ],
+      "id": "a50c2dcf-6c0b-4849-8da3-78ae427f2a2a",
+      "name": "Gemini 2.5 Flash",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SXxerOXC902v1BV6",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "has-product-check",
+              "leftValue": "={{ $json.output.monetization.has_product }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        1680
+      ],
+      "id": "f974d665-dcf0-4a26-917b-cbfc61153896",
+      "name": "Has Product to Monetize?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "build-affiliate-link",
+              "name": "affiliate_link",
+              "value": "={{ $json.output.monetization.amazon_asin ? 'https://www.amazon.com/dp/' + $json.output.monetization.amazon_asin + '?tag=bakaboi-20' : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "short-link-needed",
+              "name": "needs_link_shortening",
+              "value": "={{ $json.output.monetization.amazon_asin ? true : false }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -992,
+        1600
+      ],
+      "id": "4afafb7b-a3ad-4003-ae4b-63629698104d",
+      "name": "Build Affiliate Link"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "no-affiliate",
+              "name": "affiliate_link",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "no-shortening",
+              "name": "needs_link_shortening",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -992,
+        1760
+      ],
+      "id": "0f66556f-a8be-4068-a984-fdb7201d0b78",
+      "name": "No Affiliate Link"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -752,
+        1680
+      ],
+      "id": "989cfffb-93ec-4f3f-be1d-6c98287f585f",
+      "name": "Merge Paths"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "master-prompt-v2",
+              "name": "video_prompt_template",
+              "value": "={\n  \"format\": \"vertical 9:16\",\n  \"duration\": \"8-15 seconds\",\n  \"style_options\": [\n    \"Cinematic product showcase\",\n    \"Satisfying loop\",\n    \"POV transformation\",\n    \"Before/After reveal\",\n    \"Unboxing moment\",\n    \"Life hack demonstration\"\n  ],\n  \"camera\": {\n    \"primary\": \"Smooth tracking shot | Static beauty shot | Handheld authentic\",\n    \"secondary\": \"Close-up detail | Wide establishing | Over-shoulder POV\"\n  },\n  \"lighting\": {\n    \"product\": \"Soft diffused | Ring light | Natural window light\",\n    \"mood\": \"Warm inviting | Clean minimal | Dramatic contrast\"\n  },\n  \"pacing\": {\n    \"hook\": \"0-2s: Immediate visual interest\",\n    \"build\": \"2-8s: Show the process/product/transformation\",\n    \"payoff\": \"8-12s: Satisfying conclusion or reveal\",\n    \"cta\": \"Final 2s: Subtle call to action if product\"\n  },\n  \"audio_guidance\": {\n    \"music\": \"Trending TikTok sounds | Lo-fi beats | Satisfying ASMR\",\n    \"voiceover\": \"Optional - casual, authentic tone\"\n  },\n  \"DO_NOT\": [\n    \"Show text on screen\",\n    \"Look obviously AI-generated\",\n    \"Include logos or branding\",\n    \"Make it look like an ad\"\n  ]\n}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -512,
+        1680
+      ],
+      "id": "ab04c235-5573-46a9-820f-335c17a6787c",
+      "name": "Video Prompt Template"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=CONTENT STRATEGY:\n{{ JSON.stringify($('AI Content Strategist').item.json.output) }}\n\nVIDEO TEMPLATE:\n{{ $json.video_prompt_template }}\n\nAFFILIATE LINK (if applicable): {{ $('Build Affiliate Link').item.json.affiliate_link || 'None' }}\n\nTASK: Create a detailed video generation prompt that:\n1. Follows the template structure\n2. Brings the content strategy to life visually\n3. Looks AUTHENTIC, not AI-generated\n4. If there's a product, showcases it naturally (not as an ad)\n\nThe video should make people:\n- Stop scrolling immediately\n- Watch to the end\n- Want to share it\n- Click the link in bio (if product)",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a viral video director who creates content that performs.\n\nYour videos get millions of views because they:\n1. Hook in 0.5 seconds\n2. Deliver value or entertainment\n3. Feel authentic and relatable\n4. Have a satisfying payoff\n\nWhen products are involved, you integrate them NATURALLY:\n- Show the product solving a real problem\n- Focus on the satisfying result, not the product itself\n- Never make it feel like an advertisement\n- Let the product be discovered, not pushed\n\nYour prompts should be detailed enough for AI video generation but focused on REAL scenarios that could actually happen."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -272,
+        1680
+      ],
+      "id": "e628b125-ba3b-4bb5-92be-b11e71dce050",
+      "name": "AI Video Director"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"Short catchy title (max 10 words)\",\n  \"final_prompt\": \"Detailed video generation prompt as single string\",\n  \"tags\": \"comma, separated, relevant, tags\",\n  \"hook_type\": \"visual | audio | question | statement\",\n  \"cta_style\": \"link_in_bio | comment_for_link | none\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        1920
+      ],
+      "id": "85a4ce60-337a-4687-b04d-3ca287384ed9",
+      "name": "Director Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        1920
+      ],
+      "id": "d85fb35c-f77f-4700-9ecc-ec797e8a62ad",
+      "name": "Gemini 2.5 Pro",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SXxerOXC902v1BV6",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Rate this video concept for VIRAL POTENTIAL and MONETIZATION potential.\n\nCONCEPT:\nTitle: {{ $json.output.title }}\nPrompt: {{ $json.output.final_prompt }}\nContent Type: {{ $('AI Content Strategist').item.json.output.content_type }}\nHas Product: {{ $('AI Content Strategist').item.json.output.monetization.has_product }}\n\nSCORING CRITERIA:\n- Hook strength (will people stop scrolling?): 0-25\n- Watch-through potential (will they finish?): 0-25  \n- Shareability (will they send to friends?): 0-25\n- Monetization fit (natural product integration?): 0-25\n\nBONUS POINTS:\n+10 if it taps into a current trend\n+10 if it has a satisfying payoff\n+5 if it works without sound\n\nPENALTIES:\n-20 if it looks like an obvious ad\n-15 if hook is weak\n-10 if concept is overplayed\n\nReturn ONLY valid JSON."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "systemMessage": "You are a brutal but fair content critic. You've seen millions of videos and know exactly what performs.\n\nYour scoring is harsh but accurate:\n- 80-100: Will likely go viral, strong monetization potential\n- 60-79: Decent performer, may need iteration\n- 40-59: Mediocre, probably won't break through\n- Below 40: Don't waste the API credits\n\nBe specific in feedback - vague criticism is useless."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        1680
+      ],
+      "id": "7d775696-6698-4f2e-90dd-259659f846ed",
+      "name": "Quality & Monetization Rater",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SXxerOXC902v1BV6",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "quality-check",
+              "leftValue": "={{ JSON.parse($json.content.parts[0].text).total_score }}",
+              "rightValue": 65,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        1680
+      ],
+      "id": "1838125e-c1a0-4b3a-869c-c180e6686fbf",
+      "name": "Score >= 65?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/jobs/createTask",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({\n  model: 'veo2',\n  input: {\n    prompt: $('AI Video Director').item.json.output.final_prompt,\n    aspectRatio: '9:16'\n  }\n}) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        448,
+        1600
+      ],
+      "id": "0981b406-0ec3-4787-ab24-f62f2b715b98",
+      "name": "Generate Video (VEO2)",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "5lOOFjEXtgK6hJc9",
+          "name": "Kie"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        1600
+      ],
+      "id": "bac2371e-086a-49bd-8305-02c02548bb29",
+      "name": "Wait 20s",
+      "webhookId": "wait-video-1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $('Generate Video (VEO2)').item.json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        896,
+        1600
+      ],
+      "id": "71dc8c0d-4617-4f74-b4fd-76b061b46577",
+      "name": "Check Video Status",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "5lOOFjEXtgK6hJc9",
+          "name": "Kie"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "video-complete",
+              "leftValue": "={{ $json.data.completeTime }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        1600
+      ],
+      "id": "5ba2647d-214c-48e9-8005-f49300c5718e",
+      "name": "Video Ready?"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        1760
+      ],
+      "id": "dbe3fba2-e11c-4180-8eb6-0f385192d2c3",
+      "name": "Wait 15s More",
+      "webhookId": "wait-more-1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $('Generate Video (VEO2)').item.json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1344,
+        1520
+      ],
+      "id": "84ba9873-2aad-4875-93c3-21d42b059fb0",
+      "name": "Download Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "5lOOFjEXtgK6hJc9",
+          "name": "Kie"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Create 3 different captions for the same video, optimized for different platforms.\n\nVIDEO INFO:\n- Title: {{ $('AI Video Director').item.json.output.title }}\n- Content Type: {{ $('AI Content Strategist').item.json.output.content_type }}\n- Emotion Target: {{ $('AI Content Strategist').item.json.output.emotion_target }}\n- Has Product: {{ $('AI Content Strategist').item.json.output.monetization.has_product }}\n- Product: {{ $('AI Content Strategist').item.json.output.monetization.product_name || 'None' }}\n- Affiliate Link: {{ $('Build Affiliate Link').item.json.affiliate_link || 'None' }}\n- CTA Style: {{ $('AI Video Director').item.json.output.cta_style }}\n\nRULES:\n1. Each caption must be under 150 characters\n2. Use 0-2 emojis max\n3. Hashtags: 3-5 per platform, trending ones preferred\n4. If there's a product, use \"link in bio\" naturally (not pushy)\n5. Sound natural, not like a brand\n\nPLATFORM STYLES:\n- TikTok: Casual, trendy, might reference sounds/trends\n- Instagram: Slightly more polished, can be mysterious\n- YouTube: Can be more descriptive, SEO-friendly\n\nReturn ONLY JSON with this structure:\n{\n  \"tiktok\": \"caption here\",\n  \"instagram\": \"caption here\", \n  \"youtube_shorts\": \"caption here\",\n  \"twitter\": \"caption here (shorter, can be edgier)\"\n}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1520,
+        1520
+      ],
+      "id": "3e7abae1-16a0-46f3-874a-479898296a7f",
+      "name": "Multi-Platform Caption Generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "l66YzAph61HK1POi",
+          "name": "OpenRouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+          "mode": "list",
+          "cachedResultName": "Viral Video Machine",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 345069389,
+          "mode": "list",
+          "cachedResultName": "VIDEOS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=345069389"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $('AI Video Director').item.json.output.title }}",
+            "Content_Type": "={{ $('AI Content Strategist').item.json.output.content_type }}",
+            "Has_Product": "={{ $('AI Content Strategist').item.json.output.monetization.has_product }}",
+            "Product_Name": "={{ $('AI Content Strategist').item.json.output.monetization.product_name || '' }}",
+            "Affiliate_Link": "={{ $('Build Affiliate Link').item.json.affiliate_link || '' }}",
+            "Video_URL": "={{ JSON.parse($('Download Video').item.json.data.resultJson).resultUrls[0] }}",
+            "Quality_Score": "={{ JSON.parse($('Quality & Monetization Rater').item.json.content.parts[0].text).total_score }}",
+            "Caption_TikTok": "={{ JSON.parse($json.message.content).tiktok }}",
+            "Caption_Instagram": "={{ JSON.parse($json.message.content).instagram }}",
+            "Caption_YouTube": "={{ JSON.parse($json.message.content).youtube_shorts }}",
+            "Caption_Twitter": "={{ JSON.parse($json.message.content).twitter }}",
+            "Tags": "={{ $('AI Video Director').item.json.output.tags }}",
+            "Created_At": "={{ new Date().toISOString() }}",
+            "Posted_Platforms": "",
+            "Views_Total": "",
+            "Revenue": ""
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Content_Type",
+              "displayName": "Content_Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Has_Product",
+              "displayName": "Has_Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product_Name",
+              "displayName": "Product_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Affiliate_Link",
+              "displayName": "Affiliate_Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video_URL",
+              "displayName": "Video_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quality_Score",
+              "displayName": "Quality_Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Caption_TikTok",
+              "displayName": "Caption_TikTok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Caption_Instagram",
+              "displayName": "Caption_Instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Caption_YouTube",
+              "displayName": "Caption_YouTube",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Caption_Twitter",
+              "displayName": "Caption_Twitter",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tags",
+              "displayName": "Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Created_At",
+              "displayName": "Created_At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posted_Platforms",
+              "displayName": "Posted_Platforms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Views_Total",
+              "displayName": "Views_Total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Revenue",
+              "displayName": "Revenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1792,
+        1520
+      ],
+      "id": "cdf1b3d4-b2be-4484-9d2e-872e329f4f7e",
+      "name": "Save to Analytics Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dowP6ywDzdtOnsKQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1446921026867826688",
+          "mode": "list",
+          "cachedResultName": "viral-video-ideas",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+        },
+        "content": "=🎬 **NEW VIDEO READY FOR REVIEW**\n\n**Title:** {{ $('AI Video Director').item.json.output.title }}\n**Type:** {{ $('AI Content Strategist').item.json.output.content_type }}\n**Quality Score:** {{ JSON.parse($('Quality & Monetization Rater').item.json.content.parts[0].text).total_score }}/100\n**Has Product:** {{ $('AI Content Strategist').item.json.output.monetization.has_product ? '✅ Yes - ' + $('AI Content Strategist').item.json.output.monetization.product_name : '❌ No' }}\n{{ $('Build Affiliate Link').item.json.affiliate_link ? '**Affiliate Link:** ' + $('Build Affiliate Link').item.json.affiliate_link : '' }}\n\n**Video:** {{ $json.Video_URL }}\n\nReact with:\n✅ to approve and post to all platforms\n📱 for TikTok only\n📸 for Instagram only\n🎬 for YouTube only\n❌ to reject",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2016,
+        1520
+      ],
+      "id": "11360d0d-f24b-4a64-a42c-11cf091a38df",
+      "name": "Discord Approval Request",
+      "webhookId": "discord-approval-1",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Save to Analytics Sheet').item.json.Title }}"
+            },
+            {
+              "name": "user",
+              "value": "bakaboi336"
+            },
+            {
+              "name": "platform[]",
+              "value": "instagram"
+            },
+            {
+              "name": "platform[]",
+              "value": "youtube"
+            },
+            {
+              "name": "platform[]",
+              "value": "x"
+            },
+            {
+              "name": "video",
+              "value": "={{ $('Save to Analytics Sheet').item.json.Video_URL }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $('Save to Analytics Sheet').item.json.Caption_Instagram }}"
+            },
+            {
+              "name": "tags",
+              "value": "={{ $('Save to Analytics Sheet').item.json.Tags }}"
+            },
+            {
+              "name": "x_title",
+              "value": "={{ $('Save to Analytics Sheet').item.json.Caption_Twitter }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2240,
+        1520
+      ],
+      "id": "c473766f-075c-4ec9-8cd9-0423e1dff853",
+      "name": "Post to All Platforms",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xutjopcylYCUIuRH",
+          "name": "Upload-Post"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+          "mode": "list",
+          "cachedResultName": "Viral Video Machine"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 345069389,
+          "mode": "list",
+          "cachedResultName": "VIDEOS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Posted_Platforms": "instagram,youtube,twitter",
+            "Video_URL": "={{ $('Save to Analytics Sheet').item.json.Video_URL }}"
+          },
+          "matchingColumns": [
+            "Video_URL"
+          ],
+          "schema": [
+            {
+              "id": "Posted_Platforms",
+              "displayName": "Posted_Platforms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Video_URL",
+              "displayName": "Video_URL",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2464,
+        1520
+      ],
+      "id": "a6942286-5c43-414c-a569-165fc9feeb45",
+      "name": "Update Posted Status",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dowP6ywDzdtOnsKQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1446921026867826688",
+          "mode": "list",
+          "cachedResultName": "viral-video-ideas"
+        },
+        "content": "=✅ **POSTED SUCCESSFULLY**\n\nTitle: {{ $('Save to Analytics Sheet').item.json.Title }}\nPlatforms: Instagram, YouTube Shorts, Twitter/X\n\n{{ $('Build Affiliate Link').item.json.affiliate_link ? '💰 **Remember to update your bio link to:** ' + $('Build Affiliate Link').item.json.affiliate_link : '' }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2688,
+        1520
+      ],
+      "id": "c45f8dc3-a1e8-4bd8-b0e0-7607aa771483",
+      "name": "Discord Success Notification",
+      "webhookId": "2f208e5f-ce27-4564-915b-9e504bc02c56",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1446921026867826688",
+          "mode": "list",
+          "cachedResultName": "viral-video-ideas"
+        },
+        "content": "=⚠️ **LOW QUALITY SCORE - REGENERATING**\n\nScore: {{ JSON.parse($json.content.parts[0].text).total_score }}/100\nFeedback: {{ JSON.parse($json.content.parts[0].text).feedback }}\n\nRegenerating with different approach...",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        208,
+        1840
+      ],
+      "id": "e4042e97-40a5-424b-a8d7-158de9ce8ae2",
+      "name": "Notify Regeneration",
+      "webhookId": "ff8b8578-d798-4c4d-b1d1-f17595b4d8d8",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }}"
+            },
+            {
+              "name": "user",
+              "value": "bakaboi336"
+            },
+            {
+              "name": "platform[]",
+              "value": "instagram"
+            },
+            {
+              "name": "video",
+              "value": "={{ $json.content }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.CAPTION }}"
+            },
+            {
+              "name": "tags",
+              "value": "={{ $('AI Agent: Generate Video Script1').item.json.output.tags }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "x"
+            },
+            {
+              "name": "x_title",
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('AI Agent: Generate Video Script1').item.json.output.tags\n    .split(',')                               // split on commas\n    .map(t => t.trim())                       // trim spaces around each tag\n    .filter(t => t)                           // drop empties\n    .map(t => '#' + t.replace(/\\s+/g, ''))    // remove inner spaces & add '#'\n    .join(' ')                                // join back with spaces\n}}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1744,
+        -16
+      ],
+      "id": "77574ab3-886a-4869-8971-3d7a32559906",
+      "name": "Post1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xutjopcylYCUIuRH",
+          "name": "Upload-Post"
+        }
+      }
     }
   ],
   "pinData": {
@@ -1170,14 +2756,14 @@
     "Schedule Trigger": [
       {
         "json": {
-          "timestamp": "2025-12-06T23:30:00.005-05:00",
-          "Readable date": "December 6th 2025, 11:30:00 pm",
-          "Readable time": "11:30:00 pm",
-          "Day of week": "Saturday",
+          "timestamp": "2025-12-07T07:30:00.007-05:00",
+          "Readable date": "December 7th 2025, 7:30:00 am",
+          "Readable time": "7:30:00 am",
+          "Day of week": "Sunday",
           "Year": "2025",
           "Month": "December",
-          "Day of month": "06",
-          "Hour": "23",
+          "Day of month": "07",
+          "Hour": "07",
           "Minute": "30",
           "Second": "00",
           "Timezone": "America/New_York (UTC-05:00)"
@@ -1188,15 +2774,15 @@
       {
         "json": {
           "search_metadata": {
-            "id": "693502d0759dbcf6aecb51e5",
+            "id": "693573505b92f84205720460",
             "status": "Success",
-            "json_endpoint": "https://serpapi.com/searches/9993b85be95b494c/693502d0759dbcf6aecb51e5.json",
-            "pixel_position_endpoint": "https://serpapi.com/searches/9993b85be95b494c/693502d0759dbcf6aecb51e5.json_with_pixel_position",
-            "created_at": "2025-12-07 04:30:08 UTC",
-            "processed_at": "2025-12-07 04:30:08 UTC",
+            "json_endpoint": "https://serpapi.com/searches/9993b85be95b494c/693573505b92f84205720460.json",
+            "pixel_position_endpoint": "https://serpapi.com/searches/9993b85be95b494c/693573505b92f84205720460.json_with_pixel_position",
+            "created_at": "2025-12-07 12:30:08 UTC",
+            "processed_at": "2025-12-07 12:30:08 UTC",
             "google_url": "https://www.google.com/search?q=site%3Areddit.com+%28r%2Fokbuddyretard+OR+r%2Fdistressingmemes+OR+r%2Flobotomykaisen+OR+r%2Fvoid_memes%29+%22top%22&oq=site%3Areddit.com+%28r%2Fokbuddyretard+OR+r%2Fdistressingmemes+OR+r%2Flobotomykaisen+OR+r%2Fvoid_memes%29+%22top%22&gl=us&num=10&tbs=qdr:w&sourceid=chrome&ie=UTF-8",
-            "raw_html_file": "https://serpapi.com/searches/9993b85be95b494c/693502d0759dbcf6aecb51e5.html",
-            "total_time_taken": 1.75
+            "raw_html_file": "https://serpapi.com/searches/9993b85be95b494c/693573505b92f84205720460.html",
+            "total_time_taken": 0.53
           },
           "search_parameters": {
             "engine": "google",
@@ -1210,17 +2796,33 @@
           "search_information": {
             "query_displayed": "site:reddit.com (r/okbuddyretard OR r/distressingmemes OR r/lobotomykaisen OR r/void_memes) \"top\"",
             "total_results": 2090,
-            "time_taken_displayed": 0.41,
+            "time_taken_displayed": 0.28,
             "organic_results_state": "Results for exact spelling"
           },
           "organic_results": [
             {
               "position": 1,
+              "title": "I shall Bring wholesome into this wretched abyss. ...",
+              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pe85q1/i_shall_bring_wholesome_into_this_wretched_abyss/",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pe85q1/i_shall_bring_wholesome_into_this_wretched_abyss/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECCMQAQ",
+              "displayed_link": "70+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76eef5245ed539f5c69ea81d08e3255f99c2.png",
+              "snippet": "r/LobotomyKaisen icon. r/LobotomyKaisen. • 26d ago. Kenny was definitely ... r/LobotomyKaisen - Top 3 JJK characters I would be submissive to. 3. 26 ...",
+              "snippet_highlighted_words": [
+                "r/LobotomyKaisen",
+                "r/LobotomyKaisen",
+                "r/LobotomyKaisen",
+                "Top"
+              ],
+              "source": "Reddit · r/LobotomyKaisen"
+            },
+            {
+              "position": 2,
               "title": "Please don't drink : r/distressingmemes",
               "link": "https://www.reddit.com/r/distressingmemes/comments/1pf599h/please_dont_drink/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/distressingmemes/comments/1pf599h/please_dont_drink/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECAwQAQ",
-              "displayed_link": "20+ comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76eef5245ed539f5c69ea81d08e3255f99c2.png",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/distressingmemes/comments/1pf599h/please_dont_drink/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECBsQAQ",
+              "displayed_link": "30+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76eeeec46a8a22f402546f6af0dd37773c47.png",
               "snippet": "Sad. Derk_Mage. • 1d ago. Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter. It's the easiest, most accessible, and addictive way.",
               "snippet_highlighted_words": [
                 "Top",
@@ -1229,46 +2831,13 @@
               "source": "Reddit · r/distressingmemes"
             },
             {
-              "position": 2,
-              "title": "Which JJK character has the best tasting vomit?",
-              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1paf7i1/which_jjk_character_has_the_best_tasting_vomit/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1paf7i1/which_jjk_character_has_the_best_tasting_vomit/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECCYQAQ",
-              "displayed_link": "20+ comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76eeeec46a8a22f402546f6af0dd37773c47.png",
-              "snippet": "r/LobotomyKaisen icon. r/LobotomyKaisen. • 9d ago. My top 10 for cutest JJK characters · r/LobotomyKaisen - My top 10 for cutest JJK characters. 64 upvotes · 36 ...",
-              "snippet_highlighted_words": [
-                "r/LobotomyKaisen",
-                "r/LobotomyKaisen",
-                "top",
-                "r/LobotomyKaisen",
-                "top"
-              ],
-              "source": "Reddit · r/LobotomyKaisen"
-            },
-            {
               "position": 3,
-              "title": "just wanted to leave it here : r/LobotomyKaisen",
-              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pc2ycp/just_wanted_to_leave_it_here/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pc2ycp/just_wanted_to_leave_it_here/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECCIQAQ",
-              "displayed_link": "50+ comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76eef9d93dd9d471fe9f7934e18daf25069f.png",
-              "snippet": "Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter. \"Guysg ... r/LobotomyKaisen icon. r/LobotomyKaisen. • 1mo ago. Am not alone on this ...",
-              "snippet_highlighted_words": [
-                "Top",
-                "Top",
-                "r/LobotomyKaisen",
-                "r/LobotomyKaisen"
-              ],
-              "source": "Reddit · r/LobotomyKaisen"
-            },
-            {
-              "position": 4,
-              "title": "all i know is that it hurts : r/distressingmemes",
-              "link": "https://www.reddit.com/r/distressingmemes/comments/1pg2bl8/all_i_know_is_that_it_hurts/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/distressingmemes/comments/1pg2bl8/all_i_know_is_that_it_hurts/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECBcQAQ",
-              "displayed_link": "90+ comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76eecbc03376ba19500c22e8c226a11c9777.png",
-              "snippet": "... Top 1% Commenter Top 1% Commenter. What kind of fucking night outs are yall having? No seriously what even is a night out do you just spend time with people ...",
+              "title": "Sometimes we find things that we don't expect to find",
+              "link": "https://www.reddit.com/r/distressingmemes/comments/1pej3m6/sometimes_we_find_things_that_we_dont_expect_to/",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/distressingmemes/comments/1pej3m6/sometimes_we_find_things_that_we_dont_expect_to/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECCEQAQ",
+              "displayed_link": "30+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76eef9d93dd9d471fe9f7934e18daf25069f.png",
+              "snippet": "Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter. Echo location is such an interesting thing and I wish I saw it used in horror media more ...",
               "snippet_highlighted_words": [
                 "Top",
                 "Top"
@@ -1276,12 +2845,26 @@
               "source": "Reddit · r/distressingmemes"
             },
             {
+              "position": 4,
+              "title": "Finally they meet... : r/LobotomyKaisen",
+              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pdf56w/finally_they_meet/",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pdf56w/finally_they_meet/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECBwQAQ",
+              "displayed_link": "80+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76eecbc03376ba19500c22e8c226a11c9777.png",
+              "snippet": "r/LobotomyKaisen ... top of my head. Continue this thread · Hiroshima-6-1945. • 3d ago.",
+              "snippet_highlighted_words": [
+                "r/LobotomyKaisen",
+                "top"
+              ],
+              "source": "Reddit · r/LobotomyKaisen"
+            },
+            {
               "position": 5,
               "title": "Y'all were wrong about them, now I'll never see him again.",
               "link": "https://www.reddit.com/r/distressingmemes/comments/1pceoy5/yall_were_wrong_about_them_now_ill_never_see_him/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/distressingmemes/comments/1pceoy5/yall_were_wrong_about_them_now_ill_never_see_him/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECBUQAQ",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/distressingmemes/comments/1pceoy5/yall_were_wrong_about_them_now_ill_never_see_him/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECB8QAQ",
               "displayed_link": "40+ comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76ee8df8aa39312a4e9b44405de2993dcf6d.png",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76ee8df8aa39312a4e9b44405de2993dcf6d.png",
               "snippet": "r/distressingmemes - Y'all ... top without wind or heavy critters movin. JevinKames1205. • 3d ago.",
               "snippet_highlighted_words": [
                 "r/distressingmemes",
@@ -1291,56 +2874,40 @@
             },
             {
               "position": 6,
-              "title": "Sometimes we find things that we don't expect to find",
-              "link": "https://www.reddit.com/r/distressingmemes/comments/1pej3m6/sometimes_we_find_things_that_we_dont_expect_to/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/distressingmemes/comments/1pej3m6/sometimes_we_find_things_that_we_dont_expect_to/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECBgQAQ",
-              "displayed_link": "30+ comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76ee1f37441ecd4a7c8dbcb4975fe76c61bc.png",
-              "snippet": "Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter. Echo location is such an interesting thing and I wish I saw it used in horror media more ...",
-              "snippet_highlighted_words": [
-                "Top",
-                "Top"
-              ],
-              "source": "Reddit · r/distressingmemes"
-            },
-            {
-              "position": 7,
-              "title": "who were these guys tryna aura farm in the final cover ...",
-              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pbpbdr/who_were_these_guys_tryna_aura_farm_in_the_final/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pbpbdr/who_were_these_guys_tryna_aura_farm_in_the_final/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECCQQAQ",
-              "displayed_link": "7 comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76ee26bb7768f9a5c3831a35500b05dbf96f.png",
-              "snippet": "r/LobotomyKaisen icon r/LobotomyKaisen. Join. This community is about ... Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter. Comment ...",
-              "snippet_highlighted_words": [
-                "r/LobotomyKaisen",
-                "r/LobotomyKaisen",
-                "Top",
-                "Top"
-              ],
-              "source": "Reddit · r/LobotomyKaisen"
-            },
-            {
-              "position": 8,
-              "title": "Finally they meet... : r/LobotomyKaisen",
-              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pdf56w/finally_they_meet/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pdf56w/finally_they_meet/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECDUQAQ",
-              "displayed_link": "80+ comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76ee253373246e80848b080dccda8bd6c952.png",
-              "snippet": "... top of my head. Continue this thread · Hiroshima-6-1945. • 3d ago ... Yall think they ever met? r/LobotomyKaisen icon. r/LobotomyKaisen. • 5mo ago. Yall think ...",
+              "title": "This ain't my post, i found it on pinterest, but thoughts?",
+              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pfs8vf/this_aint_my_post_i_found_it_on_pinterest_but/",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pfs8vf/this_aint_my_post_i_found_it_on_pinterest_but/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECCAQAQ",
+              "displayed_link": "100+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76ee1f37441ecd4a7c8dbcb4975fe76c61bc.png",
+              "snippet": "I dont believe in the top two ships but if they were real i would respect them. ... r/LobotomyKaisen - Thoughts? 3.6K upvotes · 87 comments. What about this one?",
               "snippet_highlighted_words": [
                 "top",
-                "r/LobotomyKaisen",
                 "r/LobotomyKaisen"
               ],
               "source": "Reddit · r/LobotomyKaisen"
             },
             {
-              "position": 9,
+              "position": 7,
+              "title": "Who would u/Designer_Act_2936 enjoy getting railed by ...",
+              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pcd515/who_would_udesigner_act_2936_enjoy_getting_railed/",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pcd515/who_would_udesigner_act_2936_enjoy_getting_railed/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECCIQAQ",
+              "displayed_link": "10+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76ee26bb7768f9a5c3831a35500b05dbf96f.png",
+              "snippet": "Senior_Double5064. OP • 4d ago. Profile Badge for the Achievement Top 1% Poster Top 1% Poster. Ok... Comment Image. Community Info Section. r/LobotomyKaisen.",
+              "snippet_highlighted_words": [
+                "Top",
+                "Top",
+                "r/LobotomyKaisen"
+              ],
+              "source": "Reddit · r/LobotomyKaisen"
+            },
+            {
+              "position": 8,
               "title": "This is megumi in a shopping cart. That's all. Bye.",
               "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pe36s5/this_is_megumi_in_a_shopping_cart_thats_all_bye/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pe36s5/this_is_megumi_in_a_shopping_cart_thats_all_bye/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECDYQAQ",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pe36s5/this_is_megumi_in_a_shopping_cart_thats_all_bye/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECDkQAQ",
               "displayed_link": "6 comments",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76ee4bce243c8eda5bf5cc6c6536b8f2b7d1.png",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76ee253373246e80848b080dccda8bd6c952.png",
               "snippet": "Iforgottomakeanacc · Profile Badge for the Achievement Top 1% Commenter Top 1% Commenter. Truly a 10/10 post man ; Senior_Double5064 · Profile Badge for the ...",
               "snippet_highlighted_words": [
                 "Top",
@@ -1349,34 +2916,49 @@
               "source": "Reddit · r/LobotomyKaisen"
             },
             {
-              "position": 10,
-              "title": "WHEN YOUR ENTIRE VERSE GETS SLIMED BY THIS 39 ...",
-              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pfjyx8/when_your_entire_verse_gets_slimed_by_this_39/",
-              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pfjyx8/when_your_entire_verse_gets_slimed_by_this_39/&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQFnoECDwQAQ",
-              "displayed_link": "20+ comments",
-              "thumbnail": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76ee779448a06579910ad7a6ecd281b5fb30.jpeg",
-              "favicon": "https://serpapi.com/searches/693502d0759dbcf6aecb51e5/images/4763e315feddcd8f4d5b8c8822ad76ee6b35553bfdf25338979a3c296e34765d.png",
-              "snippet": "... Top 1% Commenter Top 1% Commenter. Sukuna: “Ah yes, my Anti-Slime technique. I haven't used that since the Heian era.” JimedBro2089. • 14h ago. Bro, limit your ...",
+              "position": 9,
+              "title": "I am happy to see I am popular and have fans in this sub",
+              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pahum6/i_am_happy_to_see_i_am_popular_and_have_fans_in/",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pahum6/i_am_happy_to_see_i_am_popular_and_have_fans_in/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECDgQAQ",
+              "displayed_link": "10+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76ee4bce243c8eda5bf5cc6c6536b8f2b7d1.png",
+              "snippet": "Profile Badge for the Achievement Top 1% Poster Top 1% Poster. We both are ... r/LobotomyKaisen - How did I shitpost my way to the top wtf. 3. 34 upvotes ...",
               "snippet_highlighted_words": [
                 "Top",
-                "Top"
+                "Top",
+                "r/LobotomyKaisen",
+                "top"
+              ],
+              "source": "Reddit · r/LobotomyKaisen"
+            },
+            {
+              "position": 10,
+              "title": "Why did this guy use fake panel ? : r/LobotomyKaisen",
+              "link": "https://www.reddit.com/r/LobotomyKaisen/comments/1pb6ast/why_did_this_guy_use_fake_panel/",
+              "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.reddit.com/r/LobotomyKaisen/comments/1pb6ast/why_did_this_guy_use_fake_panel/&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08QFnoECDcQAQ",
+              "displayed_link": "60+ comments",
+              "favicon": "https://serpapi.com/searches/693573505b92f84205720460/images/4763e315feddcd8f4d5b8c8822ad76ee6b35553bfdf25338979a3c296e34765d.png",
+              "snippet": "He will never have another feat in the series cause he is dead , which means he will continue to fall in powerscale until he's no longer top 5 or top 10.",
+              "snippet_highlighted_words": [
+                "top",
+                "top"
               ],
               "source": "Reddit · r/LobotomyKaisen"
             }
           ],
           "pagination": {
             "current": 1,
-            "next": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=10&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8NMDegQIBRAW",
+            "next": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=10&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8NMDegQICRAW",
             "other_pages": {
-              "2": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=10&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAE",
-              "3": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=20&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAG",
-              "4": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=30&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAI",
-              "5": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=40&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAK",
-              "6": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=50&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAM",
-              "7": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=60&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAO",
-              "8": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=70&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAQ",
-              "9": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=80&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAS",
-              "10": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ecd1a823fa10206b&gl=us&tbs=qdr:w&ei=0QI1aa_uEMPFp84P2ZbS4AE&start=90&sa=N&sstk=Af77f_f3oR-EKsBYnfp3N1tKLiycx7-QqBrinKRqngOMmJ7dUeptF5U6mjjZPhUjLa5bDIuchznygjEInWhxfFf4fG_YVNryfjg_Dw&ved=2ahUKEwjvmveR0qqRAxXD4skDHVmLFBwQ8tMDegQIBRAU"
+              "2": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=10&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAE",
+              "3": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=20&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAG",
+              "4": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=30&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAI",
+              "5": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=40&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAK",
+              "6": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=50&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAM",
+              "7": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=60&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAO",
+              "8": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=70&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAQ",
+              "9": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=80&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAS",
+              "10": "https://www.google.com/search?q=site:reddit.com+(r/okbuddyretard+OR+r/distressingmemes+OR+r/lobotomykaisen+OR+r/void_memes)+%22top%22&sca_esv=ee6cb94ecd22e525&gl=us&tbs=qdr:w&ei=UHM1adnMF4eNwbkPzN---AQ&start=90&sa=N&sstk=Af77f_fsy8QdvacKUxBKzqDtMYoVcjhJ2i0Pu51b0c5g3I9mkNrnKMVLa0jbg6MjL8kDqOQIb9ROaEiNjgwqtZEiQBf7aPZaavaOfA&ved=2ahUKEwjZtLW2vauRAxWHRjABHcyvD08Q8tMDegQICRAU"
             }
           },
           "serpapi_pagination": {
@@ -1402,17 +2984,16 @@
       {
         "json": {
           "output": {
-            "core_topic": "Exploring the hypothetical palatability of Jujutsu Kaisen character vomit through hyper-distorted meme logic.",
-            "hook": "TikTok TTS: 'Alright, Lobotomy Kaisen fans, real talk: Which JJK character has the *best tasting vomit*?' followed by a rapid Vine Boom.",
-            "visual_gag": "A rapid-fire sequence of deep-fried, datamoshed JJK characters gagging, Megumi in a shopping cart, random ham sandwich, hyper-realistic eye in void, all overlaid with glitch effects and text 'NAH, I\\'D VOMIT'.",
-            "relatability": "Only relatable to those who have fully embraced 'brainrot' meme culture, JJK fandom, and the most nonsensical corners of the internet.",
-            "tone": "Aggressively chaotic, deeply unsettling, profoundly nonsensical, and designed to induce cognitive dissonance.",
+            "core_topic": "The unhinged, sexualized, and absurd depths of anime fan culture (specifically r/LobotomyKaisen)",
+            "hook": "POV: You asked r/LobotomyKaisen who they'd be submissive to, and the abyss stared back.",
+            "visual_gag": "Deep-fried JJK character faces with hyper-realistic, bloodshot eyes datamoshed into existence. A shopping cart containing a flaming Megumi suddenly cuts to a still image of a perfectly normal ham sandwich. Void darkness punctuated by a single, twitching, uncanny eye. Compression artifacts subtly distorting everything.",
+            "relatability": "The unsettling recognition of extreme internet \"brain rot\" and the erosion of logical thought in obsessive fandoms.",
+            "tone": "Chaotic, unsettling, nonsensical, slightly sexualized, and utterly unhinged.",
             "target_feeds": [
-              "Shorts",
-              "TikTok",
-              "Reels",
               "r/LobotomyKaisen",
-              "distressingmemes"
+              "r/distressingmemes",
+              "TikTok (brain rot content)",
+              "YouTube Shorts (cursed videos)"
             ]
           }
         }
@@ -1422,9 +3003,9 @@
       {
         "json": {
           "output": {
-            "title": "Jujutsu Kaisen Goon Cave Delicacy",
-            "final_prompt": "{\"description\": \"A short viral vertical video (5–15s) designed to trigger a cringe and disgusting Gen Z emotion. It features a broken simulation where a character interacts with fictional vomit. DO NOT show on-screen text.\", \"style\": \"Cursed Meme\", \"camera\": {\"type\": \"Phone Camera (0.5x Fisheye)\", \"movement\": \"Handheld Shake (Worldstar style)\", \"lens\": \"Dirty Lens\"}, \"lighting\": {\"type\": \"Gas Station Fluorescent\", \"sources\": \"Monitor glow\", \"FX\": \"Deep fried saturation | Bloom abuse | Glitch artifacts\"}, \"physics\": {\"type\": \"Glitch\", \"description\": \"Character's movements glitch like a broken video game animation, and the camera 'noclips' through objects.\"}, \"environment\": {\"location\": \"Goon Cave\", \"set_pieces\": [\"Pile of Fast Food Wrappers\", \"Gaming Chair\", \"Subway Surfers Gameplay (Background)\"], \"mood\": \"Cringe | Disgusting | Uncanny | Pathetic\"}, \"subject\": {\"character\": {\"description\": \"The Discord Mod: An overweight, pale, unkempt man with greasy hair and thick glasses, wearing a stained graphic tee. His eyes are bloodshot, fixed on something just out of frame, with a manic, obsessive grin. His skin has a slightly 'game engine render' texture.\", \"pose\": \"NPC Idle Animation, with a fixed, unblinking stare.\", \"interaction\": \"Reaching out obsessively towards an unseen, disgusting object, then lunging towards the camera with glitching movements.\"}}, \"beats\": [{\"time\": \"0-2s\", \"beat_type\": \"HOOK\", \"action\": \"Extreme close-up on 'The Discord Mod's' drooling mouth, slightly out of focus, as he stares intensely at an unseen object.\", \"sound\": \"Vine Boom\"}, {\"time\": \"2-6s\", \"beat_type\": \"SCENARIO\", \"action\": \"Camera slowly zooms out to reveal a shimmering, gelatinous pile of 'Jujutsu Kaisen character vomit' (e.g., iridescent pink and purple liquid) in front of him. He reaches out a hand, trembling, as if to touch it. His eyes dart around erratically, glitching as if an NPC animation is breaking.\", \"sound\": \"Silence, then Distorted Phonk Music fades in\"}, {\"time\": \"6-10s\", \"beat_type\": \"PUNCHLINE\", \"action\": \"He suddenly snaps his head directly towards the camera, pupils dilated, a single tear rolling down his cheek. He then lunges forward, his movement glitching like a broken video game character. The camera 'noclips' slightly through the wall behind him, revealing a blurry, glitched void.\", \"sound\": \"Scream cut short, followed by Bass Boosted Outro\"}], \"audio\": {\"music\": \"Drift Phonk | Sad Violin (Distorted)\", \"sfx\": [\"Vine Boom\", \"Gulp sound\", \"Fart Reverb\"], \"voiceover\": {\"delivery\": \"Mumbling\", \"line\": \"He quietly, obsessively whispers 'Gojo... sweet Gojo...'\"}}, \"ending\": \"Freeze frame on his glitching, obsessed face, pupils still dilated, just as he lunges.\", \"format\": \"vertical 9:16\", \"keywords\": [\"Sora\", \"Meme\", \"Skit\", \"Viral\", \"Brainrot\", \"NPC\", \"Jujutsu Kaisen\"]}",
-            "tags": "Jujutsu Kaisen, Brainrot, Meme, Cringe, Goon Cave, NPC, Glitch"
+            "title": "Lobotomy Kaisen Goon Cave Experience",
+            "final_prompt": "{\"description\": \"A short viral vertical video (5–15s) designed to trigger a specific Gen Z emotion (cringe, laughter, fear, or confusion). It can range from hyper-realistic skits to broken simulations. DO NOT show on-screen text.\", \"style\": \"Cursed Meme\", \"camera\": {\"type\": \"Phone Camera (0.5x Fisheye)\", \"movement\": \"Locked on Subject\", \"lens\": \"Dirty Lens\"}, \"lighting\": {\"type\": \"RGB Gamer Room\", \"sources\": \"Monitor glow\", \"FX\": \"Deep fried saturation | Glitch artifacts\"}, \"physics\": {\"type\": \"Glitch\", \"description\": \"Subject's body and face glitch unnaturally, limbs subtly distorting.\"}, \"environment\": {\"location\": \"Goon Cave\", \"set_pieces\": [\"Gaming Chair\", \"Pile of Fast Food Wrappers\", \"Multiple monitors displaying distorted anime images and textless memes\"], \"mood\": \"Cringe | Disgusting | Pathetic | Uncanny\"}, \"subject\": {\"character\": {\"description\": \"The Discord Mod: pale, unhealthy skin, severe eye bags, greasy, unkempt hair, wearing a stretched-out, stained anime t-shirt featuring an underage-looking waifu. His posture is slouched, eyes glazed over with a disturbing, obsessive fixation. His mouth is slightly ajar, with a hint of drool at the corner of his lips. He emanates a sickly sweet, unwashed aura.\", \"pose\": \"NPC Idle Animation | Mewing\", \"interaction\": \"Staring blankly and unblinkingly into the camera with wide, bloodshot eyes, as if possessed by the online content he consumes. Emits low, guttural humming noises and involuntary twitches.\"}}, \"beats\": [{\"time\": \"0-2s\", \"beat_type\": \"HOOK\", \"action\": \"Immediate, extreme close-up on the Discord Mod's right eye. It's bloodshot, dilated, and twitching subtly. The light source is the harsh blue glow of a monitor, reflecting in his eye.\", \"sound\": \"Discord Ping | Vine Boom\"}, {\"time\": \"2-6s\", \"beat_type\": \"SCENARIO\", \"action\": \"The camera slowly pulls back, revealing the Mod slumped in a dilapidated gaming chair in a 'goon cave'. The room is dark, lit only by multiple monitors displaying rapidly flashing, distorted anime images and textless memes. Piles of fast-food wrappers and energy drink cans are scattered around him. He performs an unsettling, slow 'NPC Idle Animation', his mouth slightly open, a faint string of drool visible. A distorted, high-pitched anime scream briefly plays, then cuts to silence.\", \"sound\": \"Overlapping dialogue (distorted anime sounds) | Silence\"}, {\"time\": \"6-10s\", \"beat_type\": \"PUNCHLINE\", \"action\": \"Suddenly, the Mod snaps his head directly towards the camera, his eyes bulging wide, blood vessels prominent, and a grotesque, forced smile stretches across his face. His head visually glitches, subtly elongating and distorting for a split second, as if a broken simulation. The camera 'Snap Zooms' onto his contorted face, holding the uncomfortable stare for a moment.\", \"sound\": \"Gulp sound | Bass Boosted Outro | Wheeze Laugh\"}], \"audio\": {\"music\": \"Sad Violin (Distorted)\", \"sfx\": [\"Vine Boom\", \"Discord Ping\", \"Gulp sound\", \"Fart Reverb\", \"Laugh track (Irony)\"], \"voiceover\": {\"delivery\": \"Mumbling\", \"line\": \"\"}}, \"ending\": \"Freeze frame on a stupid face\", \"format\": \"vertical 9:16\", \"keywords\": [\"Sora\", \"Meme\", \"Skit\", \"Viral\", \"Brainrot\", \"NPC\", \"Cringe\", \"Uncanny\", \"Goon\", \"LobotomyKaisen\", \"DownBad\"]}",
+            "tags": "Sora, Meme, Skit, Viral, Brainrot, NPC, Cringe, Uncanny, Goon, LobotomyKaisen, DownBad"
           }
         }
       }
@@ -1435,7 +3016,7 @@
           "content": {
             "parts": [
               {
-                "text": "{\n  \"score\": 35,\n  \"verdict\": \"weak\",\n  \"feedback\": \"The concept is too niche and relies on specific 'brainrot' humor that might not land widely. The visual descriptions are strong but could be more focused for instant clarity.\",\n  \"should_regenerate\": true\n}"
+                "text": "{\n  \"score\": 75,\n  \"verdict\": \"mid\",\n  \"feedback\": \"The visual descriptions are strong, but the audio elements feel a bit too on-the-nose and may dilute the cursed meme energy.\",\n  \"should_regenerate\": false\n}"
               }
             ],
             "role": "model"
@@ -1451,8 +3032,8 @@
           "code": 200,
           "msg": "success",
           "data": {
-            "taskId": "0ee5a57321379d5b12ff6ab32f2f594e",
-            "recordId": "0ee5a57321379d5b12ff6ab32f2f594e"
+            "taskId": "e5d30c01824afeb4db75d78772486b7b",
+            "recordId": "e5d30c01824afeb4db75d78772486b7b"
           }
         }
       }
@@ -1466,7 +3047,7 @@
           "index": 0,
           "message": {
             "role": "assistant",
-            "content": "Best JJK vomit flavor debate: Suguru's spicy sushi or Gojo's sweet chaos? Dive into Goon Cave Delicacy 🤢💥 #gooncave #jjkflavorbombs",
+            "content": "When chaos asks you who you'd simp for and the void whispers back... 🌀🐙 #animegonewild #submissionstigmata #voidwhispers",
             "refusal": null,
             "reasoning": null
           }
@@ -1476,11 +3057,50 @@
     "Save Caption Video to Google Sheets1": [
       {
         "json": {
-          "Title": "Jujutsu Kaisen Goon Cave Delicacy",
-          "Subject": "Exploring the hypothetical palatability of Jujutsu Kaisen character vomit through hyper-distorted meme logic.",
-          "Prompt": "{\"description\": \"A short viral vertical video (5–15s) designed to trigger a cringe and disgusting Gen Z emotion. It features a broken simulation where a character interacts with fictional vomit. DO NOT show on-screen text.\", \"style\": \"Cursed Meme\", \"camera\": {\"type\": \"Phone Camera (0.5x Fisheye)\", \"movement\": \"Handheld Shake (Worldstar style)\", \"lens\": \"Dirty Lens\"}, \"lighting\": {\"type\": \"Gas Station Fluorescent\", \"sources\": \"Monitor glow\", \"FX\": \"Deep fried saturation | Bloom abuse | Glitch artifacts\"}, \"physics\": {\"type\": \"Glitch\", \"description\": \"Character's movements glitch like a broken video game animation, and the camera 'noclips' through objects.\"}, \"environment\": {\"location\": \"Goon Cave\", \"set_pieces\": [\"Pile of Fast Food Wrappers\", \"Gaming Chair\", \"Subway Surfers Gameplay (Background)\"], \"mood\": \"Cringe | Disgusting | Uncanny | Pathetic\"}, \"subject\": {\"character\": {\"description\": \"The Discord Mod: An overweight, pale, unkempt man with greasy hair and thick glasses, wearing a stained graphic tee. His eyes are bloodshot, fixed on something just out of frame, with a manic, obsessive grin. His skin has a slightly 'game engine render' texture.\", \"pose\": \"NPC Idle Animation, with a fixed, unblinking stare.\", \"interaction\": \"Reaching out obsessively towards an unseen, disgusting object, then lunging towards the camera with glitching movements.\"}}, \"beats\": [{\"time\": \"0-2s\", \"beat_type\": \"HOOK\", \"action\": \"Extreme close-up on 'The Discord Mod's' drooling mouth, slightly out of focus, as he stares intensely at an unseen object.\", \"sound\": \"Vine Boom\"}, {\"time\": \"2-6s\", \"beat_type\": \"SCENARIO\", \"action\": \"Camera slowly zooms out to reveal a shimmering, gelatinous pile of 'Jujutsu Kaisen character vomit' (e.g., iridescent pink and purple liquid) in front of him. He reaches out a hand, trembling, as if to touch it. His eyes dart around erratically, glitching as if an NPC animation is breaking.\", \"sound\": \"Silence, then Distorted Phonk Music fades in\"}, {\"time\": \"6-10s\", \"beat_type\": \"PUNCHLINE\", \"action\": \"He suddenly snaps his head directly towards the camera, pupils dilated, a single tear rolling down his cheek. He then lunges forward, his movement glitching like a broken video game character. The camera 'noclips' slightly through the wall behind him, revealing a blurry, glitched void.\", \"sound\": \"Scream cut short, followed by Bass Boosted Outro\"}], \"audio\": {\"music\": \"Drift Phonk | Sad Violin (Distorted)\", \"sfx\": [\"Vine Boom\", \"Gulp sound\", \"Fart Reverb\"], \"voiceover\": {\"delivery\": \"Mumbling\", \"line\": \"He quietly, obsessively whispers 'Gojo... sweet Gojo...'\"}}, \"ending\": \"Freeze frame on his glitching, obsessed face, pupils still dilated, just as he lunges.\", \"format\": \"vertical 9:16\", \"keywords\": [\"Sora\", \"Meme\", \"Skit\", \"Viral\", \"Brainrot\", \"NPC\", \"Jujutsu Kaisen\"]}",
-          "URL VIDEO": "https://tempfile.aiquickdraw.com/f/0ee5a57321379d5b12ff6ab32f2f594e/ca72123a-5bff-47ec-948e-0a11d0f0f34b.mp4\n",
-          "CAPTION": "Best JJK vomit flavor debate: Suguru's spicy sushi or Gojo's sweet chaos? Dive into Goon Cave Delicacy 🤢💥 #gooncave #jjkflavorbombs"
+          "Title": "Lobotomy Kaisen Goon Cave Experience",
+          "Subject": "The unhinged, sexualized, and absurd depths of anime fan culture (specifically r/LobotomyKaisen)",
+          "Prompt": "{\"description\": \"A short viral vertical video (5–15s) designed to trigger a specific Gen Z emotion (cringe, laughter, fear, or confusion). It can range from hyper-realistic skits to broken simulations. DO NOT show on-screen text.\", \"style\": \"Cursed Meme\", \"camera\": {\"type\": \"Phone Camera (0.5x Fisheye)\", \"movement\": \"Locked on Subject\", \"lens\": \"Dirty Lens\"}, \"lighting\": {\"type\": \"RGB Gamer Room\", \"sources\": \"Monitor glow\", \"FX\": \"Deep fried saturation | Glitch artifacts\"}, \"physics\": {\"type\": \"Glitch\", \"description\": \"Subject's body and face glitch unnaturally, limbs subtly distorting.\"}, \"environment\": {\"location\": \"Goon Cave\", \"set_pieces\": [\"Gaming Chair\", \"Pile of Fast Food Wrappers\", \"Multiple monitors displaying distorted anime images and textless memes\"], \"mood\": \"Cringe | Disgusting | Pathetic | Uncanny\"}, \"subject\": {\"character\": {\"description\": \"The Discord Mod: pale, unhealthy skin, severe eye bags, greasy, unkempt hair, wearing a stretched-out, stained anime t-shirt featuring an underage-looking waifu. His posture is slouched, eyes glazed over with a disturbing, obsessive fixation. His mouth is slightly ajar, with a hint of drool at the corner of his lips. He emanates a sickly sweet, unwashed aura.\", \"pose\": \"NPC Idle Animation | Mewing\", \"interaction\": \"Staring blankly and unblinkingly into the camera with wide, bloodshot eyes, as if possessed by the online content he consumes. Emits low, guttural humming noises and involuntary twitches.\"}}, \"beats\": [{\"time\": \"0-2s\", \"beat_type\": \"HOOK\", \"action\": \"Immediate, extreme close-up on the Discord Mod's right eye. It's bloodshot, dilated, and twitching subtly. The light source is the harsh blue glow of a monitor, reflecting in his eye.\", \"sound\": \"Discord Ping | Vine Boom\"}, {\"time\": \"2-6s\", \"beat_type\": \"SCENARIO\", \"action\": \"The camera slowly pulls back, revealing the Mod slumped in a dilapidated gaming chair in a 'goon cave'. The room is dark, lit only by multiple monitors displaying rapidly flashing, distorted anime images and textless memes. Piles of fast-food wrappers and energy drink cans are scattered around him. He performs an unsettling, slow 'NPC Idle Animation', his mouth slightly open, a faint string of drool visible. A distorted, high-pitched anime scream briefly plays, then cuts to silence.\", \"sound\": \"Overlapping dialogue (distorted anime sounds) | Silence\"}, {\"time\": \"6-10s\", \"beat_type\": \"PUNCHLINE\", \"action\": \"Suddenly, the Mod snaps his head directly towards the camera, his eyes bulging wide, blood vessels prominent, and a grotesque, forced smile stretches across his face. His head visually glitches, subtly elongating and distorting for a split second, as if a broken simulation. The camera 'Snap Zooms' onto his contorted face, holding the uncomfortable stare for a moment.\", \"sound\": \"Gulp sound | Bass Boosted Outro | Wheeze Laugh\"}], \"audio\": {\"music\": \"Sad Violin (Distorted)\", \"sfx\": [\"Vine Boom\", \"Discord Ping\", \"Gulp sound\", \"Fart Reverb\", \"Laugh track (Irony)\"], \"voiceover\": {\"delivery\": \"Mumbling\", \"line\": \"\"}}, \"ending\": \"Freeze frame on a stupid face\", \"format\": \"vertical 9:16\", \"keywords\": [\"Sora\", \"Meme\", \"Skit\", \"Viral\", \"Brainrot\", \"NPC\", \"Cringe\", \"Uncanny\", \"Goon\", \"LobotomyKaisen\", \"DownBad\"]}",
+          "URL VIDEO": "https://tempfile.aiquickdraw.com/f/e5d30c01824afeb4db75d78772486b7b/83789cdf-6036-40bb-8f65-706af623ff8f.mp4\n",
+          "CAPTION": "When chaos asks you who you'd simp for and the void whispers back... 🌀🐙 #animegonewild #submissionstigmata #voidwhispers"
+        }
+      }
+    ],
+    "Send Video URL via Discord1": [
+      {
+        "json": {
+          "type": 0,
+          "content": "https://tempfile.aiquickdraw.com/f/e5d30c01824afeb4db75d78772486b7b/83789cdf-6036-40bb-8f65-706af623ff8f.mp4",
+          "mentions": [],
+          "mention_roles": [],
+          "attachments": [],
+          "embeds": [],
+          "timestamp": "2025-12-07T12:33:36.432000+00:00",
+          "edited_timestamp": null,
+          "flags": 0,
+          "components": [],
+          "id": "1447204398802669678",
+          "channel_id": "1446921026867826688",
+          "author": {
+            "id": "1306443523553366090",
+            "username": "BakaBot",
+            "avatar": "c6fc95648cb270cd9617d6f0de37de38",
+            "discriminator": "1333",
+            "public_flags": 0,
+            "flags": 0,
+            "bot": true,
+            "banner": null,
+            "accent_color": null,
+            "global_name": null,
+            "avatar_decoration_data": null,
+            "collectibles": null,
+            "display_name_styles": null,
+            "banner_color": null,
+            "clan": null,
+            "primary_guild": null
+          },
+          "pinned": false,
+          "mention_everyone": false,
+          "tts": false
         }
       }
     ]
@@ -1507,6 +3127,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-12-07T04:40:01.000Z",
-  "versionId": "f26c4f56-5fa3-49ce-8551-7e53825f7293"
+  "updatedAt": "2025-12-08T05:13:21.000Z",
+  "versionId": "8af8e83c-8063-4eb8-a95f-064d74a448a2"
 }
