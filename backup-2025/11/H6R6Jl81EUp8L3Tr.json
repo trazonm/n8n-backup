@@ -843,7 +843,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -2328,
+        -2336,
         208
       ],
       "id": "b1e91079-1128-4eb7-aef5-a0e1e4d921f3",
@@ -1425,7 +1425,7 @@
       "typeVersion": 1.3,
       "position": [
         -3056,
-        1028
+        1040
       ],
       "id": "b4a32382-e765-413b-a907-6915c171a6d0",
       "name": "Schedule Trigger (4x Daily)",
@@ -1439,7 +1439,7 @@
       "typeVersion": 1.1,
       "position": [
         -2832,
-        1028
+        1040
       ],
       "id": "ffc2590f-89ff-488f-996a-8883d9b9bcb4",
       "name": "Random Delay (Anti-Detection)",
@@ -1473,7 +1473,7 @@
       "typeVersion": 4.3,
       "position": [
         -2608,
-        836
+        848
       ],
       "id": "92a26324-c4be-42b2-b9c4-76da85cf6a24",
       "name": "Google Trends (What's Hot Now)",
@@ -1520,7 +1520,7 @@
       "typeVersion": 4.3,
       "position": [
         -2608,
-        1028
+        1040
       ],
       "id": "34af0128-d5ee-4901-97fc-614464b6fc79",
       "name": "Reddit (Satisfying/Amazing Content)",
@@ -1567,7 +1567,7 @@
       "typeVersion": 4.3,
       "position": [
         -2608,
-        1220
+        1232
       ],
       "id": "e3764779-f444-431e-8643-e803a7ea3636",
       "name": "Amazon Trending Products",
@@ -1587,7 +1587,7 @@
       "typeVersion": 3,
       "position": [
         -2384,
-        932
+        944
       ],
       "id": "b53194a5-0eb0-4688-9844-536227d073cf",
       "name": "Merge All Sources"
@@ -1616,7 +1616,7 @@
       "typeVersion": 3.4,
       "position": [
         -2160,
-        932
+        944
       ],
       "id": "858fcf2e-e90b-4419-a6cf-306c8d821d53",
       "name": "Combine Data + Affiliate Config"
@@ -1634,7 +1634,7 @@
       "typeVersion": 3,
       "position": [
         -1936,
-        932
+        944
       ],
       "id": "038c7f44-a17d-4666-8a86-95ec8afd5782",
       "name": "AI Content Strategist"
@@ -1646,8 +1646,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -1800,
-        1156
+        -1808,
+        1168
       ],
       "id": "95f54675-5ee8-47ca-a679-227bfae313fa",
       "name": "Strategy Output Parser"
@@ -1659,8 +1659,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1928,
-        1156
+        -1936,
+        1168
       ],
       "id": "a50c2dcf-6c0b-4849-8da3-78ae427f2a2a",
       "name": "Gemini 2.5 Flash",
@@ -1701,7 +1701,7 @@
       "typeVersion": 2.2,
       "position": [
         -1584,
-        808
+        816
       ],
       "id": "f974d665-dcf0-4a26-917b-cbfc61153896",
       "name": "Has Product to Monetize?"
@@ -1730,7 +1730,7 @@
       "typeVersion": 3.4,
       "position": [
         -1360,
-        712
+        720
       ],
       "id": "4afafb7b-a3ad-4003-ae4b-63629698104d",
       "name": "Build Affiliate Link"
@@ -1759,7 +1759,7 @@
       "typeVersion": 3.4,
       "position": [
         -1360,
-        904
+        912
       ],
       "id": "0f66556f-a8be-4068-a984-fdb7201d0b78",
       "name": "No Affiliate Link"
@@ -1773,7 +1773,7 @@
       "typeVersion": 3,
       "position": [
         -1136,
-        808
+        816
       ],
       "id": "989cfffb-93ec-4f3f-be1d-6c98287f585f",
       "name": "Merge Paths"
@@ -1796,7 +1796,7 @@
       "typeVersion": 3.4,
       "position": [
         -912,
-        808
+        816
       ],
       "id": "ab04c235-5573-46a9-820f-335c17a6787c",
       "name": "Video Prompt Template"
@@ -1814,7 +1814,7 @@
       "typeVersion": 3,
       "position": [
         -688,
-        808
+        816
       ],
       "id": "e628b125-ba3b-4bb5-92be-b11e71dce050",
       "name": "AI Video Director"
@@ -1826,8 +1826,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -552,
-        1032
+        -560,
+        1040
       ],
       "id": "85a4ce60-337a-4687-b04d-3ca287384ed9",
       "name": "Director Output Parser"
@@ -1839,8 +1839,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -680,
-        1032
+        -688,
+        1040
       ],
       "id": "d85fb35c-f77f-4700-9ecc-ec797e8a62ad",
       "name": "Gemini 2.5 Pro",
@@ -1875,7 +1875,7 @@
       "typeVersion": 1,
       "position": [
         -336,
-        808
+        816
       ],
       "id": "7d775696-6698-4f2e-90dd-259659f846ed",
       "name": "Quality & Monetization Rater",
@@ -1915,7 +1915,7 @@
       "typeVersion": 2.2,
       "position": [
         16,
-        808
+        816
       ],
       "id": "1838125e-c1a0-4b3a-869c-c180e6686fbf",
       "name": "Score >= 65?"
@@ -1936,7 +1936,7 @@
       "typeVersion": 4.2,
       "position": [
         240,
-        760
+        768
       ],
       "id": "0981b406-0ec3-4787-ab24-f62f2b715b98",
       "name": "Generate Video (VEO2)",
@@ -1955,7 +1955,7 @@
       "typeVersion": 1.1,
       "position": [
         464,
-        760
+        768
       ],
       "id": "bac2371e-086a-49bd-8305-02c02548bb29",
       "name": "Wait 20s",
@@ -1981,7 +1981,7 @@
       "typeVersion": 4.3,
       "position": [
         688,
-        760
+        768
       ],
       "id": "71dc8c0d-4617-4f74-b4fd-76b061b46577",
       "name": "Check Video Status",
@@ -2035,7 +2035,7 @@
       "typeVersion": 1.1,
       "position": [
         1136,
-        856
+        864
       ],
       "id": "dbe3fba2-e11c-4180-8eb6-0f385192d2c3",
       "name": "Wait 15s More",
@@ -2531,7 +2531,7 @@
       "typeVersion": 2,
       "position": [
         240,
-        1052
+        1056
       ],
       "id": "e4042e97-40a5-424b-a8d7-158de9ce8ae2",
       "name": "Notify Regeneration",
@@ -2806,7 +2806,7 @@
       "typeVersion": 1.7,
       "position": [
         -848,
-        84
+        96
       ],
       "id": "b3a4e005-864c-4f36-af32-ecbaf981fbd7",
       "name": "Virality Rater"
@@ -2819,8 +2819,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -840,
-        308
+        -848,
+        320
       ],
       "id": "ed8e214c-3976-4ee6-87f2-90fb3f3f59e5",
       "name": "Google Gemini Chat Model2",
@@ -2838,15 +2838,14 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -712,
-        308
+        -720,
+        320
       ],
       "id": "132c35e3-7888-4347-b6ef-de7dd8444530",
       "name": "Structured Output Parser2"
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-flash-lite",
         "options": {
           "safetySettings": {
             "values": [
@@ -2911,7 +2910,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -1416,
+        -1424,
         0
       ],
       "id": "9fcd502a-799d-4689-b008-15c6ba817eb7",
@@ -3165,6 +3164,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-12-14T05:35:29.000Z",
-  "versionId": "77efa92c-9bad-43cf-a809-2c636de9288c"
+  "updatedAt": "2025-12-14T13:53:54.000Z",
+  "versionId": "39910f08-c418-4537-b885-359270f36c5e"
 }
