@@ -1,211 +1,6 @@
 {
   "active": true,
   "connections": {
-    "Topic Generator (Gen Z Meme)1": {
-      "main": [
-        [
-          {
-            "node": "Read Video Parameters from Google Sheet1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Structured Output Parser": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "Topic Generator (Gen Z Meme)1",
-            "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Topic Generator (Gen Z Meme)1",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Get Video Info",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Video Info": {
-      "main": [
-        [
-          {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Video URL via Discord": {
-      "main": [
-        [
-          {
-            "node": "Post",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Discord Trigger1": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Save Caption Video to Google Sheets1": {
-      "main": [
-        [
-          {
-            "node": "If2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Rewrite Caption with GPT-4o1": {
-      "main": [
-        [
-          {
-            "node": "Save Caption Video to Google Sheets1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Download Video from VEO": {
-      "main": [
-        [
-          {
-            "node": "Rewrite Caption with GPT-4o1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Generate Video with VEO": {
-      "main": [
-        [
-          {
-            "node": "Get Video Info",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Set Master Prompt1": {
-      "main": [
-        [
-          {
-            "node": "AI Agent: Generate Video Script1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read Video Parameters from Google Sheet1": {
-      "main": [
-        [
-          {
-            "node": "Set Master Prompt1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "Topic Generator (Gen Z Meme)1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Schedule Trigger": {
-      "main": [
-        [
-          {
-            "node": "Wait1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait1": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If2": {
-      "main": [
-        [
-          {
-            "node": "Send Video URL via Discord",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send Video URL via Discord1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Video URL via Discord1": {
-      "main": [
-        [
-          {
-            "node": "Post",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Schedule Trigger (4x Daily)": {
       "main": [
         [
@@ -590,6 +385,211 @@
         ]
       ]
     },
+    "Topic Generator (Gen Z Meme)1": {
+      "main": [
+        [
+          {
+            "node": "Read Video Parameters from Google Sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Topic Generator (Gen Z Meme)1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Topic Generator (Gen Z Meme)1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Video Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video Info": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Video URL via Discord": {
+      "main": [
+        [
+          {
+            "node": "Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Trigger1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Caption Video to Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rewrite Caption with GPT-4o1": {
+      "main": [
+        [
+          {
+            "node": "Save Caption Video to Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Video from VEO": {
+      "main": [
+        [
+          {
+            "node": "Rewrite Caption with GPT-4o1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Video with VEO": {
+      "main": [
+        [
+          {
+            "node": "Get Video Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Master Prompt1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent: Generate Video Script1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Video Parameters from Google Sheet1": {
+      "main": [
+        [
+          {
+            "node": "Set Master Prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Topic Generator (Gen Z Meme)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Send Video URL via Discord",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Video URL via Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Video URL via Discord1": {
+      "main": [
+        [
+          {
+            "node": "Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Switch": {
       "main": [
         [
@@ -692,7 +692,7 @@
       "main": [
         [
           {
-            "node": "Virality Rater",
+            "node": "Store Script Output",
             "type": "main",
             "index": 0
           }
@@ -749,6 +749,17 @@
           }
         ]
       ]
+    },
+    "Store Script Output": {
+      "main": [
+        [
+          {
+            "node": "Virality Rater",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-29T05:07:34.027Z",
@@ -759,657 +770,6 @@
   },
   "name": "Viral Video Machine v2 - Monetized",
   "nodes": [
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://api.upload-post.com/api/upload",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {}
-          ]
-        },
-        "sendBody": true,
-        "contentType": "multipart-form-data",
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "title",
-              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }}"
-            },
-            {
-              "name": "user",
-              "value": "bakaboi336"
-            },
-            {
-              "name": "platform[]",
-              "value": "instagram"
-            },
-            {
-              "name": "video",
-              "value": "={{ $json.content }}"
-            },
-            {
-              "name": "description",
-              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.CAPTION }}"
-            },
-            {
-              "name": "tags",
-              "value": "={{ $('AI Agent: Generate Video Script1').item.json.output.tags }}"
-            },
-            {
-              "name": "platform[]",
-              "value": "youtube"
-            },
-            {
-              "name": "platform[]",
-              "value": "x"
-            },
-            {
-              "name": "x_title",
-              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('AI Agent: Generate Video Script1').item.json.output.tags\n    .split(',')                               // split on commas\n    .map(t => t.trim())                       // trim spaces around each tag\n    .filter(t => t)                           // drop empties\n    .map(t => '#' + t.replace(/\\s+/g, ''))    // remove inner spaces & add '#'\n    .join(' ')                                // join back with spaces\n}}\n"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        1648,
-        -176
-      ],
-      "id": "f80cc389-89d4-4609-850e-ec851aba1816",
-      "name": "Post",
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "xutjopcylYCUIuRH",
-          "name": "Upload-Post"
-        }
-      },
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=INPUT DATA (Trending topics/memes):\n{{ $json.organic_results.map(r => \"[SOURCE: \" + r.source + \"] TITLE: \" + r.title + \" \\nSNIPPET: \" + r.snippet).join(\"\\n---\\n\") }}\n\nTASK:\n1. Scan for anything that could become an ABSURD AI video meme\n2. Pick ONE of the seven viral formats that fits best\n3. Apply the formula: Familiar Format + Absurd Subject + Serious Execution\n\nFORMAT SELECTION GUIDE:\n- If topic involves authority/rules → BODYCAM COMEDY\n- If topic involves beloved characters/IP → CHARACTER ROLE SWAP\n- If topic involves animals or nature → ABSURD REALISM\n- If topic involves nostalgia/retro → RETRO NOSTALGIA FORMAT\n- If topic involves movies/TV → MOVIE SCENE RECREATION\n- If topic involves everyday life → SURVEILLANCE AESTHETICS\n- If topic involves facts/education → FAKE DOCUMENTARY\n\nREQUIREMENTS:\n- The concept must use a RECOGNIZABLE format (bodycam, documentary, 80s commercial, movie scene, security cam)\n- The subject must be ABSURD but treated with complete seriousness\n- NO meta-humor about AI - just pure absurdist content\n- Think \"would this get 1M+ views on TikTok?\"\n\nGOOD EXAMPLES:\n- \"Police bodycam: Officer professionally asks a sentient burrito for license and registration at 2am\"\n- \"Nature documentary narrating the mating habits of office workers around the coffee machine\"\n- \"1987 toy commercial for 'Haunted Bread' - bread that screams when you make toast\"\n- \"Ring doorbell footage of two pigeons in tiny suits having a business meeting on the porch\"\n- \"The Godfather 'make him an offer' scene but everyone is a capybara\"\n\nNow generate 1 concept as JSON.",
-        "hasOutputParser": true,
-        "options": {
-          "systemMessage": "=You are a viral AI video meme concept generator specializing in Sora 2 content.\n\nTHE VIRAL FORMULA THAT WORKS:\nFamiliar Format + Absurd Subject + Completely Serious Execution = Viral\n\nTHE SEVEN PROVEN FORMATS:\n\n1. BODYCAM COMEDY (Highest consistency)\n   - Police bodycam footage of absurd \"suspects\"\n   - Officer remains 100% professional\n   - Examples: Sentient taco getting pulled over, golden retriever being read Miranda rights, macaroni being handcuffed\n\n2. CHARACTER ROLE SWAPS (High shareability)\n   - Beloved characters in opposite professions\n   - Examples: Darth Vader as flight attendant, Elmo hosting finance seminar, Gollum as retail manager, SpongeBob in corporate meeting\n\n3. ABSURD REALISM WITH ANIMALS (Proven viral - 7M+ views)\n   - Animals doing human activities in realistic settings\n   - Examples: Squirrels on trampolines, raccoons getting married on Ring doorbell, penguins in business meetings\n\n4. SURVEILLANCE AESTHETICS\n   - Ring doorbell, CCTV, security cam footage\n   - Mundane format captures impossible moment\n   - Examples: Two raccoons getting married, Bigfoot checking mail, aliens doing yard work\n\n5. RETRO NOSTALGIA\n   - 1980s toy commercials, 90s sitcom intros, VHS quality\n   - Examples: \"80s toy commercial for sentient hamburger that runs fast\", \"90s sitcom intro but everyone is cheese\"\n\n6. MOVIE SCENE RECREATIONS\n   - Iconic scenes with character swaps\n   - Examples: Dark Knight interrogation but Batman is SpongeBob, Godfather but everyone is a penguin, Titanic but with cats\n\n7. FAKE DOCUMENTARY/NEWS\n   - Professional documentary about absurd subject\n   - Examples: Nature documentary about office workers, news report on sentient furniture uprising\n\nCRITICAL RULES:\n- NEVER use the word \"funny\" in concepts - the humor comes from SERIOUS treatment of ABSURD scenarios\n- The more realistic and professional the execution, the funnier it becomes\n- Specificity beats generic - \"sentient taco in business attire\" not \"funny food\"\n- The format must be INSTANTLY recognizable (bodycam, documentary, 80s commercial, movie scene)\n- The subject must be COMPLETELY unexpected in that format\n\nGenerate concepts that would make someone stop scrolling and immediately share to their group chat."
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 3,
-      "position": [
-        -2336,
-        208
-      ],
-      "id": "b1e91079-1128-4eb7-aef5-a0e1e4d921f3",
-      "name": "Topic Generator (Gen Z Meme)1",
-      "retryOnFail": true
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "{\n  \"core_topic\": \"the absurd scenario being depicted\",\n  \"format_type\": \"one of: 'bodycam', 'character_swap', 'absurd_realism', 'surveillance', 'retro_nostalgia', 'movie_recreation', 'fake_documentary'\",\n  \"hook\": \"the first 2 seconds that makes someone stop - should be immediately visually confusing/intriguing\",\n  \"visual_description\": \"specific visual details - what exactly do we see?\",\n  \"tone_instruction\": \"how serious/professional should the execution be\",\n  \"why_its_funny\": \"the cognitive dissonance - familiar format vs absurd subject\",\n  \"target_feeds\": [\"tiktok\", \"reels\", \"shorts\", \"twitter\"]\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.3,
-      "position": [
-        -2128,
-        432
-      ],
-      "id": "ed1bcbdd-a0fc-42d4-8000-ac12dbcdcdfd",
-      "name": "Structured Output Parser"
-    },
-    {
-      "parameters": {
-        "modelName": "models/gemini-2.5-flash-lite",
-        "options": {
-          "safetySettings": {
-            "values": [
-              {
-                "category": "HARM_CATEGORY_HARASSMENT",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_HATE_SPEECH",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                "threshold": "BLOCK_NONE"
-              }
-            ]
-          }
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        -2384,
-        432
-      ],
-      "id": "1164c3b2-5c1b-4e71-9ec2-e2ba1797490f",
-      "name": "Google Gemini Chat Model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "ReeAGi73g7iXliN4",
-          "name": "Trazon's Gemini"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "amount": 15
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        400,
-        304
-      ],
-      "id": "3cbf806d-f6de-4786-b1e3-6b8a4422f689",
-      "name": "Wait",
-      "webhookId": "f199093b-7a24-418c-8ccf-427d34d778af"
-    },
-    {
-      "parameters": {
-        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "taskId",
-              "value": "={{ $json.data.taskId }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -48,
-        208
-      ],
-      "id": "a0e506f7-6e28-4cb9-8582-5b7ab3b52407",
-      "name": "Get Video Info",
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "5lOOFjEXtgK6hJc9",
-          "name": "Kie"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "745447586697052201",
-          "mode": "list",
-          "cachedResultName": "BakaBoi's Mall",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1446921026867826688",
-          "mode": "list",
-          "cachedResultName": "viral-video-ideas",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
-        },
-        "content": "={{ $json['URL VIDEO'] }}",
-        "options": {
-          "message_reference": "={{ $('Discord Trigger1')?.json?.id || '' }}"
-        }
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        1424,
-        -272
-      ],
-      "id": "bb1ec001-8cf5-4228-80b0-dd28427ecd20",
-      "name": "Send Video URL via Discord",
-      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
-      "credentials": {
-        "discordOAuth2Api": {
-          "id": "UEztFF3QWknIwrx9",
-          "name": "BakaBot"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "guildIds": [
-          "745447586697052201"
-        ],
-        "channelIds": [
-          "1446921026867826688"
-        ],
-        "value": "!viral",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-discord-trigger.discordTrigger",
-      "typeVersion": 1,
-      "position": [
-        -2832,
-        304
-      ],
-      "id": "8a612eaa-b5c1-4215-b371-d3ff19080cd9",
-      "name": "Discord Trigger1",
-      "credentials": {
-        "discordBotTriggerApi": {
-          "id": "Lqyu9X4PYESvIGq5",
-          "name": "Discord Bot Trigger account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
-          "mode": "list",
-          "cachedResultName": "Viral Video Machine",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 345069389,
-          "mode": "list",
-          "cachedResultName": "VIDEOS",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=345069389"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Title": "={{ $('AI Agent: Generate Video Script1').item.json.output.title }}",
-            "Subject": "={{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}",
-            "Prompt": "={{ $('AI Agent: Generate Video Script1').item.json.output.final_prompt }}",
-            "URL VIDEO": "={{ JSON.parse($('Download Video from VEO').item.json.data.resultJson).resultUrls[0] }}\n",
-            "CAPTION": "={{ $json.message.content }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Title",
-              "displayName": "Title",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Subject",
-              "displayName": "Subject",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Prompt",
-              "displayName": "Prompt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "URL VIDEO",
-              "displayName": "URL VIDEO",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "CAPTION",
-              "displayName": "CAPTION",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        976,
-        -176
-      ],
-      "id": "379129f6-4d5d-4898-828a-289c84abe37f",
-      "name": "Save Caption Video to Google Sheets1",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "dowP6ywDzdtOnsKQ",
-          "name": "trazon's"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "GPT-4O"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "==You are writing a caption for a viral AI-generated meme video on TikTok, Reels, YouTube Shorts, and Twitter.\n\nCONTEXT:\n- Format: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.format_type }}\n- Concept: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}\n- Title: {{ $('AI Agent: Generate Video Script1').item.json.output.title }}\n\nTASK:\nWrite a single caption that enhances the meme's shareability.\n\nCAPTION STYLES THAT WORK:\n- Deadpan description: \"Just a normal traffic stop\"\n- Fake context: \"My Ring doorbell captured this at 3am\"\n- Challenge format: \"POV: you work in HR\"\n- Understated: \"He was very professional about it\"\n- Question hook: \"Why is no one talking about this\"\n\nRULES:\n- MUST be under 150 characters\n- Match the video's serious tone (don't oversell the joke)\n- 0-2 emojis max (💀 and 😭 work best)\n- 2-4 hashtags: #sora #ai #fyp + relevant ones\n- NO explanation of why it's funny\n- Deadpan/understated works better than hype\n\nReturn ONLY the final caption string."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        624,
-        -176
-      ],
-      "id": "2d7287d1-8c41-4c52-b513-c5d47fdaa637",
-      "name": "Rewrite Caption with GPT-4o1",
-      "credentials": {
-        "openAiApi": {
-          "id": "l66YzAph61HK1POi",
-          "name": "OpenRouter"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "taskId",
-              "value": "={{ $('Generate Video with VEO').item.json.data.taskId }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        400,
-        -176
-      ],
-      "id": "d5dded36-ea8c-4b78-bc23-aa87ddada407",
-      "name": "Download Video from VEO",
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "5lOOFjEXtgK6hJc9",
-          "name": "Kie"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://api.kie.ai/api/v1/jobs/createTask",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendBody": true,
-        "contentType": "raw",
-        "rawContentType": "application/json",
-        "body": "={{ JSON.stringify({\n  model: $('Read Video Parameters from Google Sheet1').first().json.model,\n  input: {\n    prompt: $('AI Agent: Generate Video Script1').item.json.output.final_prompt,\n    aspectRatio: $('Read Video Parameters from Google Sheet1').item.json.AspectRatio\n  }\n}) }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -272,
-        208
-      ],
-      "id": "8042bfad-da43-4c43-9aaf-0f7c20ecbe87",
-      "name": "Generate Video with VEO",
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "5lOOFjEXtgK6hJc9",
-          "name": "Kie"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "cc2e0500-57b1-4615-82cb-1c950e5f2ec4",
-              "name": "json_master",
-              "value": "={\n  \"description\": \"A viral AI-generated video meme (5-20s) using the formula: Familiar Format + Absurd Subject + Serious Execution. The humor comes from cognitive dissonance, NOT from trying to be funny.\",\n  \"format_types\": {\n    \"bodycam\": {\n      \"camera\": \"Police bodycam POV, slightly shaky, night vision capable\",\n      \"audio\": \"Radio chatter, officer speaking professionally\",\n      \"lighting\": \"Harsh flashlight, street lights, car headlights\",\n      \"key_element\": \"Officer remains 100% professional regardless of absurd suspect\"\n    },\n    \"surveillance\": {\n      \"camera\": \"Fixed security cam, Ring doorbell, CCTV angle\",\n      \"audio\": \"Ambient only, no music\",\n      \"lighting\": \"Infrared night vision OR harsh daylight\",\n      \"key_element\": \"Mundane footage captures impossible moment\"\n    },\n    \"retro_commercial\": {\n      \"camera\": \"4:3 aspect ratio feel, vintage TV quality\",\n      \"audio\": \"Cheesy jingle, enthusiastic announcer\",\n      \"lighting\": \"Bright, oversaturated 80s/90s commercial lighting\",\n      \"key_element\": \"Genuine enthusiasm for absurd product\"\n    },\n    \"movie_recreation\": {\n      \"camera\": \"Match iconic film's cinematography exactly\",\n      \"audio\": \"Dramatic score, serious dialogue delivery\",\n      \"lighting\": \"Cinematic, matching original scene\",\n      \"key_element\": \"Frame-for-frame recreation with character swap\"\n    },\n    \"fake_documentary\": {\n      \"camera\": \"Steady documentary cam, nature doc style\",\n      \"audio\": \"Serious narrator (David Attenborough energy)\",\n      \"lighting\": \"Natural, observational\",\n      \"key_element\": \"Gravely serious treatment of ridiculous subject\"\n    },\n    \"character_roleswap\": {\n      \"camera\": \"Appropriate to the profession being depicted\",\n      \"audio\": \"Professional workplace ambiance\",\n      \"lighting\": \"Realistic workplace lighting\",\n      \"key_element\": \"Beloved character maintaining their traits in wrong context\"\n    }\n  },\n  \"tone_rules\": {\n    \"primary\": \"COMPLETELY SERIOUS - never acknowledge the absurdity\",\n    \"execution\": \"Professional, realistic, high production value appearance\",\n    \"the_trick\": \"The AI must not know it's being funny. Play it straight.\"\n  },\n  \"subject_types\": [\n    \"Sentient food items in professional attire\",\n    \"Animals doing human jobs/activities\",\n    \"Beloved fictional characters in opposite roles\",\n    \"Inanimate objects with agency\",\n    \"Historical figures in mundane modern situations\",\n    \"Mythical creatures doing everyday tasks\"\n  ],\n  \"visual_requirements\": {\n    \"realism\": \"Hyperrealistic rendering - the more real it looks, the funnier\",\n    \"details\": \"Specific props, clothing, environment details sell the bit\",\n    \"no_text\": \"NO on-screen text, subtitles, or captions in the video itself\"\n  },\n  \"audio_options\": {\n    \"bodycam\": \"Radio static, professional officer dialogue, traffic sounds\",\n    \"surveillance\": \"Silence OR distant ambient noise only\",\n    \"retro\": \"Period-appropriate jingle, enthusiastic VO\",\n    \"documentary\": \"Serious narration, nature sounds\",\n    \"movie\": \"Match original film's score/tone\"\n  },\n  \"ending_styles\": [\n    \"Hard cut to black at peak absurdity\",\n    \"Freeze frame on the most ridiculous moment\",\n    \"Slow zoom on subject's face\",\n    \"Continue as if nothing unusual happened\"\n  ],\n  \"format\": \"vertical 9:16\",\n  \"keywords\": [\"sora\", \"ai\", \"meme\", \"viral\", \"funny\", \"absurd\", \"brainrot\", \"shitpost\"]\n}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1696,
-        208
-      ],
-      "id": "ce3beb4a-6cc6-405f-9082-807242ca07bb",
-      "name": "Set Master Prompt1"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
-          "mode": "list",
-          "cachedResultName": "Viral Video Machine",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "CONFIG",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=0"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        -1920,
-        208
-      ],
-      "id": "3087d4bb-a275-4575-bdb8-605e31471368",
-      "name": "Read Video Parameters from Google Sheet1",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "dowP6ywDzdtOnsKQ",
-          "name": "trazon's"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "url": "https://serpapi.com/search",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "serpApi",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "engine",
-              "value": "google"
-            },
-            {
-              "name": "num",
-              "value": "10"
-            },
-            {
-              "name": "gl",
-              "value": "us"
-            },
-            {
-              "name": "tbs",
-              "value": "qdr:w"
-            },
-            {
-              "name": "q",
-              "value": "site:reddit.com (r/memes OR r/dankmemes OR r/shitposting OR r/whenthe OR r/okbuddyretard OR r/196) OR site:twitter.com OR site:knowyourmeme.com \"viral\" OR \"trending\""
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -2608,
-        208
-      ],
-      "id": "59296054-9f9b-4678-95bc-b7bc2d8c2aec",
-      "name": "HTTP Request",
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "xutjopcylYCUIuRH",
-          "name": "Upload-Post"
-        },
-        "serpApi": {
-          "id": "uCDSUDcCcYUlmt38",
-          "name": "SerpApi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "cronExpression",
-              "expression": "0 30 7,12,23 * * *"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.3,
-      "position": [
-        -3056,
-        112
-      ],
-      "id": "9fbd2d41-4931-4e3f-aa79-dab8aa881e3f",
-      "name": "Schedule Trigger"
-    },
-    {
-      "parameters": {
-        "amount": "={{ Math.floor(Math.random() * 20) + 1 }}"
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        -2832,
-        112
-      ],
-      "id": "170e218a-6455-4d85-aafc-706ad693d0cd",
-      "name": "Wait1",
-      "webhookId": "3686926d-696a-45f0-896d-334f3cf3358e"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "dad23c5a-6286-4174-9fc6-35d4f5ed5df7",
-              "leftValue": "={{ $if($('Discord Trigger1').isExecuted, $('Discord Trigger1').item.json.id, '') }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "notEmpty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1200,
-        -176
-      ],
-      "id": "e4e7cd28-66ca-478a-8817-29d5e62fa799",
-      "name": "If2"
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "745447586697052201",
-          "mode": "list",
-          "cachedResultName": "BakaBoi's Mall",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1446921026867826688",
-          "mode": "list",
-          "cachedResultName": "viral-video-ideas",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
-        },
-        "content": "={{ $json['URL VIDEO'] }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        1424,
-        -80
-      ],
-      "id": "d77cfb1a-8764-47bc-a493-8732281ee36b",
-      "name": "Send Video URL via Discord1",
-      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
-      "credentials": {
-        "discordOAuth2Api": {
-          "id": "UEztFF3QWknIwrx9",
-          "name": "BakaBot"
-        }
-      }
-    },
     {
       "parameters": {
         "rule": {
@@ -1425,7 +785,7 @@
       "typeVersion": 1.3,
       "position": [
         -3056,
-        1040
+        480
       ],
       "id": "b4a32382-e765-413b-a907-6915c171a6d0",
       "name": "Schedule Trigger (4x Daily)",
@@ -1439,7 +799,7 @@
       "typeVersion": 1.1,
       "position": [
         -2832,
-        1040
+        480
       ],
       "id": "ffc2590f-89ff-488f-996a-8883d9b9bcb4",
       "name": "Random Delay (Anti-Detection)",
@@ -1473,7 +833,7 @@
       "typeVersion": 4.3,
       "position": [
         -2608,
-        848
+        288
       ],
       "id": "92a26324-c4be-42b2-b9c4-76da85cf6a24",
       "name": "Google Trends (What's Hot Now)",
@@ -1520,7 +880,7 @@
       "typeVersion": 4.3,
       "position": [
         -2608,
-        1040
+        480
       ],
       "id": "34af0128-d5ee-4901-97fc-614464b6fc79",
       "name": "Reddit (Satisfying/Amazing Content)",
@@ -1567,7 +927,7 @@
       "typeVersion": 4.3,
       "position": [
         -2608,
-        1232
+        672
       ],
       "id": "e3764779-f444-431e-8643-e803a7ea3636",
       "name": "Amazon Trending Products",
@@ -1587,7 +947,7 @@
       "typeVersion": 3,
       "position": [
         -2384,
-        944
+        384
       ],
       "id": "b53194a5-0eb0-4688-9844-536227d073cf",
       "name": "Merge All Sources"
@@ -1616,7 +976,7 @@
       "typeVersion": 3.4,
       "position": [
         -2160,
-        944
+        384
       ],
       "id": "858fcf2e-e90b-4419-a6cf-306c8d821d53",
       "name": "Combine Data + Affiliate Config"
@@ -1634,7 +994,7 @@
       "typeVersion": 3,
       "position": [
         -1936,
-        944
+        384
       ],
       "id": "038c7f44-a17d-4666-8a86-95ec8afd5782",
       "name": "AI Content Strategist"
@@ -1647,7 +1007,7 @@
       "typeVersion": 1.3,
       "position": [
         -1808,
-        1168
+        608
       ],
       "id": "95f54675-5ee8-47ca-a679-227bfae313fa",
       "name": "Strategy Output Parser"
@@ -1660,7 +1020,7 @@
       "typeVersion": 1,
       "position": [
         -1936,
-        1168
+        608
       ],
       "id": "a50c2dcf-6c0b-4849-8da3-78ae427f2a2a",
       "name": "Gemini 2.5 Flash",
@@ -1701,7 +1061,7 @@
       "typeVersion": 2.2,
       "position": [
         -1584,
-        816
+        256
       ],
       "id": "f974d665-dcf0-4a26-917b-cbfc61153896",
       "name": "Has Product to Monetize?"
@@ -1730,7 +1090,7 @@
       "typeVersion": 3.4,
       "position": [
         -1360,
-        720
+        160
       ],
       "id": "4afafb7b-a3ad-4003-ae4b-63629698104d",
       "name": "Build Affiliate Link"
@@ -1759,7 +1119,7 @@
       "typeVersion": 3.4,
       "position": [
         -1360,
-        912
+        352
       ],
       "id": "0f66556f-a8be-4068-a984-fdb7201d0b78",
       "name": "No Affiliate Link"
@@ -1773,7 +1133,7 @@
       "typeVersion": 3,
       "position": [
         -1136,
-        816
+        256
       ],
       "id": "989cfffb-93ec-4f3f-be1d-6c98287f585f",
       "name": "Merge Paths"
@@ -1796,7 +1156,7 @@
       "typeVersion": 3.4,
       "position": [
         -912,
-        816
+        256
       ],
       "id": "ab04c235-5573-46a9-820f-335c17a6787c",
       "name": "Video Prompt Template"
@@ -1814,7 +1174,7 @@
       "typeVersion": 3,
       "position": [
         -688,
-        816
+        256
       ],
       "id": "e628b125-ba3b-4bb5-92be-b11e71dce050",
       "name": "AI Video Director"
@@ -1827,7 +1187,7 @@
       "typeVersion": 1.3,
       "position": [
         -560,
-        1040
+        480
       ],
       "id": "85a4ce60-337a-4687-b04d-3ca287384ed9",
       "name": "Director Output Parser"
@@ -1840,7 +1200,7 @@
       "typeVersion": 1,
       "position": [
         -688,
-        1040
+        480
       ],
       "id": "d85fb35c-f77f-4700-9ecc-ec797e8a62ad",
       "name": "Gemini 2.5 Pro",
@@ -1875,7 +1235,7 @@
       "typeVersion": 1,
       "position": [
         -336,
-        816
+        256
       ],
       "id": "7d775696-6698-4f2e-90dd-259659f846ed",
       "name": "Quality & Monetization Rater",
@@ -1915,7 +1275,7 @@
       "typeVersion": 2.2,
       "position": [
         16,
-        816
+        256
       ],
       "id": "1838125e-c1a0-4b3a-869c-c180e6686fbf",
       "name": "Score >= 65?"
@@ -1936,7 +1296,7 @@
       "typeVersion": 4.2,
       "position": [
         240,
-        768
+        208
       ],
       "id": "0981b406-0ec3-4787-ab24-f62f2b715b98",
       "name": "Generate Video (VEO2)",
@@ -1955,7 +1315,7 @@
       "typeVersion": 1.1,
       "position": [
         464,
-        768
+        208
       ],
       "id": "bac2371e-086a-49bd-8305-02c02548bb29",
       "name": "Wait 20s",
@@ -1981,7 +1341,7 @@
       "typeVersion": 4.3,
       "position": [
         688,
-        768
+        208
       ],
       "id": "71dc8c0d-4617-4f74-b4fd-76b061b46577",
       "name": "Check Video Status",
@@ -2022,7 +1382,7 @@
       "typeVersion": 2.2,
       "position": [
         912,
-        688
+        128
       ],
       "id": "5ba2647d-214c-48e9-8005-f49300c5718e",
       "name": "Video Ready?"
@@ -2035,7 +1395,7 @@
       "typeVersion": 1.1,
       "position": [
         1136,
-        864
+        304
       ],
       "id": "dbe3fba2-e11c-4180-8eb6-0f385192d2c3",
       "name": "Wait 15s More",
@@ -2061,7 +1421,7 @@
       "typeVersion": 4.2,
       "position": [
         1136,
-        640
+        80
       ],
       "id": "84ba9873-2aad-4875-93c3-21d42b059fb0",
       "name": "Download Video",
@@ -2094,7 +1454,7 @@
       "typeVersion": 1.8,
       "position": [
         1360,
-        640
+        80
       ],
       "id": "3e7abae1-16a0-46f3-874a-479898296a7f",
       "name": "Multi-Platform Caption Generator",
@@ -2298,7 +1658,7 @@
       "typeVersion": 4.6,
       "position": [
         1712,
-        640
+        80
       ],
       "id": "cdf1b3d4-b2be-4484-9d2e-872e329f4f7e",
       "name": "Save to Analytics Sheet",
@@ -2334,7 +1694,7 @@
       "typeVersion": 2,
       "position": [
         1936,
-        640
+        80
       ],
       "id": "11360d0d-f24b-4a64-a42c-11cf091a38df",
       "name": "Discord Approval Request",
@@ -2400,7 +1760,7 @@
       "typeVersion": 4.3,
       "position": [
         2160,
-        640
+        80
       ],
       "id": "c473766f-075c-4ec9-8cd9-0423e1dff853",
       "name": "Post to All Platforms",
@@ -2462,7 +1822,7 @@
       "typeVersion": 4.6,
       "position": [
         2384,
-        640
+        80
       ],
       "id": "a6942286-5c43-414c-a569-165fc9feeb45",
       "name": "Update Posted Status",
@@ -2496,7 +1856,7 @@
       "typeVersion": 2,
       "position": [
         2608,
-        640
+        80
       ],
       "id": "c45f8dc3-a1e8-4bd8-b0e0-7607aa771483",
       "name": "Discord Success Notification",
@@ -2531,7 +1891,7 @@
       "typeVersion": 2,
       "position": [
         240,
-        1056
+        496
       ],
       "id": "e4042e97-40a5-424b-a8d7-158de9ce8ae2",
       "name": "Notify Regeneration",
@@ -2581,7 +1941,11 @@
             },
             {
               "name": "tags",
-              "value": "={{ $('AI Agent: Generate Video Script1').item.json.output.tags }}"
+              "value": "={{ $('Store Script Output').item.json.previous_tags }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "youtube"
             },
             {
               "name": "platform[]",
@@ -2589,7 +1953,7 @@
             },
             {
               "name": "x_title",
-              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('AI Agent: Generate Video Script1').item.json.output.tags\n    .split(',')                               // split on commas\n    .map(t => t.trim())                       // trim spaces around each tag\n    .filter(t => t)                           // drop empties\n    .map(t => '#' + t.replace(/\\s+/g, ''))    // remove inner spaces & add '#'\n    .join(' ')                                // join back with spaces\n}}\n"
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               // split on commas\n    .map(t => t.trim())                       // trim spaces around each tag\n    .filter(t => t)                           // drop empties\n    .map(t => '#' + t.replace(/\\s+/g, ''))    // remove inner spaces & add '#'\n    .join(' ')                                // join back with spaces\n}}\n"
             }
           ]
         },
@@ -2599,9 +1963,656 @@
       "typeVersion": 4.3,
       "position": [
         1872,
-        -176
+        -736
       ],
-      "id": "77574ab3-886a-4869-8971-3d7a32559906",
+      "id": "095e7bfc-b3cc-4a81-9ca2-401d3ac2b0a1",
+      "name": "Post",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xutjopcylYCUIuRH",
+          "name": "Upload-Post"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=INPUT DATA (Trending topics/memes):\n{{ $json.organic_results.map(r => \"[SOURCE: \" + r.source + \"] TITLE: \" + r.title + \" \\nSNIPPET: \" + r.snippet).join(\"\\n---\\n\") }}\n\nTASK:\n1. Scan for anything that could become an ABSURD AI video meme\n2. Pick ONE of the seven viral formats that fits best\n3. Apply the formula: Familiar Format + Absurd Subject + Serious Execution\n\nFORMAT SELECTION GUIDE:\n- If topic involves authority/rules → BODYCAM COMEDY\n- If topic involves beloved characters/IP → CHARACTER ROLE SWAP\n- If topic involves animals or nature → ABSURD REALISM\n- If topic involves nostalgia/retro → RETRO NOSTALGIA FORMAT\n- If topic involves movies/TV → MOVIE SCENE RECREATION\n- If topic involves everyday life → SURVEILLANCE AESTHETICS\n- If topic involves facts/education → FAKE DOCUMENTARY\n\nREQUIREMENTS:\n- The concept must use a RECOGNIZABLE format (bodycam, documentary, 80s commercial, movie scene, security cam)\n- The subject must be ABSURD but treated with complete seriousness\n- NO meta-humor about AI - just pure absurdist content\n- Think \"would this get 1M+ views on TikTok?\"\n\nGOOD EXAMPLES:\n- \"Police bodycam: Officer professionally asks a sentient burrito for license and registration at 2am\"\n- \"Nature documentary narrating the mating habits of office workers around the coffee machine\"\n- \"1987 toy commercial for 'Haunted Bread' - bread that screams when you make toast\"\n- \"Ring doorbell footage of two pigeons in tiny suits having a business meeting on the porch\"\n- \"The Godfather 'make him an offer' scene but everyone is a capybara\"\n\nNow generate 1 concept as JSON.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a viral AI video meme concept generator specializing in Sora 2 content.\n\nTHE VIRAL FORMULA THAT WORKS:\nFamiliar Format + Absurd Subject + Completely Serious Execution = Viral\n\nTHE SEVEN PROVEN FORMATS:\n\n1. BODYCAM COMEDY (Highest consistency)\n   - Police bodycam footage of absurd \"suspects\"\n   - Officer remains 100% professional\n   - Examples: Sentient taco getting pulled over, golden retriever being read Miranda rights, macaroni being handcuffed\n\n2. CHARACTER ROLE SWAPS (High shareability)\n   - Beloved characters in opposite professions\n   - Examples: Darth Vader as flight attendant, Elmo hosting finance seminar, Gollum as retail manager, SpongeBob in corporate meeting\n\n3. ABSURD REALISM WITH ANIMALS (Proven viral - 7M+ views)\n   - Animals doing human activities in realistic settings\n   - Examples: Squirrels on trampolines, raccoons getting married on Ring doorbell, penguins in business meetings\n\n4. SURVEILLANCE AESTHETICS\n   - Ring doorbell, CCTV, security cam footage\n   - Mundane format captures impossible moment\n   - Examples: Two raccoons getting married, Bigfoot checking mail, aliens doing yard work\n\n5. RETRO NOSTALGIA\n   - 1980s toy commercials, 90s sitcom intros, VHS quality\n   - Examples: \"80s toy commercial for sentient hamburger that runs fast\", \"90s sitcom intro but everyone is cheese\"\n\n6. MOVIE SCENE RECREATIONS\n   - Iconic scenes with character swaps\n   - Examples: Dark Knight interrogation but Batman is SpongeBob, Godfather but everyone is a penguin, Titanic but with cats\n\n7. FAKE DOCUMENTARY/NEWS\n   - Professional documentary about absurd subject\n   - Examples: Nature documentary about office workers, news report on sentient furniture uprising\n\nCRITICAL RULES:\n- NEVER use the word \"funny\" in concepts - the humor comes from SERIOUS treatment of ABSURD scenarios\n- The more realistic and professional the execution, the funnier it becomes\n- Specificity beats generic - \"sentient taco in business attire\" not \"funny food\"\n- The format must be INSTANTLY recognizable (bodycam, documentary, 80s commercial, movie scene)\n- The subject must be COMPLETELY unexpected in that format\n\nGenerate concepts that would make someone stop scrolling and immediately share to their group chat."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -2336,
+        -352
+      ],
+      "id": "a628e772-78b5-4c6b-8eb1-38622e20ab8d",
+      "name": "Topic Generator (Gen Z Meme)1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"core_topic\": \"the absurd scenario being depicted\",\n  \"format_type\": \"one of: 'bodycam', 'character_swap', 'absurd_realism', 'surveillance', 'retro_nostalgia', 'movie_recreation', 'fake_documentary'\",\n  \"hook\": \"the first 2 seconds that makes someone stop - should be immediately visually confusing/intriguing\",\n  \"visual_description\": \"specific visual details - what exactly do we see?\",\n  \"tone_instruction\": \"how serious/professional should the execution be\",\n  \"why_its_funny\": \"the cognitive dissonance - familiar format vs absurd subject\",\n  \"target_feeds\": [\"tiktok\", \"reels\", \"shorts\", \"twitter\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -2128,
+        -128
+      ],
+      "id": "28d97b87-720d-43fe-8fba-3d8f4a079bbd",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {
+          "safetySettings": {
+            "values": [
+              {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_NONE"
+              },
+              {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_NONE"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2384,
+        -128
+      ],
+      "id": "cdaeab4c-5e33-4398-98be-a5260ed84f2a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ReeAGi73g7iXliN4",
+          "name": "Trazon's Gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        624,
+        -256
+      ],
+      "id": "d1e21cf0-93ed-4b7a-91b7-e7504694a74c",
+      "name": "Wait",
+      "webhookId": "f199093b-7a24-418c-8ccf-427d34d778af"
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        176,
+        -352
+      ],
+      "id": "60594664-0da8-4110-8a62-7ca74f745674",
+      "name": "Get Video Info",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "5lOOFjEXtgK6hJc9",
+          "name": "Kie"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1446921026867826688",
+          "mode": "list",
+          "cachedResultName": "viral-video-ideas",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+        },
+        "content": "={{ $json['URL VIDEO'] }}",
+        "options": {
+          "message_reference": "={{ $('Discord Trigger1')?.json?.id || '' }}"
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        -832
+      ],
+      "id": "973a3d73-ed71-4245-97ae-a9a0f91337ec",
+      "name": "Send Video URL via Discord",
+      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "guildIds": [
+          "745447586697052201"
+        ],
+        "channelIds": [
+          "1446921026867826688"
+        ],
+        "value": "!viral",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-discord-trigger.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2832,
+        -256
+      ],
+      "id": "d6ca3040-4ebf-4ed8-b1bf-2fa782fe65ad",
+      "name": "Discord Trigger1",
+      "credentials": {
+        "discordBotTriggerApi": {
+          "id": "Lqyu9X4PYESvIGq5",
+          "name": "Discord Bot Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+          "mode": "list",
+          "cachedResultName": "Viral Video Machine",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 345069389,
+          "mode": "list",
+          "cachedResultName": "VIDEOS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=345069389"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $('Store Script Output').item.json.previous_title }}",
+            "Subject": "={{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}",
+            "Prompt": "={{ $('Store Script Output').item.json.previous_prompt }}",
+            "URL VIDEO": "={{ JSON.parse($('Download Video from VEO').item.json.data.resultJson).resultUrls[0] }}\n",
+            "CAPTION": "={{ $json.message.content }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL VIDEO",
+              "displayName": "URL VIDEO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CAPTION",
+              "displayName": "CAPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1200,
+        -736
+      ],
+      "id": "dadb6cbb-0ee6-4970-8292-9616f4fc8334",
+      "name": "Save Caption Video to Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dowP6ywDzdtOnsKQ",
+          "name": "trazon's"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "==You are writing a caption for a viral AI-generated meme video on TikTok, Reels, YouTube Shorts, and Twitter.\n\nCONTEXT:\n- Format: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.format_type }}\n- Concept: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}\n- Title: {{ $('Store Script Output').item.json.previous_title }}\n\nTASK:\nWrite a single caption that enhances the meme's shareability.\n\nCAPTION STYLES THAT WORK:\n- Deadpan description: \"Just a normal traffic stop\"\n- Fake context: \"My Ring doorbell captured this at 3am\"\n- Challenge format: \"POV: you work in HR\"\n- Understated: \"He was very professional about it\"\n- Question hook: \"Why is no one talking about this\"\n\nRULES:\n- MUST be under 150 characters\n- Match the video's serious tone (don't oversell the joke)\n- 0-2 emojis max (💀 and 😭 work best)\n- 2-4 hashtags: #sora #ai #fyp + relevant ones\n- NO explanation of why it's funny\n- Deadpan/understated works better than hype\n\nReturn ONLY the final caption string."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        848,
+        -736
+      ],
+      "id": "1e05d4c2-26a5-4ba1-bd4c-f64f96a5bc58",
+      "name": "Rewrite Caption with GPT-4o1",
+      "credentials": {
+        "openAiApi": {
+          "id": "l66YzAph61HK1POi",
+          "name": "OpenRouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $('Generate Video with VEO').item.json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        624,
+        -736
+      ],
+      "id": "bc8cf88e-0fc5-4c3f-bfc0-4b4297487beb",
+      "name": "Download Video from VEO",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "5lOOFjEXtgK6hJc9",
+          "name": "Kie"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/jobs/createTask",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({\n  model: $('Read Video Parameters from Google Sheet1').first().json.model,\n  input: {\n    prompt: $('Store Script Output').item.json.previous_prompt,\n    aspect_ratio: $('Read Video Parameters from Google Sheet1').item.json.AspectRatio,\n    n_frames: \"15\",\n    remove_watermark: true\n  }\n}) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        -352
+      ],
+      "id": "6840b4c4-aeab-44d3-8eeb-fde1765de2d9",
+      "name": "Generate Video with VEO",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "5lOOFjEXtgK6hJc9",
+          "name": "Kie"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cc2e0500-57b1-4615-82cb-1c950e5f2ec4",
+              "name": "json_master",
+              "value": "={\n  \"description\": \"A viral AI-generated video meme (5-20s) using the formula: Familiar Format + Absurd Subject + Serious Execution. The humor comes from cognitive dissonance, NOT from trying to be funny.\",\n  \"format_types\": {\n    \"bodycam\": {\n      \"camera\": \"Police bodycam POV, slightly shaky, night vision capable\",\n      \"audio\": \"Radio chatter, officer speaking professionally\",\n      \"lighting\": \"Harsh flashlight, street lights, car headlights\",\n      \"key_element\": \"Officer remains 100% professional regardless of absurd suspect\"\n    },\n    \"surveillance\": {\n      \"camera\": \"Fixed security cam, Ring doorbell, CCTV angle\",\n      \"audio\": \"Ambient only, no music\",\n      \"lighting\": \"Infrared night vision OR harsh daylight\",\n      \"key_element\": \"Mundane footage captures impossible moment\"\n    },\n    \"retro_commercial\": {\n      \"camera\": \"4:3 aspect ratio feel, vintage TV quality\",\n      \"audio\": \"Cheesy jingle, enthusiastic announcer\",\n      \"lighting\": \"Bright, oversaturated 80s/90s commercial lighting\",\n      \"key_element\": \"Genuine enthusiasm for absurd product\"\n    },\n    \"movie_recreation\": {\n      \"camera\": \"Match iconic film's cinematography exactly\",\n      \"audio\": \"Dramatic score, serious dialogue delivery\",\n      \"lighting\": \"Cinematic, matching original scene\",\n      \"key_element\": \"Frame-for-frame recreation with character swap\"\n    },\n    \"fake_documentary\": {\n      \"camera\": \"Steady documentary cam, nature doc style\",\n      \"audio\": \"Serious narrator (David Attenborough energy)\",\n      \"lighting\": \"Natural, observational\",\n      \"key_element\": \"Gravely serious treatment of ridiculous subject\"\n    },\n    \"character_roleswap\": {\n      \"camera\": \"Appropriate to the profession being depicted\",\n      \"audio\": \"Professional workplace ambiance\",\n      \"lighting\": \"Realistic workplace lighting\",\n      \"key_element\": \"Beloved character maintaining their traits in wrong context\"\n    }\n  },\n  \"tone_rules\": {\n    \"primary\": \"COMPLETELY SERIOUS - never acknowledge the absurdity\",\n    \"execution\": \"Professional, realistic, high production value appearance\",\n    \"the_trick\": \"The AI must not know it's being funny. Play it straight.\"\n  },\n  \"subject_types\": [\n    \"Sentient food items in professional attire\",\n    \"Animals doing human jobs/activities\",\n    \"Beloved fictional characters in opposite roles\",\n    \"Inanimate objects with agency\",\n    \"Historical figures in mundane modern situations\",\n    \"Mythical creatures doing everyday tasks\"\n  ],\n  \"visual_requirements\": {\n    \"realism\": \"Hyperrealistic rendering - the more real it looks, the funnier\",\n    \"details\": \"Specific props, clothing, environment details sell the bit\",\n    \"no_text\": \"NO on-screen text, subtitles, or captions in the video itself\"\n  },\n  \"audio_options\": {\n    \"bodycam\": \"Radio static, professional officer dialogue, traffic sounds\",\n    \"surveillance\": \"Silence OR distant ambient noise only\",\n    \"retro\": \"Period-appropriate jingle, enthusiastic VO\",\n    \"documentary\": \"Serious narration, nature sounds\",\n    \"movie\": \"Match original film's score/tone\"\n  },\n  \"ending_styles\": [\n    \"Hard cut to black at peak absurdity\",\n    \"Freeze frame on the most ridiculous moment\",\n    \"Slow zoom on subject's face\",\n    \"Continue as if nothing unusual happened\"\n  ],\n  \"format\": \"vertical 9:16\",\n  \"keywords\": [\"sora\", \"ai\", \"meme\", \"viral\", \"funny\", \"absurd\", \"brainrot\", \"shitpost\"]\n}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1696,
+        -352
+      ],
+      "id": "cf29c336-0ad2-4d60-9a32-d0250a627ab0",
+      "name": "Set Master Prompt1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+          "mode": "list",
+          "cachedResultName": "Viral Video Machine",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "CONFIG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -1920,
+        -352
+      ],
+      "id": "3604f15f-32ce-4d00-8d40-1eaaae125f0f",
+      "name": "Read Video Parameters from Google Sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dowP6ywDzdtOnsKQ",
+          "name": "trazon's"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "num",
+              "value": "10"
+            },
+            {
+              "name": "gl",
+              "value": "us"
+            },
+            {
+              "name": "tbs",
+              "value": "qdr:w"
+            },
+            {
+              "name": "q",
+              "value": "site:reddit.com (r/memes OR r/dankmemes OR r/shitposting OR r/whenthe OR r/okbuddyretard OR r/196) OR site:twitter.com OR site:knowyourmeme.com \"viral\" OR \"trending\""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -2608,
+        -352
+      ],
+      "id": "fb8022e2-5f83-4df3-8a99-c8887942c97d",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xutjopcylYCUIuRH",
+          "name": "Upload-Post"
+        },
+        "serpApi": {
+          "id": "uCDSUDcCcYUlmt38",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 30 7,12,23 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3056,
+        -448
+      ],
+      "id": "28bae76c-dee2-4d7c-b9d0-dc6ac9fcc752",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "amount": "={{ Math.floor(Math.random() * 20) + 1 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -2832,
+        -448
+      ],
+      "id": "2517b9fd-ba23-43db-854e-392a619bf008",
+      "name": "Wait1",
+      "webhookId": "3686926d-696a-45f0-896d-334f3cf3358e"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dad23c5a-6286-4174-9fc6-35d4f5ed5df7",
+              "leftValue": "={{ $if($('Discord Trigger1').isExecuted, $('Discord Trigger1').item.json.id, '') }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1424,
+        -736
+      ],
+      "id": "baf21cc7-1df2-49ff-87fd-e082e2459cf0",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1446921026867826688",
+          "mode": "list",
+          "cachedResultName": "viral-video-ideas",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+        },
+        "content": "={{ $json['URL VIDEO'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        -640
+      ],
+      "id": "f09f011c-7103-497e-875c-ff7875099279",
+      "name": "Send Video URL via Discord1",
+      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }}"
+            },
+            {
+              "name": "user",
+              "value": "bakaboi336"
+            },
+            {
+              "name": "platform[]",
+              "value": "instagram"
+            },
+            {
+              "name": "video",
+              "value": "={{ $json.content }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.CAPTION }}"
+            },
+            {
+              "name": "tags",
+              "value": "={{ $('Store Script Output').item.json.previous_tags }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "x"
+            },
+            {
+              "name": "x_title",
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               // split on commas\n    .map(t => t.trim())                       // trim spaces around each tag\n    .filter(t => t)                           // drop empties\n    .map(t => '#' + t.replace(/\\s+/g, ''))    // remove inner spaces & add '#'\n    .join(' ')                                // join back with spaces\n}}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2096,
+        -736
+      ],
+      "id": "f6c7e120-616d-489f-b096-95dd8ee0321a",
       "name": "Post1",
       "credentials": {
         "httpHeaderAuth": {
@@ -2672,10 +2683,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        176,
-        96
+        400,
+        -464
       ],
-      "id": "d62e9665-e9cf-4a11-badc-f33df14c04c7",
+      "id": "7ee9c563-3798-47da-a2b9-ad73c5144822",
       "name": "Switch"
     },
     {
@@ -2706,10 +2717,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        400,
-        80
+        624,
+        -480
       ],
-      "id": "577a4ba0-309f-43b7-95eb-983673ef1033",
+      "id": "8c3425eb-c3f1-4f67-8ebe-d6246e014fde",
       "name": "If"
     },
     {
@@ -2736,10 +2747,10 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        688,
-        208
+        912,
+        -352
       ],
-      "id": "aa28e18a-2d6d-4e53-9f8f-10e1181c6827",
+      "id": "7320fc7a-6275-46cb-8485-7f133b9afd98",
       "name": "Failure Noti",
       "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
       "credentials": {
@@ -2775,10 +2786,10 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        688,
-        16
+        912,
+        -544
       ],
-      "id": "458248fc-0a3a-4d33-8398-6aff87100bd6",
+      "id": "73bf2136-c99e-4bd1-9fdf-de15a60273b5",
       "name": "Failure Noti1",
       "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
       "credentials": {
@@ -2791,7 +2802,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You rate AI video meme concepts for viral potential on TikTok, Reels, Shorts, and Twitter.\n\nTHE VIRAL FORMULA: Familiar Format + Absurd Subject + Serious Execution\n\nRate this concept on:\n1. FORMAT RECOGNITION (0-25): Is the format instantly recognizable? (bodycam, documentary, 80s commercial, etc.)\n2. SUBJECT ABSURDITY (0-25): Is the subject genuinely absurd and unexpected?\n3. EXECUTION SERIOUSNESS (0-25): Does the prompt maintain complete seriousness?\n4. SPECIFICITY (0-25): Are there enough specific details to sell the bit?\n\nScoring guidance:\n- 80-100: STRONG - Would definitely go viral. Clear format, absurd subject, serious execution, specific details.\n- 60-79: MID - Has potential but missing something. Maybe too generic or not absurd enough.\n- 0-59: WEAK - Won't work. Format unclear, subject not absurd, or trying too hard to be funny.\n\nAUTOMATIC FAIL (< 50):\n- If the prompt uses words like \"funny,\" \"humorous,\" \"comedic\"\n- If the format isn't instantly recognizable\n- If the subject is just \"weird\" not genuinely absurd\n- If it acknowledges the joke or breaks the serious tone\n- If it's too generic (no specific details)\n\nAUTOMATIC BOOST (+20):\n- Bodycam format (highest proven success rate)\n- Beloved character in completely wrong context\n- Animals doing human professional activities\n- Extremely specific details (clothing, props, setting)\n- Clear cognitive dissonance between format and subject\n\nTitle: {{ $json.output.title }}\n\nPrompt: {{ $json.output.final_prompt }}\n\nRate it and provide specific feedback on what would make it more viral.",
+        "text": "=You rate AI video meme concepts for viral potential on TikTok, Reels, Shorts, and Twitter.\n\nTHE VIRAL FORMULA: Familiar Format + Absurd Subject + Serious Execution\n\nRate this concept on:\n1. FORMAT RECOGNITION (0-25): Is the format instantly recognizable? (bodycam, documentary, 80s commercial, etc.)\n2. SUBJECT ABSURDITY (0-25): Is the subject genuinely absurd and unexpected?\n3. EXECUTION SERIOUSNESS (0-25): Does the prompt maintain complete seriousness?\n4. SPECIFICITY (0-25): Are there enough specific details to sell the bit?\n\nScoring guidance:\n- 80-100: STRONG - Would definitely go viral. Clear format, absurd subject, serious execution, specific details.\n- 60-79: MID - Has potential but missing something. Maybe too generic or not absurd enough.\n- 0-59: WEAK - Won't work. Format unclear, subject not absurd, or trying too hard to be funny.\n\nAUTOMATIC FAIL (< 50):\n- If the prompt uses words like \"funny,\" \"humorous,\" \"comedic\"\n- If the format isn't instantly recognizable\n- If the subject is just \"weird\" not genuinely absurd\n- If it acknowledges the joke or breaks the serious tone\n- If it's too generic (no specific details)\n\nAUTOMATIC BOOST (+20):\n- Bodycam format (highest proven success rate)\n- Beloved character in completely wrong context\n- Animals doing human professional activities\n- Extremely specific details (clothing, props, setting)\n- Clear cognitive dissonance between format and subject\n\nTitle: {{ $json.previous_title }}\n\nPrompt: {{ $json.previous_prompt }}\n\nRate it and provide specific feedback on what would make it more viral.",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -2805,10 +2816,10 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        -848,
-        96
+        -624,
+        -480
       ],
-      "id": "b3a4e005-864c-4f36-af32-ecbaf981fbd7",
+      "id": "72434fd9-f606-4c2d-8df9-c8bb57519b9e",
       "name": "Virality Rater"
     },
     {
@@ -2819,10 +2830,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -848,
-        320
+        -624,
+        -256
       ],
-      "id": "ed8e214c-3976-4ee6-87f2-90fb3f3f59e5",
+      "id": "1c143889-699b-4c4f-a5cc-466fcfb5d929",
       "name": "Google Gemini Chat Model2",
       "credentials": {
         "googlePalmApi": {
@@ -2838,10 +2849,10 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -720,
-        320
+        -496,
+        -256
       ],
-      "id": "132c35e3-7888-4347-b6ef-de7dd8444530",
+      "id": "af272b1b-04cc-4617-8b16-ddd6f3c03d56",
       "name": "Structured Output Parser2"
     },
     {
@@ -2873,9 +2884,9 @@
       "typeVersion": 1,
       "position": [
         -1472,
-        224
+        -336
       ],
-      "id": "4834f732-8e3c-41c5-9528-1151ee32018c",
+      "id": "374791b4-c47e-49b1-b8fa-988f561633e3",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
@@ -2893,27 +2904,27 @@
       "typeVersion": 1.3,
       "position": [
         -1216,
-        224
+        -336
       ],
-      "id": "ed641266-dede-435f-bd8f-0809afb53bc7",
+      "id": "6fd97d5d-7405-4d9d-94b9-4f1663a260ec",
       "name": "Structured Output Parser1"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=FORMAT: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.format_type }}\nCONCEPT: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}\nVISUAL: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.visual_description }}\nTONE: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.tone_instruction }}\n\n{{ $json.output?.feedback ? '⚠️ REGENERATION REQUIRED - PREVIOUS ATTEMPT FAILED\\\\n\\\\nPrevious Score: ' + $json.output.score + '/100 (' + $json.output.verdict + ')\\\\nFeedback: ' + $json.output.feedback + '\\\\nPrevious Title: ' + $('AI Agent: Generate Video Script1').item.json.output.title + '\\\\n\\\\nTry a COMPLETELY DIFFERENT approach. Consider switching formats or making the subject more absurd.\\\\n' : '' }}",
+        "text": "=FORMAT: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.format_type }}\nCONCEPT: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}\nVISUAL: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.visual_description }}\nTONE: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.tone_instruction }}\n\n{{ $json.feedback ? '⚠️ REGENERATION REQUIRED - PREVIOUS ATTEMPT FAILED\\n\\nPrevious Score: ' + $json.output.score + '/100 (' + $json.output.verdict + ')\\nFeedback: ' + $json.feedback + '\\nPrevious Title: ' + $json.previous_title + '\\n\\nTry a COMPLETELY DIFFERENT approach. Consider switching formats or making the subject more absurd.\\n' : '' }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=## SYSTEM PROMPT: Viral AI Video Meme Prompt Generator\n\nA - Ask:\n  Generate a Sora 2 video prompt optimized for viral performance,\n  based on the format templates in: {{ $('Set Master Prompt1').item.json.json_master }}.\n  Output a JSON with: `title`, `final_prompt`, and `tags`.\n\nG - Guidance:\n  role: Director of Viral AI Meme Content\n  output_count: 1\n\n  IMPORTANT - USE THE THINK TOOL FIRST:\n    Before generating, you MUST use the Think tool to:\n    1. Identify which of the 7 viral formats best fits this concept\n    2. Define the FAMILIAR FORMAT (what viewers instantly recognize)\n    3. Define the ABSURD SUBJECT (what creates cognitive dissonance)\n    4. Plan the SERIOUS EXECUTION (how to play it completely straight)\n    5. Pressure-test: Would this make someone screenshot and share?\n\n  THE VIRAL FORMULA:\n    Familiar Format + Absurd Subject + Serious Execution = Viral\n    \n    - FAMILIAR: Bodycam, documentary, 80s commercial, movie scene, security cam\n    - ABSURD: Sentient food, animals in suits, beloved characters in wrong jobs\n    - SERIOUS: Never acknowledge the absurdity. Play it 100% straight.\n\n  PROMPT STRUCTURE FOR SORA:\n    1. State the format clearly (e.g., \"Police bodycam footage\")\n    2. Describe the absurd subject in specific detail\n    3. Include setting/environment details\n    4. Specify lighting and camera behavior\n    5. Add audio/ambient sound details\n    6. Include tone instruction: \"Completely serious/professional execution\"\n\n  CRITICAL RULES:\n    - NEVER use words like \"funny,\" \"humorous,\" \"comedic\" in the prompt\n    - The more SPECIFIC the details, the better (not \"a taco\" but \"a sentient taco in a grey business suit with a red tie\")\n    - Include what the subject is DOING, not just what they ARE\n    - The format must be INSTANTLY recognizable\n    - Maintain complete tonal seriousness throughout\n\n{{ $json.output?.feedback ? 'CRITICAL - PREVIOUS ATTEMPT FAILED:\\\\n  - Score: ' + $json.output.score + '/100\\\\n  - Verdict: ' + $json.output.verdict + '\\\\n  - Feedback: ' + $json.output.feedback + '\\\\n  - You MUST use the Think tool to analyze why this failed.\\\\n  - Try a DIFFERENT format or more absurd subject.\\\\n' : '' }}\n\n  constraints:\n    - Valid JSON output only\n    - `title`: Catchy, shareable title (max 15 words)\n    - `final_prompt`: Single detailed prompt string for Sora\n    - `tags`: Comma-separated relevant tags\n    - NO on-screen text in the video\n    - NO meta-humor about AI\n\nN - Notation:\n  format: JSON\n  expected_output:\n    {\n      \"title\": \"Catchy meme title\",\n      \"final_prompt\": \"Detailed Sora prompt with format, subject, setting, lighting, audio, and tone instructions\",\n      \"tags\": \"sora, ai, meme, viral, [format-specific tags]\"\n    }"
+          "systemMessage": "=## SYSTEM PROMPT: Viral AI Video Meme Prompt Generator\n\nA - Ask:\n  Generate a Sora 2 video prompt optimized for viral performance,\n  based on the format templates in: {{ $('Set Master Prompt1').item.json.json_master }}.\n  Output a JSON with: `title`, `final_prompt`, and `tags`.\n\nG - Guidance:\n  role: Director of Viral AI Meme Content\n  output_count: 1\n\n  IMPORTANT - USE THE THINK TOOL FIRST:\n    Before generating, you MUST use the Think tool to:\n    1. Identify which of the 7 viral formats best fits this concept\n    2. Define the FAMILIAR FORMAT (what viewers instantly recognize)\n    3. Define the ABSURD SUBJECT (what creates cognitive dissonance)\n    4. Plan the SERIOUS EXECUTION (how to play it completely straight)\n    5. Pressure-test: Would this make someone screenshot and share?\n\n  THE VIRAL FORMULA:\n    Familiar Format + Absurd Subject + Serious Execution = Viral\n    \n    - FAMILIAR: Bodycam, documentary, 80s commercial, movie scene, security cam\n    - ABSURD: Sentient food, animals in suits, beloved characters in wrong jobs\n    - SERIOUS: Never acknowledge the absurdity. Play it 100% straight.\n\n  PROMPT STRUCTURE FOR SORA:\n    1. State the format clearly (e.g., \"Police bodycam footage\")\n    2. Describe the absurd subject in specific detail\n    3. Include setting/environment details\n    4. Specify lighting and camera behavior\n    5. Add audio/ambient sound details\n    6. Include tone instruction: \"Completely serious/professional execution\"\n\n  CRITICAL RULES:\n    - NEVER use words like \"funny,\" \"humorous,\" \"comedic\" in the prompt\n    - The more SPECIFIC the details, the better (not \"a taco\" but \"a sentient taco in a grey business suit with a red tie\")\n    - Include what the subject is DOING, not just what they ARE\n    - The format must be INSTANTLY recognizable\n    - Maintain complete tonal seriousness throughout\n\n{{ $json.feedback ? 'CRITICAL - PREVIOUS ATTEMPT FAILED:\\n  - Score: ' + $json.output.score + '/100\\n  - Verdict: ' + $json.output.verdict + '\\n  - Feedback: ' + $json.feedback + '\\n  - You MUST use the Think tool to analyze why this failed.\\n  - Try a DIFFERENT format or more absurd subject.\\n' : '' }}\n\n  constraints:\n    - Valid JSON output only\n    - `title`: Catchy, shareable title (max 15 words)\n    - `final_prompt`: Single detailed prompt string for Sora\n    - `tags`: Comma-separated relevant tags\n    - NO on-screen text in the video\n    - NO meta-humor about AI\n\nN - Notation:\n  format: JSON\n  expected_output:\n    {\n      \"title\": \"Catchy meme title\",\n      \"final_prompt\": \"Detailed Sora prompt with format, subject, setting, lighting, audio, and tone instructions\",\n      \"tags\": \"sora, ai, meme, viral, [format-specific tags]\"\n    }"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
         -1424,
-        0
+        -560
       ],
-      "id": "9fcd502a-799d-4689-b008-15c6ba817eb7",
+      "id": "3cdd1dbf-ff77-4b9d-abb9-25d486231f82",
       "name": "AI Agent: Generate Video Script1",
       "retryOnFail": true,
       "maxTries": 5,
@@ -2957,10 +2968,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -496,
-        208
+        -272,
+        -352
       ],
-      "id": "37f2e76d-c091-459b-ad87-3c55317bcd22",
+      "id": "f5599e50-b17e-40ed-81ee-fe8d8f5012b3",
       "name": "If1"
     },
     {
@@ -2971,9 +2982,9 @@
       "typeVersion": 1,
       "position": [
         -1344,
-        224
+        -336
       ],
-      "id": "0c75cc87-90f4-4fbb-8671-61dd7fc453d1",
+      "id": "bbe42404-64c2-43df-a197-8511e26ddefc",
       "name": "Think Tool"
     },
     {
@@ -2982,9 +2993,9 @@
       "typeVersion": 1.1,
       "position": [
         -2256,
-        432
+        -128
       ],
-      "id": "7a71312b-1cc6-4a4a-a78b-a1243495a48d",
+      "id": "9fa84053-05e5-46e6-ad42-04c89a63c672",
       "name": "Think"
     },
     {
@@ -2996,9 +3007,9 @@
       "typeVersion": 1,
       "position": [
         -1136,
-        432
+        -128
       ],
-      "id": "e1de8431-25e3-494d-933a-09ca3b0358a6",
+      "id": "184511db-fc46-49dc-922b-85cb19bee875",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
@@ -3006,135 +3017,55 @@
           "name": "Groq account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "store-title",
+              "name": "previous_title",
+              "value": "={{ $json.output.title }}",
+              "type": "string"
+            },
+            {
+              "id": "store-prompt",
+              "name": "previous_prompt",
+              "value": "={{ $json.output.final_prompt }}",
+              "type": "string"
+            },
+            {
+              "id": "store-tags",
+              "name": "previous_tags",
+              "value": "={{ $json.output.tags }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -848,
+        -480
+      ],
+      "id": "a1f4af7a-7dd9-4df9-b577-206a834a03e3",
+      "name": "Store Script Output"
     }
   ],
   "pinData": {
-    "Rewrite Caption with GPT-4o1": [
-      {
-        "json": {
-          "logprobs": null,
-          "finish_reason": "stop",
-          "native_finish_reason": "stop",
-          "index": 0,
-          "message": {
-            "role": "assistant",
-            "content": "When chaos asks you who you'd simp for and the void whispers back... 🌀🐙 #animegonewild #submissionstigmata #voidwhispers",
-            "refusal": null,
-            "reasoning": null
-          }
-        }
-      }
-    ],
-    "Send Video URL via Discord1": [
-      {
-        "json": {
-          "type": 0,
-          "content": "https://tempfile.aiquickdraw.com/f/e5d30c01824afeb4db75d78772486b7b/83789cdf-6036-40bb-8f65-706af623ff8f.mp4",
-          "mentions": [],
-          "mention_roles": [],
-          "attachments": [],
-          "embeds": [],
-          "timestamp": "2025-12-07T12:33:36.432000+00:00",
-          "edited_timestamp": null,
-          "flags": 0,
-          "components": [],
-          "id": "1447204398802669678",
-          "channel_id": "1446921026867826688",
-          "author": {
-            "id": "1306443523553366090",
-            "username": "BakaBot",
-            "avatar": "c6fc95648cb270cd9617d6f0de37de38",
-            "discriminator": "1333",
-            "public_flags": 0,
-            "flags": 0,
-            "bot": true,
-            "banner": null,
-            "accent_color": null,
-            "global_name": null,
-            "avatar_decoration_data": null,
-            "collectibles": null,
-            "display_name_styles": null,
-            "banner_color": null,
-            "clan": null,
-            "primary_guild": null
-          },
-          "pinned": false,
-          "mention_everyone": false,
-          "tts": false
-        }
-      }
-    ],
-    "Failure Noti": [
-      {
-        "json": {
-          "type": 0,
-          "content": "https://tempfile.aiquickdraw.com/f/e5d30c01824afeb4db75d78772486b7b/83789cdf-6036-40bb-8f65-706af623ff8f.mp4",
-          "mentions": [],
-          "mention_roles": [],
-          "attachments": [],
-          "embeds": [],
-          "timestamp": "2025-12-07T12:33:36.432000+00:00",
-          "edited_timestamp": null,
-          "flags": 0,
-          "components": [],
-          "id": "1447204398802669678",
-          "channel_id": "1446921026867826688",
-          "author": {
-            "id": "1306443523553366090",
-            "username": "BakaBot",
-            "avatar": "c6fc95648cb270cd9617d6f0de37de38",
-            "discriminator": "1333",
-            "public_flags": 0,
-            "flags": 0,
-            "bot": true,
-            "banner": null,
-            "accent_color": null,
-            "global_name": null,
-            "avatar_decoration_data": null,
-            "collectibles": null,
-            "display_name_styles": null,
-            "banner_color": null,
-            "clan": null,
-            "primary_guild": null
-          },
-          "pinned": false,
-          "mention_everyone": false,
-          "tts": false
-        }
-      }
-    ],
-    "Discord Trigger1": [
-      {
-        "json": {
-          "id": "1449446264168124547",
-          "content": "!viral",
-          "guildId": "745447586697052201",
-          "channelId": "1446921026867826688",
-          "authorId": "246812164885577729",
-          "authorName": "bakaboi341",
-          "timestamp": 1765645318787,
-          "listenValue": "!viral",
-          "authorIsBot": false,
-          "referenceId": null,
-          "referenceContent": null,
-          "referenceAuthorId": null,
-          "referenceAuthorName": null,
-          "referenceTimestamp": null,
-          "attachments": []
-        }
-      }
-    ],
     "Schedule Trigger": [
       {
         "json": {
-          "timestamp": "2025-12-13T12:30:00.006-05:00",
-          "Readable date": "December 13th 2025, 12:30:00 pm",
-          "Readable time": "12:30:00 pm",
-          "Day of week": "Saturday",
+          "timestamp": "2025-12-15T07:30:00.005-05:00",
+          "Readable date": "December 15th 2025, 7:30:00 am",
+          "Readable time": "7:30:00 am",
+          "Day of week": "Monday",
           "Year": "2025",
           "Month": "December",
-          "Day of month": "13",
-          "Hour": "12",
+          "Day of month": "15",
+          "Hour": "07",
           "Minute": "30",
           "Second": "00",
           "Timezone": "America/New_York (UTC-05:00)"
@@ -3164,6 +3095,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-12-14T13:53:54.000Z",
-  "versionId": "39910f08-c418-4537-b885-359270f36c5e"
+  "updatedAt": "2025-12-15T17:28:36.000Z",
+  "versionId": "af3bcddb-dbd3-40b5-8ad3-4ec465426f9a"
 }
