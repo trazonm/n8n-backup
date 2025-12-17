@@ -385,7 +385,7 @@
         ]
       ]
     },
-    "Topic Generator (Gen Z Meme)1": {
+    "Topic Generator (Pixar Trailer)1": {
       "main": [
         [
           {
@@ -400,7 +400,7 @@
       "ai_outputParser": [
         [
           {
-            "node": "Topic Generator (Gen Z Meme)1",
+            "node": "Topic Generator (Pixar Trailer)1",
             "type": "ai_outputParser",
             "index": 0
           }
@@ -411,7 +411,7 @@
       "ai_languageModel": [
         [
           {
-            "node": "Topic Generator (Gen Z Meme)1",
+            "node": "Topic Generator (Pixar Trailer)1",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -442,13 +442,7 @@
     },
     "Send Video URL via Discord": {
       "main": [
-        [
-          {
-            "node": "Post",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Discord Trigger1": {
@@ -506,11 +500,11 @@
         ]
       ]
     },
-    "Set Master Prompt1": {
+    "Set Master Pixar Prompt1": {
       "main": [
         [
           {
-            "node": "AI Agent: Generate Video Script1",
+            "node": "AI Agent: Generate Pixar Script1",
             "type": "main",
             "index": 0
           }
@@ -521,7 +515,7 @@
       "main": [
         [
           {
-            "node": "Set Master Prompt1",
+            "node": "Set Master Pixar Prompt1",
             "type": "main",
             "index": 0
           }
@@ -532,7 +526,7 @@
       "main": [
         [
           {
-            "node": "Topic Generator (Gen Z Meme)1",
+            "node": "Topic Generator (Pixar Trailer)1",
             "type": "main",
             "index": 0
           }
@@ -565,25 +559,14 @@
       "main": [
         [
           {
-            "node": "Send Video URL via Discord",
+            "node": "Send message and wait for response",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Send Video URL via Discord1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Video URL via Discord1": {
-      "main": [
-        [
-          {
-            "node": "Post",
+            "node": "Send message and wait for response",
             "type": "main",
             "index": 0
           }
@@ -670,7 +653,7 @@
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent: Generate Video Script1",
+            "node": "AI Agent: Generate Pixar Script1",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -681,14 +664,14 @@
       "ai_outputParser": [
         [
           {
-            "node": "AI Agent: Generate Video Script1",
+            "node": "AI Agent: Generate Pixar Script1",
             "type": "ai_outputParser",
             "index": 0
           }
         ]
       ]
     },
-    "AI Agent: Generate Video Script1": {
+    "AI Agent: Generate Pixar Script1": {
       "main": [
         [
           {
@@ -710,7 +693,7 @@
         ],
         [
           {
-            "node": "AI Agent: Generate Video Script1",
+            "node": "AI Agent: Generate Pixar Script1",
             "type": "main",
             "index": 0
           }
@@ -721,7 +704,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent: Generate Video Script1",
+            "node": "AI Agent: Generate Pixar Script1",
             "type": "ai_tool",
             "index": 0
           }
@@ -732,7 +715,7 @@
       "ai_tool": [
         [
           {
-            "node": "Topic Generator (Gen Z Meme)1",
+            "node": "Topic Generator (Pixar Trailer)1",
             "type": "ai_tool",
             "index": 0
           }
@@ -755,6 +738,33 @@
         [
           {
             "node": "Virality Rater",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Video URL via Discord1": {
+      "main": [
+        []
+      ]
+    },
+    "Send message and wait for response": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Post",
             "type": "main",
             "index": 0
           }
@@ -784,8 +794,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
       "position": [
-        -3056,
-        480
+        -5408,
+        580
       ],
       "id": "b4a32382-e765-413b-a907-6915c171a6d0",
       "name": "Schedule Trigger (4x Daily)",
@@ -798,8 +808,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -2832,
-        480
+        -5184,
+        580
       ],
       "id": "ffc2590f-89ff-488f-996a-8883d9b9bcb4",
       "name": "Random Delay (Anti-Detection)",
@@ -832,8 +842,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -2608,
-        288
+        -4960,
+        388
       ],
       "id": "92a26324-c4be-42b2-b9c4-76da85cf6a24",
       "name": "Google Trends (What's Hot Now)",
@@ -879,8 +889,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -2608,
-        480
+        -4960,
+        580
       ],
       "id": "34af0128-d5ee-4901-97fc-614464b6fc79",
       "name": "Reddit (Satisfying/Amazing Content)",
@@ -926,8 +936,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -2608,
-        672
+        -4960,
+        772
       ],
       "id": "e3764779-f444-431e-8643-e803a7ea3636",
       "name": "Amazon Trending Products",
@@ -946,8 +956,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -2384,
-        384
+        -4736,
+        484
       ],
       "id": "b53194a5-0eb0-4688-9844-536227d073cf",
       "name": "Merge All Sources"
@@ -975,8 +985,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2160,
-        384
+        -4512,
+        484
       ],
       "id": "858fcf2e-e90b-4419-a6cf-306c8d821d53",
       "name": "Combine Data + Affiliate Config"
@@ -993,8 +1003,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -1936,
-        384
+        -4288,
+        484
       ],
       "id": "038c7f44-a17d-4666-8a86-95ec8afd5782",
       "name": "AI Content Strategist"
@@ -1006,8 +1016,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -1808,
-        608
+        -4152,
+        708
       ],
       "id": "95f54675-5ee8-47ca-a679-227bfae313fa",
       "name": "Strategy Output Parser"
@@ -1019,8 +1029,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1936,
-        608
+        -4280,
+        708
       ],
       "id": "a50c2dcf-6c0b-4849-8da3-78ae427f2a2a",
       "name": "Gemini 2.5 Flash",
@@ -1060,8 +1070,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1584,
-        256
+        -3936,
+        360
       ],
       "id": "f974d665-dcf0-4a26-917b-cbfc61153896",
       "name": "Has Product to Monetize?"
@@ -1089,8 +1099,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1360,
-        160
+        -3712,
+        264
       ],
       "id": "4afafb7b-a3ad-4003-ae4b-63629698104d",
       "name": "Build Affiliate Link"
@@ -1118,8 +1128,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1360,
-        352
+        -3712,
+        456
       ],
       "id": "0f66556f-a8be-4068-a984-fdb7201d0b78",
       "name": "No Affiliate Link"
@@ -1132,8 +1142,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -1136,
-        256
+        -3488,
+        360
       ],
       "id": "989cfffb-93ec-4f3f-be1d-6c98287f585f",
       "name": "Merge Paths"
@@ -1155,8 +1165,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -912,
-        256
+        -3264,
+        360
       ],
       "id": "ab04c235-5573-46a9-820f-335c17a6787c",
       "name": "Video Prompt Template"
@@ -1173,8 +1183,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -688,
-        256
+        -3040,
+        360
       ],
       "id": "e628b125-ba3b-4bb5-92be-b11e71dce050",
       "name": "AI Video Director"
@@ -1186,8 +1196,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -560,
-        480
+        -2904,
+        584
       ],
       "id": "85a4ce60-337a-4687-b04d-3ca287384ed9",
       "name": "Director Output Parser"
@@ -1199,8 +1209,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -688,
-        480
+        -3032,
+        584
       ],
       "id": "d85fb35c-f77f-4700-9ecc-ec797e8a62ad",
       "name": "Gemini 2.5 Pro",
@@ -1234,8 +1244,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1,
       "position": [
-        -336,
-        256
+        -2688,
+        360
       ],
       "id": "7d775696-6698-4f2e-90dd-259659f846ed",
       "name": "Quality & Monetization Rater",
@@ -1274,8 +1284,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        16,
-        256
+        -2336,
+        360
       ],
       "id": "1838125e-c1a0-4b3a-869c-c180e6686fbf",
       "name": "Score >= 65?"
@@ -1295,8 +1305,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        240,
-        208
+        -2112,
+        312
       ],
       "id": "0981b406-0ec3-4787-ab24-f62f2b715b98",
       "name": "Generate Video (VEO2)",
@@ -1314,8 +1324,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        464,
-        208
+        -1888,
+        312
       ],
       "id": "bac2371e-086a-49bd-8305-02c02548bb29",
       "name": "Wait 20s",
@@ -1340,8 +1350,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        688,
-        208
+        -1664,
+        312
       ],
       "id": "71dc8c0d-4617-4f74-b4fd-76b061b46577",
       "name": "Check Video Status",
@@ -1381,8 +1391,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        912,
-        128
+        -1440,
+        240
       ],
       "id": "5ba2647d-214c-48e9-8005-f49300c5718e",
       "name": "Video Ready?"
@@ -1394,8 +1404,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1136,
-        304
+        -1216,
+        408
       ],
       "id": "dbe3fba2-e11c-4180-8eb6-0f385192d2c3",
       "name": "Wait 15s More",
@@ -1420,8 +1430,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1136,
-        80
+        -1216,
+        192
       ],
       "id": "84ba9873-2aad-4875-93c3-21d42b059fb0",
       "name": "Download Video",
@@ -1453,8 +1463,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1360,
-        80
+        -992,
+        192
       ],
       "id": "3e7abae1-16a0-46f3-874a-479898296a7f",
       "name": "Multi-Platform Caption Generator",
@@ -1657,8 +1667,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        1712,
-        80
+        -640,
+        192
       ],
       "id": "cdf1b3d4-b2be-4484-9d2e-872e329f4f7e",
       "name": "Save to Analytics Sheet",
@@ -1693,8 +1703,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1936,
-        80
+        -416,
+        192
       ],
       "id": "11360d0d-f24b-4a64-a42c-11cf091a38df",
       "name": "Discord Approval Request",
@@ -1759,8 +1769,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        2160,
-        80
+        -192,
+        192
       ],
       "id": "c473766f-075c-4ec9-8cd9-0423e1dff853",
       "name": "Post to All Platforms",
@@ -1821,8 +1831,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        2384,
-        80
+        32,
+        192
       ],
       "id": "a6942286-5c43-414c-a569-165fc9feeb45",
       "name": "Update Posted Status",
@@ -1855,8 +1865,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        2608,
-        80
+        256,
+        192
       ],
       "id": "c45f8dc3-a1e8-4bd8-b0e0-7607aa771483",
       "name": "Discord Success Notification",
@@ -1890,8 +1900,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        240,
-        496
+        -2112,
+        604
       ],
       "id": "e4042e97-40a5-424b-a8d7-158de9ce8ae2",
       "name": "Notify Regeneration",
@@ -1933,7 +1943,7 @@
             },
             {
               "name": "video",
-              "value": "={{ $json.content }}"
+              "value": "={{ $('If2').item.json[\"URL VIDEO\"] }}"
             },
             {
               "name": "description",
@@ -1953,7 +1963,7 @@
             },
             {
               "name": "x_title",
-              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               // split on commas\n    .map(t => t.trim())                       // trim spaces around each tag\n    .filter(t => t)                           // drop empties\n    .map(t => '#' + t.replace(/\\s+/g, ''))    // remove inner spaces & add '#'\n    .join(' ')                                // join back with spaces\n}}\n"
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               \n    .map(t => t.trim())                       \n    .filter(t => t)                           \n    .map(t => '#' + t.replace(/\\s+/g, ''))    \n    .join(' ')                                \n}}\n"
             }
           ]
         },
@@ -1962,10 +1972,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1872,
-        -736
+        -272,
+        -1072
       ],
-      "id": "095e7bfc-b3cc-4a81-9ca2-401d3ac2b0a1",
+      "id": "57750e05-60cc-4ceb-a72a-e51abd86f753",
       "name": "Post",
       "credentials": {
         "httpHeaderAuth": {
@@ -1978,33 +1988,33 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=INPUT DATA (Trending topics/memes):\n{{ $json.organic_results.map(r => \"[SOURCE: \" + r.source + \"] TITLE: \" + r.title + \" \\nSNIPPET: \" + r.snippet).join(\"\\n---\\n\") }}\n\nTASK:\n1. Scan for anything that could become an ABSURD AI video meme\n2. Pick ONE of the seven viral formats that fits best\n3. Apply the formula: Familiar Format + Absurd Subject + Serious Execution\n\nFORMAT SELECTION GUIDE:\n- If topic involves authority/rules → BODYCAM COMEDY\n- If topic involves beloved characters/IP → CHARACTER ROLE SWAP\n- If topic involves animals or nature → ABSURD REALISM\n- If topic involves nostalgia/retro → RETRO NOSTALGIA FORMAT\n- If topic involves movies/TV → MOVIE SCENE RECREATION\n- If topic involves everyday life → SURVEILLANCE AESTHETICS\n- If topic involves facts/education → FAKE DOCUMENTARY\n\nREQUIREMENTS:\n- The concept must use a RECOGNIZABLE format (bodycam, documentary, 80s commercial, movie scene, security cam)\n- The subject must be ABSURD but treated with complete seriousness\n- NO meta-humor about AI - just pure absurdist content\n- Think \"would this get 1M+ views on TikTok?\"\n\nGOOD EXAMPLES:\n- \"Police bodycam: Officer professionally asks a sentient burrito for license and registration at 2am\"\n- \"Nature documentary narrating the mating habits of office workers around the coffee machine\"\n- \"1987 toy commercial for 'Haunted Bread' - bread that screams when you make toast\"\n- \"Ring doorbell footage of two pigeons in tiny suits having a business meeting on the porch\"\n- \"The Godfather 'make him an offer' scene but everyone is a capybara\"\n\nNow generate 1 concept as JSON.",
+        "text": "=INPUT DATA (Trending topics/memes/cultural moments):\n{{ $json.organic_results.map(r => \"[SOURCE: \" + r.source + \"] TITLE: \" + r.title + \" \\nSNIPPET: \" + r.snippet).join(\"\\n---\\n\") }}\n\nTASK:\nIdentify ONE absurdly edgy premise that could become a Disney Pixar-style trailer. Push boundaries hard - the more \"I can't believe they made this\" the better.\n\nTHE PIXAR TRAILER FORMULA:\nWholesome Pixar Sincerity + Wildly Inappropriate Subject = Viral Gold\n\nPREMISE CATEGORIES (GO EDGY):\n\n1. ABSURD IDENTITY TRANSFORMATIONS (Maximum Shareability)\n   - Impossible/ridiculous identity quests played completely straight\n   - Examples: \n     * \"BLOOM: A 45-year-old man's heartwarming journey to become NYC's top femboy\"\n     * \"RACHEL: An inspiring tale of transracial identity - one Black man's dream of becoming Korean\"\n     * \"FUREVER: A software engineer who identifies as a wolf finding his pack\"\n     * \"THE CALL: A white suburban mom's spiritual journey to become a Native American shaman\"\n   - Why it works: Maximum cognitive dissonance - Pixar wholesomeness meets controversial identity politics\n\n2. TABOO SUBJECTS WITH CHILDLIKE INNOCENCE (Edgiest Hits)\n   - Topics society considers inappropriate, told like a kids' movie\n   - Examples:\n     * \"ONLY FANS: A single mom discovers her true calling (streaming platform)\"\n     * \"THE DIVORCE: A heartwarming tale of Dad moving out (told from the U-Haul's perspective)\"\n     * \"PYRAMID DREAMS: An immigrant's inspiring MLM journey\"\n     * \"THE REPO MAN COMETH: Finding joy in repossession\"\n   - Why it works: Pixar's earnestness makes uncomfortable topics hilariously absurd\n\n3. INTERNET BRAIN ROT ELEVATED (Gen Z Catnip)\n   - Online culture/memes given full Pixar emotional treatment  \n   - Examples:\n     * \"BRAIN ROT: A tiktoker's descent into madness, told with wonder\"\n     * \"SIGMA: One alpha male's quest to maintain his grindset\"\n     * \"NPC LIFE: An NPC realizes he's an NPC and it's beautiful\"\n     * \"THE GOONER: A heartwarming tale about staying focused (on cooming)\"\n   - Why it works: Pixar sincerity + terminally online absurdity = pure cringe gold\n\n4. MILD ILLEGAL/UNETHICAL (Walking The Line)\n   - Morally questionable pursuits with Pixar heroism\n   - Examples:\n     * \"TAX FREE: One man's inspiring offshore account journey\"\n     * \"FAKE ID: A high schooler's quest for the perfect fake\"\n     * \"THE CATFISH: Finding love through someone else's photos\"\n     * \"INSIDER: A day trader's emotional journey of securities fraud\"\n   - Why it works: Making you root for the \"villain\" with Pixar magic\n\n5. RELATIONSHIP DISASTERS (Everyone's Been There)\n   - Failed relationships/dating nightmares as hero's journey\n   - Examples:\n     * \"FRIEND ZONED: 10 years of waiting, one heartwarming journey\"\n     * \"THE REBOUND: Finding yourself in someone else (immediately after breakup)\"\n     * \"AGE IS JUST A NUMBER: A concerning age-gap romance (legal but creepy)\"\n     * \"POLY: One man discovers he can disappoint multiple partners\"\n   - Why it works: Relatable cringe elevated to Pixar epicness\n\n6. BODY/HEALTH ABSURDITY (Dark Comedy Gold)\n   - Physical/mental health issues played for inspiration\n   - Examples:\n     * \"THE BALDING: A young man's emotional acceptance journey\"\n     * \"300 POUNDS: One woman's struggle to reach her final form\"\n     * \"ADHD: Can't focus? Can't stop. One person's chaotic journey.\"\n     * \"THE ADDICTION: Finding community in the most unlikely place (rehab)\"\n   - Why it works: Pixar inspires us about things we shouldn't be inspired about\n\nREQUIREMENTS:\n- PUSH BOUNDARIES - safe is boring, we want \"holy shit did they really\"\n- Must have clear CHARACTER with absurd emotional want/need  \n- The MORE inappropriate for Pixar, the better the cognitive dissonance\n- Premise should make people simultaneously laugh and feel uncomfortable\n- Safety valve: No actual hate speech, no glorifying real violence, no targeting children\n\nEDGY EXAMPLES THAT WOULD GO VIRAL:\n- \"TRANSITION: A 40-year-old accountant's journey to become an e-girl\"\n- \"HERITAGE: A white guy discovers he's 2% Native American and it changes everything\"\n- \"THE DEALER: One college dropout finds purpose selling healing crystals (it's meth)\"\n- \"PARASOCIAL: A touching story of loving someone who doesn't know you exist\"\n\nRULE OF THUMB: If your mom would be uncomfortable watching it, you're on the right track.\n\nNow generate 1 edgy concept as JSON.",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=You are a viral AI video meme concept generator specializing in Sora 2 content.\n\nTHE VIRAL FORMULA THAT WORKS:\nFamiliar Format + Absurd Subject + Completely Serious Execution = Viral\n\nTHE SEVEN PROVEN FORMATS:\n\n1. BODYCAM COMEDY (Highest consistency)\n   - Police bodycam footage of absurd \"suspects\"\n   - Officer remains 100% professional\n   - Examples: Sentient taco getting pulled over, golden retriever being read Miranda rights, macaroni being handcuffed\n\n2. CHARACTER ROLE SWAPS (High shareability)\n   - Beloved characters in opposite professions\n   - Examples: Darth Vader as flight attendant, Elmo hosting finance seminar, Gollum as retail manager, SpongeBob in corporate meeting\n\n3. ABSURD REALISM WITH ANIMALS (Proven viral - 7M+ views)\n   - Animals doing human activities in realistic settings\n   - Examples: Squirrels on trampolines, raccoons getting married on Ring doorbell, penguins in business meetings\n\n4. SURVEILLANCE AESTHETICS\n   - Ring doorbell, CCTV, security cam footage\n   - Mundane format captures impossible moment\n   - Examples: Two raccoons getting married, Bigfoot checking mail, aliens doing yard work\n\n5. RETRO NOSTALGIA\n   - 1980s toy commercials, 90s sitcom intros, VHS quality\n   - Examples: \"80s toy commercial for sentient hamburger that runs fast\", \"90s sitcom intro but everyone is cheese\"\n\n6. MOVIE SCENE RECREATIONS\n   - Iconic scenes with character swaps\n   - Examples: Dark Knight interrogation but Batman is SpongeBob, Godfather but everyone is a penguin, Titanic but with cats\n\n7. FAKE DOCUMENTARY/NEWS\n   - Professional documentary about absurd subject\n   - Examples: Nature documentary about office workers, news report on sentient furniture uprising\n\nCRITICAL RULES:\n- NEVER use the word \"funny\" in concepts - the humor comes from SERIOUS treatment of ABSURD scenarios\n- The more realistic and professional the execution, the funnier it becomes\n- Specificity beats generic - \"sentient taco in business attire\" not \"funny food\"\n- The format must be INSTANTLY recognizable (bodycam, documentary, 80s commercial, movie scene)\n- The subject must be COMPLETELY unexpected in that format\n\nGenerate concepts that would make someone stop scrolling and immediately share to their group chat."
+          "systemMessage": "=You are a Disney Pixar trailer concept generator specializing in EDGY viral Sora 2 content.\n\nTHE EDGY PIXAR VIRAL FORMULA:\nWholesome Pixar Aesthetic + Wildly Inappropriate Subject + Complete Sincerity = Viral Explosion\n\nWHY EDGY PIXAR TRAILERS DOMINATE:\n1. MAXIMUM COGNITIVE DISSONANCE: The bigger the gap between Pixar wholesomeness and inappropriate subject, the more viral\n2. FORBIDDEN FRUIT: People share what they \"shouldn't\" be laughing at\n3. NOSTALGIA WEAPONIZED: Using childhood Pixar trust to deliver adult/edgy content\n4. THE CRINGE FACTOR: When it's so wrong it's right - uncomfortable + hilarious = shares\n5. CONVERSATION STARTER: Controversial premises spark debates in comments = algorithm boost\n\nTHE PIXAR AESTHETIC (NEVER BREAK - THIS IS THE COMEDY):\n- 100% SINCERE, EARNEST TONE - never ironic, never winking\n- Treat inappropriate topics with childlike wonder and hope  \n- Beautiful animation, inspiring music, emotional character arcs\n- Make the audience root for absurd/questionable goals\n- The more \"wholesome family film\" it looks, the funnier the inappropriate subject becomes\n\nEDGY CONTENT GUIDELINES:\n✓ DO: Push boundaries on identity politics, dating disasters, internet culture, mild illegality, body issues, mental health, relationship toxicity\n✓ DO: Make people uncomfortable then make them laugh\n✓ DO: Target concepts where cognitive dissonance creates comedy gold\n✓ DON'T: Actual hate speech, glorifying real violence, targeting minors, historical atrocities\n✓ DON'T: Punch down at genuinely vulnerable groups (punch sideways at everyone)\n\nTHE SWEET SPOT:\n- Edgy enough that boomers would be scandalized  \n- Funny enough that Gen Z shares it ironically\n- Wholesome enough in execution that it's not just shock value\n- Specific enough that multiple demographics see themselves\n\nPREMISE POWER RANKING:\n- \"Trans-racial journey\" > \"Identity quest\" (more specific = more viral)\n- \"Femboy transformation\" > \"Gender exploration\" (clear visual = better)\n- \"MLM girlboss\" > \"Bad business decision\" (cultural reference = shareability)\n- \"Parasocial stalker\" > \"Unrequited love\" (internet culture = Gen Z catnip)\n\nCRITICAL RULES FOR EDGY PREMISES:\n- The CHARACTER must genuinely believe in their absurd quest\n- Pixar must treat the inappropriate topic with absolute sincerity\n- NO self-awareness - this is a \"real\" Pixar movie in that universe\n- The more the premise makes people say \"they can't do that\" while laughing, the better\n- Controversy ≠ cruelty. We're making fun of absurdity, not attacking real people.\n\nVIRAL PREMISE CHECKLIST:\n✓ Would this get ratio'd on Twitter? (good sign)\n✓ Would your mom be speechless? (great sign)  \n✓ Would it start arguments in comments? (algorithm gold)\n✓ Can you imagine the Pixar trailer music over this? (must be yes)\n✓ Is there a genuine emotional journey underneath? (required)\n\nGenerate edgy concepts that make people think \"I can't believe AI made this\" and immediately send it to their group chat."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -2336,
-        -352
+        -4680,
+        -688
       ],
-      "id": "a628e772-78b5-4c6b-8eb1-38622e20ab8d",
-      "name": "Topic Generator (Gen Z Meme)1",
+      "id": "9640e8e8-dd6e-4988-b5e3-dffad143460a",
+      "name": "Topic Generator (Pixar Trailer)1",
       "retryOnFail": true
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"core_topic\": \"the absurd scenario being depicted\",\n  \"format_type\": \"one of: 'bodycam', 'character_swap', 'absurd_realism', 'surveillance', 'retro_nostalgia', 'movie_recreation', 'fake_documentary'\",\n  \"hook\": \"the first 2 seconds that makes someone stop - should be immediately visually confusing/intriguing\",\n  \"visual_description\": \"specific visual details - what exactly do we see?\",\n  \"tone_instruction\": \"how serious/professional should the execution be\",\n  \"why_its_funny\": \"the cognitive dissonance - familiar format vs absurd subject\",\n  \"target_feeds\": [\"tiktok\", \"reels\", \"shorts\", \"twitter\"]\n}"
+        "jsonSchemaExample": "{\n  \"premise\": \"one-sentence description of the ridiculous Pixar movie premise\",\n  \"protagonist\": \"who is the main character and what do they want?\",\n  \"emotional_core\": \"what is the sincere emotional journey beneath the absurdity?\",\n  \"hook_moment\": \"the visual/moment in first 3 seconds that stops scrolling\",\n  \"trailer_arc\": \"brief description of setup->struggle->twist structure\",\n  \"why_its_viral\": \"the specific cognitive dissonance that makes it shareable\",\n  \"tone_note\": \"reminder of how earnest/serious the execution should be\"\n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -2128,
-        -128
+        -4480,
+        -464
       ],
-      "id": "28d97b87-720d-43fe-8fba-3d8f4a079bbd",
+      "id": "0a454b38-83b7-45e0-a30a-5889b0ab419c",
       "name": "Structured Output Parser"
     },
     {
@@ -2036,10 +2046,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -2384,
-        -128
+        -4736,
+        -464
       ],
-      "id": "cdaeab4c-5e33-4398-98be-a5260ed84f2a",
+      "id": "de870361-3963-45cc-83aa-a8a5486901fe",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
@@ -2055,10 +2065,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        624,
-        -256
+        -1728,
+        -592
       ],
-      "id": "d1e21cf0-93ed-4b7a-91b7-e7504694a74c",
+      "id": "e098917f-436b-474c-8dc0-7f8e4db8669a",
       "name": "Wait",
       "webhookId": "f199093b-7a24-418c-8ccf-427d34d778af"
     },
@@ -2081,10 +2091,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        176,
-        -352
+        -2176,
+        -688
       ],
-      "id": "60594664-0da8-4110-8a62-7ca74f745674",
+      "id": "72a01561-5dd7-4234-8caa-1ef91510a5f6",
       "name": "Get Video Info",
       "credentials": {
         "httpHeaderAuth": {
@@ -2113,16 +2123,16 @@
         },
         "content": "={{ $json['URL VIDEO'] }}",
         "options": {
-          "message_reference": "={{ $('Discord Trigger1')?.json?.id || '' }}"
+          "message_reference": "={{ $('Discord Trigger1').item.json.id }}"
         }
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1648,
-        -832
+        -5408,
+        -32
       ],
-      "id": "973a3d73-ed71-4245-97ae-a9a0f91337ec",
+      "id": "eda69bbc-6758-4869-a26f-906c8076dda2",
       "name": "Send Video URL via Discord",
       "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
       "credentials": {
@@ -2130,7 +2140,8 @@
           "id": "UEztFF3QWknIwrx9",
           "name": "BakaBot"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -2146,10 +2157,10 @@
       "type": "n8n-nodes-discord-trigger.discordTrigger",
       "typeVersion": 1,
       "position": [
-        -2832,
-        -256
+        -5184,
+        -592
       ],
-      "id": "d6ca3040-4ebf-4ed8-b1bf-2fa782fe65ad",
+      "id": "13b4f367-f72d-4554-93ad-03b8c46356eb",
       "name": "Discord Trigger1",
       "credentials": {
         "discordBotTriggerApi": {
@@ -2179,7 +2190,7 @@
           "mappingMode": "defineBelow",
           "value": {
             "Title": "={{ $('Store Script Output').item.json.previous_title }}",
-            "Subject": "={{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}",
+            "Subject": "={{ $('Topic Generator (Pixar Trailer)1').item.json.output.premise }}",
             "Prompt": "={{ $('Store Script Output').item.json.previous_prompt }}",
             "URL VIDEO": "={{ JSON.parse($('Download Video from VEO').item.json.data.resultJson).resultUrls[0] }}\n",
             "CAPTION": "={{ $json.message.content }}"
@@ -2240,10 +2251,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        1200,
-        -736
+        -1152,
+        -1072
       ],
-      "id": "dadb6cbb-0ee6-4970-8292-9616f4fc8334",
+      "id": "712be4cf-2b85-4c17-b7b9-2816a374ccd1",
       "name": "Save Caption Video to Google Sheets1",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -2263,7 +2274,7 @@
         "messages": {
           "values": [
             {
-              "content": "==You are writing a caption for a viral AI-generated meme video on TikTok, Reels, YouTube Shorts, and Twitter.\n\nCONTEXT:\n- Format: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.format_type }}\n- Concept: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}\n- Title: {{ $('Store Script Output').item.json.previous_title }}\n\nTASK:\nWrite a single caption that enhances the meme's shareability.\n\nCAPTION STYLES THAT WORK:\n- Deadpan description: \"Just a normal traffic stop\"\n- Fake context: \"My Ring doorbell captured this at 3am\"\n- Challenge format: \"POV: you work in HR\"\n- Understated: \"He was very professional about it\"\n- Question hook: \"Why is no one talking about this\"\n\nRULES:\n- MUST be under 150 characters\n- Match the video's serious tone (don't oversell the joke)\n- 0-2 emojis max (💀 and 😭 work best)\n- 2-4 hashtags: #sora #ai #fyp + relevant ones\n- NO explanation of why it's funny\n- Deadpan/understated works better than hype\n\nReturn ONLY the final caption string."
+              "content": "=You are writing a caption for a viral Disney Pixar-style AI trailer on TikTok, Reels, YouTube Shorts, and Twitter.\n\nCONTEXT:\n- Premise: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.premise }}\n- Emotional Core: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.emotional_core }}\n- Title: {{ $('Store Script Output').item.json.previous_title }}\n\nTASK:\nWrite a caption that enhances shareability while matching Pixar's earnest tone.\n\nCAPTION STYLES THAT WORK FOR PIXAR TRAILERS:\n- Fake movie announcement: \"Coming to theaters never\"\n- POV format: \"POV: Pixar makes a movie about [absurd thing]\"\n- Earnest description: \"A heartwarming tale of [ridiculous premise]\"\n- Question hook: \"Why does this actually look good\"\n- Emotional bait: \"This had no right to make me feel things\"\n- Wordplay on title: If title has pun, lean into it subtly\n\nRULES:\n- MUST be under 150 characters\n- Match the sincere tone (not overly ironic)\n- 1-2 emojis max (🎬 ✨ 🥺 work well)\n- 3-5 hashtags: #disneypixar #pixar #sora #ai #fyp\n- Can mention it's AI-generated (adds to the absurdity)\n- Keep it wholesome - this is Pixar energy\n\nReturn ONLY the final caption string."
             }
           ]
         },
@@ -2272,10 +2283,10 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        848,
-        -736
+        -1504,
+        -1072
       ],
-      "id": "1e05d4c2-26a5-4ba1-bd4c-f64f96a5bc58",
+      "id": "7b097a13-dd69-46a9-82f3-8d9f88df6e06",
       "name": "Rewrite Caption with GPT-4o1",
       "credentials": {
         "openAiApi": {
@@ -2303,10 +2314,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        624,
-        -736
+        -1728,
+        -1072
       ],
-      "id": "bc8cf88e-0fc5-4c3f-bfc0-4b4297487beb",
+      "id": "f95cf29d-998d-4330-bb95-83119383b9d9",
       "name": "Download Video from VEO",
       "credentials": {
         "httpHeaderAuth": {
@@ -2330,10 +2341,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -48,
-        -352
+        -2400,
+        -688
       ],
-      "id": "6840b4c4-aeab-44d3-8eeb-fde1765de2d9",
+      "id": "5c2650ca-a2fe-4311-978f-55c7010a074a",
       "name": "Generate Video with VEO",
       "credentials": {
         "httpHeaderAuth": {
@@ -2349,7 +2360,7 @@
             {
               "id": "cc2e0500-57b1-4615-82cb-1c950e5f2ec4",
               "name": "json_master",
-              "value": "={\n  \"description\": \"A viral AI-generated video meme (5-20s) using the formula: Familiar Format + Absurd Subject + Serious Execution. The humor comes from cognitive dissonance, NOT from trying to be funny.\",\n  \"format_types\": {\n    \"bodycam\": {\n      \"camera\": \"Police bodycam POV, slightly shaky, night vision capable\",\n      \"audio\": \"Radio chatter, officer speaking professionally\",\n      \"lighting\": \"Harsh flashlight, street lights, car headlights\",\n      \"key_element\": \"Officer remains 100% professional regardless of absurd suspect\"\n    },\n    \"surveillance\": {\n      \"camera\": \"Fixed security cam, Ring doorbell, CCTV angle\",\n      \"audio\": \"Ambient only, no music\",\n      \"lighting\": \"Infrared night vision OR harsh daylight\",\n      \"key_element\": \"Mundane footage captures impossible moment\"\n    },\n    \"retro_commercial\": {\n      \"camera\": \"4:3 aspect ratio feel, vintage TV quality\",\n      \"audio\": \"Cheesy jingle, enthusiastic announcer\",\n      \"lighting\": \"Bright, oversaturated 80s/90s commercial lighting\",\n      \"key_element\": \"Genuine enthusiasm for absurd product\"\n    },\n    \"movie_recreation\": {\n      \"camera\": \"Match iconic film's cinematography exactly\",\n      \"audio\": \"Dramatic score, serious dialogue delivery\",\n      \"lighting\": \"Cinematic, matching original scene\",\n      \"key_element\": \"Frame-for-frame recreation with character swap\"\n    },\n    \"fake_documentary\": {\n      \"camera\": \"Steady documentary cam, nature doc style\",\n      \"audio\": \"Serious narrator (David Attenborough energy)\",\n      \"lighting\": \"Natural, observational\",\n      \"key_element\": \"Gravely serious treatment of ridiculous subject\"\n    },\n    \"character_roleswap\": {\n      \"camera\": \"Appropriate to the profession being depicted\",\n      \"audio\": \"Professional workplace ambiance\",\n      \"lighting\": \"Realistic workplace lighting\",\n      \"key_element\": \"Beloved character maintaining their traits in wrong context\"\n    }\n  },\n  \"tone_rules\": {\n    \"primary\": \"COMPLETELY SERIOUS - never acknowledge the absurdity\",\n    \"execution\": \"Professional, realistic, high production value appearance\",\n    \"the_trick\": \"The AI must not know it's being funny. Play it straight.\"\n  },\n  \"subject_types\": [\n    \"Sentient food items in professional attire\",\n    \"Animals doing human jobs/activities\",\n    \"Beloved fictional characters in opposite roles\",\n    \"Inanimate objects with agency\",\n    \"Historical figures in mundane modern situations\",\n    \"Mythical creatures doing everyday tasks\"\n  ],\n  \"visual_requirements\": {\n    \"realism\": \"Hyperrealistic rendering - the more real it looks, the funnier\",\n    \"details\": \"Specific props, clothing, environment details sell the bit\",\n    \"no_text\": \"NO on-screen text, subtitles, or captions in the video itself\"\n  },\n  \"audio_options\": {\n    \"bodycam\": \"Radio static, professional officer dialogue, traffic sounds\",\n    \"surveillance\": \"Silence OR distant ambient noise only\",\n    \"retro\": \"Period-appropriate jingle, enthusiastic VO\",\n    \"documentary\": \"Serious narration, nature sounds\",\n    \"movie\": \"Match original film's score/tone\"\n  },\n  \"ending_styles\": [\n    \"Hard cut to black at peak absurdity\",\n    \"Freeze frame on the most ridiculous moment\",\n    \"Slow zoom on subject's face\",\n    \"Continue as if nothing unusual happened\"\n  ],\n  \"format\": \"vertical 9:16\",\n  \"keywords\": [\"sora\", \"ai\", \"meme\", \"viral\", \"funny\", \"absurd\", \"brainrot\", \"shitpost\"]\n}",
+              "value": "={\n  \"description\": \"Disney Pixar-style animated trailer (15-30s) applying earnest emotional storytelling to ridiculous premises. The humor comes from cognitive dissonance between wholesome Pixar aesthetic and absurd subject matter.\",\n  \n  \"pixar_visual_signature\": {\n    \"lighting\": {\n      \"primary\": \"Soft diffused key light with warm color temperature (3200K-4500K)\",\n      \"rim_lighting\": \"Always include rim lighting to separate character from background\",\n      \"subsurface_scattering\": \"Visible on skin/translucent materials - THIS IS CRITICAL for Pixar look\",\n      \"shadows\": \"Gentle gradient shadows, never harsh or flat\",\n      \"prompt_keywords\": [\"soft diffused lighting\", \"warm tungsten lighting\", \"subsurface scattering skin\", \"rim lighting\", \"gentle shadows\", \"Pixar-quality lighting\"]\n    },\n    \"character_design\": {\n      \"eyes\": \"OVERSIZED expressive eyes - the most important Pixar element\",\n      \"proportions\": \"Strategic exaggeration serving personality (not realistic, not overly cartoony)\",\n      \"shapes\": \"Rounded forms for warmth, asymmetrical balance\",\n      \"expressions\": \"SINCERE emotions - never smarmy or ironic (avoid DreamWorks smirk)\",\n      \"prompt_keywords\": [\"big expressive eyes\", \"Pixar-style character design\", \"rounded shapes\", \"sincere expression\", \"oversized eyes with detailed irises\"]\n    },\n    \"color_palette\": {\n      \"approach\": \"Vibrant saturated colors following emotional logic\",\n      \"warm_scenes\": \"Rich oranges, reds, yellows for energy/life\",\n      \"cool_scenes\": \"Soft blues, lavenders for calm/transcendence\",\n      \"prompt_keywords\": [\"Pixar color palette\", \"vibrant saturated colors\", \"emotional color grading\", \"warm color temperature\"]\n    },\n    \"animation_quality\": {\n      \"movement\": \"Smooth, fluid animation with bounce and squash principles\",\n      \"texture\": \"High-quality surface rendering (NOT plastic or metallic)\",\n      \"detail_level\": \"Hyperrealistic but stylized - every detail sells the sincerity\",\n      \"prompt_keywords\": [\"Pixar-like 3D animation\", \"smooth movements\", \"bounce and squash animation\", \"appealing character design\"]\n    }\n  },\n  \n  \"trailer_structure_15s\": {\n    \"beat_1_hook\": {\n      \"timing\": \"0:00-0:02 seconds\",\n      \"purpose\": \"Stop the scroll - surprising visual or unexpected situation\",\n      \"camera\": \"Medium close-up, slow push-in OR establishing wide\",\n      \"music\": \"Soft, ambient, minimal (piano, strings, synth pad)\",\n      \"example\": \"Close-up of character's big eyes looking hopeful\"\n    },\n    \"beat_2_disruption\": {\n      \"timing\": \"0:02-0:05 seconds\",\n      \"purpose\": \"Reveal the absurd premise visually\",\n      \"camera\": \"Reveal shot or cut to wider context\",\n      \"music\": \"First energy shift - gentle build\",\n      \"example\": \"Pull back to show they're in ridiculous situation\"\n    },\n    \"beat_3_reaction\": {\n      \"timing\": \"0:05-0:08 seconds\",\n      \"purpose\": \"Character's emotional response - sell the sincerity\",\n      \"camera\": \"Return to close-up for emotion\",\n      \"music\": \"Emotional swell begins\",\n      \"example\": \"Character determination face with inspiring music\"\n    },\n    \"beat_4_action\": {\n      \"timing\": \"0:08-0:12 seconds\",\n      \"purpose\": \"Show character attempting their absurd goal\",\n      \"camera\": \"Dynamic movement - tracking, crane, or arc\",\n      \"music\": \"Full energy with driving rhythm\",\n      \"example\": \"Montage-style quick cuts of attempts\"\n    },\n    \"beat_5_payoff\": {\n      \"timing\": \"0:12-0:14 seconds\",\n      \"purpose\": \"Twist or emotional peak\",\n      \"camera\": \"Dramatic shot - slow zoom or freeze\",\n      \"music\": \"Climax moment with pause/silence\",\n      \"example\": \"Unexpected result or emotional realization\"\n    },\n    \"beat_6_button\": {\n      \"timing\": \"0:14-0:15 seconds\",\n      \"purpose\": \"Reaction shot that creates loop/replay value\",\n      \"camera\": \"Quick button shot or title card\",\n      \"music\": \"Outro sting or soft fade\",\n      \"example\": \"Character's final expression or logo\"\n    }\n  },\n  \n  \"trailer_structure_30s\": {\n    \"act_1_setup\": {\n      \"timing\": \"0:00-0:08 seconds\",\n      \"purpose\": \"Establish world and introduce protagonist\",\n      \"music\": \"Ambient build with intriguing melody\",\n      \"shots\": \"2-3 shots: wide establishing, character intro, hint of want\"\n    },\n    \"act_2_conflict\": {\n      \"timing\": \"0:08-0:22 seconds\",\n      \"purpose\": \"Show obstacles and emotional struggle\",\n      \"music\": \"Building intensity with rhythm\",\n      \"shots\": \"4-6 shots: attempts, failures, determination, allies\"\n    },\n    \"act_3_climax\": {\n      \"timing\": \"0:22-0:28 seconds\",\n      \"purpose\": \"Emotional peak and twist\",\n      \"music\": \"Full orchestral swell then pause\",\n      \"shots\": \"2-3 shots: big moment, silence beat, reaction\"\n    },\n    \"outro\": {\n      \"timing\": \"0:28-0:30 seconds\",\n      \"purpose\": \"Title card and button\",\n      \"music\": \"Soft callback or final note\",\n      \"note\": \"Can include fake 'Coming Soon' or studio logo parody\"\n    }\n  },\n  \n  \"camera_directions_that_work\": {\n    \"slow_push_in\": \"Slow dolly-in on character face for emotional moments\",\n    \"crane_down\": \"Slow crane down through environment to reveal scale\",\n    \"tracking_shot\": \"Smooth tracking that stays with moving character\",\n    \"arc_around\": \"Slow arc circling character at key moment\",\n    \"shallow_dof\": \"Shallow depth of field with gentle focus pulls\",\n    \"parallax\": \"Gentle parallax movement for dimensional depth\",\n    \"critical_rule\": \"ONE camera movement + ONE character action per shot maximum\"\n  },\n  \n  \"music_pacing_beats\": {\n    \"act_1_ambient\": \"Soft piano, strings, or synth pads - minimal instrumentation\",\n    \"transition_ramp\": \"Sudden break or build-up signaling shift to act 2\",\n    \"act_2_driving\": \"Add drums, rhythmic elements - each 8-bar phrase bigger\",\n    \"act_3_climax\": \"Full orchestration - drums, strings, brass at peak\",\n    \"silence_beat\": \"1-2 second silence before biggest moment for contrast\",\n    \"outro_fade\": \"Long held note fading or soft callback to opening theme\"\n  },\n  \n  \"tone_rules\": {\n    \"primary\": \"100% SINCERE - Pixar doesn't wink at the audience\",\n    \"emotional_core\": \"Every character must have genuine want/need (even if absurd)\",\n    \"no_irony\": \"Never break the fourth wall or acknowledge the joke\",\n    \"childlike_wonder\": \"Approach even dark topics with innocence and hope\",\n    \"the_trick\": \"The AI must believe it's making a real Pixar movie\"\n  },\n  \n  \"premise_categories\": [\n    \"Mundane struggles elevated to heroic journeys\",\n    \"Absurd identity transformation quests\",\n    \"Unlikely heroes in wrong contexts (role reversals)\",\n    \"Inanimate objects with rich emotional lives\",\n    \"Dark/adult topics softened by childlike sincerity\",\n    \"Wordplay-based premises (Dill Doe, MILF Mom I'd Like Fun)\"\n  ],\n  \n  \"sora_2_specific_keywords\": [\n    \"Style: Pixar-like 3D animation\",\n    \"Smooth movements with bounce and squash principles\",\n    \"Vibrant colors and appealing character design\",\n    \"Soft diffused lighting\",\n    \"Big expressive eyes\",\n    \"Warm color temperature\",\n    \"Shallow depth of field\",\n    \"Subsurface scattering on skin\",\n    \"Gentle shadows\",\n    \"Pixar-quality rendering\"\n  ],\n  \n  \"what_kills_virality\": [\n    \"Breaking sincere tone with irony or winking\",\n    \"DreamWorks-style smarmy expressions\",\n    \"Harsh/flat lighting (loses Pixar warmth)\",\n    \"Too realistic or too cartoony (need Pixar sweet spot)\",\n    \"Trying multiple camera moves in one shot\",\n    \"Mean-spirited premises that punch down\",\n    \"Lack of clear emotional journey\",\n    \"Generic/predictable premise without twist\"\n  ],\n  \n  \"viral_success_factors\": {\n    \"cognitive_dissonance\": \"Gap between wholesome Pixar + ridiculous premise\",\n    \"emotional_manipulation\": \"Making people feel things about absurd topics\",\n    \"nostalgia_hijacking\": \"Leveraging childhood Pixar trust\",\n    \"share_worthiness\": \"'You have to see this' factor\",\n    \"relatability\": \"Even absurd premises connect to real emotions\",\n    \"personal_element\": \"Character journey feels genuine despite absurdity\"\n  },\n  \n  \"technical_specs\": {\n    \"format\": \"9:16 vertical for TikTok/Reels/Shorts\",\n    \"duration_sweet_spot\": \"21-34 seconds for TikTok, 50-60s for Shorts\",\n    \"clip_strategy\": \"Generate 4-second clips and stitch (better quality than single long clip)\",\n    \"aspect_ratio\": \"1080x1920\",\n    \"optimal_posting\": \"Tuesday 5-9 PM, Sunday 8 PM EST\"\n  }\n}",
               "type": "string"
             }
           ]
@@ -2359,11 +2370,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1696,
-        -352
+        -4048,
+        -688
       ],
-      "id": "cf29c336-0ad2-4d60-9a32-d0250a627ab0",
-      "name": "Set Master Prompt1"
+      "id": "c8451c58-1ac3-48c3-a0e7-4537525b6dcc",
+      "name": "Set Master Pixar Prompt1"
     },
     {
       "parameters": {
@@ -2386,10 +2397,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        -1920,
-        -352
+        -4272,
+        -688
       ],
-      "id": "3604f15f-32ce-4d00-8d40-1eaaae125f0f",
+      "id": "e4c9abee-49ba-4862-ac0a-2a812e34035d",
       "name": "Read Video Parameters from Google Sheet1",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -2424,7 +2435,7 @@
             },
             {
               "name": "q",
-              "value": "site:reddit.com (r/memes OR r/dankmemes OR r/shitposting OR r/whenthe OR r/okbuddyretard OR r/196) OR site:twitter.com OR site:knowyourmeme.com \"viral\" OR \"trending\""
+              "value": "site:reddit.com (r/memes OR r/dankmemes OR r/shitposting OR r/whenthe OR r/meirl) OR site:twitter.com OR site:knowyourmeme.com (\"viral\" OR \"trending\" OR \"Pixar\" OR \"Disney\")"
             }
           ]
         },
@@ -2433,10 +2444,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -2608,
-        -352
+        -4960,
+        -688
       ],
-      "id": "fb8022e2-5f83-4df3-8a99-c8887942c97d",
+      "id": "7db17b4e-b37b-4746-b726-befd580a4592",
       "name": "HTTP Request",
       "credentials": {
         "httpHeaderAuth": {
@@ -2463,10 +2474,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
       "position": [
-        -3056,
-        -448
+        -5408,
+        -784
       ],
-      "id": "28bae76c-dee2-4d7c-b9d0-dc6ac9fcc752",
+      "id": "819f3da3-afa2-4a93-b029-47b6f98b0a50",
       "name": "Schedule Trigger"
     },
     {
@@ -2476,10 +2487,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -2832,
-        -448
+        -5184,
+        -784
       ],
-      "id": "2517b9fd-ba23-43db-854e-392a619bf008",
+      "id": "01da3663-bfbe-4932-9cc7-f91a7c3cf923",
       "name": "Wait1",
       "webhookId": "3686926d-696a-45f0-896d-334f3cf3358e"
     },
@@ -2511,48 +2522,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1424,
-        -736
+        -928,
+        -1072
       ],
-      "id": "baf21cc7-1df2-49ff-87fd-e082e2459cf0",
+      "id": "b80f48cc-9c41-440b-97ab-0fa644340ebf",
       "name": "If2"
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "745447586697052201",
-          "mode": "list",
-          "cachedResultName": "BakaBoi's Mall",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1446921026867826688",
-          "mode": "list",
-          "cachedResultName": "viral-video-ideas",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
-        },
-        "content": "={{ $json['URL VIDEO'] }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        1648,
-        -640
-      ],
-      "id": "f09f011c-7103-497e-875c-ff7875099279",
-      "name": "Send Video URL via Discord1",
-      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
-      "credentials": {
-        "discordOAuth2Api": {
-          "id": "UEztFF3QWknIwrx9",
-          "name": "BakaBot"
-        }
-      }
     },
     {
       "parameters": {
@@ -2600,7 +2574,7 @@
             },
             {
               "name": "x_title",
-              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               // split on commas\n    .map(t => t.trim())                       // trim spaces around each tag\n    .filter(t => t)                           // drop empties\n    .map(t => '#' + t.replace(/\\s+/g, ''))    // remove inner spaces & add '#'\n    .join(' ')                                // join back with spaces\n}}\n"
+              "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               \n    .map(t => t.trim())                       \n    .filter(t => t)                           \n    .map(t => '#' + t.replace(/\\s+/g, ''))    \n    .join(' ')                                \n}}\n"
             }
           ]
         },
@@ -2609,10 +2583,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        2096,
-        -736
+        -48,
+        -1072
       ],
-      "id": "f6c7e120-616d-489f-b096-95dd8ee0321a",
+      "id": "2746e330-1d9a-4fa7-abc8-b1d6a10188f9",
       "name": "Post1",
       "credentials": {
         "httpHeaderAuth": {
@@ -2683,10 +2657,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        400,
-        -464
+        -1952,
+        -800
       ],
-      "id": "7ee9c563-3798-47da-a2b9-ad73c5144822",
+      "id": "39bf8b0d-bddf-407d-bc2f-f6b88b8adf86",
       "name": "Switch"
     },
     {
@@ -2717,10 +2691,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        624,
-        -480
+        -1728,
+        -816
       ],
-      "id": "8c3425eb-c3f1-4f67-8ebe-d6246e014fde",
+      "id": "4b02e8ce-aa08-4195-82ee-0fdee4a69f5c",
       "name": "If"
     },
     {
@@ -2747,10 +2721,10 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        912,
-        -352
+        -1440,
+        -688
       ],
-      "id": "7320fc7a-6275-46cb-8485-7f133b9afd98",
+      "id": "7c9789fd-5fb1-496a-a839-84a65bdf35ad",
       "name": "Failure Noti",
       "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
       "credentials": {
@@ -2786,10 +2760,10 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        912,
-        -544
+        -1440,
+        -880
       ],
-      "id": "73bf2136-c99e-4bd1-9fdf-de15a60273b5",
+      "id": "84573970-917c-4048-8d39-6c8fe9c9ab71",
       "name": "Failure Noti1",
       "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
       "credentials": {
@@ -2802,12 +2776,12 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You rate AI video meme concepts for viral potential on TikTok, Reels, Shorts, and Twitter.\n\nTHE VIRAL FORMULA: Familiar Format + Absurd Subject + Serious Execution\n\nRate this concept on:\n1. FORMAT RECOGNITION (0-25): Is the format instantly recognizable? (bodycam, documentary, 80s commercial, etc.)\n2. SUBJECT ABSURDITY (0-25): Is the subject genuinely absurd and unexpected?\n3. EXECUTION SERIOUSNESS (0-25): Does the prompt maintain complete seriousness?\n4. SPECIFICITY (0-25): Are there enough specific details to sell the bit?\n\nScoring guidance:\n- 80-100: STRONG - Would definitely go viral. Clear format, absurd subject, serious execution, specific details.\n- 60-79: MID - Has potential but missing something. Maybe too generic or not absurd enough.\n- 0-59: WEAK - Won't work. Format unclear, subject not absurd, or trying too hard to be funny.\n\nAUTOMATIC FAIL (< 50):\n- If the prompt uses words like \"funny,\" \"humorous,\" \"comedic\"\n- If the format isn't instantly recognizable\n- If the subject is just \"weird\" not genuinely absurd\n- If it acknowledges the joke or breaks the serious tone\n- If it's too generic (no specific details)\n\nAUTOMATIC BOOST (+20):\n- Bodycam format (highest proven success rate)\n- Beloved character in completely wrong context\n- Animals doing human professional activities\n- Extremely specific details (clothing, props, setting)\n- Clear cognitive dissonance between format and subject\n\nTitle: {{ $json.previous_title }}\n\nPrompt: {{ $json.previous_prompt }}\n\nRate it and provide specific feedback on what would make it more viral.",
+        "text": "=You rate Disney Pixar-style AI trailer concepts for viral potential.\n\nTHE PIXAR VIRAL FORMULA: Earnest Aesthetic + Ridiculous Premise + Emotional Journey\n\nRate this concept on:\n1. PREMISE ABSURDITY (0-25): Is the premise genuinely ridiculous yet specific?\n2. EMOTIONAL SINCERITY (0-25): Does it maintain Pixar's earnest tone without irony?\n3. PIXAR AESTHETIC (0-25): Does the prompt specify proper lighting, eyes, character design?\n4. TRAILER STRUCTURE (0-25): Does it follow proper 3-act emotional beats?\n\nScoring guidance:\n- 85-100: VIRAL - Perfect cognitive dissonance, clear emotional journey, proper Pixar elements\n- 70-84: STRONG - Good premise but missing some Pixar technical details\n- 50-69: MID - Either premise too safe OR execution not earnest enough\n- 0-49: WEAK - Breaking Pixar tone, lack of emotional core, or premise too offensive/generic\n\nAUTOMATIC FAIL (< 50):\n- If it breaks the sincere tone with irony/winking\n- If it lacks specific Pixar visual keywords (big eyes, soft lighting, etc.)\n- If premise punches down or targets vulnerable groups\n- If there's no clear emotional journey/character want\n- If it's just \"weird\" without the earnest/absurd contrast\n\nAUTOMATIC BOOST (+15):\n- Includes specific Pixar lighting keywords (subsurface scattering, rim lighting, soft diffused)\n- Specifies \"big expressive eyes\" and character emotion details\n- Has clear 3-act structure with emotional beats\n- Premise creates strong cognitive dissonance (wholesome + absurd)\n- Wordplay title that's clever without being mean\n\nTitle: {{ $json.previous_title }}\n\nPrompt: {{ $json.previous_prompt }}\n\nRate it and provide specific feedback on Pixar technical elements or emotional journey.",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
             {
-              "message": "=...\nScoring Penalties (Automatic Fail < 50):\n- If it uses the word \"adulting\".\n- If it feels like a corporate brand trying to be cool.\n- If the punchline is predictable.\n- If it lacks a \"WTF\" factor.\n\nScoring Boosts (+20 points):\n- If the visual description implies chaos/speed.\n- If it references a specific, niche internet subculture.\n- If it makes you feel slightly anxious.\n..."
+              "message": "=...\nAdditional Scoring Notes:\n- Pixar trailers live or die on SINCERITY - any hint of self-awareness kills it\n- The more specific the visual details (clothing, expressions, lighting), the better\n- Emotional journey must feel genuine even if premise is absurd\n- Check: Would this make someone say 'Why does this actually look good?'\n..."
             }
           ]
         },
@@ -2816,10 +2790,10 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        -624,
-        -480
+        -2976,
+        -812
       ],
-      "id": "72434fd9-f606-4c2d-8df9-c8bb57519b9e",
+      "id": "53695fb9-d408-40fb-bc21-afda5f68890b",
       "name": "Virality Rater"
     },
     {
@@ -2830,10 +2804,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -624,
-        -256
+        -2968,
+        -588
       ],
-      "id": "1c143889-699b-4c4f-a5cc-466fcfb5d929",
+      "id": "08c77549-3b93-4891-87b4-71f3ffcfce4b",
       "name": "Google Gemini Chat Model2",
       "credentials": {
         "googlePalmApi": {
@@ -2844,15 +2818,15 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"score\": 0,\n  \"verdict\": \"weak\",\n  \"feedback\": \"short 1–2 sentence note on how to improve\",\n  \"should_regenerate\": true\n}"
+        "jsonSchemaExample": "{\n  \"score\": 0,\n  \"verdict\": \"weak\",\n  \"feedback\": \"short 1–2 sentence note on how to improve Pixar elements or emotional journey\",\n  \"should_regenerate\": true\n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -496,
-        -256
+        -2840,
+        -588
       ],
-      "id": "af272b1b-04cc-4617-8b16-ddd6f3c03d56",
+      "id": "fa266cc3-7f6b-4a06-ae3b-cd5302573d2d",
       "name": "Structured Output Parser2"
     },
     {
@@ -2883,10 +2857,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1472,
-        -336
+        -3824,
+        -464
       ],
-      "id": "374791b4-c47e-49b1-b8fa-988f561633e3",
+      "id": "1e9d7d5c-2ee6-4c04-b1c2-8201ce7eba62",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
@@ -2903,29 +2877,29 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -1216,
-        -336
+        -3568,
+        -464
       ],
-      "id": "6fd97d5d-7405-4d9d-94b9-4f1663a260ec",
+      "id": "a924b637-be99-4555-a3e7-60dc8b326416",
       "name": "Structured Output Parser1"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=FORMAT: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.format_type }}\nCONCEPT: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.core_topic }}\nVISUAL: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.visual_description }}\nTONE: {{ $('Topic Generator (Gen Z Meme)1').item.json.output.tone_instruction }}\n\n{{ $json.feedback ? '⚠️ REGENERATION REQUIRED - PREVIOUS ATTEMPT FAILED\\n\\nPrevious Score: ' + $json.output.score + '/100 (' + $json.output.verdict + ')\\nFeedback: ' + $json.feedback + '\\nPrevious Title: ' + $json.previous_title + '\\n\\nTry a COMPLETELY DIFFERENT approach. Consider switching formats or making the subject more absurd.\\n' : '' }}",
+        "text": "=PREMISE: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.premise }}\nPROTAGONIST: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.protagonist }}\nEMOTIONAL CORE: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.emotional_core }}\nTRAILER ARC: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.trailer_arc }}\n\n{{ $json.feedback ? '⚠️ REGENERATION REQUIRED - PREVIOUS ATTEMPT FAILED\\n\\nPrevious Score: ' + $json.output.score + '/100 (' + $json.output.verdict + ')\\nFeedback: ' + $json.feedback + '\\nPrevious Title: ' + $json.previous_title + '\\n\\nFix the Pixar technical elements or emotional journey based on feedback.\\n' : '' }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=## SYSTEM PROMPT: Viral AI Video Meme Prompt Generator\n\nA - Ask:\n  Generate a Sora 2 video prompt optimized for viral performance,\n  based on the format templates in: {{ $('Set Master Prompt1').item.json.json_master }}.\n  Output a JSON with: `title`, `final_prompt`, and `tags`.\n\nG - Guidance:\n  role: Director of Viral AI Meme Content\n  output_count: 1\n\n  IMPORTANT - USE THE THINK TOOL FIRST:\n    Before generating, you MUST use the Think tool to:\n    1. Identify which of the 7 viral formats best fits this concept\n    2. Define the FAMILIAR FORMAT (what viewers instantly recognize)\n    3. Define the ABSURD SUBJECT (what creates cognitive dissonance)\n    4. Plan the SERIOUS EXECUTION (how to play it completely straight)\n    5. Pressure-test: Would this make someone screenshot and share?\n\n  THE VIRAL FORMULA:\n    Familiar Format + Absurd Subject + Serious Execution = Viral\n    \n    - FAMILIAR: Bodycam, documentary, 80s commercial, movie scene, security cam\n    - ABSURD: Sentient food, animals in suits, beloved characters in wrong jobs\n    - SERIOUS: Never acknowledge the absurdity. Play it 100% straight.\n\n  PROMPT STRUCTURE FOR SORA:\n    1. State the format clearly (e.g., \"Police bodycam footage\")\n    2. Describe the absurd subject in specific detail\n    3. Include setting/environment details\n    4. Specify lighting and camera behavior\n    5. Add audio/ambient sound details\n    6. Include tone instruction: \"Completely serious/professional execution\"\n\n  CRITICAL RULES:\n    - NEVER use words like \"funny,\" \"humorous,\" \"comedic\" in the prompt\n    - The more SPECIFIC the details, the better (not \"a taco\" but \"a sentient taco in a grey business suit with a red tie\")\n    - Include what the subject is DOING, not just what they ARE\n    - The format must be INSTANTLY recognizable\n    - Maintain complete tonal seriousness throughout\n\n{{ $json.feedback ? 'CRITICAL - PREVIOUS ATTEMPT FAILED:\\n  - Score: ' + $json.output.score + '/100\\n  - Verdict: ' + $json.output.verdict + '\\n  - Feedback: ' + $json.feedback + '\\n  - You MUST use the Think tool to analyze why this failed.\\n  - Try a DIFFERENT format or more absurd subject.\\n' : '' }}\n\n  constraints:\n    - Valid JSON output only\n    - `title`: Catchy, shareable title (max 15 words)\n    - `final_prompt`: Single detailed prompt string for Sora\n    - `tags`: Comma-separated relevant tags\n    - NO on-screen text in the video\n    - NO meta-humor about AI\n\nN - Notation:\n  format: JSON\n  expected_output:\n    {\n      \"title\": \"Catchy meme title\",\n      \"final_prompt\": \"Detailed Sora prompt with format, subject, setting, lighting, audio, and tone instructions\",\n      \"tags\": \"sora, ai, meme, viral, [format-specific tags]\"\n    }"
+          "systemMessage": "=## SYSTEM PROMPT: Disney Pixar Trailer Prompt Generator for Sora 2\n\nA - Ask:\n  Generate a Sora 2 video prompt for a Disney Pixar-style trailer,\n  based on the Pixar specifications in: {{ $('Set Master Pixar Prompt1').item.json.json_master }}.\n  Output JSON with: `title`, `final_prompt`, and `tags`.\n\nG - Guidance:\n  role: Disney Pixar Trailer Director\n  output_count: 1\n\n  IMPORTANT - USE THE THINK TOOL FIRST:\n    Before generating, you MUST use the Think tool to:\n    1. Identify the EMOTIONAL JOURNEY (setup, struggle, resolution)\n    2. Plan the PIXAR AESTHETIC requirements (lighting, eyes, colors)\n    3. Map the TRAILER BEATS (for 15s format: hook, disruption, reaction, action, payoff, button)\n    4. Define CAMERA MOVEMENTS (one per shot: push-in, crane, tracking, arc)\n    5. Plan MUSIC PROGRESSION (ambient → build → climax → fade)\n    6. Pressure-test: Does this feel like REAL Pixar played completely straight?\n\n  THE PIXAR TRAILER FORMULA:\n    Earnest Pixar Aesthetic + Ridiculous Premise + Emotional Journey = Viral\n    \n    AESTHETIC: Soft diffused lighting, big expressive eyes, warm colors, subsurface scattering\n    PREMISE: Absurd but specific (not \"a confused person\" but \"a 45-year-old accountant who dreams of becoming a K-pop idol\")\n    EMOTIONAL: Genuine character want/need with sincere journey (even if absurd)\n\n  SORA 2 PROMPT STRUCTURE (use OpenAI's official template):\n    ```\n    Style: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n    [Scene: Describe protagonist in environment with specific visual details. Include lighting description.]\n\n    Cinematography:\n    Camera: [shot type], [single camera movement]\n    Lens: [focal length] virtual lens; shallow depth of field\n    Lighting: soft diffused key light with warm color temperature; rim lighting separates character from background; subsurface scattering visible on skin\n    Mood: [emotional tone - sincere/hopeful/determined]\n\n    Character:\n    - Big expressive eyes with detailed irises and catchlights\n    - [Specific clothing/appearance details]\n    - [Emotional expression - SINCERE, not ironic]\n\n    Actions:\n    - [Specific action beat 1]\n    - [Specific action beat 2]\n    - [Specific action beat 3]\n\n    Background Sound:\n    [Music progression: ambient piano building to emotional swell]\n    ```\n\n  CRITICAL PIXAR TECHNICAL REQUIREMENTS:\n    LIGHTING (MANDATORY keywords):\n    - \"soft diffused lighting\" OR \"warm tungsten lighting\"\n    - \"rim lighting\" (separates character from background)\n    - \"subsurface scattering\" (makes skin look Pixar-real, not plastic)\n    - \"gentle shadows\" (never harsh)\n    - \"warm color temperature\" (3200K-4500K feel)\n    \n    CHARACTER (MANDATORY keywords):\n    - \"big expressive eyes\" (THE most important Pixar element)\n    - \"detailed irises with catchlights\" (makes eyes alive)\n    - \"sincere expression\" (never smarmy or ironic)\n    - \"Pixar-style character design\"\n    - \"rounded shapes\" OR \"appealing proportions\"\n    \n    ANIMATION (MANDATORY keywords):\n    - \"Pixar-like 3D animation\"\n    - \"smooth movements\"\n    - \"bounce and squash animation principles\"\n    - \"appealing character design\"\n    \n    CAMERA (pick ONE per shot):\n    - \"slow push-in\" OR \"slow dolly-in\"\n    - \"slow crane down\" OR \"crane up\"\n    - \"smooth tracking shot\"\n    - \"slow arc around character\"\n    - Always include: \"shallow depth of field\"\n\n  EMOTIONAL STRUCTURE FOR 15-SECOND TRAILER:\n    Beat 1 (0-2s): HOOK - Surprising visual, medium close-up\n    Beat 2 (2-5s): SETUP - Reveal absurd situation, wider shot\n    Beat 3 (5-8s): REACTION - Character emotion close-up, music swells\n    Beat 4 (8-12s): ACTION - Character attempts goal, dynamic camera\n    Beat 5 (12-14s): PAYOFF - Twist or emotional peak, dramatic shot\n    Beat 6 (14-15s): BUTTON - Final reaction, create loop value\n\n  TONE RULES (NEVER BREAK THESE):\n    - 100% SINCERE - Pixar never winks at the audience\n    - Character has GENUINE want/need (even if goal is absurd)\n    - NO irony, NO fourth-wall breaking, NO self-awareness\n    - Treat ridiculous premise with complete earnestness\n    - Music should be genuinely emotional (not parody)\n    - The AI must BELIEVE it's making a real Pixar movie\n\n{{ $json.feedback ? 'CRITICAL - PREVIOUS ATTEMPT FAILED:\\n  - Score: ' + $json.output.score + '/100\\n  - Verdict: ' + $json.output.verdict + '\\n  - Feedback: ' + $json.feedback + '\\n  - Use Think tool to analyze what Pixar elements are missing\\n  - Check: Did you include \"big expressive eyes\"?\\n  - Check: Did you include lighting keywords (subsurface scattering, rim lighting)?\\n  - Check: Is the tone 100% sincere without irony?\\n' : '' }}\n\n  constraints:\n    - Valid JSON output only\n    - `title`: Movie title (can include wordplay, max 5 words)\n    - `final_prompt`: Single detailed Sora 2 prompt using official template structure\n    - `tags`: Comma-separated (include: disneypixar, pixar, sora, ai, plus theme tags)\n    - Prompt must include ALL mandatory Pixar technical keywords\n    - ONE camera movement per shot description\n    - Sincere emotional tone throughout\n\nN - Notation:\n  format: JSON\n  expected_output:\n    {\n      \"title\": \"Movie Title (with optional pun)\",\n      \"final_prompt\": \"Complete Sora 2 prompt with Pixar technical specifications, emotional beats, camera directions, lighting details, and character descriptions in OpenAI's official template format\",\n      \"tags\": \"disneypixar, pixar, sora, ai, [theme-specific tags]\"\n    }"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -1424,
-        -560
+        -3768,
+        -688
       ],
-      "id": "3cdd1dbf-ff77-4b9d-abb9-25d486231f82",
-      "name": "AI Agent: Generate Video Script1",
+      "id": "e71268fc-a339-45f2-8c86-2e8e9bcaf112",
+      "name": "AI Agent: Generate Pixar Script1",
       "retryOnFail": true,
       "maxTries": 5,
       "waitBetweenTries": 5000
@@ -2968,23 +2942,23 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -272,
-        -352
+        -2624,
+        -688
       ],
-      "id": "f5599e50-b17e-40ed-81ee-fe8d8f5012b3",
+      "id": "6326fc01-3bc6-4957-be92-6911464ec795",
       "name": "If1"
     },
     {
       "parameters": {
-        "description": "Use this tool to plan your viral AI video meme before generating.\n\nTHINK THROUGH THE VIRAL FORMULA:\n\n1. WHAT'S THE FORMAT?\n   - Bodycam footage?\n   - Security cam/Ring doorbell?\n   - 80s/90s commercial?\n   - Movie scene recreation?\n   - Nature documentary?\n   - What do viewers INSTANTLY recognize?\n\n2. WHAT'S THE ABSURD SUBJECT?\n   - Sentient food in business attire?\n   - Animals doing human activities?\n   - Beloved character in wrong profession?\n   - Inanimate object with agency?\n   - Is it SPECIFIC enough? (\"sentient taco in grey suit\" not just \"funny taco\")\n\n3. IS THE EXECUTION SERIOUS ENOUGH?\n   - Would a real bodycam officer act this professional?\n   - Would a real documentary narrator be this grave?\n   - Would a real 80s commercial be this enthusiastic?\n   - NEVER acknowledge the absurdity\n\n4. THE SPECIFICITY CHECK:\n   - Do I have specific clothing details?\n   - Do I have specific setting details?\n   - Do I have specific action details?\n   - Do I have lighting and audio details?\n\n5. THE SHARE TEST:\n   - Would someone screenshot this?\n   - Would someone send this to their group chat?\n   - Would someone tag their friend saying \"this is you\"?\n\n6. IF REGENERATING:\n   - What format did the last attempt use?\n   - Should I try a completely different format?\n   - Was the subject absurd ENOUGH?\n   - Was the execution serious ENOUGH?\n\nRED FLAGS - REJECT IF:\n- The prompt includes \"funny\" or \"humorous\"\n- The format isn't instantly recognizable\n- The subject isn't absurd enough\n- The execution acknowledges the joke\n- It's too similar to the previous failed attempt"
+        "description": "Use this tool to plan your Disney Pixar-style trailer before generating the prompt.\n\nTHINK THROUGH THE PIXAR FORMULA:\n\n1. WHAT'S THE EMOTIONAL JOURNEY?\n   - What does the character WANT? (even if absurd)\n   - What's stopping them? (the obstacle)\n   - What's the emotional payoff? (resolution or twist)\n   - Is there a genuine emotional core beneath the absurdity?\n\n2. PIXAR VISUAL CHECKLIST:\n   - ✓ \"Big expressive eyes\" specified?\n   - ✓ \"Soft diffused lighting\" OR \"warm tungsten lighting\"?\n   - ✓ \"Rim lighting\" mentioned?\n   - ✓ \"Subsurface scattering\" for realistic skin?\n   - ✓ \"Gentle shadows\" (not harsh)?\n   - ✓ \"Sincere expression\" (not smarmy)?\n   - ✓ \"Vibrant saturated colors\"?\n   - If ANY of these are missing, the Pixar look will fail.\n\n3. TRAILER BEAT STRUCTURE (15 seconds):\n   - 0-2s: What's the HOOK? (surprising visual)\n   - 2-5s: How do we reveal the ABSURD PREMISE?\n   - 5-8s: Character's EMOTIONAL REACTION close-up?\n   - 8-12s: Character ATTEMPTS their goal?\n   - 12-14s: What's the PAYOFF/TWIST?\n   - 14-15s: Final BUTTON that creates replay value?\n\n4. CAMERA MOVEMENTS:\n   - Pick ONE movement per shot\n   - Slow push-in for emotion?\n   - Crane down for scale reveal?\n   - Tracking to follow action?\n   - Arc around for dramatic moment?\n   - Remember: \"shallow depth of field\" always\n\n5. MUSIC PROGRESSION:\n   - Start: Ambient/soft (piano, strings)?\n   - Middle: Building energy?\n   - Peak: Emotional swell?\n   - End: Pause then resolution?\n\n6. THE SINCERITY TEST:\n   - Would this work if Pixar ACTUALLY made this movie?\n   - Is the tone 100% earnest (no winking at audience)?\n   - Does the character's journey feel GENUINE?\n   - Is the absurdity played completely STRAIGHT?\n\n7. IF REGENERATING:\n   - What Pixar technical keywords were missing?\n   - Was the emotional journey unclear?\n   - Did it break sincerity/earnestness?\n   - Were camera movements too complex (multiple in one shot)?\n\nRED FLAGS - MUST FIX:\n- Missing \"big expressive eyes\" = instant fail\n- Missing lighting keywords = plastic/fake look\n- Ironic or self-aware tone = kills the formula\n- Multiple camera moves per shot = Sora 2 can't handle\n- No clear emotional want/need = just weird, not Pixar\n- Premise too mean-spirited = not wholesome Pixar vibe"
       },
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "typeVersion": 1,
       "position": [
-        -1344,
-        -336
+        -3696,
+        -464
       ],
-      "id": "bbe42404-64c2-43df-a197-8511e26ddefc",
+      "id": "0d37f63b-2a57-464f-a502-537e605c55dd",
       "name": "Think Tool"
     },
     {
@@ -2992,10 +2966,10 @@
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "typeVersion": 1.1,
       "position": [
-        -2256,
-        -128
+        -4608,
+        -464
       ],
-      "id": "9fa84053-05e5-46e6-ad42-04c89a63c672",
+      "id": "f80479e9-8ca4-422d-a0dd-6d0a97694f76",
       "name": "Think"
     },
     {
@@ -3006,10 +2980,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        -1136,
-        -128
+        -3488,
+        -256
       ],
-      "id": "184511db-fc46-49dc-922b-85cb19bee875",
+      "id": "43bbf23d-1653-49da-9106-9ad67d40d2a2",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
@@ -3047,11 +3021,127 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -848,
-        -480
+        -3200,
+        -812
       ],
-      "id": "a1f4af7a-7dd9-4df9-b577-206a834a03e3",
+      "id": "855b5c31-05f8-4840-9a42-4ca4c95e7a2d",
       "name": "Store Script Output"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "operation": "sendAndWait",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1446921026867826688",
+          "mode": "list",
+          "cachedResultName": "viral-video-ideas",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+        },
+        "message": "={{ $json['URL VIDEO'] }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -704,
+        -1072
+      ],
+      "id": "f7791d3c-62ad-45d6-a660-68be46e80e8f",
+      "name": "Send message and wait for response",
+      "webhookId": "c1630e34-1ea6-4924-95ba-dd529f7554fc",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "745447586697052201",
+          "mode": "list",
+          "cachedResultName": "BakaBoi's Mall",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1446921026867826688",
+          "mode": "list",
+          "cachedResultName": "viral-video-ideas",
+          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+        },
+        "content": "={{ $json['URL VIDEO'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -5408,
+        -256
+      ],
+      "id": "9238f9b2-b826-4c11-88be-0b2490151458",
+      "name": "Send Video URL via Discord1",
+      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
+      "credentials": {
+        "discordOAuth2Api": {
+          "id": "UEztFF3QWknIwrx9",
+          "name": "BakaBot"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4ce0313f-ce04-4ff0-9314-cc5de1f53ddd",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -496,
+        -1072
+      ],
+      "id": "fdd1dfb0-6373-40be-bb30-eaba41b9c173",
+      "name": "Filter"
     }
   ],
   "pinData": {
@@ -3069,6 +3159,210 @@
           "Minute": "30",
           "Second": "00",
           "Timezone": "America/New_York (UTC-05:00)"
+        }
+      }
+    ],
+    "Send Video URL via Discord": [
+      {
+        "json": {
+          "type": 19,
+          "content": "https://tempfile.aiquickdraw.com/f/c51c8f95a5cf032a3fc904f4fd13be78/073d52cc-f0d9-47da-80a3-a3b01efff1f2.mp4",
+          "mentions": [
+            {
+              "id": "246812164885577729",
+              "username": "bakaboi341",
+              "avatar": "62b3d7b107b76962d7239f40db95ce6a",
+              "discriminator": "0",
+              "public_flags": 0,
+              "flags": 0,
+              "banner": null,
+              "accent_color": 0,
+              "global_name": "bakaboi",
+              "avatar_decoration_data": null,
+              "collectibles": null,
+              "display_name_styles": null,
+              "banner_color": "#000000",
+              "clan": null,
+              "primary_guild": null
+            }
+          ],
+          "mention_roles": [],
+          "attachments": [],
+          "embeds": [],
+          "timestamp": "2025-12-16T23:53:32.938000+00:00",
+          "edited_timestamp": null,
+          "flags": 0,
+          "components": [],
+          "id": "1450637002541240465",
+          "channel_id": "1446921026867826688",
+          "author": {
+            "id": "1306443523553366090",
+            "username": "BakaBot",
+            "avatar": "c6fc95648cb270cd9617d6f0de37de38",
+            "discriminator": "1333",
+            "public_flags": 0,
+            "flags": 0,
+            "bot": true,
+            "banner": null,
+            "accent_color": null,
+            "global_name": null,
+            "avatar_decoration_data": null,
+            "collectibles": null,
+            "display_name_styles": null,
+            "banner_color": null,
+            "clan": null,
+            "primary_guild": null
+          },
+          "pinned": false,
+          "mention_everyone": false,
+          "tts": false,
+          "message_reference": {
+            "type": 0,
+            "channel_id": "1446921026867826688",
+            "message_id": "1450630657314127993",
+            "guild_id": "745447586697052201"
+          },
+          "referenced_message": {
+            "type": 0,
+            "content": "!viral",
+            "mentions": [],
+            "mention_roles": [],
+            "attachments": [],
+            "embeds": [],
+            "timestamp": "2025-12-16T23:28:20.118000+00:00",
+            "edited_timestamp": null,
+            "flags": 0,
+            "components": [],
+            "id": "1450630657314127993",
+            "channel_id": "1446921026867826688",
+            "author": {
+              "id": "246812164885577729",
+              "username": "bakaboi341",
+              "avatar": "62b3d7b107b76962d7239f40db95ce6a",
+              "discriminator": "0",
+              "public_flags": 0,
+              "flags": 0,
+              "banner": null,
+              "accent_color": null,
+              "global_name": "bakaboi",
+              "avatar_decoration_data": null,
+              "collectibles": null,
+              "display_name_styles": null,
+              "banner_color": null,
+              "clan": null,
+              "primary_guild": null
+            },
+            "pinned": false,
+            "mention_everyone": false,
+            "tts": false
+          }
+        }
+      }
+    ],
+    "Discord Trigger1": [
+      {
+        "json": {
+          "id": "1450630657314127993",
+          "content": "!viral",
+          "guildId": "745447586697052201",
+          "channelId": "1446921026867826688",
+          "authorId": "246812164885577729",
+          "authorName": "bakaboi341",
+          "timestamp": 1765927700118,
+          "listenValue": "!viral",
+          "authorIsBot": false,
+          "referenceId": null,
+          "referenceContent": null,
+          "referenceAuthorId": null,
+          "referenceAuthorName": null,
+          "referenceTimestamp": null,
+          "attachments": []
+        }
+      }
+    ],
+    "Generate Video with VEO": [
+      {
+        "json": {
+          "code": 200,
+          "msg": "success",
+          "data": {
+            "taskId": "c51c8f95a5cf032a3fc904f4fd13be78",
+            "recordId": "c51c8f95a5cf032a3fc904f4fd13be78"
+          }
+        }
+      }
+    ],
+    "Get Video Info": [
+      {
+        "json": {
+          "code": 200,
+          "msg": "success",
+          "data": {
+            "taskId": "c51c8f95a5cf032a3fc904f4fd13be78",
+            "model": "sora-2-text-to-video",
+            "state": "success",
+            "param": "{\"input\":\"{\\\"remove_watermark\\\":true,\\\"aspect_ratio\\\":\\\"portrait\\\",\\\"n_frames\\\":\\\"15\\\",\\\"prompt\\\":\\\"\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 1: A close-up on Gary's weathered but hopeful big expressive eyes, reflecting the soft glow of a computer screen. His eyes have detailed irises with catchlights. He is wearing a worn flannel shirt. The background is dimly lit, hinting at a hidden world.]\\\\n\\\\nCinematography:\\\\nCamera: medium close-up, slow push-in\\\\nLens: 50mm virtual lens; shallow depth of field\\\\nLighting: soft diffused key light with warm tungsten lighting; rim lighting separates character from background; subsurface scattering visible on skin; gentle shadows\\\\nMood: hopeful, inquisitive, secretive\\\\n\\\\nCharacter:\\\\n- Big expressive eyes with detailed irises and catchlights\\\\n- 55-year-old man, rugged but with a gentle demeanor, wearing a simple flannel shirt\\\\n- Sincere expression of curiosity and longing\\\\n\\\\nActions:\\\\n- Gary's eyes slowly widen slightly, reflecting a vibrant digital image\\\\n\\\\nBackground Sound:\\\\nSoft, ambient piano with a touch of melancholy begins.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 2: Gary, a grizzled auto parts store owner, awkwardly attempts a confident e-girl pose in the cluttered, oil-stained bay of his auto shop. Fluorescent lights cast a mundane glow, contrasting with a hidden, brightly lit phone screen in his hand.]\\\\n\\\\nCinematography:\\\\nCamera: establishing wide, crane down\\\\nLens: 24mm virtual lens; shallow depth of field\\\\nLighting: soft diffused key light with warm color temperature; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: awkward, determined, out-of-place\\\\n\\\\nCharacter:\\\\n- Gary with big expressive eyes, slightly furrowed brow in concentration\\\\n- Wearing a grease-stained mechanic's jumpsuit, a baseball cap backward\\\\n- Sincere expression of focused effort and slight embarrassment\\\\n\\\\nActions:\\\\n- Gary shifts his weight, attempting to mimic an exaggerated pose from his phone\\\\n\\\\nBackground Sound:\\\\nMusic subtly builds with added strings, a gentle synth pad underlying.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 3: Close-up on Gary's face, his big expressive eyes filled with a mix of fear, doubt, and undeniable longing. His brow is furrowed, but a flicker of determination shines through. Warm, inviting light from a monitor bathes his face.]\\\\n\\\\nCinematography:\\\\nCamera: medium close-up, slow dolly-in\\\\nLens: 85mm virtual lens; shallow depth of field\\\\nLighting: warm tungsten lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: conflicted, emotional, longing\\\\n\\\\nCharacter:\\\\n- Gary with big expressive eyes, detailed irises with catchlights reflecting screen light\\\\n- Close-up on his face, showing stubble and a few wrinkles\\\\n- Sincere expression of deep internal struggle and burgeoning hope\\\\n\\\\nActions:\\\\n- A subtle swallow, a slight nervous twitch of his lips, then a firming of his jaw\\\\n\\\\nBackground Sound:\\\\nEmotional swell begins, strings become more prominent, hint of a driving rhythm.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 4: Montage of quick cuts. First, a shot of Gary fumbling with a webcam, then a shot of \\\\\\\"GamerGurl69\\\\\\\" (Gary in full e-girl makeup, wig, and vibrant clothing) confidently interacting with a vibrant, animated online chat. Her big expressive eyes sparkle with newly found confidence. She's in a brightly lit, neon-colored room.]\\\\n\\\\nCinematography:\\\\nCamera: dynamic cuts, smooth tracking shot for GamerGurl69's reveal\\\\nLens: 35mm virtual lens; shallow depth of field\\\\nLighting: soft diffused lighting with vibrant neon accents; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: transformational, energetic, confident\\\\n\\\\nCharacter:\\\\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, wearing bright pink gaming headphones and a confident, sincere smile.\\\\n- Her posture is assured, a stark contrast to Gary's earlier awkwardness.\\\\n\\\\nActions:\\\\n- Gary nervously adjusts a microphone; GamerGurl69 playfully winks at the camera, then laughs genuinely at a chat message.\\\\n\\\\nBackground Sound:\\\\nMusic becomes more energetic, driving rhythm with subtle electronic elements, building excitement.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 5: Close-up on GamerGurl69's face (Gary), her big expressive eyes tearing up slightly, but with a wide, heartfelt smile. She's looking at a screen filled with positive chat messages and heart emojis from her diverse online community. The room is softly lit with warm, inviting colors.]\\\\n\\\\nCinematography:\\\\nCamera: medium close-up, slow arc around character\\\\nLens: 50mm virtual lens; shallow depth of field\\\\nLighting: warm color temperature with soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: emotional, accepted, joyful\\\\n\\\\nCharacter:\\\\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, tears welling up but a sincere, joyful expression.\\\\n- Bright pink hair, a cute gaming headset.\\\\n\\\\nActions:\\\\n- She gently touches her hand to her chest, overwhelmed with emotion, then gives a small, grateful nod to her screen.\\\\n\\\\nBackground Sound:\\\\nFull orchestral swell, highly emotional and uplifting climax, then a 1-second silence beat.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 6: GamerGurl69 (Gary) gives a quick, confident, and utterly sincere wink to the camera, a final mischievous sparkle in her big expressive eyes, then the scene transitions immediately to a Pixar-style title card.]\\\\n\\\\nCinematography:\\\\nCamera: close-up, quick cut\\\\nLens: 100mm virtual lens; shallow depth of field\\\\nLighting: vibrant saturated colors; soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: playful, confident, joyful\\\\n\\\\nCharacter:\\\\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, a perfectly sincere, playful wink.\\\\n- Wearing her signature e-girl attire.\\\\n\\\\nActions:\\\\n- GamerGurl69 winks directly at the camera.\\\\n\\\\nBackground Sound:\\\\nShort, triumphant musical sting, then a soft fade out.\\\"}\",\"model\":\"sora-2-text-to-video\"}",
+            "resultJson": "{\"resultUrls\":[\"https://tempfile.aiquickdraw.com/f/c51c8f95a5cf032a3fc904f4fd13be78/073d52cc-f0d9-47da-80a3-a3b01efff1f2.mp4\"]}",
+            "failCode": null,
+            "failMsg": null,
+            "costTime": 257,
+            "completeTime": 1765929207532,
+            "createTime": 1765928949819
+          }
+        }
+      }
+    ],
+    "AI Agent: Generate Pixar Script1": [
+      {
+        "json": {
+          "output": {
+            "title": "GamerGurl69: A Gary Story",
+            "final_prompt": "\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 1: A close-up on Gary's weathered but hopeful big expressive eyes, reflecting the soft glow of a computer screen. His eyes have detailed irises with catchlights. He is wearing a worn flannel shirt. The background is dimly lit, hinting at a hidden world.]\n\nCinematography:\nCamera: medium close-up, slow push-in\nLens: 50mm virtual lens; shallow depth of field\nLighting: soft diffused key light with warm tungsten lighting; rim lighting separates character from background; subsurface scattering visible on skin; gentle shadows\nMood: hopeful, inquisitive, secretive\n\nCharacter:\n- Big expressive eyes with detailed irises and catchlights\n- 55-year-old man, rugged but with a gentle demeanor, wearing a simple flannel shirt\n- Sincere expression of curiosity and longing\n\nActions:\n- Gary's eyes slowly widen slightly, reflecting a vibrant digital image\n\nBackground Sound:\nSoft, ambient piano with a touch of melancholy begins.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 2: Gary, a grizzled auto parts store owner, awkwardly attempts a confident e-girl pose in the cluttered, oil-stained bay of his auto shop. Fluorescent lights cast a mundane glow, contrasting with a hidden, brightly lit phone screen in his hand.]\n\nCinematography:\nCamera: establishing wide, crane down\nLens: 24mm virtual lens; shallow depth of field\nLighting: soft diffused key light with warm color temperature; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: awkward, determined, out-of-place\n\nCharacter:\n- Gary with big expressive eyes, slightly furrowed brow in concentration\n- Wearing a grease-stained mechanic's jumpsuit, a baseball cap backward\n- Sincere expression of focused effort and slight embarrassment\n\nActions:\n- Gary shifts his weight, attempting to mimic an exaggerated pose from his phone\n\nBackground Sound:\nMusic subtly builds with added strings, a gentle synth pad underlying.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 3: Close-up on Gary's face, his big expressive eyes filled with a mix of fear, doubt, and undeniable longing. His brow is furrowed, but a flicker of determination shines through. Warm, inviting light from a monitor bathes his face.]\n\nCinematography:\nCamera: medium close-up, slow dolly-in\nLens: 85mm virtual lens; shallow depth of field\nLighting: warm tungsten lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: conflicted, emotional, longing\n\nCharacter:\n- Gary with big expressive eyes, detailed irises with catchlights reflecting screen light\n- Close-up on his face, showing stubble and a few wrinkles\n- Sincere expression of deep internal struggle and burgeoning hope\n\nActions:\n- A subtle swallow, a slight nervous twitch of his lips, then a firming of his jaw\n\nBackground Sound:\nEmotional swell begins, strings become more prominent, hint of a driving rhythm.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 4: Montage of quick cuts. First, a shot of Gary fumbling with a webcam, then a shot of \"GamerGurl69\" (Gary in full e-girl makeup, wig, and vibrant clothing) confidently interacting with a vibrant, animated online chat. Her big expressive eyes sparkle with newly found confidence. She's in a brightly lit, neon-colored room.]\n\nCinematography:\nCamera: dynamic cuts, smooth tracking shot for GamerGurl69's reveal\nLens: 35mm virtual lens; shallow depth of field\nLighting: soft diffused lighting with vibrant neon accents; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: transformational, energetic, confident\n\nCharacter:\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, wearing bright pink gaming headphones and a confident, sincere smile.\n- Her posture is assured, a stark contrast to Gary's earlier awkwardness.\n\nActions:\n- Gary nervously adjusts a microphone; GamerGurl69 playfully winks at the camera, then laughs genuinely at a chat message.\n\nBackground Sound:\nMusic becomes more energetic, driving rhythm with subtle electronic elements, building excitement.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 5: Close-up on GamerGurl69's face (Gary), her big expressive eyes tearing up slightly, but with a wide, heartfelt smile. She's looking at a screen filled with positive chat messages and heart emojis from her diverse online community. The room is softly lit with warm, inviting colors.]\n\nCinematography:\nCamera: medium close-up, slow arc around character\nLens: 50mm virtual lens; shallow depth of field\nLighting: warm color temperature with soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: emotional, accepted, joyful\n\nCharacter:\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, tears welling up but a sincere, joyful expression.\n- Bright pink hair, a cute gaming headset.\n\nActions:\n- She gently touches her hand to her chest, overwhelmed with emotion, then gives a small, grateful nod to her screen.\n\nBackground Sound:\nFull orchestral swell, highly emotional and uplifting climax, then a 1-second silence beat.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 6: GamerGurl69 (Gary) gives a quick, confident, and utterly sincere wink to the camera, a final mischievous sparkle in her big expressive eyes, then the scene transitions immediately to a Pixar-style title card.]\n\nCinematography:\nCamera: close-up, quick cut\nLens: 100mm virtual lens; shallow depth of field\nLighting: vibrant saturated colors; soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: playful, confident, joyful\n\nCharacter:\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, a perfectly sincere, playful wink.\n- Wearing her signature e-girl attire.\n\nActions:\n- GamerGurl69 winks directly at the camera.\n\nBackground Sound:\nShort, triumphant musical sting, then a soft fade out.",
+            "tags": "disneypixar, pixar, sora, ai, e-girl, self-discovery, community, transformation, humor, emotional"
+          }
+        }
+      }
+    ],
+    "Topic Generator (Pixar Trailer)1": [
+      {
+        "json": {
+          "output": {
+            "premise": "Gary: The Unlikely E-Girl",
+            "protagonist": "Gary, a 55-year-old conservative auto parts store owner who discovers an overwhelming, inexplicable desire to become a hyper-online, edgy e-girl streamer named \"GamerGurl69\".",
+            "emotional_core": "Gary's profound and often uncomfortable journey of self-discovery, acceptance, and finding a genuine sense of belonging and community in the most unexpected digital corners of the internet, despite it being completely antithetical to his lifelong identity and societal expectations.",
+            "hook_moment": "The trailer opens with Gary earnestly lecturing his son about traditional values. This is jarringly intercut with a vibrant, chaotic scene of \"GamerGurl69\" (Gary in full e-girl regalia) live-streaming a rage-filled gaming session to thousands of fans, all set to uplifting Pixar-esque music.",
+            "trailer_arc": "We witness Gary's mundane life crumble as he grapples with his secret online desires, leading to hilariously failed attempts to suppress them. The trailer builds to his full transformation and embrace of the \"GamerGurl69\" persona, showcasing his struggle to reconcile his old self with his new identity, his surprising online triumphs, and a deeply emotional (and absurd) moment where he finds validation and a chosen family in his online community. The climax sees him defending his new world in a way that echoes his old values, ultimately finding peace in who he is, no matter how unconventional.",
+            "why_its_viral": "This premise weaponizes Pixar's wholesome aesthetic against a scandalously edgy topic (a conservative older man becoming an e-girl), creating maximum cognitive dissonance. It leverages the \"forbidden fruit\" appeal of inappropriate content, weaponizes nostalgia for comedic shock value, and relies on extreme cringe delivered with complete sincerity, guaranteeing outrage, debate, and viral sharing.",
+            "tone_note": "The tone is 100% sincere, earnest, and emotionally driven, treating Gary's transformation with the same dramatic weight and hopeful sincerity as any classic Pixar character's journey. The humor is derived solely from the extreme cognitive dissonance between the subject matter and the execution."
+          }
+        }
+      }
+    ],
+    "Virality Rater": [
+      {
+        "json": {
+          "output": {
+            "score": 92,
+            "verdict": "VIRAL",
+            "feedback": "This concept is a slam dunk for viral potential. The premise of a 55-year-old grizzled auto parts owner becoming an e-girl ('GamerGurl69') is peak cognitive dissonance and inherently hilarious, yet the prompt grounds it in genuine human emotion and a desire for connection.\n\nThe emotional journey is incredibly strong and well-defined: Gary's initial hopeful curiosity, his awkward determination, the internal conflict and longing, the triumphant transformation, and finally, the joy of acceptance. This arc is perfectly suited for a Pixar trailer.\n\nCrucially, the prompt adheres to the Pixar aesthetic with meticulous detail. Keywords like 'big expressive eyes,' 'detailed irises with catchlights,' 'soft diffused key light with warm tungsten lighting,' 'rim lighting,' and 'subsurface scattering' are all present and correctly applied, ensuring the visual style is spot-on. The descriptions of Gary's expressions ('hopeful, inquisitive, secretive,' 'awkward, determined, out-of-place,' 'conflicted, emotional, longing') are specific and contribute to the sincerity.\n\nThe trailer structure is solid, hitting the key beats of introduction, rising action (awkward attempts, transformation), climax (acceptance), and resolution (confident wink). The music cues also reflect this emotional progression.\n\nThe only slight detractor is the title 'GamerGurl69: A Gary Story'. While the 'A Gary Story' part is a nice touch referencing 'A Bug's Life', the 'GamerGurl69' part leans slightly into meme territory and could risk undermining the earnestness if not handled carefully in execution. However, the prompt itself is so strong on sincerity that this is a minor point.\n\nOverall, this is a near-perfect Pixar viral concept.",
+            "should_regenerate": false
+          }
+        }
+      }
+    ],
+    "Rewrite Caption with GPT-4o1": [
+      {
+        "json": {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "POV: Pixar creates an AI adventure called \"GamerGurl69: A Gary Story\" 🎬 Embrace the unexpected journey of self-acceptance and community. 🌟 #disneypixar #pixar #sora #ai #fyp",
+            "refusal": null,
+            "reasoning": null
+          }
         }
       }
     ]
@@ -3095,6 +3389,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-12-15T17:28:36.000Z",
-  "versionId": "af3bcddb-dbd3-40b5-8ad3-4ec465426f9a"
+  "updatedAt": "2025-12-17T00:20:09.000Z",
+  "versionId": "e78ad5d1-3090-4052-8ebd-d02601efd900"
 }
