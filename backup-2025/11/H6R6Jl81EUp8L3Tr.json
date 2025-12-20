@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Schedule Trigger (4x Daily)": {
       "main": [
@@ -795,7 +795,7 @@
       "typeVersion": 1.3,
       "position": [
         -5408,
-        592
+        580
       ],
       "id": "b4a32382-e765-413b-a907-6915c171a6d0",
       "name": "Schedule Trigger (4x Daily)",
@@ -809,7 +809,7 @@
       "typeVersion": 1.1,
       "position": [
         -5184,
-        592
+        580
       ],
       "id": "ffc2590f-89ff-488f-996a-8883d9b9bcb4",
       "name": "Random Delay (Anti-Detection)",
@@ -843,7 +843,7 @@
       "typeVersion": 4.3,
       "position": [
         -4960,
-        400
+        388
       ],
       "id": "92a26324-c4be-42b2-b9c4-76da85cf6a24",
       "name": "Google Trends (What's Hot Now)",
@@ -890,7 +890,7 @@
       "typeVersion": 4.3,
       "position": [
         -4960,
-        592
+        580
       ],
       "id": "34af0128-d5ee-4901-97fc-614464b6fc79",
       "name": "Reddit (Satisfying/Amazing Content)",
@@ -937,7 +937,7 @@
       "typeVersion": 4.3,
       "position": [
         -4960,
-        784
+        772
       ],
       "id": "e3764779-f444-431e-8643-e803a7ea3636",
       "name": "Amazon Trending Products",
@@ -957,7 +957,7 @@
       "typeVersion": 3,
       "position": [
         -4736,
-        496
+        484
       ],
       "id": "b53194a5-0eb0-4688-9844-536227d073cf",
       "name": "Merge All Sources"
@@ -986,7 +986,7 @@
       "typeVersion": 3.4,
       "position": [
         -4512,
-        496
+        484
       ],
       "id": "858fcf2e-e90b-4419-a6cf-306c8d821d53",
       "name": "Combine Data + Affiliate Config"
@@ -1004,7 +1004,7 @@
       "typeVersion": 3,
       "position": [
         -4288,
-        496
+        484
       ],
       "id": "038c7f44-a17d-4666-8a86-95ec8afd5782",
       "name": "AI Content Strategist"
@@ -1016,8 +1016,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -4160,
-        720
+        -4152,
+        708
       ],
       "id": "95f54675-5ee8-47ca-a679-227bfae313fa",
       "name": "Strategy Output Parser"
@@ -1029,8 +1029,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -4288,
-        720
+        -4280,
+        708
       ],
       "id": "a50c2dcf-6c0b-4849-8da3-78ae427f2a2a",
       "name": "Gemini 2.5 Flash",
@@ -1071,7 +1071,7 @@
       "typeVersion": 2.2,
       "position": [
         -3936,
-        368
+        360
       ],
       "id": "f974d665-dcf0-4a26-917b-cbfc61153896",
       "name": "Has Product to Monetize?"
@@ -1100,7 +1100,7 @@
       "typeVersion": 3.4,
       "position": [
         -3712,
-        272
+        264
       ],
       "id": "4afafb7b-a3ad-4003-ae4b-63629698104d",
       "name": "Build Affiliate Link"
@@ -1129,7 +1129,7 @@
       "typeVersion": 3.4,
       "position": [
         -3712,
-        464
+        456
       ],
       "id": "0f66556f-a8be-4068-a984-fdb7201d0b78",
       "name": "No Affiliate Link"
@@ -1143,7 +1143,7 @@
       "typeVersion": 3,
       "position": [
         -3488,
-        368
+        360
       ],
       "id": "989cfffb-93ec-4f3f-be1d-6c98287f585f",
       "name": "Merge Paths"
@@ -1166,7 +1166,7 @@
       "typeVersion": 3.4,
       "position": [
         -3264,
-        368
+        360
       ],
       "id": "ab04c235-5573-46a9-820f-335c17a6787c",
       "name": "Video Prompt Template"
@@ -1184,7 +1184,7 @@
       "typeVersion": 3,
       "position": [
         -3040,
-        368
+        360
       ],
       "id": "e628b125-ba3b-4bb5-92be-b11e71dce050",
       "name": "AI Video Director"
@@ -1196,8 +1196,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -2912,
-        592
+        -2904,
+        584
       ],
       "id": "85a4ce60-337a-4687-b04d-3ca287384ed9",
       "name": "Director Output Parser"
@@ -1209,8 +1209,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -3040,
-        592
+        -3032,
+        584
       ],
       "id": "d85fb35c-f77f-4700-9ecc-ec797e8a62ad",
       "name": "Gemini 2.5 Pro",
@@ -1245,7 +1245,7 @@
       "typeVersion": 1,
       "position": [
         -2688,
-        368
+        360
       ],
       "id": "7d775696-6698-4f2e-90dd-259659f846ed",
       "name": "Quality & Monetization Rater",
@@ -1285,7 +1285,7 @@
       "typeVersion": 2.2,
       "position": [
         -2336,
-        368
+        360
       ],
       "id": "1838125e-c1a0-4b3a-869c-c180e6686fbf",
       "name": "Score >= 65?"
@@ -1306,7 +1306,7 @@
       "typeVersion": 4.2,
       "position": [
         -2112,
-        320
+        312
       ],
       "id": "0981b406-0ec3-4787-ab24-f62f2b715b98",
       "name": "Generate Video (VEO2)",
@@ -1325,7 +1325,7 @@
       "typeVersion": 1.1,
       "position": [
         -1888,
-        320
+        312
       ],
       "id": "bac2371e-086a-49bd-8305-02c02548bb29",
       "name": "Wait 20s",
@@ -1351,7 +1351,7 @@
       "typeVersion": 4.3,
       "position": [
         -1664,
-        320
+        312
       ],
       "id": "71dc8c0d-4617-4f74-b4fd-76b061b46577",
       "name": "Check Video Status",
@@ -1405,7 +1405,7 @@
       "typeVersion": 1.1,
       "position": [
         -1216,
-        416
+        408
       ],
       "id": "dbe3fba2-e11c-4180-8eb6-0f385192d2c3",
       "name": "Wait 15s More",
@@ -1901,7 +1901,7 @@
       "typeVersion": 2,
       "position": [
         -2112,
-        608
+        604
       ],
       "id": "e4042e97-40a5-424b-a8d7-158de9ce8ae2",
       "name": "Notify Regeneration",
@@ -1997,7 +1997,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -4688,
+        -4680,
         -688
       ],
       "id": "9640e8e8-dd6e-4988-b5e3-dffad143460a",
@@ -2019,6 +2019,7 @@
     },
     {
       "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
         "options": {
           "safetySettings": {
             "values": [
@@ -2790,7 +2791,7 @@
       "typeVersion": 1.7,
       "position": [
         -2976,
-        -816
+        -812
       ],
       "id": "53695fb9-d408-40fb-bc21-afda5f68890b",
       "name": "Virality Rater"
@@ -2803,8 +2804,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -2976,
-        -592
+        -2968,
+        -588
       ],
       "id": "08c77549-3b93-4891-87b4-71f3ffcfce4b",
       "name": "Google Gemini Chat Model2",
@@ -2822,8 +2823,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -2848,
-        -592
+        -2840,
+        -588
       ],
       "id": "fa266cc3-7f6b-4a06-ae3b-cd5302573d2d",
       "name": "Structured Output Parser2"
@@ -2894,7 +2895,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -3776,
+        -3768,
         -688
       ],
       "id": "e71268fc-a339-45f2-8c86-2e8e9bcaf112",
@@ -3021,7 +3022,7 @@
       "typeVersion": 3.4,
       "position": [
         -3200,
-        -816
+        -812
       ],
       "id": "855b5c31-05f8-4840-9a42-4ca4c95e7a2d",
       "name": "Store Script Output"
@@ -3144,6 +3145,23 @@
     }
   ],
   "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-12-15T07:30:00.005-05:00",
+          "Readable date": "December 15th 2025, 7:30:00 am",
+          "Readable time": "7:30:00 am",
+          "Day of week": "Monday",
+          "Year": "2025",
+          "Month": "December",
+          "Day of month": "15",
+          "Hour": "07",
+          "Minute": "30",
+          "Second": "00",
+          "Timezone": "America/New_York (UTC-05:00)"
+        }
+      }
+    ],
     "Send Video URL via Discord": [
       {
         "json": {
@@ -3262,20 +3280,89 @@
         }
       }
     ],
-    "Schedule Trigger": [
+    "Generate Video with VEO": [
       {
         "json": {
-          "timestamp": "2025-12-17T12:30:00.007-05:00",
-          "Readable date": "December 17th 2025, 12:30:00 pm",
-          "Readable time": "12:30:00 pm",
-          "Day of week": "Wednesday",
-          "Year": "2025",
-          "Month": "December",
-          "Day of month": "17",
-          "Hour": "12",
-          "Minute": "30",
-          "Second": "00",
-          "Timezone": "America/New_York (UTC-05:00)"
+          "code": 200,
+          "msg": "success",
+          "data": {
+            "taskId": "c51c8f95a5cf032a3fc904f4fd13be78",
+            "recordId": "c51c8f95a5cf032a3fc904f4fd13be78"
+          }
+        }
+      }
+    ],
+    "Get Video Info": [
+      {
+        "json": {
+          "code": 200,
+          "msg": "success",
+          "data": {
+            "taskId": "c51c8f95a5cf032a3fc904f4fd13be78",
+            "model": "sora-2-text-to-video",
+            "state": "success",
+            "param": "{\"input\":\"{\\\"remove_watermark\\\":true,\\\"aspect_ratio\\\":\\\"portrait\\\",\\\"n_frames\\\":\\\"15\\\",\\\"prompt\\\":\\\"\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 1: A close-up on Gary's weathered but hopeful big expressive eyes, reflecting the soft glow of a computer screen. His eyes have detailed irises with catchlights. He is wearing a worn flannel shirt. The background is dimly lit, hinting at a hidden world.]\\\\n\\\\nCinematography:\\\\nCamera: medium close-up, slow push-in\\\\nLens: 50mm virtual lens; shallow depth of field\\\\nLighting: soft diffused key light with warm tungsten lighting; rim lighting separates character from background; subsurface scattering visible on skin; gentle shadows\\\\nMood: hopeful, inquisitive, secretive\\\\n\\\\nCharacter:\\\\n- Big expressive eyes with detailed irises and catchlights\\\\n- 55-year-old man, rugged but with a gentle demeanor, wearing a simple flannel shirt\\\\n- Sincere expression of curiosity and longing\\\\n\\\\nActions:\\\\n- Gary's eyes slowly widen slightly, reflecting a vibrant digital image\\\\n\\\\nBackground Sound:\\\\nSoft, ambient piano with a touch of melancholy begins.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 2: Gary, a grizzled auto parts store owner, awkwardly attempts a confident e-girl pose in the cluttered, oil-stained bay of his auto shop. Fluorescent lights cast a mundane glow, contrasting with a hidden, brightly lit phone screen in his hand.]\\\\n\\\\nCinematography:\\\\nCamera: establishing wide, crane down\\\\nLens: 24mm virtual lens; shallow depth of field\\\\nLighting: soft diffused key light with warm color temperature; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: awkward, determined, out-of-place\\\\n\\\\nCharacter:\\\\n- Gary with big expressive eyes, slightly furrowed brow in concentration\\\\n- Wearing a grease-stained mechanic's jumpsuit, a baseball cap backward\\\\n- Sincere expression of focused effort and slight embarrassment\\\\n\\\\nActions:\\\\n- Gary shifts his weight, attempting to mimic an exaggerated pose from his phone\\\\n\\\\nBackground Sound:\\\\nMusic subtly builds with added strings, a gentle synth pad underlying.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 3: Close-up on Gary's face, his big expressive eyes filled with a mix of fear, doubt, and undeniable longing. His brow is furrowed, but a flicker of determination shines through. Warm, inviting light from a monitor bathes his face.]\\\\n\\\\nCinematography:\\\\nCamera: medium close-up, slow dolly-in\\\\nLens: 85mm virtual lens; shallow depth of field\\\\nLighting: warm tungsten lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: conflicted, emotional, longing\\\\n\\\\nCharacter:\\\\n- Gary with big expressive eyes, detailed irises with catchlights reflecting screen light\\\\n- Close-up on his face, showing stubble and a few wrinkles\\\\n- Sincere expression of deep internal struggle and burgeoning hope\\\\n\\\\nActions:\\\\n- A subtle swallow, a slight nervous twitch of his lips, then a firming of his jaw\\\\n\\\\nBackground Sound:\\\\nEmotional swell begins, strings become more prominent, hint of a driving rhythm.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 4: Montage of quick cuts. First, a shot of Gary fumbling with a webcam, then a shot of \\\\\\\"GamerGurl69\\\\\\\" (Gary in full e-girl makeup, wig, and vibrant clothing) confidently interacting with a vibrant, animated online chat. Her big expressive eyes sparkle with newly found confidence. She's in a brightly lit, neon-colored room.]\\\\n\\\\nCinematography:\\\\nCamera: dynamic cuts, smooth tracking shot for GamerGurl69's reveal\\\\nLens: 35mm virtual lens; shallow depth of field\\\\nLighting: soft diffused lighting with vibrant neon accents; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: transformational, energetic, confident\\\\n\\\\nCharacter:\\\\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, wearing bright pink gaming headphones and a confident, sincere smile.\\\\n- Her posture is assured, a stark contrast to Gary's earlier awkwardness.\\\\n\\\\nActions:\\\\n- Gary nervously adjusts a microphone; GamerGurl69 playfully winks at the camera, then laughs genuinely at a chat message.\\\\n\\\\nBackground Sound:\\\\nMusic becomes more energetic, driving rhythm with subtle electronic elements, building excitement.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 5: Close-up on GamerGurl69's face (Gary), her big expressive eyes tearing up slightly, but with a wide, heartfelt smile. She's looking at a screen filled with positive chat messages and heart emojis from her diverse online community. The room is softly lit with warm, inviting colors.]\\\\n\\\\nCinematography:\\\\nCamera: medium close-up, slow arc around character\\\\nLens: 50mm virtual lens; shallow depth of field\\\\nLighting: warm color temperature with soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: emotional, accepted, joyful\\\\n\\\\nCharacter:\\\\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, tears welling up but a sincere, joyful expression.\\\\n- Bright pink hair, a cute gaming headset.\\\\n\\\\nActions:\\\\n- She gently touches her hand to her chest, overwhelmed with emotion, then gives a small, grateful nod to her screen.\\\\n\\\\nBackground Sound:\\\\nFull orchestral swell, highly emotional and uplifting climax, then a 1-second silence beat.\\\\n\\\\n---\\\\n\\\\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\\\\n\\\\n[Scene: Shot 6: GamerGurl69 (Gary) gives a quick, confident, and utterly sincere wink to the camera, a final mischievous sparkle in her big expressive eyes, then the scene transitions immediately to a Pixar-style title card.]\\\\n\\\\nCinematography:\\\\nCamera: close-up, quick cut\\\\nLens: 100mm virtual lens; shallow depth of field\\\\nLighting: vibrant saturated colors; soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\\\\nMood: playful, confident, joyful\\\\n\\\\nCharacter:\\\\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, a perfectly sincere, playful wink.\\\\n- Wearing her signature e-girl attire.\\\\n\\\\nActions:\\\\n- GamerGurl69 winks directly at the camera.\\\\n\\\\nBackground Sound:\\\\nShort, triumphant musical sting, then a soft fade out.\\\"}\",\"model\":\"sora-2-text-to-video\"}",
+            "resultJson": "{\"resultUrls\":[\"https://tempfile.aiquickdraw.com/f/c51c8f95a5cf032a3fc904f4fd13be78/073d52cc-f0d9-47da-80a3-a3b01efff1f2.mp4\"]}",
+            "failCode": null,
+            "failMsg": null,
+            "costTime": 257,
+            "completeTime": 1765929207532,
+            "createTime": 1765928949819
+          }
+        }
+      }
+    ],
+    "AI Agent: Generate Pixar Script1": [
+      {
+        "json": {
+          "output": {
+            "title": "GamerGurl69: A Gary Story",
+            "final_prompt": "\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 1: A close-up on Gary's weathered but hopeful big expressive eyes, reflecting the soft glow of a computer screen. His eyes have detailed irises with catchlights. He is wearing a worn flannel shirt. The background is dimly lit, hinting at a hidden world.]\n\nCinematography:\nCamera: medium close-up, slow push-in\nLens: 50mm virtual lens; shallow depth of field\nLighting: soft diffused key light with warm tungsten lighting; rim lighting separates character from background; subsurface scattering visible on skin; gentle shadows\nMood: hopeful, inquisitive, secretive\n\nCharacter:\n- Big expressive eyes with detailed irises and catchlights\n- 55-year-old man, rugged but with a gentle demeanor, wearing a simple flannel shirt\n- Sincere expression of curiosity and longing\n\nActions:\n- Gary's eyes slowly widen slightly, reflecting a vibrant digital image\n\nBackground Sound:\nSoft, ambient piano with a touch of melancholy begins.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 2: Gary, a grizzled auto parts store owner, awkwardly attempts a confident e-girl pose in the cluttered, oil-stained bay of his auto shop. Fluorescent lights cast a mundane glow, contrasting with a hidden, brightly lit phone screen in his hand.]\n\nCinematography:\nCamera: establishing wide, crane down\nLens: 24mm virtual lens; shallow depth of field\nLighting: soft diffused key light with warm color temperature; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: awkward, determined, out-of-place\n\nCharacter:\n- Gary with big expressive eyes, slightly furrowed brow in concentration\n- Wearing a grease-stained mechanic's jumpsuit, a baseball cap backward\n- Sincere expression of focused effort and slight embarrassment\n\nActions:\n- Gary shifts his weight, attempting to mimic an exaggerated pose from his phone\n\nBackground Sound:\nMusic subtly builds with added strings, a gentle synth pad underlying.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 3: Close-up on Gary's face, his big expressive eyes filled with a mix of fear, doubt, and undeniable longing. His brow is furrowed, but a flicker of determination shines through. Warm, inviting light from a monitor bathes his face.]\n\nCinematography:\nCamera: medium close-up, slow dolly-in\nLens: 85mm virtual lens; shallow depth of field\nLighting: warm tungsten lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: conflicted, emotional, longing\n\nCharacter:\n- Gary with big expressive eyes, detailed irises with catchlights reflecting screen light\n- Close-up on his face, showing stubble and a few wrinkles\n- Sincere expression of deep internal struggle and burgeoning hope\n\nActions:\n- A subtle swallow, a slight nervous twitch of his lips, then a firming of his jaw\n\nBackground Sound:\nEmotional swell begins, strings become more prominent, hint of a driving rhythm.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 4: Montage of quick cuts. First, a shot of Gary fumbling with a webcam, then a shot of \"GamerGurl69\" (Gary in full e-girl makeup, wig, and vibrant clothing) confidently interacting with a vibrant, animated online chat. Her big expressive eyes sparkle with newly found confidence. She's in a brightly lit, neon-colored room.]\n\nCinematography:\nCamera: dynamic cuts, smooth tracking shot for GamerGurl69's reveal\nLens: 35mm virtual lens; shallow depth of field\nLighting: soft diffused lighting with vibrant neon accents; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: transformational, energetic, confident\n\nCharacter:\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, wearing bright pink gaming headphones and a confident, sincere smile.\n- Her posture is assured, a stark contrast to Gary's earlier awkwardness.\n\nActions:\n- Gary nervously adjusts a microphone; GamerGurl69 playfully winks at the camera, then laughs genuinely at a chat message.\n\nBackground Sound:\nMusic becomes more energetic, driving rhythm with subtle electronic elements, building excitement.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 5: Close-up on GamerGurl69's face (Gary), her big expressive eyes tearing up slightly, but with a wide, heartfelt smile. She's looking at a screen filled with positive chat messages and heart emojis from her diverse online community. The room is softly lit with warm, inviting colors.]\n\nCinematography:\nCamera: medium close-up, slow arc around character\nLens: 50mm virtual lens; shallow depth of field\nLighting: warm color temperature with soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: emotional, accepted, joyful\n\nCharacter:\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, tears welling up but a sincere, joyful expression.\n- Bright pink hair, a cute gaming headset.\n\nActions:\n- She gently touches her hand to her chest, overwhelmed with emotion, then gives a small, grateful nod to her screen.\n\nBackground Sound:\nFull orchestral swell, highly emotional and uplifting climax, then a 1-second silence beat.\n\n---\n\nStyle: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n[Scene: Shot 6: GamerGurl69 (Gary) gives a quick, confident, and utterly sincere wink to the camera, a final mischievous sparkle in her big expressive eyes, then the scene transitions immediately to a Pixar-style title card.]\n\nCinematography:\nCamera: close-up, quick cut\nLens: 100mm virtual lens; shallow depth of field\nLighting: vibrant saturated colors; soft diffused lighting; rim lighting; subsurface scattering visible on skin; gentle shadows\nMood: playful, confident, joyful\n\nCharacter:\n- GamerGurl69 with big expressive eyes, detailed irises with catchlights, a perfectly sincere, playful wink.\n- Wearing her signature e-girl attire.\n\nActions:\n- GamerGurl69 winks directly at the camera.\n\nBackground Sound:\nShort, triumphant musical sting, then a soft fade out.",
+            "tags": "disneypixar, pixar, sora, ai, e-girl, self-discovery, community, transformation, humor, emotional"
+          }
+        }
+      }
+    ],
+    "Topic Generator (Pixar Trailer)1": [
+      {
+        "json": {
+          "output": {
+            "premise": "Gary: The Unlikely E-Girl",
+            "protagonist": "Gary, a 55-year-old conservative auto parts store owner who discovers an overwhelming, inexplicable desire to become a hyper-online, edgy e-girl streamer named \"GamerGurl69\".",
+            "emotional_core": "Gary's profound and often uncomfortable journey of self-discovery, acceptance, and finding a genuine sense of belonging and community in the most unexpected digital corners of the internet, despite it being completely antithetical to his lifelong identity and societal expectations.",
+            "hook_moment": "The trailer opens with Gary earnestly lecturing his son about traditional values. This is jarringly intercut with a vibrant, chaotic scene of \"GamerGurl69\" (Gary in full e-girl regalia) live-streaming a rage-filled gaming session to thousands of fans, all set to uplifting Pixar-esque music.",
+            "trailer_arc": "We witness Gary's mundane life crumble as he grapples with his secret online desires, leading to hilariously failed attempts to suppress them. The trailer builds to his full transformation and embrace of the \"GamerGurl69\" persona, showcasing his struggle to reconcile his old self with his new identity, his surprising online triumphs, and a deeply emotional (and absurd) moment where he finds validation and a chosen family in his online community. The climax sees him defending his new world in a way that echoes his old values, ultimately finding peace in who he is, no matter how unconventional.",
+            "why_its_viral": "This premise weaponizes Pixar's wholesome aesthetic against a scandalously edgy topic (a conservative older man becoming an e-girl), creating maximum cognitive dissonance. It leverages the \"forbidden fruit\" appeal of inappropriate content, weaponizes nostalgia for comedic shock value, and relies on extreme cringe delivered with complete sincerity, guaranteeing outrage, debate, and viral sharing.",
+            "tone_note": "The tone is 100% sincere, earnest, and emotionally driven, treating Gary's transformation with the same dramatic weight and hopeful sincerity as any classic Pixar character's journey. The humor is derived solely from the extreme cognitive dissonance between the subject matter and the execution."
+          }
+        }
+      }
+    ],
+    "Virality Rater": [
+      {
+        "json": {
+          "output": {
+            "score": 92,
+            "verdict": "VIRAL",
+            "feedback": "This concept is a slam dunk for viral potential. The premise of a 55-year-old grizzled auto parts owner becoming an e-girl ('GamerGurl69') is peak cognitive dissonance and inherently hilarious, yet the prompt grounds it in genuine human emotion and a desire for connection.\n\nThe emotional journey is incredibly strong and well-defined: Gary's initial hopeful curiosity, his awkward determination, the internal conflict and longing, the triumphant transformation, and finally, the joy of acceptance. This arc is perfectly suited for a Pixar trailer.\n\nCrucially, the prompt adheres to the Pixar aesthetic with meticulous detail. Keywords like 'big expressive eyes,' 'detailed irises with catchlights,' 'soft diffused key light with warm tungsten lighting,' 'rim lighting,' and 'subsurface scattering' are all present and correctly applied, ensuring the visual style is spot-on. The descriptions of Gary's expressions ('hopeful, inquisitive, secretive,' 'awkward, determined, out-of-place,' 'conflicted, emotional, longing') are specific and contribute to the sincerity.\n\nThe trailer structure is solid, hitting the key beats of introduction, rising action (awkward attempts, transformation), climax (acceptance), and resolution (confident wink). The music cues also reflect this emotional progression.\n\nThe only slight detractor is the title 'GamerGurl69: A Gary Story'. While the 'A Gary Story' part is a nice touch referencing 'A Bug's Life', the 'GamerGurl69' part leans slightly into meme territory and could risk undermining the earnestness if not handled carefully in execution. However, the prompt itself is so strong on sincerity that this is a minor point.\n\nOverall, this is a near-perfect Pixar viral concept.",
+            "should_regenerate": false
+          }
+        }
+      }
+    ],
+    "Rewrite Caption with GPT-4o1": [
+      {
+        "json": {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "POV: Pixar creates an AI adventure called \"GamerGurl69: A Gary Story\" 🎬 Embrace the unexpected journey of self-acceptance and community. 🌟 #disneypixar #pixar #sora #ai #fyp",
+            "refusal": null,
+            "reasoning": null
+          }
         }
       }
     ]
@@ -3302,6 +3389,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-12-18T17:40:49.000Z",
-  "versionId": "c8beadf9-5e1e-416a-94b6-51e897cae47f"
+  "updatedAt": "2025-12-17T00:20:09.000Z",
+  "versionId": "e78ad5d1-3090-4052-8ebd-d02601efd900"
 }
