@@ -1,5 +1,614 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-27T17:00:06.895Z",
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "versionId": "36ee8dd1-789c-4920-82d2-9ce388d0f94d",
+    "workflowId": "PXi7WZyivwt8ABtG",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "generate-image",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          1440,
+          1728
+        ],
+        "id": "68df2aeb-9fdd-4ffb-96cb-a36a0b67fdc2",
+        "name": "Webhook",
+        "webhookId": "72433db7-d700-4473-8507-e261d4a0a2a8"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": false,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "5ffd4081-6285-4fe0-a7f2-0dd85ddcd533",
+                "leftValue": "={{ $json.body.content }}",
+                "rightValue": "^bbg[^\\w]*[^a-zA-Z0-9].*$",
+                "operator": {
+                  "type": "string",
+                  "operation": "regex"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1664,
+          1728
+        ],
+        "id": "e1ac25f3-b6d7-4f26-b3a5-9c454f42886f",
+        "name": "Filter"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "={{ $json.body.channelId }}",
+            "mode": "id"
+          },
+          "content": "Alright nigga i'm on it.  I'll prolly finish in 30s",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          2304,
+          944
+        ],
+        "id": "f7cfb900-46fd-4ce6-bb13-8dc7d0151a94",
+        "name": "Discord4",
+        "retryOnFail": true,
+        "webhookId": "19a57892-5d49-470f-b0ff-87746b571ae1",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3,
+        "position": [
+          3472,
+          960
+        ],
+        "id": "2a6b385c-690e-4cc0-a903-a31cbb3ec8a8",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "operation": "deleteMessage",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "={{ $('Discord4').item.json.channel_id }}",
+            "mode": "id"
+          },
+          "messageId": "={{ $('Discord4').item.json.id }}"
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          3984,
+          960
+        ],
+        "id": "627bbedc-b620-4172-847e-86e137c2312c",
+        "name": "Discord5",
+        "executeOnce": true,
+        "webhookId": "40e42de3-a55f-4ef5-a45e-c16154162dfa",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const content = $input.first().json.body.content;\n\n// Remove the first word from the string\nconst modifiedContent = content.split(' ').slice(1).join(' ');\n\n// Wrap the escaped string in an object and return it in an array\nreturn [\n    { json: { content: modifiedContent } }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1920,
+          1728
+        ],
+        "id": "1603670d-7270-42a6-8870-7687efaee223",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "numberInputs": 4
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3,
+        "position": [
+          3312,
+          1232
+        ],
+        "id": "f2b57627-19a4-44dd-b5b5-ea50610ca646",
+        "name": "Merge1"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.cloudflare.com/client/v4/accounts/23d11803d58c84140e06a62809fc6933/ai/run/@cf/bytedance/stable-diffusion-xl-lightning",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "prompt",
+                "value": "={{ $json.content }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2320,
+          1184
+        ],
+        "id": "e480f6de-7d4d-4231-b78d-d3b865b2210c",
+        "name": "High Quality Fast",
+        "retryOnFail": true,
+        "waitBetweenTries": 3000,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "iK1XORJEubIhbepK",
+            "name": "Cloudflare Ai Worker"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.cloudflare.com/client/v4/accounts/23d11803d58c84140e06a62809fc6933/ai/run/@cf/black-forest-labs/flux-1-schnell",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "prompt",
+                "value": "={{ $json.content }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2320,
+          1408
+        ],
+        "id": "3cff82fb-8758-4da4-a59f-a5a9c3f3e235",
+        "name": "Flux 12b - Slower",
+        "alwaysOutputData": false,
+        "executeOnce": false,
+        "retryOnFail": true,
+        "waitBetweenTries": 3000,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "iK1XORJEubIhbepK",
+            "name": "Cloudflare Ai Worker"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.cloudflare.com/client/v4/accounts/23d11803d58c84140e06a62809fc6933/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "prompt",
+                "value": "={{ $json.content }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2320,
+          1728
+        ],
+        "id": "63705fcb-a7d9-4966-8fd4-b82faa5abfc7",
+        "name": "Stable Diffusion OG",
+        "retryOnFail": true,
+        "waitBetweenTries": 3000,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "iK1XORJEubIhbepK",
+            "name": "Cloudflare Ai Worker"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "={{ $('Webhook').item.json.body.channelId }}",
+            "mode": "id"
+          },
+          "options": {
+            "message_reference": "={{ $('Webhook').item.json.body.messageId }}"
+          },
+          "files": {
+            "values": [
+              {},
+              {
+                "inputFieldName": "data_1"
+              },
+              {
+                "inputFieldName": "data_2"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          3984,
+          768
+        ],
+        "id": "d23fb0f7-d7ee-49d6-9b64-9cfec4a3d05e",
+        "name": "Discord",
+        "webhookId": "7dc4bc0d-87fa-404c-9b45-f9a6f7d66ec6",
+        "retryOnFail": true,
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "vOJNgebaMgJjkLsk",
+            "name": "BakaBoi (n8n)"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "data"
+              }
+            ]
+          },
+          "options": {
+            "includeBinaries": true
+          }
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          3760,
+          960
+        ],
+        "id": "6422ecbf-d3d2-463a-927f-a60c7cfc18fc",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "operation": "toBinary",
+          "sourceProperty": "result.image",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.convertToFile",
+        "typeVersion": 1.1,
+        "position": [
+          2720,
+          1408
+        ],
+        "id": "f7178803-1bbd-44c4-aaa8-7e6381ba8d9b",
+        "name": "Convert to File"
+      },
+      {
+        "parameters": {
+          "operation": "binaryToPropery",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1,
+        "position": [
+          2592,
+          1728
+        ],
+        "id": "19269c40-c3d1-4390-8099-0a0080d403a0",
+        "name": "Extract from File"
+      },
+      {
+        "parameters": {
+          "operation": "toBinary",
+          "sourceProperty": "data",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.convertToFile",
+        "typeVersion": 1.1,
+        "position": [
+          2832,
+          1728
+        ],
+        "id": "12037fd6-3ef0-4391-80d9-d1d8186a370a",
+        "name": "Convert to File1"
+      },
+      {
+        "parameters": {
+          "resource": "image",
+          "modelId": {
+            "__rl": true,
+            "mode": "list",
+            "value": ""
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1,
+        "position": [
+          3264,
+          1712
+        ],
+        "id": "9ed6271c-10db-4fd1-80c5-1eb017f5b787",
+        "name": "Generate an image",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "ReeAGi73g7iXliN4",
+            "name": "Google Gemini(PaLM) Api account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Discord4",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Discord4": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "High Quality Fast",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Flux 12b - Slower",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Stable Diffusion OG",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge1": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "High Quality Fast": {
+        "main": [
+          [
+            {
+              "node": "Merge1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Flux 12b - Slower": {
+        "main": [
+          [
+            {
+              "node": "Convert to File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Stable Diffusion OG": {
+        "main": [
+          [
+            {
+              "node": "Extract from File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Discord5": {
+        "main": [
+          []
+        ]
+      },
+      "Discord": {
+        "main": [
+          []
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "Discord",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Discord5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Convert to File": {
+        "main": [
+          [
+            {
+              "node": "Merge1",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Extract from File": {
+        "main": [
+          [
+            {
+              "node": "Convert to File1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Convert to File1": {
+        "main": [
+          [
+            {
+              "node": "Merge1",
+              "type": "main",
+              "index": 2
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "36ee8dd1-789c-4920-82d2-9ce388d0f94d",
   "connections": {
     "Webhook": {
       "main": [
