@@ -1,5 +1,88 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-27T17:00:06.895Z",
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "versionId": "37c6d578-25ac-4fbc-a414-5ad3e85bc39a",
+    "workflowId": "b0U0voToxwlroWcy",
+    "nodes": [
+      {
+        "parameters": {
+          "owner": {
+            "__rl": true,
+            "value": "trazonm",
+            "mode": "list",
+            "cachedResultName": "trazonm",
+            "cachedResultUrl": "https://github.com/trazonm"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "BakaWorld-X",
+            "mode": "list",
+            "cachedResultName": "BakaWorld-X",
+            "cachedResultUrl": "https://github.com/trazonm/BakaWorld-X"
+          },
+          "events": [
+            "push"
+          ],
+          "options": {}
+        },
+        "type": "n8n-nodes-base.githubTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "c92a2ed8-9df7-4310-af97-ed2af9ecc134",
+        "name": "Github Trigger",
+        "webhookId": "f99b6d74-7982-4098-8583-946e8f29dff4",
+        "credentials": {
+          "githubApi": {
+            "id": "f713lVdCblhMNO7O",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "command": "sudo git pull origin main && \\\nsudo docker compose down && \\\nsudo docker compose build --no-cache && \\\nsudo docker compose up -d\n",
+          "cwd": "/home/bakaboi341/Documents/docker_containers/bakaworld/BakaWorld-X"
+        },
+        "type": "n8n-nodes-base.ssh",
+        "typeVersion": 1,
+        "position": [
+          208,
+          0
+        ],
+        "id": "81cdf0ac-8166-41bf-a8f9-cea35a27cb38",
+        "name": "Execute a command",
+        "credentials": {
+          "sshPassword": {
+            "id": "ZA8rkJYVLQa1TgMx",
+            "name": "SSH Password account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Github Trigger": {
+        "main": [
+          [
+            {
+              "node": "Execute a command",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "37c6d578-25ac-4fbc-a414-5ad3e85bc39a",
   "connections": {
     "Github Trigger": {
       "main": [
