@@ -1,5 +1,500 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-27T17:00:06.895Z",
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "versionId": "733c125b-0df6-4ed1-b341-c1e8ef9cd0d7",
+    "workflowId": "TYfiZ1Hpwz604g1c",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          0,
+          -672
+        ],
+        "id": "51784f5e-9b7f-4c7a-94c5-c4605d9d3ce8",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.justWentLive }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "boolean",
+                        "operation": "true",
+                        "singleValue": true
+                      },
+                      "id": "a3816671-447c-4cd2-bb35-c5637d63d465"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "=User went live!"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "4bd5cf06-9dc6-4771-8c53-12eceed86a05",
+                      "leftValue": "={{ $json.justWentLive }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "boolean",
+                        "operation": "false",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "=User is not live."
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          1120,
+          -672
+        ],
+        "id": "8583f53c-66fd-47be-8b64-2150aeb5e568",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "j7QX24E9bGBok6Yn",
+            "mode": "list",
+            "cachedResultName": "TikTok Live Stats",
+            "cachedResultUrl": "/projects/fIUCquZNbk42dQ17/datatables/j7QX24E9bGBok6Yn"
+          },
+          "returnAll": true
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1,
+        "position": [
+          224,
+          -672
+        ],
+        "id": "a191f48c-c5ad-4811-b0fc-40e63b62f62a",
+        "name": "Get TikTok users"
+      },
+      {
+        "parameters": {
+          "url": "=https://www.tiktok.com/@{{ $json.user }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "User-Agent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123 Safari/537.36"
+              },
+              {
+                "name": "Accept-Language",
+                "value": "en-US,en;q=0.9"
+              }
+            ]
+          },
+          "options": {
+            "redirect": {
+              "redirect": {
+                "maxRedirects": null
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          448,
+          -672
+        ],
+        "id": "ba0c614a-4240-4568-9d03-7953947d384a",
+        "name": "Scrape User's Live Page"
+      },
+      {
+        "parameters": {
+          "operation": "extractHtmlContent",
+          "extractionValues": {
+            "values": [
+              {
+                "cssSelector": "script#__UNIVERSAL_DATA_FOR_REHYDRATION__"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          672,
+          -672
+        ],
+        "id": "c6c776c7-07bc-4f5d-b04b-a3a96555d9e2",
+        "name": "Extract HTML Content"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Pair by index so each item keeps its own user/prev row\nconst idx = $itemIndex;\n\n// Prefer the user already on this item; otherwise pull the idx-th user from the table\nconst user =\n  $json.user ??\n  $('Get TikTok users').all()[idx]?.json?.user ??\n  'real_lemon0';\n\n// TikTok JSON is under an empty key (\"\") from the HTML Extract node\nconst jsonString = ($json[\"\"] || \"\").toString();\n\n// Clean & parse\nconst cleanedString = jsonString.replace(/\\n/g, \"\\\\n\");\nlet data = {};\ntry {\n  data = JSON.parse(cleanedString);\n} catch (e) {\n  return {\n    json: {\n      user,\n      roomId: \"\",\n      isLive: false,\n      prevIsLive: false,\n      prevRoomId: \"\",\n      justWentLive: false,\n      justWentOffline: false,\n      roomChanged: false,\n      checkedAt: new Date().toISOString(),\n      error: \"parse_failed\"\n    }\n  };\n}\n\n// Extract roomId (defensive)\nconst roomId = data?.['__DEFAULT_SCOPE__']?.['webapp.user-detail']?.userInfo?.user?.roomId || \"\";\n\n// Current state\nconst isLive = roomId !== \"\";\n\n// Get the matching previous row by index from the Data Table node\nconst prevRow   = $('Get TikTok users').all()[idx]?.json || {};\nconst prevIsLive = prevRow.isLive ?? false;\nconst prevRoomId = prevRow.roomId ?? \"\";\n\n// Comparisons\nconst justWentLive    = isLive && !prevIsLive;\nconst justWentOffline = !isLive && prevIsLive;\nconst roomChanged     = !!(roomId && prevRoomId && roomId !== prevRoomId);\n\n// Return a SINGLE item (object), not an array\nreturn {\n  json: {\n    user,\n    roomId,\n    isLive,\n    prevIsLive,\n    prevRoomId,\n    justWentLive,\n    justWentOffline,\n    roomChanged,\n    checkedAt: new Date().toISOString()\n  }\n};\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          896,
+          -672
+        ],
+        "id": "e73b527f-e81b-4107-a831-48af8963cec3",
+        "name": "Check if Live"
+      },
+      {
+        "parameters": {
+          "authentication": "webhook",
+          "content": "=@everyone I'm live bitches!\n\nhttps://www.tiktok.com/@{{ $('Get TikTok users').item.json.user }}/live",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          1568,
+          -768
+        ],
+        "id": "217a3336-9ccc-49b5-ab19-4f795ca64b85",
+        "name": "Discord",
+        "webhookId": "6ec19f68-25f7-405c-9598-ed3e0d6dc979",
+        "credentials": {
+          "discordWebhookApi": {
+            "id": "7Wsy4ZW6HF029fJn",
+            "name": "Emil's Discord - Noti's Channel"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "dataTableId": {
+            "__rl": true,
+            "value": "j7QX24E9bGBok6Yn",
+            "mode": "list",
+            "cachedResultName": "TikTok Live Stats",
+            "cachedResultUrl": "/projects/fIUCquZNbk42dQ17/datatables/j7QX24E9bGBok6Yn"
+          },
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "user",
+                "keyValue": "={{ $json.user }}"
+              }
+            ]
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "isLive": "={{ $('Check if Live').item.json.isLive }}",
+              "roomId": "={{ $('Check if Live').item.json.roomId }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "user",
+                "displayName": "user",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "isLive",
+                "displayName": "isLive",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "boolean",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "roomId",
+                "displayName": "roomId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1,
+        "position": [
+          1344,
+          -576
+        ],
+        "id": "940eff31-af18-4f2e-8fe2-6d2c2bce0ba4",
+        "name": "Update Live State"
+      },
+      {
+        "parameters": {
+          "operation": "upsert",
+          "dataTableId": {
+            "__rl": true,
+            "value": "j7QX24E9bGBok6Yn",
+            "mode": "list",
+            "cachedResultName": "TikTok Live Stats",
+            "cachedResultUrl": "/projects/fIUCquZNbk42dQ17/datatables/j7QX24E9bGBok6Yn"
+          },
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "user",
+                "keyValue": "={{ $json.user }}"
+              }
+            ]
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "isLive": "={{ $('Check if Live').item.json.isLive }}",
+              "roomId": "={{ $('Check if Live').item.json.roomId }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "user",
+                "displayName": "user",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "isLive",
+                "displayName": "isLive",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "boolean",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "roomId",
+                "displayName": "roomId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1,
+        "position": [
+          1344,
+          -768
+        ],
+        "id": "117c832a-faaa-45fb-8146-6d3b9cdd670f",
+        "name": "Update Live State1"
+      },
+      {
+        "parameters": {
+          "channel_name": "lime_king0"
+        },
+        "type": "@codelytv/n8n-nodes-twitch.twitchTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          -304
+        ],
+        "id": "474b3c5e-c537-4a84-ace2-2c34af1a47ac",
+        "name": "Twitch Trigger",
+        "webhookId": "b3bbd748-edb4-4bbb-b799-e5e7ba83e368",
+        "credentials": {
+          "twitchApi": {
+            "id": "3akWMrBltFfbXGym",
+            "name": "BakaBoi341 Twitch Creds"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "webhook",
+          "content": "=@everyone I'm live bitches!\n\nhttps://www.twitch.tv/lime_king0",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          208,
+          -304
+        ],
+        "id": "94a7b91d-13f5-4a9f-a27f-b32f85309cdb",
+        "name": "Discord1",
+        "webhookId": "6ec19f68-25f7-405c-9598-ed3e0d6dc979",
+        "credentials": {
+          "discordWebhookApi": {
+            "id": "7Wsy4ZW6HF029fJn",
+            "name": "Emil's Discord - Noti's Channel"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Get TikTok users",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get TikTok users": {
+        "main": [
+          [
+            {
+              "node": "Scrape User's Live Page",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Scrape User's Live Page": {
+        "main": [
+          [
+            {
+              "node": "Extract HTML Content",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract HTML Content": {
+        "main": [
+          [
+            {
+              "node": "Check if Live",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check if Live": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Update Live State1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Update Live State",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Discord": {
+        "main": [
+          []
+        ]
+      },
+      "Update Live State1": {
+        "main": [
+          [
+            {
+              "node": "Discord",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Twitch Trigger": {
+        "main": [
+          [
+            {
+              "node": "Discord1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "733c125b-0df6-4ed1-b341-c1e8ef9cd0d7",
   "connections": {
     "Schedule Trigger": {
       "main": [
