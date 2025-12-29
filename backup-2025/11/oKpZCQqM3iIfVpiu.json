@@ -1,5 +1,505 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-27T17:00:06.895Z",
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "versionId": "a2022424-aa20-48c4-8d88-50ab69643670",
+    "workflowId": "oKpZCQqM3iIfVpiu",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "ingest-document",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "id": "097a13eb-f15e-4276-82eb-c5ca7ffe4341",
+        "name": "Webhook Trigger",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -368,
+          -16
+        ],
+        "webhookId": "c529f856-7bbf-48b2-b30b-18a6a6d3cf1a"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "file-type-pdf",
+                "leftValue": "={{ $json.file_type }}",
+                "rightValue": "pdf",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "389241aa-dcb9-419f-b6d2-143caef1a549",
+        "name": "IF PDF",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -176,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.unstructured.io/general/v0/general",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "parameterType": "formBinaryData",
+                "name": "files",
+                "inputDataFieldName": "data"
+              },
+              {
+                "name": "strategy",
+                "value": "hi_res"
+              },
+              {
+                "name": "pdf_infer_table_structure",
+                "value": "true"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "1590ebd3-c194-461f-be14-d85a5b7f504c",
+        "name": "Parse PDF (Unstructured)",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          32,
+          -112
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "5lOOFjEXtgK6hJc9",
+            "name": "unstructured-api-key"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Parse DOCX using mammoth (for simpler parsing)\n// This would typically call a Python script or use a dedicated service\n\nconst items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  // In production, this would call your Python document processor\n  // or use a document parsing service\n  \n  results.push({\n    json: {\n      file_name: item.json.file_name,\n      file_path: item.json.file_path,\n      file_type: 'docx',\n      status: 'needs_python_processing',\n      message: 'DOCX files should be processed via Python script'\n    }\n  });\n}\n\nreturn results;"
+        },
+        "id": "bdeea596-ea71-4b6e-bb08-aa01e053adaa",
+        "name": "Parse DOCX",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          32,
+          96
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "// Combine parsed content and structure it\n\nconst items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const elements = item.json;\n  \n  // Group elements by type for section detection\n  let currentSection = 'unknown';\n  let sections = [];\n  let currentContent = '';\n  \n  // If elements is an array (from Unstructured API)\n  if (Array.isArray(elements)) {\n    for (const element of elements) {\n      const elementType = element.type || 'NarrativeText';\n      const text = element.text || '';\n      \n      // Detect section headers\n      if (elementType === 'Title' || elementType === 'Header') {\n        // Save previous section\n        if (currentContent.trim()) {\n          sections.push({\n            type: currentSection,\n            content: currentContent.trim(),\n            page: element.metadata?.page_number || 1\n          });\n        }\n        \n        // Detect section type from header text\n        const headerLower = text.toLowerCase();\n        if (headerLower.includes('abstract')) currentSection = 'abstract';\n        else if (headerLower.includes('introduction')) currentSection = 'introduction';\n        else if (headerLower.includes('method')) currentSection = 'methodology';\n        else if (headerLower.includes('result') || headerLower.includes('finding')) currentSection = 'findings';\n        else if (headerLower.includes('discussion')) currentSection = 'discussion';\n        else if (headerLower.includes('conclusion')) currentSection = 'conclusion';\n        else if (headerLower.includes('literature')) currentSection = 'literature_review';\n        else if (headerLower.includes('theory') || headerLower.includes('framework')) currentSection = 'theory';\n        else currentSection = 'unknown';\n        \n        currentContent = '';\n      } else {\n        currentContent += text + '\\n';\n      }\n    }\n    \n    // Don't forget the last section\n    if (currentContent.trim()) {\n      sections.push({\n        type: currentSection,\n        content: currentContent.trim(),\n        page: 1\n      });\n    }\n  }\n  \n  // Extract metadata\n  const firstElement = Array.isArray(elements) ? elements[0] : elements;\n  const metadata = firstElement?.metadata || {};\n  \n  results.push({\n    json: {\n      file_name: $('Webhook Trigger').item.json.file_name || 'unknown',\n      file_path: $('Webhook Trigger').item.json.file_path || '',\n      file_type: $('Webhook Trigger').item.json.file_type || 'pdf',\n      title: metadata.filename || 'Untitled',\n      authors: [],\n      sections: sections,\n      full_text: sections.map(s => s.content).join('\\n\\n'),\n      element_count: Array.isArray(elements) ? elements.length : 1\n    }\n  });\n}\n\nreturn results;"
+        },
+        "id": "c1813cdf-3da6-4a73-b3f3-aba78f627bf1",
+        "name": "Structure Content",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          240,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "// Chunk the document into semantic pieces\n\nconst CHUNK_SIZE = 800; // target tokens (rough estimate: 4 chars per token)\nconst CHUNK_OVERLAP = 100;\nconst CHARS_PER_TOKEN = 4;\n\nfunction estimateTokens(text) {\n  return Math.ceil(text.length / CHARS_PER_TOKEN);\n}\n\nfunction chunkText(text, maxTokens, overlapTokens) {\n  const maxChars = maxTokens * CHARS_PER_TOKEN;\n  const overlapChars = overlapTokens * CHARS_PER_TOKEN;\n  \n  const chunks = [];\n  let start = 0;\n  \n  while (start < text.length) {\n    let end = start + maxChars;\n    \n    // Try to break at sentence boundary\n    if (end < text.length) {\n      const lastPeriod = text.lastIndexOf('. ', end);\n      const lastNewline = text.lastIndexOf('\\n', end);\n      const breakPoint = Math.max(lastPeriod, lastNewline);\n      \n      if (breakPoint > start + maxChars * 0.5) {\n        end = breakPoint + 1;\n      }\n    }\n    \n    chunks.push(text.slice(start, end).trim());\n    start = end - overlapChars;\n  }\n  \n  return chunks;\n}\n\nconst items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const doc = item.json;\n  const chunks = [];\n  let chunkIndex = 0;\n  \n  // Process each section\n  for (const section of (doc.sections || [])) {\n    const sectionChunks = chunkText(section.content, CHUNK_SIZE, CHUNK_OVERLAP);\n    \n    for (const chunkText of sectionChunks) {\n      if (chunkText.length > 50) { // Skip very short chunks\n        chunks.push({\n          content: chunkText,\n          chunk_index: chunkIndex,\n          section_type: section.type,\n          page_number: String(section.page || ''),\n          token_count: estimateTokens(chunkText),\n          metadata: {\n            source_file: doc.file_name,\n            section_type: section.type\n          }\n        });\n        chunkIndex++;\n      }\n    }\n  }\n  \n  // If no sections, chunk the full text\n  if (chunks.length === 0 && doc.full_text) {\n    const fullChunks = chunkText(doc.full_text, CHUNK_SIZE, CHUNK_OVERLAP);\n    for (const chunkText of fullChunks) {\n      if (chunkText.length > 50) {\n        chunks.push({\n          content: chunkText,\n          chunk_index: chunkIndex,\n          section_type: 'unknown',\n          page_number: '',\n          token_count: estimateTokens(chunkText),\n          metadata: { source_file: doc.file_name }\n        });\n        chunkIndex++;\n      }\n    }\n  }\n  \n  results.push({\n    json: {\n      ...doc,\n      chunks: chunks,\n      chunk_count: chunks.length,\n      total_tokens: chunks.reduce((sum, c) => sum + c.token_count, 0)\n    }\n  });\n}\n\nreturn results;"
+        },
+        "id": "cabbc3a4-7253-4658-981c-69ff35d03dc0",
+        "name": "Chunk Document",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          432,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://openrouter.ai/api/v1/embeddings",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ {\n  \"model\": \"openai/text-embedding-3-small\",\n  \"input\": $json.chunks.map(c => c.content)\n} }}",
+          "options": {}
+        },
+        "id": "1fab36fb-e0a4-418c-90be-c12a25dea5e9",
+        "name": "Generate Embeddings",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          640,
+          -16
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "USjhdb01qbGGniTq",
+            "name": "OpenRouter"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Combine chunks with their embeddings\n\nconst docData = $('Chunk Document').item.json;\nconst embeddingData = $input.item.json;\n\nconst chunksWithEmbeddings = docData.chunks.map((chunk, index) => {\n  return {\n    ...chunk,\n    embedding: embeddingData.data[index].embedding\n  };\n});\n\nreturn [{\n  json: {\n    file_name: docData.file_name,\n    file_path: docData.file_path,\n    file_type: docData.file_type,\n    title: docData.title,\n    authors: docData.authors,\n    source_type: $('Webhook Trigger').item.json.source_type || 'academic_article',\n    disciplines: $('Webhook Trigger').item.json.disciplines || [],\n    chunks: chunksWithEmbeddings,\n    chunk_count: chunksWithEmbeddings.length\n  }\n}];"
+        },
+        "id": "e55382a8-2f41-4c55-9bee-3ca6df3dc887",
+        "name": "Combine with Embeddings",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          832,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "sources",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "title",
+                "fieldValue": "={{ $json.title }}"
+              },
+              {
+                "fieldId": "authors",
+                "fieldValue": "={{ $json.authors }}"
+              },
+              {
+                "fieldId": "source_type",
+                "fieldValue": "={{ $json.source_type }}"
+              },
+              {
+                "fieldId": "disciplines",
+                "fieldValue": "={{ $json.disciplines }}"
+              },
+              {
+                "fieldId": "file_name",
+                "fieldValue": "={{ $json.file_name }}"
+              },
+              {
+                "fieldId": "file_path",
+                "fieldValue": "={{ $json.file_path }}"
+              },
+              {
+                "fieldId": "file_type",
+                "fieldValue": "={{ $json.file_type }}"
+              },
+              {
+                "fieldId": "processed",
+                "fieldValue": "false"
+              }
+            ]
+          }
+        },
+        "id": "611a83bd-f7cd-43da-bb37-9b0090f63ccd",
+        "name": "Save Source to DB",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1040,
+          -112
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Prepare chunks for batch insert - output each chunk as separate item\n\nconst sourceId = $('Save Source to DB').item.json.id;\nconst docData = $('Combine with Embeddings').item.json;\n\nconst chunkItems = docData.chunks.map(chunk => ({\n  json: {\n    source_id: sourceId,\n    content: chunk.content,\n    chunk_index: chunk.chunk_index,\n    section_type: chunk.section_type,\n    page_number: chunk.page_number,\n    embedding: JSON.stringify(chunk.embedding), // Stringify for Supabase\n    token_count: chunk.token_count,\n    metadata: chunk.metadata\n  }\n}));\n\nreturn chunkItems;"
+        },
+        "id": "6783f781-2b0f-43db-8013-32c6a8ad73e8",
+        "name": "Prepare Chunk Batches",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1232,
+          -112
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "chunks",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "source_id",
+                "fieldValue": "={{ $json.source_id }}"
+              },
+              {
+                "fieldId": "content",
+                "fieldValue": "={{ $json.content }}"
+              },
+              {
+                "fieldId": "chunk_index",
+                "fieldValue": "={{ $json.chunk_index }}"
+              },
+              {
+                "fieldId": "section_type",
+                "fieldValue": "={{ $json.section_type }}"
+              },
+              {
+                "fieldId": "page_number",
+                "fieldValue": "={{ $json.page_number }}"
+              },
+              {
+                "fieldId": "embedding",
+                "fieldValue": "={{ $json.embedding }}"
+              },
+              {
+                "fieldId": "token_count",
+                "fieldValue": "={{ $json.token_count }}"
+              },
+              {
+                "fieldId": "metadata",
+                "fieldValue": "={{ $json.metadata }}"
+              }
+            ]
+          }
+        },
+        "id": "06e08561-e737-4a39-9eea-b86a57472948",
+        "name": "Save Chunks to DB",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1440,
+          -112
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "sources",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id",
+                "condition": "eq",
+                "keyValue": "={{ $('Save Source to DB').item.json.id }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "processed",
+                "fieldValue": "true"
+              }
+            ]
+          }
+        },
+        "id": "8c4003cf-918b-4f3a-9235-904449b19640",
+        "name": "Mark Source Processed",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1632,
+          -112
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={{ {\n  \"status\": \"success\",\n  \"source_id\": $('Save Source to DB').item.json.id,\n  \"title\": $('Combine with Embeddings').item.json.title,\n  \"chunks_saved\": $('Combine with Embeddings').item.json.chunk_count\n} }}",
+          "options": {}
+        },
+        "id": "4ae652a0-ad9f-4a4a-a5bb-82733cbfae9c",
+        "name": "Respond Success",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.1,
+        "position": [
+          1840,
+          -112
+        ]
+      }
+    ],
+    "connections": {
+      "Webhook Trigger": {
+        "main": [
+          [
+            {
+              "node": "IF PDF",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IF PDF": {
+        "main": [
+          [
+            {
+              "node": "Parse PDF (Unstructured)",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Parse DOCX",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse PDF (Unstructured)": {
+        "main": [
+          [
+            {
+              "node": "Structure Content",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse DOCX": {
+        "main": [
+          [
+            {
+              "node": "Structure Content",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structure Content": {
+        "main": [
+          [
+            {
+              "node": "Chunk Document",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Chunk Document": {
+        "main": [
+          [
+            {
+              "node": "Generate Embeddings",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Embeddings": {
+        "main": [
+          [
+            {
+              "node": "Combine with Embeddings",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Combine with Embeddings": {
+        "main": [
+          [
+            {
+              "node": "Save Source to DB",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Save Source to DB": {
+        "main": [
+          [
+            {
+              "node": "Prepare Chunk Batches",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Prepare Chunk Batches": {
+        "main": [
+          [
+            {
+              "node": "Save Chunks to DB",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Save Chunks to DB": {
+        "main": [
+          [
+            {
+              "node": "Mark Source Processed",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Mark Source Processed": {
+        "main": [
+          [
+            {
+              "node": "Respond Success",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "a2022424-aa20-48c4-8d88-50ab69643670",
   "connections": {
     "Webhook Trigger": {
       "main": [
