@@ -1,5 +1,1074 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-27T17:00:06.895Z",
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "versionId": "6969a992-8639-4db0-81be-d321d0cfb9af",
+    "workflowId": "HiHq4riL9nVKWTAk",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 6
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -144,
+          16
+        ],
+        "id": "4a45c39d-21d4-4e48-91c7-7015548069fa",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "url": "https://follow-the-leader-1031886805039.us-east1.run.app",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          752,
+          112
+        ],
+        "id": "81a2d5fb-0cde-448d-8841-2be57fa296af",
+        "name": "Get Stock Options"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Given the option contract details below, make a buy or don't buy recommendation based on short-term flipping potential — not based on whether the option expires in the money.\n\nThe trader is looking to profit from a quick premium increase, not to exercise the contract. Trades are typically exited within minutes, hours, or up to 1–2 days.\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes. Assume the trader may enter the position immediately.\n\nFocus your analysis on momentum, liquidity, and short-term risk/reward — not on expiration value or long-term outcomes.\n\nOption details:\n\n- Ticker: {{ $json[\"ticker\"] }}\n- Type: {{ $json[\"type\"] }}\n- Strike: {{ $json[\"strike\"] }}\n- Expiration: {{ $json[\"expiration\"] }}\n- Days to Expiration: {{ $json[\"daysToExpiration\"] }}\n- Base Price: {{ $json[\"baseLastPrice\"] }}\n- Volume: {{ $json[\"volume\"] }}\n- Open Interest: {{ $json[\"openInterest\"] }}\n- Volatility: {{ $json[\"volatility\"] }}\n- Delta: {{ $json[\"delta\"] }}\n- Volume/Open Interest Ratio: {{ $json[\"volumeOpenInterestRatio\"] }}\n- Current Bid: {{ $json.bid }}\n- Current Ask: {{ $json.ask }}\n- Midpoint: {{ $json.mid }}\n- Last Traded Price: {{ $json.last }}\n\nThe current time is {{ $json[\"currentTimeET\"] }} (Eastern), with {{ $json[\"minutesUntilClose\"] }} minutes left until the market closes.\n",
+          "hasOutputParser": true,
+          "messages": {
+            "messageValues": [
+              {
+                "message": "You're an expert options trader specializing in short-term trades (intraday or 1–5 days max). You never exercise contracts or care about whether they expire in or out of the money.\n\nYour goal is to buy and sell options quickly for premium profit, based on momentum, liquidity, volatility, and risk/reward. You assess each trade based on whether it could yield a quick return before expiration — not its value at expiration."
+              }
+            ]
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.6,
+        "position": [
+          2336,
+          16
+        ],
+        "id": "d1f984d1-33fa-426f-887a-94c6c3c1e25e",
+        "name": "Basic LLM Chain",
+        "retryOnFail": true,
+        "waitBetweenTries": 5000,
+        "maxTries": 5,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+          "options": {
+            "temperature": 0.5
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+        "typeVersion": 1,
+        "position": [
+          2320,
+          240
+        ],
+        "id": "9b6b0106-99d4-4ded-945b-132358da77ec",
+        "name": "Groq Chat Model",
+        "credentials": {
+          "groqApi": {
+            "id": "Yi51lX7Jst94KFYD",
+            "name": "Groq account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"shouldBuy\": true,\n  \"confidence\": 0.7,\n  \"idealEntryPrice\": 1.00,\n  \"opinion\": \"short reason why this is or isn’t a good trade\"\n}\n"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.2,
+        "position": [
+          2608,
+          448
+        ],
+        "id": "2d1b238c-6743-48d5-9569-3cc5aa31e6e1",
+        "name": "Structured Output Parser"
+      },
+      {
+        "parameters": {
+          "batchSize": "=1",
+          "options": {
+            "reset": false
+          }
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          2096,
+          0
+        ],
+        "id": "2f50df75-cad7-404c-ba9a-4d286a822aff",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "etfs",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          976,
+          -192
+        ],
+        "id": "053e345e-cfea-4038-8827-1b3c798fd92c",
+        "name": "ETFs"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "indices",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          976,
+          0
+        ],
+        "id": "fba36e2b-4839-44a0-bcc4-02de7e32c70f",
+        "name": "Indices"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "stocks",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          976,
+          192
+        ],
+        "id": "7ee732f1-342c-4551-a002-0f9be8695e27",
+        "name": "Stocks"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const ruleProb = parseFloat($('Loop Over Items').first().json.probabilityOfProfit);\nconst llmConfidence = parseFloat($json.output.confidence);\nreturn {\n  json: {\n    ...$('Loop Over Items').first().json,\n    finalConfidence: Math.round((ruleProb * 0.6 + llmConfidence * 0.4) * 100) / 100,\n    llmOpinion: $json.output.opinion,\n    llmConfidence,\n    llmShouldBuy: $json.output.shouldBuy,\n    llmIdealEntryPrice: $json.output.idealEntryPrice\n  }\n}\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2848,
+          96
+        ],
+        "id": "2e531336-7d8f-4ccb-8dda-19d46c589709",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "56cc6f6e-9e71-4443-9d1e-538ace05d39c",
+                "leftValue": "={{ $json.finalConfidence }}",
+                "rightValue": 0.7,
+                "operator": {
+                  "type": "number",
+                  "operation": "gte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          2472,
+          -384
+        ],
+        "id": "a424a917-0c68-4270-add3-7d694209a036",
+        "name": "Filter"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "00db965c-767a-4621-adcf-9a96545c0e98",
+                "name": "category",
+                "value": "stock",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1200,
+          192
+        ],
+        "id": "451b6360-9bfc-4b48-ade6-543e62713d19",
+        "name": "stock_category"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "00db965c-767a-4621-adcf-9a96545c0e98",
+                "name": "category",
+                "value": "index",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1200,
+          0
+        ],
+        "id": "1ea3fd23-5cd2-4dac-9ab7-6fe72bff2e1b",
+        "name": "index_categorgy"
+      },
+      {
+        "parameters": {
+          "numberInputs": 3
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.1,
+        "position": [
+          1648,
+          -16
+        ],
+        "id": "8c42ec29-d8bb-4eeb-b0ae-d6439e8e330d",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "00db965c-767a-4621-adcf-9a96545c0e98",
+                "name": "category",
+                "value": "etf",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1200,
+          -192
+        ],
+        "id": "ad3c028b-b484-4f30-b956-b299edc29fcf",
+        "name": "etf_category"
+      },
+      {
+        "parameters": {
+          "aggregate": "aggregateAllItemData",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          2848,
+          -384
+        ],
+        "id": "f9681726-88bd-4e54-a038-f94b4c40ede7",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "28116fd4-52f4-46c3-81b3-7914324a727e",
+                "leftValue": "={{ $json.discordMessage }}",
+                "rightValue": "No new trades",
+                "operator": {
+                  "type": "string",
+                  "operation": "notContains"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          3296,
+          -480
+        ],
+        "id": "f8b9d4db-ace6-441b-a9c1-5cfdb880cf33",
+        "name": "Filter1"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "def9b587-c4d2-42d3-a7b8-32e3b3e893df",
+                "leftValue": "={{ $json.probabilityOfProfit }}",
+                "rightValue": 0.7,
+                "operator": {
+                  "type": "number",
+                  "operation": "gte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1424,
+          -192
+        ],
+        "id": "c25cc25b-6860-4258-9a92-2c2f517b1228",
+        "name": "ETF Quality Filter"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "def9b587-c4d2-42d3-a7b8-32e3b3e893df",
+                "leftValue": "={{ $json.probabilityOfProfit }}",
+                "rightValue": 0.7,
+                "operator": {
+                  "type": "number",
+                  "operation": "gte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1424,
+          0
+        ],
+        "id": "3ef485c3-e15c-4079-a9da-747c50e6fe54",
+        "name": "Index Quality Filter"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "def9b587-c4d2-42d3-a7b8-32e3b3e893df",
+                "leftValue": "={{ $json.probabilityOfProfit }}",
+                "rightValue": 0.7,
+                "operator": {
+                  "type": "number",
+                  "operation": "gte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1424,
+          192
+        ],
+        "id": "61923a2c-ff4d-448c-9791-c5c521531d7c",
+        "name": "Stock Quality Filter"
+      },
+      {
+        "parameters": {
+          "authentication": "webhook",
+          "content": "<@246812164885577729>",
+          "options": {},
+          "embeds": {
+            "values": [
+              {
+                "description": "={{ $json.discordMessage }}",
+                "color": "#58B9FF"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          3520,
+          -480
+        ],
+        "id": "2341e466-3bcd-4b2e-b89a-ebf2cbb6c39d",
+        "name": "Discord",
+        "webhookId": "ae37aa6b-2500-45b5-bf30-de22bd5dcb42",
+        "retryOnFail": true,
+        "credentials": {
+          "discordWebhookApi": {
+            "id": "KYLbLPDB4dbpWjW6",
+            "name": "Baka Stonks"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "path": "get-stonks",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          528,
+          208
+        ],
+        "id": "e9a26dbb-a1f0-49a0-bcac-dafc882f49bb",
+        "name": "Webhook",
+        "webhookId": "8bf80c5a-4b2d-4ace-a8bd-634f68844286"
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "Stonk workflow has begun",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.2,
+        "position": [
+          976,
+          384
+        ],
+        "id": "c593d47f-f37d-4dcc-8bdc-c2f1b4801447",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "amount": 30
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          528,
+          16
+        ],
+        "id": "ccad4ebd-e69a-46f2-bf7a-373fbb120007",
+        "name": "Wait",
+        "webhookId": "cb103194-2079-4343-8d40-630cd80baf4c"
+      },
+      {
+        "parameters": {
+          "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst seenTrades = staticData?.tweetedOptionSymbols || [];\n\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\nstaticData.tweetedOptionSymbols = Array.from(new Set([...seenTrades, ...trades.map(t => t.symbol)]));\n\nconst tweets = [];\n\nfor (const t of trades) {\n  if (!t.minutesUntilClose || t.minutesUntilClose === 0) continue;\n\n  const tweet = \n`$${t.ticker} ${t.type} $${t.strike} exp ${t.expiration}\n\n📍 Entry: $${t.idealEntryPrice} | Bid: $${t.bid} | Ask: $${t.ask} | Δ: ${t.delta}\n✅ Should Buy: Human - ${t.shouldBuy ? \"Yes\" : \"No\"}, AI - ${t.llmShouldBuy ? \"Yes\" : \"No\"}\n📊 Confidence: Human - ${t.finalConfidence ?? \"N/A\"}, AI - ${t.llmConfidence ?? \"N/A\"}\n\n🧠 Human Opinion:\n${t.opinion}\n\n🤖 AI Opinion:\n${t.llmOpinion}`;\n\n  tweets.push({ json: { tweet } });\n}\n\n// If no valid tweets were generated, return fallback\nif (tweets.length === 0) {\n  return [{ json: { tweet: \"✅ No new trades to report.\" } }];\n}\n\nreturn tweets;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3072,
+          -288
+        ],
+        "id": "30bce927-4aac-48e4-b63a-73018aa96046",
+        "name": "Make Tweet"
+      },
+      {
+        "parameters": {
+          "jsCode": "const staticData = $getWorkflowStaticData('global');\nconst seenTrades = staticData?.seenOptionSymbols || [];\nconst trades = $json.data.filter(t => !seenTrades.includes(t.symbol));\nstaticData.seenOptionSymbols = [...new Set([...seenTrades, ...trades.map(t => t.symbol)])];\n\nif (trades.length === 0) {\n  return [{ json: { discordMessage: \"✅ No new trades to report.\" } }];\n}\n\nconst fullChunks = [];\nlet currentChunk = \"🔥 Top Bandwagon Trades\\n\\n\";\n\nfor (let i = 0; i < trades.length; i++) {\n  const t = trades[i];\n\n  const tradeText = `${i + 1}. **${t.ticker}** - ${t.type} $${t.strike} exp ${t.expiration}\n\n📊 Vol/OI: ${t.volumeOpenInterestRatio}  \n🎯 Rule Score: ${t.probabilityOfProfit}  \n🤖 AI Score: ${t.llmConfidence}  \n📈 Final Score: ${t.finalConfidence}\n\n💸 Ideal Entry Price:  \n🤖 AI: $${t.llmIdealEntryPrice}  \n🧠 Human: $${t.idealEntryPrice}\n\n❓ Should you buy:  \n🤖 AI: ${t.llmShouldBuy ? \"Yes\" : \"No\"}  \n🧠 Human: ${t.shouldBuy ? \"Yes\" : \"No\"}\n\n🤖 *AI Opinion:*  \n${t.llmOpinion}\n\n🧠 *Human Opinion:*  \n${t.opinion}\n\n`;\n\n  if ((currentChunk + tradeText).length > 4000) {\n    fullChunks.push({ json: { discordMessage: currentChunk.trim() } });\n    currentChunk = tradeText;\n  } else {\n    currentChunk += tradeText;\n  }\n}\n\nif (currentChunk.trim() !== \"\") {\n  fullChunks.push({ json: { discordMessage: currentChunk.trim() } });\n}\n\nreturn fullChunks;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3072,
+          -480
+        ],
+        "id": "294a67e1-f6a5-4e64-b183-f93425a21e88",
+        "name": "Prepare Discord Message"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "28116fd4-52f4-46c3-81b3-7914324a727e",
+                "leftValue": "={{ $json.tweet }}",
+                "rightValue": "No new trades",
+                "operator": {
+                  "type": "string",
+                  "operation": "notContains"
+                }
+              },
+              {
+                "id": "95d0192b-e2b8-4318-91b6-5b574cf7b879",
+                "leftValue": "",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          3296,
+          -288
+        ],
+        "id": "8e16dd19-0614-4247-9017-b24374b073a6",
+        "name": "Filter2"
+      },
+      {
+        "parameters": {
+          "text": "={{ $json.tweet }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.twitter",
+        "typeVersion": 2,
+        "position": [
+          3520,
+          -288
+        ],
+        "id": "ea14a923-d7cb-492d-9ead-cfb49586ff8d",
+        "name": "X1",
+        "retryOnFail": true,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "twitterOAuth2Api": {
+            "id": "gQRzJpNlhWOTUXuP",
+            "name": "Stonk Bot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+        "typeVersion": 1,
+        "position": [
+          2448,
+          240
+        ],
+        "id": "b4bd2271-cf65-4723-a298-b8a1b3e68ffb",
+        "name": "Auto-fixing Output Parser"
+      },
+      {
+        "parameters": {
+          "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+        "typeVersion": 1,
+        "position": [
+          2480,
+          448
+        ],
+        "id": "cd7870e3-dda8-4087-9b1d-6100e28a7a1c",
+        "name": "Groq Chat Model1",
+        "credentials": {
+          "groqApi": {
+            "id": "Yi51lX7Jst94KFYD",
+            "name": "Groq account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const nowET = DateTime.now().setZone(\"America/New_York\");\nconst marketClose = nowET.set({ hour: 16, minute: 0, second: 0, millisecond: 0 });\n\nconst minutesUntilClose = Math.max(0, Math.round(marketClose.diff(nowET, \"minutes\").minutes));\nconst currentTimeET = nowET.toISO();\n\nconst items = $input.all().map(item => {\n  item.json.currentTimeET = currentTimeET;\n  item.json.minutesUntilClose = minutesUntilClose;\n  return item;\n});\n\nreturn items;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1872,
+          0
+        ],
+        "id": "058b9e3c-368a-41e3-b11a-326339679981",
+        "name": "Get Time"
+      },
+      {
+        "parameters": {
+          "jsCode": "const now = new Date();\nconst options = { timeZone: 'America/New_York', hour12: false };\n\n// Extract EST components\nconst estHour = parseInt(now.toLocaleString('en-US', { ...options, hour: '2-digit' }));\nconst estMinute = parseInt(now.toLocaleString('en-US', { ...options, minute: '2-digit' }));\nconst weekday = now.toLocaleString('en-US', { ...options, weekday: 'short' });\n\n// Check if weekday is Mon–Fri\nconst isWeekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].includes(weekday);\n\n// Check if time is between 9:30 AM and 4:00 PM EST\nconst afterOpen = estHour > 9 || (estHour === 9 && estMinute >= 30);\nconst beforeClose = estHour < 16;\n\nif (isWeekday && afterOpen && beforeClose) {\n  return [{ run: true }];\n} else {\n  return [];\n}\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          80,
+          16
+        ],
+        "id": "1cbad5d8-1416-41dc-accf-97efc2adec6e",
+        "name": "Code1"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "55d562fe-3713-4e68-afab-39c14288ebdc",
+                "leftValue": "={{ $json.run }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          304,
+          16
+        ],
+        "id": "4db3bc72-4fd1-4c1a-9a0e-5e2f1fdc4b84",
+        "name": "Filter3"
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Code1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Groq Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Stock Options": {
+        "main": [
+          [
+            {
+              "node": "ETFs",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Indices",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Stocks",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Auto-fixing Output Parser",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "ETFs": {
+        "main": [
+          [
+            {
+              "node": "etf_category",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Indices": {
+        "main": [
+          [
+            {
+              "node": "index_categorgy",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Stocks": {
+        "main": [
+          [
+            {
+              "node": "stock_category",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "stock_category": {
+        "main": [
+          [
+            {
+              "node": "Stock Quality Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "index_categorgy": {
+        "main": [
+          [
+            {
+              "node": "Index Quality Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "etf_category": {
+        "main": [
+          [
+            {
+              "node": "ETF Quality Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Get Time",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "Make Tweet",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Prepare Discord Message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter1": {
+        "main": [
+          [
+            {
+              "node": "Discord",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ETF Quality Filter": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Index Quality Filter": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Stock Quality Filter": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 2
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Get Stock Options",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Respond to Webhook": {
+        "main": [
+          []
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Get Stock Options",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Prepare Discord Message": {
+        "main": [
+          [
+            {
+              "node": "Filter1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Make Tweet": {
+        "main": [
+          [
+            {
+              "node": "Filter2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter2": {
+        "main": [
+          [
+            {
+              "node": "X1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Auto-fixing Output Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Groq Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Auto-fixing Output Parser",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Time": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code1": {
+        "main": [
+          [
+            {
+              "node": "Filter3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter3": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "6969a992-8639-4db0-81be-d321d0cfb9af",
   "connections": {
     "Schedule Trigger": {
       "main": [
