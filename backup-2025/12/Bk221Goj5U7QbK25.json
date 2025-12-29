@@ -1,5 +1,751 @@
 {
-  "active": false,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-29T05:09:28.000Z",
+    "createdAt": "2025-12-29T05:09:27.034Z",
+    "versionId": "16ea9bde-6a8a-4d95-9a9a-993c6ffddca9",
+    "workflowId": "Bk221Goj5U7QbK25",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "weeks",
+                "triggerAtDay": [
+                  1
+                ],
+                "triggerAtHour": 9
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -16,
+          -80
+        ],
+        "id": "03f1df4d-c953-4860-b87e-95fcad916bf8",
+        "name": "Weekly Trigger"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "cities",
+                "name": "cities",
+                "value": "Greensboro, High Point, Charlotte, Raleigh, Durham",
+                "type": "string"
+              },
+              {
+                "id": "state",
+                "name": "state",
+                "value": "NC",
+                "type": "string"
+              },
+              {
+                "id": "outdatedMonths",
+                "name": "outdatedMonths",
+                "value": 3,
+                "type": "number"
+              },
+              {
+                "id": "leadsPerCity",
+                "name": "leadsPerCity",
+                "value": 5,
+                "type": "number"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          208,
+          -80
+        ],
+        "id": "f4469074-c579-4d5f-a5bb-67caf9a8c2b8",
+        "name": "Configuration"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA",
+            "mode": "list",
+            "cachedResultName": "Real Estate Leads",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Sheet1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA/edit#gid=0"
+          },
+          "options": {
+            "outputFormatting": {
+              "values": {
+                "general": "FORMATTED_VALUE",
+                "date": "FORMATTED_STRING"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.googleSheetsTool",
+        "typeVersion": 4.7,
+        "position": [
+          816,
+          144
+        ],
+        "id": "38e5e750-b0c4-46a5-8c27-d6c9b1d9ab18",
+        "name": "Check Duplicates",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "dowP6ywDzdtOnsKQ",
+            "name": "trazon's"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA",
+            "mode": "list",
+            "cachedResultName": "Real Estate Leads",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Sheet1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Created At": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Created_At', `Current ISO timestamp, e.g. '2025-01-15T10:30:00Z'`, 'string') }}",
+              "City": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('City', `The city where this lead is located, e.g. 'Winston-Salem'`, 'string') }}",
+              "Business Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Business_Name', `The real estate agent or brokerage name`, 'string') }}",
+              "Website": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Website', `Full website URL, e.g. 'https://example-realty.com'`, 'string') }}",
+              "Domain": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Domain', `Just the domain without https, e.g. 'example-realty.com'`, 'string') }}",
+              "Blog Status": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Blog_Status', `One of: 'No blog', 'Outdated blog', or 'Active blog'`, 'string') }}",
+              "Last Blog Post": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Last_Blog_Post', `Date of last blog post in YYYY-MM-DD format, or empty if no blog`, 'string') }}",
+              "Newsletter Confidence": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Newsletter_Confidence', `'high', 'medium', 'low', or empty`, 'string') }}",
+              "Newsletter URL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Newsletter_URL', `URL of newsletter signup page if found, or empty`, 'string') }}",
+              "Newsletter Provider": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Newsletter_Provider', `Detected provider like 'mailchimp', 'hubspot', or empty`, 'string') }}",
+              "Has Newsletter": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Has_Newsletter', `'true' or 'false'`, 'string') }}",
+              "Contact Page Used": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Contact_Page_Used', `URL of page where contact info was found, or empty`, 'string') }}",
+              "Phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Phone', `Phone number if found, or empty`, 'string') }}",
+              "Email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Email', `The best email address found for contacting this lead`, 'string') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Created At",
+                "displayName": "Created At",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "City",
+                "displayName": "City",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Business Name",
+                "displayName": "Business Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Website",
+                "displayName": "Website",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Domain",
+                "displayName": "Domain",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Blog Status",
+                "displayName": "Blog Status",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Last Blog Post",
+                "displayName": "Last Blog Post",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Email",
+                "displayName": "Email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Phone",
+                "displayName": "Phone",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Contact Page Used",
+                "displayName": "Contact Page Used",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Has Newsletter",
+                "displayName": "Has Newsletter",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Newsletter Provider",
+                "displayName": "Newsletter Provider",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Newsletter URL",
+                "displayName": "Newsletter URL",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Newsletter Confidence",
+                "displayName": "Newsletter Confidence",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheetsTool",
+        "typeVersion": 4.7,
+        "position": [
+          944,
+          144
+        ],
+        "id": "04a036c6-2764-431f-9ede-a8ba62c4151c",
+        "name": "Save Lead",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "dowP6ywDzdtOnsKQ",
+            "name": "trazon's"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## AI Lead Generation Agent\n\n### What it does:\n1. Searches for real estate agents in configured cities\n2. Scrapes their websites with Firecrawl\n3. Analyzes for outdated blogs & missing newsletters\n4. Extracts email addresses (required)\n5. Scores and saves qualified leads\n\n### Configuration:\n- Edit the \"Configuration\" node to change cities\n- Adjust outdatedMonths threshold as needed\n- Set leadsPerCity for volume control\n\n### Required Credentials:\n- OpenRouter API (for Claude)\n- SerpAPI (for search)\n- Firecrawl API (for scraping)\n- Google Sheets OAuth",
+          "height": 482,
+          "width": 384,
+          "color": 5
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -464,
+          -128
+        ],
+        "id": "c44f1a1c-416a-4790-8bde-17a109492b4b",
+        "name": "Instructions"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "lead_gen_session",
+          "contextWindowLength": 50
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1.3,
+        "position": [
+          688,
+          144
+        ],
+        "id": "5125814b-dfca-40e3-bfe2-4f8634a3fb2b",
+        "name": "Window Buffer Memory"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Summary node - runs after agent completes\nconst agentOutput = $input.all();\n\nreturn [{\n  json: {\n    status: 'completed',\n    timestamp: new Date().toISOString(),\n    summary: 'Lead generation run completed',\n    agent_response: agentOutput[0]?.json?.output || 'No output captured'\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1536,
+          -80
+        ],
+        "id": "a10bda90-02f3-4ea2-9a74-af56e7634cd2",
+        "name": "Run Summary"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "sendTo": "user",
+          "userId": {
+            "__rl": true,
+            "value": "246812164885577729",
+            "mode": "list",
+            "cachedResultName": "bakaboi341"
+          },
+          "content": "=🏠 Lead Gen Complete\n\n{{ $json.summary }}\n\nTimestamp: {{ $json.timestamp }}\n\nAgent Response: {{ $json.agent_response }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          1760,
+          -80
+        ],
+        "id": "53a0f57f-e289-4f79-9082-208377abc9d2",
+        "name": "Send a message",
+        "webhookId": "e407f8bb-4129-4752-ac31-a0cdb4313497",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "q": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Search_Query__q_', `Search query, e.g. 'real estate agent Winston-Salem NC website'`, 'string') }}",
+          "location": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Location__location_', `Location for search, e.g. 'Winston-Salem, NC, United States'`, 'string') }}",
+          "additionalFields": {
+            "gl": "us",
+            "hl": "en",
+            "num": "10"
+          },
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-serpapi.serpApiTool",
+        "typeVersion": 1,
+        "position": [
+          1072,
+          144
+        ],
+        "id": "97d4975e-53dc-4dc1-afab-9acfe2d5c77d",
+        "name": "Search Tool",
+        "credentials": {
+          "serpApi": {
+            "id": "uCDSUDcCcYUlmt38",
+            "name": "SerpApi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "scrape",
+          "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('URL', `Full URL to scrape, e.g. 'https://example-realty.com'`, 'string') }}",
+          "scrapeOptions": {
+            "options": {
+              "formats": {
+                "format": [
+                  {},
+                  {
+                    "type": "links"
+                  }
+                ]
+              },
+              "onlyMainContent": false,
+              "includeTags": {
+                "items": [
+                  {
+                    "tag": "a"
+                  },
+                  {
+                    "tag": "footer"
+                  },
+                  {
+                    "tag": "article"
+                  },
+                  {
+                    "tag": "time"
+                  },
+                  {
+                    "tag": "form"
+                  }
+                ]
+              },
+              "headers": {},
+              "waitFor": 2000,
+              "skipTlsVerification": true,
+              "timeout": 120000
+            }
+          },
+          "requestOptions": {}
+        },
+        "type": "@mendable/n8n-nodes-firecrawl.firecrawlTool",
+        "typeVersion": 1,
+        "position": [
+          1200,
+          144
+        ],
+        "id": "b9862992-32a7-45dc-a943-24a2d9f0af13",
+        "name": "Firecrawl Scrape",
+        "credentials": {
+          "firecrawlApi": {
+            "id": "YO5EjX3C5DM3qPra",
+            "name": "Firecrawl - Patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "scrape",
+          "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('URL', `Full URL of subpage, e.g. 'https://example-realty.com/contact'`, 'string') }}",
+          "scrapeOptions": {
+            "options": {
+              "formats": {
+                "format": [
+                  {}
+                ]
+              },
+              "headers": {},
+              "waitFor": 2000,
+              "skipTlsVerification": true,
+              "timeout": 120000
+            }
+          },
+          "requestOptions": {
+            "allowUnauthorizedCerts": true
+          }
+        },
+        "type": "@mendable/n8n-nodes-firecrawl.firecrawlTool",
+        "typeVersion": 1,
+        "position": [
+          1328,
+          144
+        ],
+        "id": "46410d77-7b76-4d1f-8b40-9e35f61d0a24",
+        "name": "Scrape Subpage",
+        "credentials": {
+          "firecrawlApi": {
+            "id": "YO5EjX3C5DM3qPra",
+            "name": "Firecrawl - Patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "delete",
+          "deleteMode": "all"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryManager",
+        "typeVersion": 1.1,
+        "position": [
+          1984,
+          -80
+        ],
+        "id": "d9d1269b-93bc-4179-b872-adf53a04112b",
+        "name": "Chat Memory Manager"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "lead_gen_session"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1.3,
+        "position": [
+          2056,
+          144
+        ],
+        "id": "bcc441b0-2636-4db8-8383-50b8c86bcd30",
+        "name": "Simple Memory"
+      },
+      {
+        "parameters": {
+          "model": "openai/gpt-5.2",
+          "options": {
+            "temperature": 0.3
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          432,
+          144
+        ],
+        "id": "aa86780e-2d3d-402a-8a82-5ab598b250fe",
+        "name": "OpenRouter Chat Model",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=## TASK: Find Real Estate Agent Leads\n\nFind {{ $json.leadsPerCity }} qualified leads for EACH city: {{ $json.cities }}\nStates: {{ $json.state }}\nOutdated threshold: {{ $json.outdatedMonths }} months\n\n## CRITICAL RULE - NO EMAIL = NO LEAD\n⚠️ DO NOT save any lead without a valid email address.\n⚠️ Skip websites where you cannot find an email.\n⚠️ A lead without an email is WORTHLESS - do not waste a save on it.\n\nYou must not consider a lead \"captured\" until Save Lead tool has been called successfully.\n\nFor every candidate website you evaluate, you must call Check Duplicates with the extracted domain.\n\nIf Check Duplicates indicates the domain already exists, skip and do not call Save Lead.\n\nIf the lead is qualified AND has an email AND is not a duplicate, call Save Lead exactly once.\n\nKeep working until you have successfully saved {{ $json.leadsPerCity }} leads per city.\n\n## EXECUTION STEPS:\n\nFor each city, repeat this process:\n\n### Step 1: Search\nUse the search tool with query: \"real estate agent [CITY] [STATE] website\"\nExample: \"real estate agent Richmond VA website\"\n\n### Step 2: For each search result (skip aggregator sites like zillow, realtor.com, yelp):\n\na) Use Firecrawl to scrape the website\nb) Look for email addresses FIRST - check:\n   - Footer\n   - Contact page (scrape /contact or /contact-us)\n   - About page\n   - Team page\n   - mailto: links in the HTML\nc) If NO EMAIL FOUND after checking subpages, SKIP this site entirely\nd) If email found, analyze for:\n   - Blog presence and last post date\n   - Newsletter/email signup forms\n   - Business name\n\n### Step 3: Qualify the lead\nA lead is QUALIFIED if ALL of these are true:\n✅ Has an email address (REQUIRED - NO EXCEPTIONS)\n✅ Blog is outdated (>{{ $json.outdatedMonths }} months) OR no blog exists\n✅ Is an individual agent or small brokerage (not a franchise homepage)\n\nA lead is DISQUALIFIED if ANY of these are true:\n❌ No email address found\n❌ Blog has posts within the last {{ $json.outdatedMonths }} months\n❌ Large franchise corporate site\n❌ Domain already exists in sheet\n\n### Step 4: Save qualified leads\nFor qualified leads with emails, use Save Lead tool with:\n- Created_At: current ISO timestamp\n- City: the city name\n- Business_Name: agent/brokerage name\n- Website: full URL\n- Domain: domain only\n- Blog_Status: \"No blog\", \"Outdated blog\", or \"Active blog\"\n- Last_Blog_Post: YYYY-MM-DD or empty\n- Email: THE EMAIL ADDRESS (required!)\n- Phone: if found, otherwise empty\n- Contact_Page_Used: URL where email was found\n- Has_Newsletter: \"true\" or \"false\"\n- Newsletter_Provider: provider name or empty\n- Newsletter_URL: signup URL or empty\n- Newsletter_Confidence: \"high\", \"medium\", \"low\" or empty\n\n### Step 5: Check for duplicates\nBefore saving, use Check Duplicates tool. Skip if domain exists.\n\n## SITES TO SKIP:\nrealtor.com, zillow.com, yelp.com, facebook.com, linkedin.com, redfin.com, trulia.com, homes.com, trulia.com, yellowpages.com, bbb.org, angieslist.com, homeadvisor.com\n\n## REMEMBER:\n🚫 NO EMAIL = DO NOT SAVE\n🚫 I will not make cold calls\n🚫 Email is the ONLY way I will contact these leads",
+          "needsFallback": true,
+          "options": {
+            "systemMessage": "=You are an expert lead generation agent specializing in finding real estate professionals who need marketing help.\n\nYour goal is to find agents with OUTDATED or NO blogs and NO newsletter systems - these are perfect prospects for content marketing services.\n\n## ABSOLUTE REQUIREMENT: EMAIL ADDRESSES\nThe user WILL NOT make cold calls. Every lead MUST have an email address.\nIf you cannot find an email on a website, DO NOT save it. Move on to the next site.\nSpend extra effort to find emails - check contact pages, about pages, footers, team pages.\n\n## Your Capabilities:\n- Search the web for real estate agents in NC, VA, and SC\n- Scrape websites using Firecrawl to extract content\n- Scrape subpages (/contact, /about, /team) to find emails\n- Analyze website content for blog freshness and newsletter presence\n- Save qualified leads to Google Sheets\n- Check for duplicate domains before saving\n\n## Email Extraction Priority:\n1. Contact page - ALWAYS scrape /contact or /contact-us first\n2. Footer section - often contains email\n3. About/Team pages - agent bios often have emails\n4. mailto: links anywhere on site\n5. Patterns like info@, contact@, hello@, [name]@domain.com\n\n## Lead Scoring Guidelines (1-100):\n- 90-100: No blog + no newsletter + email found + small/solo agent\n- 70-89: Outdated blog (3+ months) + no newsletter + email found\n- 50-69: Outdated blog + has basic newsletter + email found\n- 0: No email found = NOT A LEAD, DO NOT SAVE\n\n## What Makes a Great Lead:\n- Solo agent or small team (2-5 people)\n- Has a website but neglects content\n- No sophisticated email marketing\n- Local/regional focus\n- Contact email clearly visible\n\n## Red Flags (Skip These):\n- No email anywhere on site (SKIP IMMEDIATELY)\n- Large franchises (Keller Williams corporate, RE/MAX corporate)\n- Sites with active blogs (posted within 3 months)\n- Sites with sophisticated marketing (Hubspot, ActiveCampaign popups)\n- Sites that are just IDX/MLS search portals\n\nBe thorough in finding emails. Quality over quantity. No email = no lead.",
+            "maxIterations": 150
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          808,
+          -80
+        ],
+        "id": "028aa782-31bc-4b61-b38c-9102ce2a0bd5",
+        "name": "Lead Gen Agent"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          560,
+          144
+        ],
+        "id": "df367e44-6859-4801-bdb6-3c2714835bcd",
+        "name": "Google Gemini Chat Model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "ReeAGi73g7iXliN4",
+            "name": "Trazon's Gemini"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Weekly Trigger": {
+        "main": [
+          [
+            {
+              "node": "Configuration",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Configuration": {
+        "main": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check Duplicates": {
+        "ai_tool": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Save Lead": {
+        "ai_tool": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Window Buffer Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Run Summary": {
+        "main": [
+          [
+            {
+              "node": "Send a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message": {
+        "main": [
+          [
+            {
+              "node": "Chat Memory Manager",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search Tool": {
+        "ai_tool": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Firecrawl Scrape": {
+        "ai_tool": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Scrape Subpage": {
+        "ai_tool": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "Chat Memory Manager",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Lead Gen Agent": {
+        "main": [
+          [
+            {
+              "node": "Run Summary",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Lead Gen Agent",
+              "type": "ai_languageModel",
+              "index": 1
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Trazon Mitchell",
+    "name": "Version 16ea9bde",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "16ea9bde-6a8a-4d95-9a9a-993c6ffddca9",
   "connections": {
     "Weekly Trigger": {
       "main": [
@@ -56,17 +802,6 @@
         ]
       ]
     },
-    "Lead Gen Agent": {
-      "main": [
-        [
-          {
-            "node": "Run Summary",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Run Summary": {
       "main": [
         [
@@ -80,7 +815,13 @@
     },
     "Send a message": {
       "main": [
-        []
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Search Tool": {
@@ -116,7 +857,34 @@
         ]
       ]
     },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Lead Gen Agent": {
+      "main": [
+        [
+          {
+            "node": "Run Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
       "ai_languageModel": [
         [
           {
@@ -154,7 +922,7 @@
       "typeVersion": 1.3,
       "position": [
         -16,
-        64
+        -80
       ],
       "id": "03f1df4d-c953-4860-b87e-95fcad916bf8",
       "name": "Weekly Trigger"
@@ -166,7 +934,7 @@
             {
               "id": "cities",
               "name": "cities",
-              "value": "Winston-Salem, Greensboro",
+              "value": "Greensboro, High Point, Charlotte, Raleigh, Durham",
               "type": "string"
             },
             {
@@ -195,42 +963,26 @@
       "typeVersion": 3.4,
       "position": [
         208,
-        64
+        -80
       ],
       "id": "f4469074-c579-4d5f-a5bb-67caf9a8c2b8",
       "name": "Configuration"
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "=## TASK: Find Real Estate Agent Leads\n\nFind {{ $json.leadsPerCity }} qualified leads for EACH city: {{ $json.cities }}\nState: {{ $json.state }}\nOutdated threshold: {{ $json.outdatedMonths }} months\n\n## EXECUTION STEPS:\n\nFor each city, repeat this process:\n\n### Step 1: Search\nUse the search tool with query: \"real estate agent [CITY] NC website\"\n\n### Step 2: For each search result (skip aggregator sites like zillow, realtor.com, yelp):\n\na) Use Firecrawl to scrape the website\nb) Analyze the scraped content for:\n   - Blog presence and last post date\n   - Newsletter/email signup forms\n   - Contact email addresses\n   - Business name\n\n### Step 3: Qualify the lead\nA lead is QUALIFIED if:\n- Has an email address (REQUIRED - skip if no email found)\n- Blog is outdated (>{{ $json.outdatedMonths }} months) OR no blog exists\n- Is an individual agent or small brokerage (not a franchise homepage)\n\n### Step 4: For qualified leads, save to Google Sheets\nUse the Save Lead tool to append with these fields:\n- created_at: current ISO timestamp\n- city: the city\n- business_name: agent/brokerage name\n- website: full URL\n- domain: just the domain\n- blog_status: \"No blog\", \"Outdated blog\", or \"Active blog\"\n- blog_last_post_date: YYYY-MM-DD or empty\n- email: the best email found\n- has_newsletter: true/false\n- newsletter_provider: detected provider or empty\n\n### Step 5: Check for duplicates\nBefore saving, use sheets tool to check if domain already exists. Skip if duplicate.\n\n## IMPORTANT RULES:\n- MUST find an email address - no email = skip the lead\n- Skip sites: realtor.com, zillow.com, yelp.com, facebook.com, linkedin.com, redfin.com, trulia.com\n- Prefer personal agent sites over big franchise sites\n- Look for emails in: footer, contact page, about page, team page\n- Common email patterns: name@domain.com, info@, contact@, hello@\n\nStart processing now. Report your progress after each city.",
-        "options": {
-          "systemMessage": "=You are an expert lead generation agent specializing in finding real estate professionals who need marketing help.\n\nYour goal is to find agents with OUTDATED or NO blogs and NO newsletter systems - these are perfect prospects for content marketing services.\n\n## Your Capabilities:\n- Search the web for real estate agents\n- Scrape websites using Firecrawl to extract content\n- Analyze website content for blog freshness and newsletter presence\n- Save qualified leads to Google Sheets\n- Check for duplicate domains before saving\n\n## Lead Scoring Guidelines (1-100):\n- 90-100: No blog + no newsletter + email found + small/solo agent\n- 70-89: Outdated blog (6+ months) + no newsletter + email found\n- 50-69: Outdated blog + has basic newsletter + email found\n- Below 50: Active blog or no email = not qualified\n\n## Email Extraction Priority:\n1. Direct email addresses on page (name@domain.com)\n2. Contact form pages (note the URL)\n3. mailto: links\n4. Email patterns in JavaScript/data attributes\n\n## What Makes a Great Lead:\n- Solo agent or small team (2-5 people)\n- Has a website but neglects content\n- No sophisticated email marketing\n- Local/regional focus\n- Site looks dated or has thin content\n\n## Red Flags (Skip These):\n- Large franchises (Keller Williams corporate, RE/MAX corporate)\n- Sites with active blogs (posted within 6 months)\n- Sites with sophisticated marketing (Hubspot, ActiveCampaign popups)\n- No contact information whatsoever\n- Sites that are just IDX/MLS search portals\n\nBe thorough but efficient. Quality over quantity.",
-          "returnIntermediateSteps": true
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 3,
-      "position": [
-        744,
-        64
-      ],
-      "id": "7d7ff342-b97c-43a2-b097-f0d13318cc3d",
-      "name": "Lead Gen Agent",
-      "retryOnFail": true,
-      "waitBetweenTries": 5000
-    },
-    {
-      "parameters": {
         "documentId": {
           "__rl": true,
-          "mode": "id",
-          "value": "1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA"
+          "value": "1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA",
+          "mode": "list",
+          "cachedResultName": "Real Estate Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "mode": "name",
-          "value": "Sheet1"
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PRszOuUW_t7nNeIgObW1hv_nRNWg8QBjRvwNfWN1_SA/edit#gid=0"
         },
         "options": {
           "outputFormatting": {
@@ -244,8 +996,8 @@
       "type": "n8n-nodes-base.googleSheetsTool",
       "typeVersion": 4.7,
       "position": [
-        688,
-        288
+        816,
+        144
       ],
       "id": "38e5e750-b0c4-46a5-8c27-d6c9b1d9ab18",
       "name": "Check Duplicates",
@@ -428,8 +1180,8 @@
       "type": "n8n-nodes-base.googleSheetsTool",
       "typeVersion": 4.7,
       "position": [
-        816,
-        288
+        944,
+        144
       ],
       "id": "04a036c6-2764-431f-9ede-a8ba62c4151c",
       "name": "Save Lead",
@@ -451,7 +1203,7 @@
       "typeVersion": 1,
       "position": [
         -464,
-        -112
+        -128
       ],
       "id": "c44f1a1c-416a-4790-8bde-17a109492b4b",
       "name": "Instructions"
@@ -459,13 +1211,14 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "lead_gen_session"
+        "sessionKey": "lead_gen_session",
+        "contextWindowLength": 50
       },
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        560,
-        288
+        688,
+        144
       ],
       "id": "5125814b-dfca-40e3-bfe2-4f8634a3fb2b",
       "name": "Window Buffer Memory"
@@ -477,8 +1230,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1408,
-        64
+        1536,
+        -80
       ],
       "id": "a10bda90-02f3-4ea2-9a74-af56e7634cd2",
       "name": "Run Summary"
@@ -507,8 +1260,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1632,
-        64
+        1760,
+        -80
       ],
       "id": "53a0f57f-e289-4f79-9082-208377abc9d2",
       "name": "Send a message",
@@ -534,8 +1287,8 @@
       "type": "n8n-nodes-serpapi.serpApiTool",
       "typeVersion": 1,
       "position": [
-        944,
-        288
+        1072,
+        144
       ],
       "id": "97d4975e-53dc-4dc1-afab-9acfe2d5c77d",
       "name": "Search Tool",
@@ -582,6 +1335,7 @@
             },
             "headers": {},
             "waitFor": 2000,
+            "skipTlsVerification": true,
             "timeout": 120000
           }
         },
@@ -590,8 +1344,8 @@
       "type": "@mendable/n8n-nodes-firecrawl.firecrawlTool",
       "typeVersion": 1,
       "position": [
-        1072,
-        288
+        1200,
+        144
       ],
       "id": "b9862992-32a7-45dc-a943-24a2d9f0af13",
       "name": "Firecrawl Scrape",
@@ -615,6 +1369,7 @@
             },
             "headers": {},
             "waitFor": 2000,
+            "skipTlsVerification": true,
             "timeout": 120000
           }
         },
@@ -625,8 +1380,8 @@
       "type": "@mendable/n8n-nodes-firecrawl.firecrawlTool",
       "typeVersion": 1,
       "position": [
-        1200,
-        288
+        1328,
+        144
       ],
       "id": "46410d77-7b76-4d1f-8b40-9e35f61d0a24",
       "name": "Scrape Subpage",
@@ -639,21 +1394,92 @@
     },
     {
       "parameters": {
-        "model": "openrouter/auto",
-        "options": {}
+        "mode": "delete",
+        "deleteMode": "all"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        -80
+      ],
+      "id": "d9d1269b-93bc-4179-b872-adf53a04112b",
+      "name": "Chat Memory Manager"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "lead_gen_session"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2056,
+        144
+      ],
+      "id": "bcc441b0-2636-4db8-8383-50b8c86bcd30",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5.2",
+        "options": {
+          "temperature": 0.3
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
         432,
-        288
+        144
       ],
-      "id": "eb5039ae-495e-4780-9887-f843e0023597",
+      "id": "aa86780e-2d3d-402a-8a82-5ab598b250fe",
       "name": "OpenRouter Chat Model",
       "credentials": {
         "openRouterApi": {
-          "id": "eBWL8QfFfkLz66GH",
-          "name": "OpenRouter account"
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=## TASK: Find Real Estate Agent Leads\n\nFind {{ $json.leadsPerCity }} qualified leads for EACH city: {{ $json.cities }}\nStates: {{ $json.state }}\nOutdated threshold: {{ $json.outdatedMonths }} months\n\n## CRITICAL RULE - NO EMAIL = NO LEAD\n⚠️ DO NOT save any lead without a valid email address.\n⚠️ Skip websites where you cannot find an email.\n⚠️ A lead without an email is WORTHLESS - do not waste a save on it.\n\nYou must not consider a lead \"captured\" until Save Lead tool has been called successfully.\n\nFor every candidate website you evaluate, you must call Check Duplicates with the extracted domain.\n\nIf Check Duplicates indicates the domain already exists, skip and do not call Save Lead.\n\nIf the lead is qualified AND has an email AND is not a duplicate, call Save Lead exactly once.\n\nKeep working until you have successfully saved {{ $json.leadsPerCity }} leads per city.\n\n## EXECUTION STEPS:\n\nFor each city, repeat this process:\n\n### Step 1: Search\nUse the search tool with query: \"real estate agent [CITY] [STATE] website\"\nExample: \"real estate agent Richmond VA website\"\n\n### Step 2: For each search result (skip aggregator sites like zillow, realtor.com, yelp):\n\na) Use Firecrawl to scrape the website\nb) Look for email addresses FIRST - check:\n   - Footer\n   - Contact page (scrape /contact or /contact-us)\n   - About page\n   - Team page\n   - mailto: links in the HTML\nc) If NO EMAIL FOUND after checking subpages, SKIP this site entirely\nd) If email found, analyze for:\n   - Blog presence and last post date\n   - Newsletter/email signup forms\n   - Business name\n\n### Step 3: Qualify the lead\nA lead is QUALIFIED if ALL of these are true:\n✅ Has an email address (REQUIRED - NO EXCEPTIONS)\n✅ Blog is outdated (>{{ $json.outdatedMonths }} months) OR no blog exists\n✅ Is an individual agent or small brokerage (not a franchise homepage)\n\nA lead is DISQUALIFIED if ANY of these are true:\n❌ No email address found\n❌ Blog has posts within the last {{ $json.outdatedMonths }} months\n❌ Large franchise corporate site\n❌ Domain already exists in sheet\n\n### Step 4: Save qualified leads\nFor qualified leads with emails, use Save Lead tool with:\n- Created_At: current ISO timestamp\n- City: the city name\n- Business_Name: agent/brokerage name\n- Website: full URL\n- Domain: domain only\n- Blog_Status: \"No blog\", \"Outdated blog\", or \"Active blog\"\n- Last_Blog_Post: YYYY-MM-DD or empty\n- Email: THE EMAIL ADDRESS (required!)\n- Phone: if found, otherwise empty\n- Contact_Page_Used: URL where email was found\n- Has_Newsletter: \"true\" or \"false\"\n- Newsletter_Provider: provider name or empty\n- Newsletter_URL: signup URL or empty\n- Newsletter_Confidence: \"high\", \"medium\", \"low\" or empty\n\n### Step 5: Check for duplicates\nBefore saving, use Check Duplicates tool. Skip if domain exists.\n\n## SITES TO SKIP:\nrealtor.com, zillow.com, yelp.com, facebook.com, linkedin.com, redfin.com, trulia.com, homes.com, trulia.com, yellowpages.com, bbb.org, angieslist.com, homeadvisor.com\n\n## REMEMBER:\n🚫 NO EMAIL = DO NOT SAVE\n🚫 I will not make cold calls\n🚫 Email is the ONLY way I will contact these leads",
+        "options": {
+          "systemMessage": "=You are an expert lead generation agent specializing in finding real estate professionals who need marketing help.\n\nYour goal is to find agents with OUTDATED or NO blogs and NO newsletter systems - these are perfect prospects for content marketing services.\n\n## ABSOLUTE REQUIREMENT: EMAIL ADDRESSES\nThe user WILL NOT make cold calls. Every lead MUST have an email address.\nIf you cannot find an email on a website, DO NOT save it. Move on to the next site.\nSpend extra effort to find emails - check contact pages, about pages, footers, team pages.\n\n## Your Capabilities:\n- Search the web for real estate agents in NC, VA, and SC\n- Scrape websites using Firecrawl to extract content\n- Scrape subpages (/contact, /about, /team) to find emails\n- Analyze website content for blog freshness and newsletter presence\n- Save qualified leads to Google Sheets\n- Check for duplicate domains before saving\n\n## Email Extraction Priority:\n1. Contact page - ALWAYS scrape /contact or /contact-us first\n2. Footer section - often contains email\n3. About/Team pages - agent bios often have emails\n4. mailto: links anywhere on site\n5. Patterns like info@, contact@, hello@, [name]@domain.com\n\n## Lead Scoring Guidelines (1-100):\n- 90-100: No blog + no newsletter + email found + small/solo agent\n- 70-89: Outdated blog (3+ months) + no newsletter + email found\n- 50-69: Outdated blog + has basic newsletter + email found\n- 0: No email found = NOT A LEAD, DO NOT SAVE\n\n## What Makes a Great Lead:\n- Solo agent or small team (2-5 people)\n- Has a website but neglects content\n- No sophisticated email marketing\n- Local/regional focus\n- Contact email clearly visible\n\n## Red Flags (Skip These):\n- No email anywhere on site (SKIP IMMEDIATELY)\n- Large franchises (Keller Williams corporate, RE/MAX corporate)\n- Sites with active blogs (posted within 3 months)\n- Sites with sophisticated marketing (Hubspot, ActiveCampaign popups)\n- Sites that are just IDX/MLS search portals\n\nBe thorough in finding emails. Quality over quantity. No email = no lead.",
+          "maxIterations": 150
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        808,
+        -80
+      ],
+      "id": "028aa782-31bc-4b61-b38c-9102ce2a0bd5",
+      "name": "Lead Gen Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-pro-preview",
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        560,
+        144
+      ],
+      "id": "df367e44-6859-4801-bdb6-3c2714835bcd",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Abs88zXLsAA8VPQX",
+          "name": "patch"
         }
       }
     }
@@ -674,9 +1500,13 @@
       "projectId": "fIUCquZNbk42dQ17"
     }
   ],
-  "staticData": null,
+  "staticData": {
+    "node:Weekly Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-12-28T06:27:55.000Z",
-  "versionId": "85ab5d8f-d5d1-4cbb-91a0-94d81d5cba11"
+  "triggerCount": 1,
+  "updatedAt": "2025-12-29T05:16:38.570Z",
+  "versionId": "d3ca4226-6590-4295-8b88-425560a9a2ed"
 }
