@@ -1,0 +1,570 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "node names that needs update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "get all workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "prettify output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get node types": {
+      "main": [
+        [
+          {
+            "node": "extract name and latest version",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflows": {
+      "main": [
+        [
+          {
+            "node": "get single workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "instance base url": {
+      "main": [
+        [
+          {
+            "node": "Log into n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get single workflow": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "node names that needs update": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract name and latest version": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "instance base url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log into n8n": {
+      "main": [
+        [
+          {
+            "node": "get node types",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-29T04:24:01.726Z",
+  "id": "ToU0wR9lzYWlLdrz",
+  "isArchived": false,
+  "meta": {
+    "templateId": "2301"
+  },
+  "name": "Check if workflows contain build-in nodes that are not of the latest version",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "={{ $('instance base url').item.json.instanceBaseUrl }}/types/nodes.json",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "n8nApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "cookie",
+              "value": "={{ $('Log into n8n').item.json.headers['set-cookie'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a6d8c7aa-c75c-4aaa-8fe2-e23f3da2b8f5",
+      "name": "get node types",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        928,
+        240
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "n8nApi": {
+          "id": "r6YUYcdGxuCEJVEe",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "55bedad2-0096-4a59-8818-9bdbe9799230",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        128,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "nodes",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "name, id",
+        "options": {
+          "destinationFieldName": "node"
+        }
+      },
+      "id": "dc37402e-558d-4c6c-883e-450f161d5766",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "position": [
+        1040,
+        480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "loose"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "1c65a9cf-dd60-4d3f-8fe6-05e5877ab58a",
+              "operator": {
+                "type": "boolean",
+                "operation": "notEquals"
+              },
+              "leftValue": "={{ !!$('Aggregate').first().json.data.find(n => n.name === $json.node.type) }}",
+              "rightValue": false
+            },
+            {
+              "id": "dbc80785-274f-424c-9862-bed0ec7e4b63",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              },
+              "leftValue": "={{ $json.node.typeVersion }}",
+              "rightValue": "={{ $('Aggregate').first().json.data.find(n => n.name === $json.node.type).version }}"
+            }
+          ]
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      },
+      "id": "dcaec125-684a-4b50-8cb8-fcce9763929b",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1232,
+        480
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "da0d6443-81c8-4d0a-bd2d-300ce83726ad",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "position": [
+        1312,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all().map(({json}) => {\n  const typeVersion = Array.isArray(json.version) ? Math.max(...json.version) : json.version;\n  return {\n    name: json.name,\n    version: typeVersion\n  }\n})"
+      },
+      "id": "df683591-1342-4140-9505-359320c08ec0",
+      "name": "extract name and latest version",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1120,
+        240
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "append",
+              "field": "info"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "workflowName, workflowId",
+        "options": {}
+      },
+      "id": "cfa7c46e-4292-4d56-8311-a4659ed519fa",
+      "name": "Summarize",
+      "type": "n8n-nodes-base.summarize",
+      "position": [
+        816,
+        720
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "10ba8fe4-bab4-4c5f-a6ed-cd5bcf0b8b04",
+      "name": "get all workflows",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        592,
+        480
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "r6YUYcdGxuCEJVEe",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Check information for all workflows or a single workflow, activate corresponding node",
+        "height": 205.3908222102156,
+        "width": 433.34242668485376
+      },
+      "id": "a2fcba1a-866b-48d5-92e6-a3b98a8afbdc",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        544,
+        432
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e24c81f9-fca3-4b74-bdc1-50d6933b56e7",
+              "name": "workflow",
+              "type": "string",
+              "value": "={{ $json.workflowName }}"
+            },
+            {
+              "id": "79c3faaa-5707-49a6-8b9c-7290bcf066bb",
+              "name": "Id",
+              "type": "string",
+              "value": "={{ $json.workflowId }}"
+            },
+            {
+              "id": "6c7732db-84bb-4a54-85ce-05ce60553208",
+              "name": "outdated_nodes",
+              "type": "array",
+              "value": "={{ $json.appended_info }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7a1216f0-5d25-46d1-9965-023d9eedbe6c",
+      "name": "prettify output",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1040,
+        720
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ad3ffe8a-2a48-45ad-9171-bd6bffa02488",
+              "name": "instanceBaseUrl",
+              "type": "string",
+              "value": "https://bakaflow.gleeze.com"
+            },
+            {
+              "id": "802d039a-fa21-45f3-9c43-5c8e33d84aba",
+              "name": "user",
+              "value": "trazon0430@gmail.com",
+              "type": "string"
+            },
+            {
+              "id": "f53c4de2-4982-4f58-8c0f-5fda1de0b0ac",
+              "name": "pass",
+              "value": "Katsuki#1",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "99d2fda2-ec3d-4d03-95cb-96c2a04b43d6",
+      "name": "instance base url",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        464,
+        240
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "content": "Set your instance URL here, it should not include API and version",
+        "height": 241,
+        "width": 389
+      },
+      "id": "906e1743-1f52-4d7b-b796-75f2a9c5a131",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Get n8n API key in settings > n8n API",
+        "height": 239,
+        "width": 224
+      },
+      "id": "e9a330ae-df1f-4830-9420-afdf4ca9bbbe",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "workflowId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "03L3B0pAuGRa8cfx",
+          "cachedResultName": "My workflow 40 (#03L3B0pAuGRa8cfx)"
+        },
+        "requestOptions": {}
+      },
+      "id": "b85366ba-ecbd-493e-a1c7-a081e51d0eb2",
+      "name": "get single workflow",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        816,
+        480
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "r6YUYcdGxuCEJVEe",
+          "name": "n8n account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "01a01bc8-ffd8-4985-bd01-8ffb4dbaee6c",
+              "name": "workflowName",
+              "type": "string",
+              "value": "={{ $json.name }}"
+            },
+            {
+              "id": "dc199eab-92b1-46bd-8999-38d64ca37623",
+              "name": "info",
+              "type": "object",
+              "value": "=\n{\n\"name\": \"{{ $json.node.name }}\",\n\"type\": \"{{ $json.node.type }}\",\n\"version\": {{ $json.node.typeVersion }},\n\"latestVersion\": {{ $('Aggregate').first().json.data.find(n => n.name === $json.node.type).version }}\n}"
+            },
+            {
+              "id": "fe268266-f0ab-47d8-bb6d-a9fefe82f527",
+              "name": "workflowId",
+              "type": "string",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "669b3b8c-e835-455b-a3f8-c1c5ba411020",
+      "name": "node names that needs update",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        592,
+        720
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ \n\n(() => {\n  const instance = $json.instanceBaseUrl;\n  const normalizedUrl = instance.endsWith('/') ? instance + 'rest/login' : instance + '/rest/login';\n  return normalizedUrl;\n})()\n}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json, text/plain, */*"
+            },
+            {
+              "name": "accept-language",
+              "value": "en-US,en;q=0.9"
+            },
+            {
+              "name": "user-agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1
+            }
+          },
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "id": "0811e459-32ed-40a7-83f3-c0118d620349",
+      "name": "Log into n8n",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        656,
+        240
+      ],
+      "retryOnFail": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpCustomAuth": {
+          "id": "g5Wfc2L1649RxFgW",
+          "name": "N8N Login"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-29T04:24:01.729Z",
+      "createdAt": "2025-12-29T04:24:01.729Z",
+      "role": "workflow:owner",
+      "workflowId": "ToU0wR9lzYWlLdrz",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-29T04:47:21.997Z",
+  "versionId": "b64bae00-9da6-4e98-b4cb-b2e2c170cf06"
+}
