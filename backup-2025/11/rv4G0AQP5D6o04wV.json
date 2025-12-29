@@ -1,5 +1,603 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-27T17:00:06.895Z",
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "versionId": "7415ec9f-d9b9-42c8-8c61-cfa2498c0307",
+    "workflowId": "rv4G0AQP5D6o04wV",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "workflow_state",
+          "returnAll": true
+        },
+        "id": "7b0b28c8-18fb-406a-8f20-e6e21841de5b",
+        "name": "Get Workflow State",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -2304,
+          352
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "paper_sections",
+          "returnAll": true
+        },
+        "id": "19e9318d-16ec-483c-8f28-9f1181c78669",
+        "name": "Get All Sections",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -2304,
+          544
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Determine next section to write based on status\n\nconst state = $('Get Workflow State').first().json;\nconst sections = $('Get All Sections').all().map(item => item.json);\nconst requestedSection = $('Webhook Trigger1').first().json.section_key;\n\n// Calculate progress\nconst completedSections = sections.filter(s => s.status === 'complete');\nconst totalWords = sections.reduce((sum, s) => sum + (s.word_count || 0), 0);\nconst totalPages = totalWords / 250;\n\n// Find the next section to work on\nlet targetSection;\nif (requestedSection) {\n  targetSection = sections.find(s => s.section_key === requestedSection);\n} else {\n  targetSection = sections.find(s => s.status !== 'complete');\n}\n\n// Get previous sections for context\nconst previousSections = sections\n  .filter(s => s.step_number < targetSection?.step_number && s.content)\n  .map(s => ({\n    name: s.section_name,\n    summary: s.content?.substring(0, 500) + '...',\n    word_count: s.word_count\n  }));\n\nreturn [{\n  json: {\n    current_state: {\n      phase: state.current_phase,\n      total_words: totalWords,\n      total_pages: totalPages,\n      completed: completedSections.length,\n      total: sections.length,\n      progress_percent: (completedSections.length / sections.length * 100).toFixed(1)\n    },\n    target_section: targetSection,\n    previous_sections: previousSections,\n    all_sections: sections\n  }\n}];"
+        },
+        "id": "5d8d3320-0937-467b-a7a8-f012cb385ccd",
+        "name": "Determine Next Action",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1856,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://openrouter.ai/api/v1/chat/completions",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ {\n  \"model\": \"anthropic/claude-sonnet-4\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": `You are the Orchestrator Agent for an interdisciplinary research paper workflow.\\n\\nRESEARCH QUESTION:\\n\"How can public health interventions be designed to address the social determinants that maintain health disparities and thus improve health equity in Black communities?\"\\n\\nCURRENT STATE:\\n- Phase: ${$json.current_state.phase}\\n- Progress: ${$json.current_state.completed}/${$json.current_state.total} sections (${$json.current_state.progress_percent}%)\\n- Word Count: ${$json.current_state.total_words} words (~${$json.current_state.total_pages.toFixed(1)} pages)\\n- Target: Minimum 20 pages\\n\\nTARGET SECTION:\\n- Section: ${$json.target_section?.section_name || 'None'}\\n- Step: ${$json.target_section?.step_number || 'N/A'}\\n- Status: ${$json.target_section?.status || 'N/A'}\\n\\nYour task is to analyze the current state and provide specific instructions for what the Research Agent should retrieve and what the Writing Agent should produce.\\n\\nRespond with a JSON object containing:\\n{\\n  \"assessment\": \"Your analysis of current progress\",\\n  \"research_queries\": [\"List of 3-5 specific search queries for RAG retrieval\"],\\n  \"disciplines_to_search\": [\"List of disciplines to prioritize\"],\\n  \"section_focus\": \"What the section should emphasize\",\\n  \"target_word_count\": number,\\n  \"key_points_to_cover\": [\"List of specific points this section must address\"],\\n  \"integration_guidance\": \"How to integrate insights from different disciplines\",\\n  \"quality_criteria\": [\"List of criteria to check after writing\"]\\n}`\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Analyze the current state and provide instructions for writing the target section.\"\n    }\n  ],\n  \"max_tokens\": 2000,\n  \"response_format\": { \"type\": \"json_object\" }\n} }}",
+          "options": {}
+        },
+        "id": "2d5350bf-0fa7-42c2-baea-f4318d183429",
+        "name": "Orchestrator Agent",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1632,
+          448
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "USjhdb01qbGGniTq",
+            "name": "OpenRouter"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Parse orchestrator response and prepare RAG queries\n\nlet content = $input.first().json.choices[0].message.content;\n\n// Strip markdown code blocks if present\ncontent = content.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n\nconst orchestratorResponse = JSON.parse(content);\nconst targetSection = $('Determine Next Action').first().json.target_section;\n\nconst searchQueries = orchestratorResponse.research_queries || [];\nconst disciplines = orchestratorResponse.disciplines_to_search || [];\n\nreturn [{\n  json: {\n    orchestrator_guidance: orchestratorResponse,\n    target_section: targetSection,\n    search_queries: searchQueries,\n    disciplines: disciplines,\n    previous_sections: $('Determine Next Action').first().json.previous_sections\n  }\n}];"
+        },
+        "id": "deaddf75-af0f-4d16-bc8b-b46b3ee8e7ba",
+        "name": "Parse Orchestrator Response",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1408,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const data = $input.first().json;\nconst queries = data.search_queries;\n\nreturn [{\n  json: {\n    queries: queries,\n    disciplines: data.disciplines,\n    orchestrator_guidance: data.orchestrator_guidance,\n    target_section: data.target_section,\n    previous_sections: data.previous_sections\n  }\n}];"
+        },
+        "id": "d00ca2f6-3e5f-47c0-876d-cda7809db74b",
+        "name": "Prepare Search Queries",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1184,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://openrouter.ai/api/v1/embeddings",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ {\n  \"model\": \"openai/text-embedding-3-small\",\n  \"input\": $json.queries\n} }}",
+          "options": {}
+        },
+        "id": "a010af6f-ae08-4cf1-940c-ab07200973ae",
+        "name": "Generate Query Embeddings",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -960,
+          448
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "USjhdb01qbGGniTq",
+            "name": "OpenRouter"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const embeddings = $input.first().json.data.map(d => d.embedding);\nconst queries = $('Prepare Search Queries').first().json.queries;\nconst disciplines = $('Prepare Search Queries').first().json.disciplines;\n\nreturn [{\n  json: {\n    embedding: embeddings[0],\n    disciplines_filter: disciplines,\n    orchestrator_guidance: $('Prepare Search Queries').first().json.orchestrator_guidance,\n    target_section: $('Prepare Search Queries').first().json.target_section,\n    previous_sections: $('Prepare Search Queries').first().json.previous_sections\n  }\n}];"
+        },
+        "id": "8d94f305-cf3e-40fc-8340-410fdd1123ba",
+        "name": "Prepare RAG Search",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -736,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://hmuwwababhbzmjhnajsb.supabase.co/rest/v1/rpc/match_chunks",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "supabaseApi",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ {\n  \"query_embedding\": $json.embedding,\n  \"match_threshold\": 0.0,\n  \"match_count\": 20\n} }}",
+          "options": {}
+        },
+        "id": "f6809a04-cb48-4143-a8ca-678a24317554",
+        "name": "RAG Vector Search",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -512,
+          448
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "y6b2F8C3awAlTEE9",
+            "name": "Supabase"
+          },
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          },
+          "mondayComApi": {
+            "id": "GM3Ug5zZ3SY9ePJb",
+            "name": "Monday.com account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Compile all retrieved chunks into a context document\n\nconst ragResults = $input.first().json;\nconst guidance = $('Prepare RAG Search').first().json.orchestrator_guidance;\nconst targetSection = $('Prepare RAG Search').first().json.target_section;\n\nconst chunks = Array.isArray(ragResults) ? ragResults : [ragResults];\n\nconst seenContent = new Set();\nconst uniqueChunks = [];\n\nfor (const chunk of chunks) {\n  if (chunk && chunk.content) {\n    const contentHash = chunk.content.substring(0, 100);\n    if (!seenContent.has(contentHash)) {\n      seenContent.add(contentHash);\n      uniqueChunks.push(chunk);\n    }\n  }\n}\n\nuniqueChunks.sort((a, b) => (b.similarity || 0) - (a.similarity || 0));\n\nlet context = '';\nconst citationsUsed = [];\n\nfor (const chunk of uniqueChunks.slice(0, 20)) {\n  const citation = chunk.chicago_citation || `${chunk.source_title || 'Unknown'} (${(chunk.source_authors || []).join(', ')})`;\n  \n  context += `\\n\\n---\\n[Source: ${chunk.source_title || 'Unknown'}]\\n`;\n  context += `[Section: ${chunk.section_type || 'unknown'}, Page: ${chunk.page_number || 'N/A'}]\\n`;\n  context += `[Relevance: ${((chunk.similarity || 0) * 100).toFixed(1)}%]\\n\\n`;\n  context += chunk.content;\n  context += `\\n[Citation: ${citation}]\\n---`;\n  \n  if (citation && !citationsUsed.includes(citation)) {\n    citationsUsed.push(citation);\n  }\n}\n\nif (uniqueChunks.length === 0) {\n  context = '[No relevant sources found in knowledge base. The Writing Agent should note this limitation.]';\n}\n\nreturn [{\n  json: {\n    context: context,\n    citations: citationsUsed,\n    chunk_count: uniqueChunks.length,\n    orchestrator_guidance: guidance,\n    target_section: targetSection,\n    previous_sections: $('Prepare RAG Search').item.json.previous_sections\n  }\n}];"
+        },
+        "id": "36633d2d-fdbd-4333-9366-1032e20137d4",
+        "name": "Compile RAG Context",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -288,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://openrouter.ai/api/v1/chat/completions",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $json.requestBody }}",
+          "options": {}
+        },
+        "id": "352a7130-80c4-4f7d-a087-4089f84c731f",
+        "name": "Writing Agent",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          160,
+          448
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "USjhdb01qbGGniTq",
+            "name": "OpenRouter"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const writtenContent = $input.first().json.choices[0].message.content;\nconst targetSection = $('Compile RAG Context').first().json.target_section;\nconst citations = $('Compile RAG Context').first().json.citations;\n\nconst wordCount = writtenContent.split(/\\s+/).length;\nconst pageCount = wordCount / 250;\n\nreturn [{\n  json: {\n    section_key: targetSection.section_key,\n    section_id: targetSection.id,\n    content: writtenContent,\n    word_count: wordCount,\n    page_count: pageCount,\n    status: 'review',\n    // Store citations as simple count for response, not for DB\n    _citations_count: citations.length,\n    _citations_list: citations\n  }\n}];"
+        },
+        "id": "c75e4f4a-781c-4eee-a373-8b1afe270baf",
+        "name": "Process Written Section",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          384,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "paper_sections",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id",
+                "condition": "eq",
+                "keyValue": "={{ $json.section_id }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "content",
+                "fieldValue": "={{ $json.content }}"
+              },
+              {
+                "fieldId": "word_count",
+                "fieldValue": "={{ $json.word_count }}"
+              },
+              {
+                "fieldId": "status",
+                "fieldValue": "={{ $json.status }}"
+              }
+            ]
+          }
+        },
+        "id": "e15d23f4-c786-4d3c-80ff-49a015ed7704",
+        "name": "Save Section to DB",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          608,
+          448
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={{ {\n  \"status\": \"success\",\n  \"section\": $('Process Written Section').item.json.section_key,\n  \"word_count\": $('Process Written Section').item.json.word_count,\n  \"page_count\": $('Process Written Section').item.json.page_count.toFixed(1),\n  \"content_preview\": $('Process Written Section').item.json.content.substring(0, 500) + '...',\n  \"citations_count\": $('Process Written Section').item.json._citations_count\n} }}",
+          "options": {}
+        },
+        "id": "7f8d3a90-7a87-4352-b927-a5deea2fe591",
+        "name": "Respond with Result",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.1,
+        "position": [
+          1056,
+          448
+        ]
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "write-section",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "id": "bb3507eb-240f-4387-b4da-e109ace0b694",
+        "name": "Webhook Trigger1",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -2528,
+          448
+        ],
+        "webhookId": "5553989a-5f5d-4821-b494-3bea9f724a8f"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          -2080,
+          448
+        ],
+        "id": "5055c9d1-5600-4258-87db-aae82115e563",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "jsCode": "const data = $input.first().json;\n\nconst systemPrompt = `You are the Writing Agent for an interdisciplinary research paper.\n\nRESEARCH QUESTION:\n\"How can public health interventions be designed to address the social determinants that maintain health disparities and thus improve health equity in Black communities?\"\n\nCRITICAL REQUIREMENTS:\n1. ORIGINALITY: All writing must be substantially original analysis\n   - Never copy phrases directly from sources\n   - Synthesize and paraphrase, then cite\n   - Develop your own arguments supported by evidence\n   \n2. CITATION: Chicago Manual of Style (Notes-Bibliography system)\n   - Use footnotes for citations in format: Author, Title, page.\n   - Every claim from a source must be cited\n   \n3. ACADEMIC TONE:\n   - Third person (avoid \"I\" except in reflection)\n   - Precise, scholarly language\n   - Clear argument structure\n\n4. TURNITIN COMPLIANCE:\n   - Target <30% similarity score\n   - Paraphrase comprehensively\n   - Use direct quotes sparingly\n\nSECTION TO WRITE: ${data.target_section?.section_name || 'Unknown'}\nSTEP NUMBER: ${data.target_section?.step_number || 0}\nTARGET WORD COUNT: ${data.orchestrator_guidance?.target_word_count || 500}\n\nKEY POINTS TO COVER:\n${(data.orchestrator_guidance?.key_points_to_cover || []).map(p => '- ' + p).join('\\n')}\n\nINTEGRATION GUIDANCE:\n${data.orchestrator_guidance?.integration_guidance || 'Integrate insights from multiple disciplines.'}\n\nPREVIOUS SECTIONS SUMMARY:\n${(data.previous_sections || []).map(s => s.name + ': ' + s.summary).join('\\n\\n')}\n\nWrite the complete section content. Use footnotes for all citations (format: [^1], [^2], etc.). At the end, provide a FOOTNOTES section with all citations in Chicago format.`;\n\nconst userPrompt = `Write the ${data.target_section?.section_name || 'section'} section using the following sources:\n\n${data.context}\n\nRemember: Synthesize and analyze, don't just summarize. Every claim needs a citation. Target ${data.orchestrator_guidance?.target_word_count || 500} words.`;\n\nreturn [{\n  json: {\n    requestBody: {\n      model: \"anthropic/claude-sonnet-4\",\n      messages: [\n        { role: \"system\", content: systemPrompt },\n        { role: \"user\", content: userPrompt }\n      ],\n      max_tokens: 4000\n    },\n    // Pass through for later nodes\n    target_section: data.target_section,\n    citations: data.citations,\n    orchestrator_guidance: data.orchestrator_guidance\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -64,
+          448
+        ],
+        "id": "fc4f2180-8777-439f-b031-edead38caafc",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "method": "PATCH",
+          "url": "https://hmuwwababhbzmjhnajsb.supabase.co/rest/v1/workflow_state",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "supabaseApi",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "id",
+                "value": "not.is.null"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Prefer",
+                "value": "return=representation"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ {\n  \"updated_at\": new Date().toISOString(),\n  \"last_agent_action\": \"Wrote section: \" + $('Process Written Section').item.json.section_key\n} }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          832,
+          448
+        ],
+        "id": "73a153bc-a855-4c40-9ed4-0a3abd3b8a3a",
+        "name": "HTTP Request",
+        "credentials": {
+          "supabaseApi": {
+            "id": "SJ2GZYpOaA0CpLfJ",
+            "name": "ids 4370"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Get Workflow State": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get All Sections": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Determine Next Action": {
+        "main": [
+          [
+            {
+              "node": "Orchestrator Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Orchestrator Agent": {
+        "main": [
+          [
+            {
+              "node": "Parse Orchestrator Response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Orchestrator Response": {
+        "main": [
+          [
+            {
+              "node": "Prepare Search Queries",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Prepare Search Queries": {
+        "main": [
+          [
+            {
+              "node": "Generate Query Embeddings",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Query Embeddings": {
+        "main": [
+          [
+            {
+              "node": "Prepare RAG Search",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Prepare RAG Search": {
+        "main": [
+          [
+            {
+              "node": "RAG Vector Search",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "RAG Vector Search": {
+        "main": [
+          [
+            {
+              "node": "Compile RAG Context",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Compile RAG Context": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Writing Agent": {
+        "main": [
+          [
+            {
+              "node": "Process Written Section",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Process Written Section": {
+        "main": [
+          [
+            {
+              "node": "Save Section to DB",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Save Section to DB": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook Trigger1": {
+        "main": [
+          [
+            {
+              "node": "Get Workflow State",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Get All Sections",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Respond with Result": {
+        "main": [
+          []
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Determine Next Action",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Writing Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          [
+            {
+              "node": "Respond with Result",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "7415ec9f-d9b9-42c8-8c61-cfa2498c0307",
   "connections": {
     "Get Workflow State": {
       "main": [
