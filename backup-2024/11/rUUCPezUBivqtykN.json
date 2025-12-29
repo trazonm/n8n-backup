@@ -1,5 +1,336 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-11-27T17:00:06.895Z",
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "versionId": "da9dd132-fcc2-4cf5-ac52-0cafe0092fc3",
+    "workflowId": "rUUCPezUBivqtykN",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "cronExpression",
+                "expression": "0 5 */2 * *"
+              }
+            ]
+          }
+        },
+        "id": "a0272b02-eccd-4f74-811e-0dba134a1a54",
+        "name": "Schedule Trigger",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          704,
+          256
+        ]
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "49e7d9d8-482f-4c6f-9ef9-00b7691dab15",
+        "name": "Loop Over Items",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          1376,
+          256
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const results = $input.all()\n  .flatMap(input => input.json.MediaContainer.Metadata)\n  .map(item => ({ ratingKey: item.ratingKey }));\n\nreturn results;"
+        },
+        "id": "272e6867-4d76-4c9a-94fc-24b3d0208bb3",
+        "name": "Extract Rating Keys",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1152,
+          256
+        ]
+      },
+      {
+        "parameters": {
+          "authentication": "webhook",
+          "content": "<@246812164885577729> AI Voice Analysis Has Begun.  Check Plex for progress...",
+          "options": {
+            "username": "BakaBot"
+          }
+        },
+        "id": "9f3e9951-7a89-4d9e-b12f-6363f7815215",
+        "name": "Discord",
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          1600,
+          112
+        ],
+        "executeOnce": true,
+        "webhookId": "356312cb-cf09-4a32-846d-ad1aa7ca133e",
+        "credentials": {
+          "discordWebhookApi": {
+            "id": "21uLkANK79dNiJkJ",
+            "name": "AI Voice Analysis Webhook"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "=http://192.168.0.107:32400/library/metadata/{{ $json.ratingKey }}?checkFiles=1&includeAllConcerts=1&includeBandwidths=1&includeChapters=1&includeChildren=1&includeConcerts=1&includeExtras=1&includeFields=1&includeGeolocation=1&includeLoudnessRamps=1&includeMarkers=1&includeOnDeck=1&includePopularLeaves=1&includePreferences=1&includeRelated=1&includeRelatedCount=1&includeReviews=1&includeStations=1&X-Plex-Token=NFQRt6V-sZxB4GFPtfDn",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "options": {}
+        },
+        "id": "225f8942-0304-4563-9c45-8466d07e535a",
+        "name": "Get Voice Activity Data",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1600,
+          304
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "Cxr51jaB8HusrbRA",
+            "name": "BakaPlex"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "f56defc9-6044-46a2-96b1-9a487b50b119",
+                "leftValue": "={{ $json.MediaContainer.Metadata[0].OnDeck.Metadata.Media[0].hasVoiceActivity }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "false",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "4561e310-9a46-4145-9cd7-28bfc5b1b9c2",
+                "leftValue": "={{ $json.MediaContainer.Metadata[0].OnDeck.Metadata.Media[0].hasVoiceActivity }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "id": "37dbe0b6-d552-4bd9-8fa3-4d0a88908f58",
+        "name": "Filter",
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1824,
+          304
+        ]
+      },
+      {
+        "parameters": {
+          "method": "PUT",
+          "url": "=http://192.168.0.107:32400/library/metadata/{{ $('Loop Over Items').item.json.ratingKey }}/analyze",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "options": {
+            "timeout": 30000
+          }
+        },
+        "id": "0dbb5572-573e-4e1e-8279-7fa94cc566fb",
+        "name": "Analyze",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2048,
+          304
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "Cxr51jaB8HusrbRA",
+            "name": "BakaPlex"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "method": "PUT",
+          "url": "=http://192.168.0.107:32400/library/metadata/{{ $('Loop Over Items').item.json.ratingKey }}/refresh",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "options": {
+            "timeout": 600
+          }
+        },
+        "id": "27bc9b32-2dca-45fc-bee6-1b219fd4a8dc",
+        "name": "Refresh Metadata",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2272,
+          304
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "Cxr51jaB8HusrbRA",
+            "name": "BakaPlex"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "url": "http://192.168.0.107:32400/library/sections/13/all?genre=4376",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "options": {}
+        },
+        "id": "9300ff1f-f627-4e2a-abc3-f6796921dbb4",
+        "name": "Get all Anime (New Library)",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          928,
+          256
+        ],
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "Cxr51jaB8HusrbRA",
+            "name": "BakaPlex"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Get all Anime (New Library)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Discord",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get Voice Activity Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract Rating Keys": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Voice Activity Data": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Analyze",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Analyze": {
+        "main": [
+          [
+            {
+              "node": "Refresh Metadata",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get all Anime (New Library)": {
+        "main": [
+          [
+            {
+              "node": "Extract Rating Keys",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "da9dd132-fcc2-4cf5-ac52-0cafe0092fc3",
   "connections": {
     "Schedule Trigger": {
       "main": [
