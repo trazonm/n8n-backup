@@ -1,7 +1,3066 @@
 {
-  "active": false,
-  "activeVersion": null,
-  "activeVersionId": null,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-04T16:33:34.000Z",
+    "createdAt": "2026-01-04T16:33:32.982Z",
+    "versionId": "dc3834da-6b7d-4fad-90ea-462d5cfd6b54",
+    "workflowId": "H6R6Jl81EUp8L3Tr",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "cronExpression",
+                "expression": "0 30 7,12,17,21 * * *"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -5408,
+          592
+        ],
+        "id": "b4a32382-e765-413b-a907-6915c171a6d0",
+        "name": "Schedule Trigger (4x Daily)",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "amount": "={{ Math.floor(Math.random() * 25) + 5 }}"
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -5184,
+          592
+        ],
+        "id": "ffc2590f-89ff-488f-996a-8883d9b9bcb4",
+        "name": "Random Delay (Anti-Detection)",
+        "webhookId": "random-delay-1"
+      },
+      {
+        "parameters": {
+          "url": "https://serpapi.com/search",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "serpApi",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "engine",
+                "value": "google_trends_trending_now"
+              },
+              {
+                "name": "geo",
+                "value": "US"
+              },
+              {
+                "name": "hl",
+                "value": "en"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -4960,
+          400
+        ],
+        "id": "92a26324-c4be-42b2-b9c4-76da85cf6a24",
+        "name": "Google Trends (What's Hot Now)",
+        "credentials": {
+          "serpApi": {
+            "id": "uCDSUDcCcYUlmt38",
+            "name": "SerpApi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "https://serpapi.com/search",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "serpApi",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "engine",
+                "value": "google"
+              },
+              {
+                "name": "num",
+                "value": "15"
+              },
+              {
+                "name": "gl",
+                "value": "us"
+              },
+              {
+                "name": "tbs",
+                "value": "qdr:d"
+              },
+              {
+                "name": "q",
+                "value": "site:reddit.com (r/oddlysatisfying OR r/interestingasfuck OR r/BeAmazed OR r/nextfuckinglevel OR r/Damnthatsinteresting) viral"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -4960,
+          592
+        ],
+        "id": "34af0128-d5ee-4901-97fc-614464b6fc79",
+        "name": "Reddit (Satisfying/Amazing Content)",
+        "credentials": {
+          "serpApi": {
+            "id": "uCDSUDcCcYUlmt38",
+            "name": "SerpApi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "https://serpapi.com/search",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "serpApi",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "engine",
+                "value": "google"
+              },
+              {
+                "name": "num",
+                "value": "10"
+              },
+              {
+                "name": "gl",
+                "value": "us"
+              },
+              {
+                "name": "tbs",
+                "value": "qdr:w"
+              },
+              {
+                "name": "q",
+                "value": "site:amazon.com best sellers 2025 viral tiktok product"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -4960,
+          784
+        ],
+        "id": "e3764779-f444-431e-8643-e803a7ea3636",
+        "name": "Amazon Trending Products",
+        "credentials": {
+          "serpApi": {
+            "id": "uCDSUDcCcYUlmt38",
+            "name": "SerpApi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3,
+        "position": [
+          -4736,
+          496
+        ],
+        "id": "b53194a5-0eb0-4688-9844-536227d073cf",
+        "name": "Merge All Sources"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "combined-data",
+                "name": "combined_trends",
+                "value": "={{ JSON.stringify({ google_trends: $('Google Trends (What\\'s Hot Now)').item.json, reddit: $('Reddit (Satisfying/Amazing Content)').item.json, amazon: $('Amazon Trending Products').item.json }) }}",
+                "type": "string"
+              },
+              {
+                "id": "amazon-affiliate",
+                "name": "affiliate_config",
+                "value": "={{ JSON.stringify({ store_id: 'hydronest-20', tracking_id: 'bakaboi-20', base_url: 'https://www.amazon.com/dp/' }) }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -4512,
+          496
+        ],
+        "id": "858fcf2e-e90b-4419-a6cf-306c8d821d53",
+        "name": "Combine Data + Affiliate Config"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=TRENDING DATA:\n{{ $json.combined_trends }}\n\nAFFILIATE CONFIG:\n{{ $json.affiliate_config }}\n\nTASK: Analyze all data sources and select the BEST opportunity for a viral short-form video that can also monetize.\n\nPRIORITY ORDER:\n1. Amazon product that's trending + has viral potential (can include affiliate link)\n2. Satisfying/amazing visual content that can showcase a product\n3. Pure entertainment if no good product angles exist\n\nOUTPUT the single best concept.",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "You are a viral content strategist who understands both entertainment AND monetization.\n\nYour job is to find the intersection of:\n- What's trending RIGHT NOW\n- What makes people stop scrolling\n- What can be monetized (product placement, affiliate links)\n\nCONTENT TYPES THAT WORK:\n1. SATISFYING: Cleaning, organizing, ASMR, perfect fits\n2. TRANSFORMATION: Before/after, restoration, makeovers\n3. LIFE HACKS: Products that solve problems\n4. REACTIONS: Surprising reveals, unexpected outcomes\n5. RELATABLE: Daily struggles with a twist\n\nAVOID:\n- Overly niche memes that only 1% understand\n- Controversial/political content\n- Content that looks obviously AI-generated\n- Anything that could get demonetized\n\nFor Amazon products, you MUST include the ASIN if found."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3,
+        "position": [
+          -4288,
+          496
+        ],
+        "id": "038c7f44-a17d-4666-8a86-95ec8afd5782",
+        "name": "AI Content Strategist"
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"content_type\": \"product_showcase | satisfying | transformation | life_hack | entertainment\",\n  \"core_concept\": \"One sentence description\",\n  \"hook\": \"First 2 seconds - what grabs attention\",\n  \"visual_focus\": \"What the camera shows\",\n  \"emotion_target\": \"satisfying | surprising | relatable | funny | awe\",\n  \"monetization\": {\n    \"has_product\": true,\n    \"product_name\": \"Product name or null\",\n    \"amazon_asin\": \"ASIN or null\",\n    \"affiliate_angle\": \"How to naturally mention the product\"\n  },\n  \"platforms\": [\"youtube_shorts\", \"instagram_reels\", \"tiktok\"],\n  \"estimated_appeal\": \"broad | niche | medium\"\n}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -4160,
+          720
+        ],
+        "id": "95f54675-5ee8-47ca-a679-227bfae313fa",
+        "name": "Strategy Output Parser"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          -4288,
+          720
+        ],
+        "id": "a50c2dcf-6c0b-4849-8da3-78ae427f2a2a",
+        "name": "Gemini 2.5 Flash",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "SXxerOXC902v1BV6",
+            "name": "Google Gemini(PaLM) Api account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "has-product-check",
+                "leftValue": "={{ $json.output.monetization.has_product }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -3936,
+          368
+        ],
+        "id": "f974d665-dcf0-4a26-917b-cbfc61153896",
+        "name": "Has Product to Monetize?"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "build-affiliate-link",
+                "name": "affiliate_link",
+                "value": "={{ $json.output.monetization.amazon_asin ? 'https://www.amazon.com/dp/' + $json.output.monetization.amazon_asin + '?tag=bakaboi-20' : '' }}",
+                "type": "string"
+              },
+              {
+                "id": "short-link-needed",
+                "name": "needs_link_shortening",
+                "value": "={{ $json.output.monetization.amazon_asin ? true : false }}",
+                "type": "boolean"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -3712,
+          272
+        ],
+        "id": "4afafb7b-a3ad-4003-ae4b-63629698104d",
+        "name": "Build Affiliate Link"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "no-affiliate",
+                "name": "affiliate_link",
+                "value": "",
+                "type": "string"
+              },
+              {
+                "id": "no-shortening",
+                "name": "needs_link_shortening",
+                "value": false,
+                "type": "boolean"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -3712,
+          464
+        ],
+        "id": "0f66556f-a8be-4068-a984-fdb7201d0b78",
+        "name": "No Affiliate Link"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3,
+        "position": [
+          -3488,
+          368
+        ],
+        "id": "989cfffb-93ec-4f3f-be1d-6c98287f585f",
+        "name": "Merge Paths"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "master-prompt-v2",
+                "name": "video_prompt_template",
+                "value": "={\n  \"format\": \"vertical 9:16\",\n  \"duration\": \"8-15 seconds\",\n  \"style_options\": [\n    \"Cinematic product showcase\",\n    \"Satisfying loop\",\n    \"POV transformation\",\n    \"Before/After reveal\",\n    \"Unboxing moment\",\n    \"Life hack demonstration\"\n  ],\n  \"camera\": {\n    \"primary\": \"Smooth tracking shot | Static beauty shot | Handheld authentic\",\n    \"secondary\": \"Close-up detail | Wide establishing | Over-shoulder POV\"\n  },\n  \"lighting\": {\n    \"product\": \"Soft diffused | Ring light | Natural window light\",\n    \"mood\": \"Warm inviting | Clean minimal | Dramatic contrast\"\n  },\n  \"pacing\": {\n    \"hook\": \"0-2s: Immediate visual interest\",\n    \"build\": \"2-8s: Show the process/product/transformation\",\n    \"payoff\": \"8-12s: Satisfying conclusion or reveal\",\n    \"cta\": \"Final 2s: Subtle call to action if product\"\n  },\n  \"audio_guidance\": {\n    \"music\": \"Trending TikTok sounds | Lo-fi beats | Satisfying ASMR\",\n    \"voiceover\": \"Optional - casual, authentic tone\"\n  },\n  \"DO_NOT\": [\n    \"Show text on screen\",\n    \"Look obviously AI-generated\",\n    \"Include logos or branding\",\n    \"Make it look like an ad\"\n  ]\n}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -3264,
+          368
+        ],
+        "id": "ab04c235-5573-46a9-820f-335c17a6787c",
+        "name": "Video Prompt Template"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=CONTENT STRATEGY:\n{{ JSON.stringify($('AI Content Strategist').item.json.output) }}\n\nVIDEO TEMPLATE:\n{{ $json.video_prompt_template }}\n\nAFFILIATE LINK (if applicable): {{ $('Build Affiliate Link').item.json.affiliate_link || 'None' }}\n\nTASK: Create a detailed video generation prompt that:\n1. Follows the template structure\n2. Brings the content strategy to life visually\n3. Looks AUTHENTIC, not AI-generated\n4. If there's a product, showcases it naturally (not as an ad)\n\nThe video should make people:\n- Stop scrolling immediately\n- Watch to the end\n- Want to share it\n- Click the link in bio (if product)",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "You are a viral video director who creates content that performs.\n\nYour videos get millions of views because they:\n1. Hook in 0.5 seconds\n2. Deliver value or entertainment\n3. Feel authentic and relatable\n4. Have a satisfying payoff\n\nWhen products are involved, you integrate them NATURALLY:\n- Show the product solving a real problem\n- Focus on the satisfying result, not the product itself\n- Never make it feel like an advertisement\n- Let the product be discovered, not pushed\n\nYour prompts should be detailed enough for AI video generation but focused on REAL scenarios that could actually happen."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3,
+        "position": [
+          -3040,
+          368
+        ],
+        "id": "e628b125-ba3b-4bb5-92be-b11e71dce050",
+        "name": "AI Video Director"
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"title\": \"Short catchy title (max 10 words)\",\n  \"final_prompt\": \"Detailed video generation prompt as single string\",\n  \"tags\": \"comma, separated, relevant, tags\",\n  \"hook_type\": \"visual | audio | question | statement\",\n  \"cta_style\": \"link_in_bio | comment_for_link | none\"\n}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -2912,
+          592
+        ],
+        "id": "85a4ce60-337a-4687-b04d-3ca287384ed9",
+        "name": "Director Output Parser"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          -3040,
+          592
+        ],
+        "id": "d85fb35c-f77f-4700-9ecc-ec797e8a62ad",
+        "name": "Gemini 2.5 Pro",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "SXxerOXC902v1BV6",
+            "name": "Google Gemini(PaLM) Api account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemini-2.5-flash-lite",
+            "mode": "list",
+            "cachedResultName": "models/gemini-2.5-flash-lite"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Rate this video concept for VIRAL POTENTIAL and MONETIZATION potential.\n\nCONCEPT:\nTitle: {{ $json.output.title }}\nPrompt: {{ $json.output.final_prompt }}\nContent Type: {{ $('AI Content Strategist').item.json.output.content_type }}\nHas Product: {{ $('AI Content Strategist').item.json.output.monetization.has_product }}\n\nSCORING CRITERIA:\n- Hook strength (will people stop scrolling?): 0-25\n- Watch-through potential (will they finish?): 0-25  \n- Shareability (will they send to friends?): 0-25\n- Monetization fit (natural product integration?): 0-25\n\nBONUS POINTS:\n+10 if it taps into a current trend\n+10 if it has a satisfying payoff\n+5 if it works without sound\n\nPENALTIES:\n-20 if it looks like an obvious ad\n-15 if hook is weak\n-10 if concept is overplayed\n\nReturn ONLY valid JSON."
+              }
+            ]
+          },
+          "jsonOutput": true,
+          "options": {
+            "systemMessage": "You are a brutal but fair content critic. You've seen millions of videos and know exactly what performs.\n\nYour scoring is harsh but accurate:\n- 80-100: Will likely go viral, strong monetization potential\n- 60-79: Decent performer, may need iteration\n- 40-59: Mediocre, probably won't break through\n- Below 40: Don't waste the API credits\n\nBe specific in feedback - vague criticism is useless."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1,
+        "position": [
+          -2688,
+          368
+        ],
+        "id": "7d775696-6698-4f2e-90dd-259659f846ed",
+        "name": "Quality & Monetization Rater",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "SXxerOXC902v1BV6",
+            "name": "Google Gemini(PaLM) Api account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "quality-check",
+                "leftValue": "={{ JSON.parse($json.content.parts[0].text).total_score }}",
+                "rightValue": 65,
+                "operator": {
+                  "type": "number",
+                  "operation": "gte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -2336,
+          368
+        ],
+        "id": "1838125e-c1a0-4b3a-869c-c180e6686fbf",
+        "name": "Score >= 65?"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.kie.ai/api/v1/jobs/createTask",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({\n  model: 'veo2',\n  input: {\n    prompt: $('AI Video Director').item.json.output.final_prompt,\n    aspectRatio: '9:16'\n  }\n}) }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -2112,
+          320
+        ],
+        "id": "0981b406-0ec3-4787-ab24-f62f2b715b98",
+        "name": "Generate Video (VEO2)",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "5lOOFjEXtgK6hJc9",
+            "name": "Kie"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 20
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -1888,
+          320
+        ],
+        "id": "bac2371e-086a-49bd-8305-02c02548bb29",
+        "name": "Wait 20s",
+        "webhookId": "wait-video-1"
+      },
+      {
+        "parameters": {
+          "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{ $('Generate Video (VEO2)').item.json.data.taskId }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -1664,
+          320
+        ],
+        "id": "71dc8c0d-4617-4f74-b4fd-76b061b46577",
+        "name": "Check Video Status",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "5lOOFjEXtgK6hJc9",
+            "name": "Kie"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "video-complete",
+                "leftValue": "={{ $json.data.completeTime }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -1440,
+          240
+        ],
+        "id": "5ba2647d-214c-48e9-8005-f49300c5718e",
+        "name": "Video Ready?"
+      },
+      {
+        "parameters": {
+          "amount": 15
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -1216,
+          416
+        ],
+        "id": "dbe3fba2-e11c-4180-8eb6-0f385192d2c3",
+        "name": "Wait 15s More",
+        "webhookId": "wait-more-1"
+      },
+      {
+        "parameters": {
+          "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{ $('Generate Video (VEO2)').item.json.data.taskId }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1216,
+          192
+        ],
+        "id": "84ba9873-2aad-4875-93c3-21d42b059fb0",
+        "name": "Download Video",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "5lOOFjEXtgK6hJc9",
+            "name": "Kie"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-4o",
+            "mode": "list",
+            "cachedResultName": "GPT-4O"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Create 3 different captions for the same video, optimized for different platforms.\n\nVIDEO INFO:\n- Title: {{ $('AI Video Director').item.json.output.title }}\n- Content Type: {{ $('AI Content Strategist').item.json.output.content_type }}\n- Emotion Target: {{ $('AI Content Strategist').item.json.output.emotion_target }}\n- Has Product: {{ $('AI Content Strategist').item.json.output.monetization.has_product }}\n- Product: {{ $('AI Content Strategist').item.json.output.monetization.product_name || 'None' }}\n- Affiliate Link: {{ $('Build Affiliate Link').item.json.affiliate_link || 'None' }}\n- CTA Style: {{ $('AI Video Director').item.json.output.cta_style }}\n\nRULES:\n1. Each caption must be under 150 characters\n2. Use 0-2 emojis max\n3. Hashtags: 3-5 per platform, trending ones preferred\n4. If there's a product, use \"link in bio\" naturally (not pushy)\n5. Sound natural, not like a brand\n\nPLATFORM STYLES:\n- TikTok: Casual, trendy, might reference sounds/trends\n- Instagram: Slightly more polished, can be mysterious\n- YouTube: Can be more descriptive, SEO-friendly\n\nReturn ONLY JSON with this structure:\n{\n  \"tiktok\": \"caption here\",\n  \"instagram\": \"caption here\", \n  \"youtube_shorts\": \"caption here\",\n  \"twitter\": \"caption here (shorter, can be edgier)\"\n}"
+              }
+            ]
+          },
+          "jsonOutput": true,
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          -992,
+          192
+        ],
+        "id": "3e7abae1-16a0-46f3-874a-479898296a7f",
+        "name": "Multi-Platform Caption Generator",
+        "credentials": {
+          "openAiApi": {
+            "id": "l66YzAph61HK1POi",
+            "name": "OpenRouter"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+            "mode": "list",
+            "cachedResultName": "Viral Video Machine",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 345069389,
+            "mode": "list",
+            "cachedResultName": "VIDEOS",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=345069389"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Title": "={{ $('AI Video Director').item.json.output.title }}",
+              "Content_Type": "={{ $('AI Content Strategist').item.json.output.content_type }}",
+              "Has_Product": "={{ $('AI Content Strategist').item.json.output.monetization.has_product }}",
+              "Product_Name": "={{ $('AI Content Strategist').item.json.output.monetization.product_name || '' }}",
+              "Affiliate_Link": "={{ $('Build Affiliate Link').item.json.affiliate_link || '' }}",
+              "Video_URL": "={{ JSON.parse($('Download Video').item.json.data.resultJson).resultUrls[0] }}",
+              "Quality_Score": "={{ JSON.parse($('Quality & Monetization Rater').item.json.content.parts[0].text).total_score }}",
+              "Caption_TikTok": "={{ JSON.parse($json.message.content).tiktok }}",
+              "Caption_Instagram": "={{ JSON.parse($json.message.content).instagram }}",
+              "Caption_YouTube": "={{ JSON.parse($json.message.content).youtube_shorts }}",
+              "Caption_Twitter": "={{ JSON.parse($json.message.content).twitter }}",
+              "Tags": "={{ $('AI Video Director').item.json.output.tags }}",
+              "Created_At": "={{ new Date().toISOString() }}",
+              "Posted_Platforms": "",
+              "Views_Total": "",
+              "Revenue": ""
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Title",
+                "displayName": "Title",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Content_Type",
+                "displayName": "Content_Type",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Has_Product",
+                "displayName": "Has_Product",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Product_Name",
+                "displayName": "Product_Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Affiliate_Link",
+                "displayName": "Affiliate_Link",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Video_URL",
+                "displayName": "Video_URL",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Quality_Score",
+                "displayName": "Quality_Score",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Caption_TikTok",
+                "displayName": "Caption_TikTok",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Caption_Instagram",
+                "displayName": "Caption_Instagram",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Caption_YouTube",
+                "displayName": "Caption_YouTube",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Caption_Twitter",
+                "displayName": "Caption_Twitter",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Tags",
+                "displayName": "Tags",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Created_At",
+                "displayName": "Created_At",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Posted_Platforms",
+                "displayName": "Posted_Platforms",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Views_Total",
+                "displayName": "Views_Total",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Revenue",
+                "displayName": "Revenue",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.6,
+        "position": [
+          -640,
+          192
+        ],
+        "id": "cdf1b3d4-b2be-4484-9d2e-872e329f4f7e",
+        "name": "Save to Analytics Sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "dowP6ywDzdtOnsKQ",
+            "name": "trazon's"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1446921026867826688",
+            "mode": "list",
+            "cachedResultName": "viral-video-ideas",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+          },
+          "content": "=🎬 **NEW VIDEO READY FOR REVIEW**\n\n**Title:** {{ $('AI Video Director').item.json.output.title }}\n**Type:** {{ $('AI Content Strategist').item.json.output.content_type }}\n**Quality Score:** {{ JSON.parse($('Quality & Monetization Rater').item.json.content.parts[0].text).total_score }}/100\n**Has Product:** {{ $('AI Content Strategist').item.json.output.monetization.has_product ? '✅ Yes - ' + $('AI Content Strategist').item.json.output.monetization.product_name : '❌ No' }}\n{{ $('Build Affiliate Link').item.json.affiliate_link ? '**Affiliate Link:** ' + $('Build Affiliate Link').item.json.affiliate_link : '' }}\n\n**Video:** {{ $json.Video_URL }}\n\nReact with:\n✅ to approve and post to all platforms\n📱 for TikTok only\n📸 for Instagram only\n🎬 for YouTube only\n❌ to reject",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          -416,
+          192
+        ],
+        "id": "11360d0d-f24b-4a64-a42c-11cf091a38df",
+        "name": "Discord Approval Request",
+        "webhookId": "discord-approval-1",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.upload-post.com/api/upload",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Save to Analytics Sheet').item.json.Title }}"
+              },
+              {
+                "name": "user",
+                "value": "bakaboi336"
+              },
+              {
+                "name": "platform[]",
+                "value": "instagram"
+              },
+              {
+                "name": "platform[]",
+                "value": "youtube"
+              },
+              {
+                "name": "platform[]",
+                "value": "x"
+              },
+              {
+                "name": "video",
+                "value": "={{ $('Save to Analytics Sheet').item.json.Video_URL }}"
+              },
+              {
+                "name": "description",
+                "value": "={{ $('Save to Analytics Sheet').item.json.Caption_Instagram }}"
+              },
+              {
+                "name": "tags",
+                "value": "={{ $('Save to Analytics Sheet').item.json.Tags }}"
+              },
+              {
+                "name": "x_title",
+                "value": "={{ $('Save to Analytics Sheet').item.json.Caption_Twitter }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -192,
+          192
+        ],
+        "id": "c473766f-075c-4ec9-8cd9-0423e1dff853",
+        "name": "Post to All Platforms",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "xutjopcylYCUIuRH",
+            "name": "Upload-Post"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+            "mode": "list",
+            "cachedResultName": "Viral Video Machine"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 345069389,
+            "mode": "list",
+            "cachedResultName": "VIDEOS"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Posted_Platforms": "instagram,youtube,twitter",
+              "Video_URL": "={{ $('Save to Analytics Sheet').item.json.Video_URL }}"
+            },
+            "matchingColumns": [
+              "Video_URL"
+            ],
+            "schema": [
+              {
+                "id": "Posted_Platforms",
+                "displayName": "Posted_Platforms",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": false
+              },
+              {
+                "id": "Video_URL",
+                "displayName": "Video_URL",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.6,
+        "position": [
+          32,
+          192
+        ],
+        "id": "a6942286-5c43-414c-a569-165fc9feeb45",
+        "name": "Update Posted Status",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "dowP6ywDzdtOnsKQ",
+            "name": "trazon's"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1446921026867826688",
+            "mode": "list",
+            "cachedResultName": "viral-video-ideas"
+          },
+          "content": "=✅ **POSTED SUCCESSFULLY**\n\nTitle: {{ $('Save to Analytics Sheet').item.json.Title }}\nPlatforms: Instagram, YouTube Shorts, Twitter/X\n\n{{ $('Build Affiliate Link').item.json.affiliate_link ? '💰 **Remember to update your bio link to:** ' + $('Build Affiliate Link').item.json.affiliate_link : '' }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          256,
+          192
+        ],
+        "id": "c45f8dc3-a1e8-4bd8-b0e0-7607aa771483",
+        "name": "Discord Success Notification",
+        "webhookId": "2f208e5f-ce27-4564-915b-9e504bc02c56",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1446921026867826688",
+            "mode": "list",
+            "cachedResultName": "viral-video-ideas"
+          },
+          "content": "=⚠️ **LOW QUALITY SCORE - REGENERATING**\n\nScore: {{ JSON.parse($json.content.parts[0].text).total_score }}/100\nFeedback: {{ JSON.parse($json.content.parts[0].text).feedback }}\n\nRegenerating with different approach...",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          -2112,
+          608
+        ],
+        "id": "e4042e97-40a5-424b-a8d7-158de9ce8ae2",
+        "name": "Notify Regeneration",
+        "webhookId": "ff8b8578-d798-4c4d-b1d1-f17595b4d8d8",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.upload-post.com/api/upload",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }}"
+              },
+              {
+                "name": "user",
+                "value": "bakaboi336"
+              },
+              {
+                "name": "platform[]",
+                "value": "instagram"
+              },
+              {
+                "name": "video",
+                "value": "={{ $('If2').item.json[\"URL VIDEO\"] }}"
+              },
+              {
+                "name": "description",
+                "value": "={{ $('Save Caption Video to Google Sheets1').item.json.CAPTION }}"
+              },
+              {
+                "name": "tags",
+                "value": "={{ $('Store Script Output').item.json.previous_tags }}"
+              },
+              {
+                "name": "platform[]",
+                "value": "youtube"
+              },
+              {
+                "name": "platform[]",
+                "value": "x"
+              },
+              {
+                "name": "x_title",
+                "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               \n    .map(t => t.trim())                       \n    .filter(t => t)                           \n    .map(t => '#' + t.replace(/\\s+/g, ''))    \n    .join(' ')                                \n}}\n"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -272,
+          -1072
+        ],
+        "id": "57750e05-60cc-4ceb-a72a-e51abd86f753",
+        "name": "Post",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "xutjopcylYCUIuRH",
+            "name": "Upload-Post"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=INPUT DATA (Trending topics/memes/cultural moments):\n{{ $json.organic_results.map(r => \"[SOURCE: \" + r.source + \"] TITLE: \" + r.title + \" \\nSNIPPET: \" + r.snippet).join(\"\\n---\\n\") }}\n\nTASK:\nIdentify ONE absurdly edgy premise that could become a Disney Pixar-style trailer. Push boundaries hard - the more \"I can't believe they made this\" the better.\n\nTHE PIXAR TRAILER FORMULA:\nWholesome Pixar Sincerity + Wildly Inappropriate Subject = Viral Gold\n\nPREMISE CATEGORIES (GO EDGY):\n\n1. ABSURD IDENTITY TRANSFORMATIONS (Maximum Shareability)\n   - Impossible/ridiculous identity quests played completely straight\n   - Examples: \n     * \"BLOOM: A 45-year-old man's heartwarming journey to become NYC's top femboy\"\n     * \"RACHEL: An inspiring tale of transracial identity - one Black man's dream of becoming Korean\"\n     * \"FUREVER: A software engineer who identifies as a wolf finding his pack\"\n     * \"THE CALL: A white suburban mom's spiritual journey to become a Native American shaman\"\n   - Why it works: Maximum cognitive dissonance - Pixar wholesomeness meets controversial identity politics\n\n2. TABOO SUBJECTS WITH CHILDLIKE INNOCENCE (Edgiest Hits)\n   - Topics society considers inappropriate, told like a kids' movie\n   - Examples:\n     * \"ONLY FANS: A single mom discovers her true calling (streaming platform)\"\n     * \"THE DIVORCE: A heartwarming tale of Dad moving out (told from the U-Haul's perspective)\"\n     * \"PYRAMID DREAMS: An immigrant's inspiring MLM journey\"\n     * \"THE REPO MAN COMETH: Finding joy in repossession\"\n   - Why it works: Pixar's earnestness makes uncomfortable topics hilariously absurd\n\n3. INTERNET BRAIN ROT ELEVATED (Gen Z Catnip)\n   - Online culture/memes given full Pixar emotional treatment  \n   - Examples:\n     * \"BRAIN ROT: A tiktoker's descent into madness, told with wonder\"\n     * \"SIGMA: One alpha male's quest to maintain his grindset\"\n     * \"NPC LIFE: An NPC realizes he's an NPC and it's beautiful\"\n     * \"THE GOONER: A heartwarming tale about staying focused (on cooming)\"\n   - Why it works: Pixar sincerity + terminally online absurdity = pure cringe gold\n\n4. MILD ILLEGAL/UNETHICAL (Walking The Line)\n   - Morally questionable pursuits with Pixar heroism\n   - Examples:\n     * \"TAX FREE: One man's inspiring offshore account journey\"\n     * \"FAKE ID: A high schooler's quest for the perfect fake\"\n     * \"THE CATFISH: Finding love through someone else's photos\"\n     * \"INSIDER: A day trader's emotional journey of securities fraud\"\n   - Why it works: Making you root for the \"villain\" with Pixar magic\n\n5. RELATIONSHIP DISASTERS (Everyone's Been There)\n   - Failed relationships/dating nightmares as hero's journey\n   - Examples:\n     * \"FRIEND ZONED: 10 years of waiting, one heartwarming journey\"\n     * \"THE REBOUND: Finding yourself in someone else (immediately after breakup)\"\n     * \"AGE IS JUST A NUMBER: A concerning age-gap romance (legal but creepy)\"\n     * \"POLY: One man discovers he can disappoint multiple partners\"\n   - Why it works: Relatable cringe elevated to Pixar epicness\n\n6. BODY/HEALTH ABSURDITY (Dark Comedy Gold)\n   - Physical/mental health issues played for inspiration\n   - Examples:\n     * \"THE BALDING: A young man's emotional acceptance journey\"\n     * \"300 POUNDS: One woman's struggle to reach her final form\"\n     * \"ADHD: Can't focus? Can't stop. One person's chaotic journey.\"\n     * \"THE ADDICTION: Finding community in the most unlikely place (rehab)\"\n   - Why it works: Pixar inspires us about things we shouldn't be inspired about\n\nREQUIREMENTS:\n- PUSH BOUNDARIES - safe is boring, we want \"holy shit did they really\"\n- Must have clear CHARACTER with absurd emotional want/need  \n- The MORE inappropriate for Pixar, the better the cognitive dissonance\n- Premise should make people simultaneously laugh and feel uncomfortable\n- Safety valve: No actual hate speech, no glorifying real violence, no targeting children\n\nEDGY EXAMPLES THAT WOULD GO VIRAL:\n- \"TRANSITION: A 40-year-old accountant's journey to become an e-girl\"\n- \"HERITAGE: A white guy discovers he's 2% Native American and it changes everything\"\n- \"THE DEALER: One college dropout finds purpose selling healing crystals (it's meth)\"\n- \"PARASOCIAL: A touching story of loving someone who doesn't know you exist\"\n\nRULE OF THUMB: If your mom would be uncomfortable watching it, you're on the right track.\n\nNow generate 1 edgy concept as JSON.",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "=You are a Disney Pixar trailer concept generator specializing in EDGY viral Sora 2 content.\n\nTHE EDGY PIXAR VIRAL FORMULA:\nWholesome Pixar Aesthetic + Wildly Inappropriate Subject + Complete Sincerity = Viral Explosion\n\nWHY EDGY PIXAR TRAILERS DOMINATE:\n1. MAXIMUM COGNITIVE DISSONANCE: The bigger the gap between Pixar wholesomeness and inappropriate subject, the more viral\n2. FORBIDDEN FRUIT: People share what they \"shouldn't\" be laughing at\n3. NOSTALGIA WEAPONIZED: Using childhood Pixar trust to deliver adult/edgy content\n4. THE CRINGE FACTOR: When it's so wrong it's right - uncomfortable + hilarious = shares\n5. CONVERSATION STARTER: Controversial premises spark debates in comments = algorithm boost\n\nTHE PIXAR AESTHETIC (NEVER BREAK - THIS IS THE COMEDY):\n- 100% SINCERE, EARNEST TONE - never ironic, never winking\n- Treat inappropriate topics with childlike wonder and hope  \n- Beautiful animation, inspiring music, emotional character arcs\n- Make the audience root for absurd/questionable goals\n- The more \"wholesome family film\" it looks, the funnier the inappropriate subject becomes\n\nEDGY CONTENT GUIDELINES:\n✓ DO: Push boundaries on identity politics, dating disasters, internet culture, mild illegality, body issues, mental health, relationship toxicity\n✓ DO: Make people uncomfortable then make them laugh\n✓ DO: Target concepts where cognitive dissonance creates comedy gold\n✓ DON'T: Actual hate speech, glorifying real violence, targeting minors, historical atrocities\n✓ DON'T: Punch down at genuinely vulnerable groups (punch sideways at everyone)\n\nTHE SWEET SPOT:\n- Edgy enough that boomers would be scandalized  \n- Funny enough that Gen Z shares it ironically\n- Wholesome enough in execution that it's not just shock value\n- Specific enough that multiple demographics see themselves\n\nPREMISE POWER RANKING:\n- \"Trans-racial journey\" > \"Identity quest\" (more specific = more viral)\n- \"Femboy transformation\" > \"Gender exploration\" (clear visual = better)\n- \"MLM girlboss\" > \"Bad business decision\" (cultural reference = shareability)\n- \"Parasocial stalker\" > \"Unrequited love\" (internet culture = Gen Z catnip)\n\nCRITICAL RULES FOR EDGY PREMISES:\n- The CHARACTER must genuinely believe in their absurd quest\n- Pixar must treat the inappropriate topic with absolute sincerity\n- NO self-awareness - this is a \"real\" Pixar movie in that universe\n- The more the premise makes people say \"they can't do that\" while laughing, the better\n- Controversy ≠ cruelty. We're making fun of absurdity, not attacking real people.\n\nVIRAL PREMISE CHECKLIST:\n✓ Would this get ratio'd on Twitter? (good sign)\n✓ Would your mom be speechless? (great sign)  \n✓ Would it start arguments in comments? (algorithm gold)\n✓ Can you imagine the Pixar trailer music over this? (must be yes)\n✓ Is there a genuine emotional journey underneath? (required)\n\nGenerate edgy concepts that make people think \"I can't believe AI made this\" and immediately send it to their group chat."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3,
+        "position": [
+          -4688,
+          -688
+        ],
+        "id": "9640e8e8-dd6e-4988-b5e3-dffad143460a",
+        "name": "Topic Generator (Pixar Trailer)1",
+        "retryOnFail": true
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"premise\": \"one-sentence description of the ridiculous Pixar movie premise\",\n  \"protagonist\": \"who is the main character and what do they want?\",\n  \"emotional_core\": \"what is the sincere emotional journey beneath the absurdity?\",\n  \"hook_moment\": \"the visual/moment in first 3 seconds that stops scrolling\",\n  \"trailer_arc\": \"brief description of setup->struggle->twist structure\",\n  \"why_its_viral\": \"the specific cognitive dissonance that makes it shareable\",\n  \"tone_note\": \"reminder of how earnest/serious the execution should be\"\n}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -4480,
+          -464
+        ],
+        "id": "0a454b38-83b7-45e0-a30a-5889b0ab419c",
+        "name": "Structured Output Parser"
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-2.5-flash-lite",
+          "options": {
+            "safetySettings": {
+              "values": [
+                {
+                  "category": "HARM_CATEGORY_HARASSMENT",
+                  "threshold": "BLOCK_NONE"
+                },
+                {
+                  "category": "HARM_CATEGORY_HATE_SPEECH",
+                  "threshold": "BLOCK_NONE"
+                },
+                {
+                  "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                  "threshold": "BLOCK_NONE"
+                },
+                {
+                  "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                  "threshold": "BLOCK_NONE"
+                }
+              ]
+            }
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          -4736,
+          -464
+        ],
+        "id": "de870361-3963-45cc-83aa-a8a5486901fe",
+        "name": "Google Gemini Chat Model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "ReeAGi73g7iXliN4",
+            "name": "Trazon's Gemini"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 15
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -1728,
+          -592
+        ],
+        "id": "e098917f-436b-474c-8dc0-7f8e4db8669a",
+        "name": "Wait",
+        "webhookId": "f199093b-7a24-418c-8ccf-427d34d778af"
+      },
+      {
+        "parameters": {
+          "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{ $json.data.taskId }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -2176,
+          -688
+        ],
+        "id": "72a01561-5dd7-4234-8caa-1ef91510a5f6",
+        "name": "Get Video Info",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "5lOOFjEXtgK6hJc9",
+            "name": "Kie"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "guildIds": [
+            "745447586697052201"
+          ],
+          "channelIds": [
+            "1446921026867826688"
+          ],
+          "value": "!viral",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-discord-trigger.discordTrigger",
+        "typeVersion": 1,
+        "position": [
+          -5184,
+          -592
+        ],
+        "id": "13b4f367-f72d-4554-93ad-03b8c46356eb",
+        "name": "Discord Trigger1",
+        "credentials": {
+          "discordBotTriggerApi": {
+            "id": "Lqyu9X4PYESvIGq5",
+            "name": "Discord Bot Trigger account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+            "mode": "list",
+            "cachedResultName": "Viral Video Machine",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 345069389,
+            "mode": "list",
+            "cachedResultName": "VIDEOS",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=345069389"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Title": "={{ $('Store Script Output').item.json.previous_title }}",
+              "Subject": "={{ $('Topic Generator (Pixar Trailer)1').item.json.output.premise }}",
+              "Prompt": "={{ $('Store Script Output').item.json.previous_prompt }}",
+              "URL VIDEO": "={{ JSON.parse($('Download Video from VEO').item.json.data.resultJson).resultUrls[0] }}\n",
+              "CAPTION": "={{ $json.message.content }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Title",
+                "displayName": "Title",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Subject",
+                "displayName": "Subject",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Prompt",
+                "displayName": "Prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "URL VIDEO",
+                "displayName": "URL VIDEO",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "CAPTION",
+                "displayName": "CAPTION",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.6,
+        "position": [
+          -1152,
+          -1072
+        ],
+        "id": "712be4cf-2b85-4c17-b7b9-2816a374ccd1",
+        "name": "Save Caption Video to Google Sheets1",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "dowP6ywDzdtOnsKQ",
+            "name": "trazon's"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-4o",
+            "mode": "list",
+            "cachedResultName": "GPT-4O"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=You are writing a caption for a viral Disney Pixar-style AI trailer on TikTok, Reels, YouTube Shorts, and Twitter.\n\nCONTEXT:\n- Premise: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.premise }}\n- Emotional Core: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.emotional_core }}\n- Title: {{ $('Store Script Output').item.json.previous_title }}\n\nTASK:\nWrite a caption that enhances shareability while matching Pixar's earnest tone.\n\nCAPTION STYLES THAT WORK FOR PIXAR TRAILERS:\n- Fake movie announcement: \"Coming to theaters never\"\n- POV format: \"POV: Pixar makes a movie about [absurd thing]\"\n- Earnest description: \"A heartwarming tale of [ridiculous premise]\"\n- Question hook: \"Why does this actually look good\"\n- Emotional bait: \"This had no right to make me feel things\"\n- Wordplay on title: If title has pun, lean into it subtly\n\nRULES:\n- MUST be under 150 characters\n- Match the sincere tone (not overly ironic)\n- 1-2 emojis max (🎬 ✨ 🥺 work well)\n- 3-5 hashtags: #disneypixar #pixar #sora #ai #fyp\n- Can mention it's AI-generated (adds to the absurdity)\n- Keep it wholesome - this is Pixar energy\n\nReturn ONLY the final caption string."
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          -1504,
+          -1072
+        ],
+        "id": "7b097a13-dd69-46a9-82f3-8d9f88df6e06",
+        "name": "Rewrite Caption with GPT-4o1",
+        "credentials": {
+          "openAiApi": {
+            "id": "l66YzAph61HK1POi",
+            "name": "OpenRouter"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{ $('Generate Video with VEO').item.json.data.taskId }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1728,
+          -1072
+        ],
+        "id": "f95cf29d-998d-4330-bb95-83119383b9d9",
+        "name": "Download Video from VEO",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "5lOOFjEXtgK6hJc9",
+            "name": "Kie"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.kie.ai/api/v1/jobs/createTask",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({\n  model: $('Read Video Parameters from Google Sheet1').first().json.model,\n  input: {\n    prompt: $('Store Script Output').item.json.previous_prompt,\n    aspect_ratio: $('Read Video Parameters from Google Sheet1').item.json.AspectRatio,\n    n_frames: \"15\",\n    remove_watermark: true\n  }\n}) }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -2400,
+          -688
+        ],
+        "id": "5c2650ca-a2fe-4311-978f-55c7010a074a",
+        "name": "Generate Video with VEO",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "5lOOFjEXtgK6hJc9",
+            "name": "Kie"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "cc2e0500-57b1-4615-82cb-1c950e5f2ec4",
+                "name": "json_master",
+                "value": "={\n  \"description\": \"Disney Pixar-style animated trailer (15-30s) applying earnest emotional storytelling to ridiculous premises. The humor comes from cognitive dissonance between wholesome Pixar aesthetic and absurd subject matter.\",\n  \n  \"pixar_visual_signature\": {\n    \"lighting\": {\n      \"primary\": \"Soft diffused key light with warm color temperature (3200K-4500K)\",\n      \"rim_lighting\": \"Always include rim lighting to separate character from background\",\n      \"subsurface_scattering\": \"Visible on skin/translucent materials - THIS IS CRITICAL for Pixar look\",\n      \"shadows\": \"Gentle gradient shadows, never harsh or flat\",\n      \"prompt_keywords\": [\"soft diffused lighting\", \"warm tungsten lighting\", \"subsurface scattering skin\", \"rim lighting\", \"gentle shadows\", \"Pixar-quality lighting\"]\n    },\n    \"character_design\": {\n      \"eyes\": \"OVERSIZED expressive eyes - the most important Pixar element\",\n      \"proportions\": \"Strategic exaggeration serving personality (not realistic, not overly cartoony)\",\n      \"shapes\": \"Rounded forms for warmth, asymmetrical balance\",\n      \"expressions\": \"SINCERE emotions - never smarmy or ironic (avoid DreamWorks smirk)\",\n      \"prompt_keywords\": [\"big expressive eyes\", \"Pixar-style character design\", \"rounded shapes\", \"sincere expression\", \"oversized eyes with detailed irises\"]\n    },\n    \"color_palette\": {\n      \"approach\": \"Vibrant saturated colors following emotional logic\",\n      \"warm_scenes\": \"Rich oranges, reds, yellows for energy/life\",\n      \"cool_scenes\": \"Soft blues, lavenders for calm/transcendence\",\n      \"prompt_keywords\": [\"Pixar color palette\", \"vibrant saturated colors\", \"emotional color grading\", \"warm color temperature\"]\n    },\n    \"animation_quality\": {\n      \"movement\": \"Smooth, fluid animation with bounce and squash principles\",\n      \"texture\": \"High-quality surface rendering (NOT plastic or metallic)\",\n      \"detail_level\": \"Hyperrealistic but stylized - every detail sells the sincerity\",\n      \"prompt_keywords\": [\"Pixar-like 3D animation\", \"smooth movements\", \"bounce and squash animation\", \"appealing character design\"]\n    }\n  },\n  \n  \"trailer_structure_15s\": {\n    \"beat_1_hook\": {\n      \"timing\": \"0:00-0:02 seconds\",\n      \"purpose\": \"Stop the scroll - surprising visual or unexpected situation\",\n      \"camera\": \"Medium close-up, slow push-in OR establishing wide\",\n      \"music\": \"Soft, ambient, minimal (piano, strings, synth pad)\",\n      \"example\": \"Close-up of character's big eyes looking hopeful\"\n    },\n    \"beat_2_disruption\": {\n      \"timing\": \"0:02-0:05 seconds\",\n      \"purpose\": \"Reveal the absurd premise visually\",\n      \"camera\": \"Reveal shot or cut to wider context\",\n      \"music\": \"First energy shift - gentle build\",\n      \"example\": \"Pull back to show they're in ridiculous situation\"\n    },\n    \"beat_3_reaction\": {\n      \"timing\": \"0:05-0:08 seconds\",\n      \"purpose\": \"Character's emotional response - sell the sincerity\",\n      \"camera\": \"Return to close-up for emotion\",\n      \"music\": \"Emotional swell begins\",\n      \"example\": \"Character determination face with inspiring music\"\n    },\n    \"beat_4_action\": {\n      \"timing\": \"0:08-0:12 seconds\",\n      \"purpose\": \"Show character attempting their absurd goal\",\n      \"camera\": \"Dynamic movement - tracking, crane, or arc\",\n      \"music\": \"Full energy with driving rhythm\",\n      \"example\": \"Montage-style quick cuts of attempts\"\n    },\n    \"beat_5_payoff\": {\n      \"timing\": \"0:12-0:14 seconds\",\n      \"purpose\": \"Twist or emotional peak\",\n      \"camera\": \"Dramatic shot - slow zoom or freeze\",\n      \"music\": \"Climax moment with pause/silence\",\n      \"example\": \"Unexpected result or emotional realization\"\n    },\n    \"beat_6_button\": {\n      \"timing\": \"0:14-0:15 seconds\",\n      \"purpose\": \"Reaction shot that creates loop/replay value\",\n      \"camera\": \"Quick button shot or title card\",\n      \"music\": \"Outro sting or soft fade\",\n      \"example\": \"Character's final expression or logo\"\n    }\n  },\n  \n  \"trailer_structure_30s\": {\n    \"act_1_setup\": {\n      \"timing\": \"0:00-0:08 seconds\",\n      \"purpose\": \"Establish world and introduce protagonist\",\n      \"music\": \"Ambient build with intriguing melody\",\n      \"shots\": \"2-3 shots: wide establishing, character intro, hint of want\"\n    },\n    \"act_2_conflict\": {\n      \"timing\": \"0:08-0:22 seconds\",\n      \"purpose\": \"Show obstacles and emotional struggle\",\n      \"music\": \"Building intensity with rhythm\",\n      \"shots\": \"4-6 shots: attempts, failures, determination, allies\"\n    },\n    \"act_3_climax\": {\n      \"timing\": \"0:22-0:28 seconds\",\n      \"purpose\": \"Emotional peak and twist\",\n      \"music\": \"Full orchestral swell then pause\",\n      \"shots\": \"2-3 shots: big moment, silence beat, reaction\"\n    },\n    \"outro\": {\n      \"timing\": \"0:28-0:30 seconds\",\n      \"purpose\": \"Title card and button\",\n      \"music\": \"Soft callback or final note\",\n      \"note\": \"Can include fake 'Coming Soon' or studio logo parody\"\n    }\n  },\n  \n  \"camera_directions_that_work\": {\n    \"slow_push_in\": \"Slow dolly-in on character face for emotional moments\",\n    \"crane_down\": \"Slow crane down through environment to reveal scale\",\n    \"tracking_shot\": \"Smooth tracking that stays with moving character\",\n    \"arc_around\": \"Slow arc circling character at key moment\",\n    \"shallow_dof\": \"Shallow depth of field with gentle focus pulls\",\n    \"parallax\": \"Gentle parallax movement for dimensional depth\",\n    \"critical_rule\": \"ONE camera movement + ONE character action per shot maximum\"\n  },\n  \n  \"music_pacing_beats\": {\n    \"act_1_ambient\": \"Soft piano, strings, or synth pads - minimal instrumentation\",\n    \"transition_ramp\": \"Sudden break or build-up signaling shift to act 2\",\n    \"act_2_driving\": \"Add drums, rhythmic elements - each 8-bar phrase bigger\",\n    \"act_3_climax\": \"Full orchestration - drums, strings, brass at peak\",\n    \"silence_beat\": \"1-2 second silence before biggest moment for contrast\",\n    \"outro_fade\": \"Long held note fading or soft callback to opening theme\"\n  },\n  \n  \"tone_rules\": {\n    \"primary\": \"100% SINCERE - Pixar doesn't wink at the audience\",\n    \"emotional_core\": \"Every character must have genuine want/need (even if absurd)\",\n    \"no_irony\": \"Never break the fourth wall or acknowledge the joke\",\n    \"childlike_wonder\": \"Approach even dark topics with innocence and hope\",\n    \"the_trick\": \"The AI must believe it's making a real Pixar movie\"\n  },\n  \n  \"premise_categories\": [\n    \"Mundane struggles elevated to heroic journeys\",\n    \"Absurd identity transformation quests\",\n    \"Unlikely heroes in wrong contexts (role reversals)\",\n    \"Inanimate objects with rich emotional lives\",\n    \"Dark/adult topics softened by childlike sincerity\",\n    \"Wordplay-based premises (Dill Doe, MILF Mom I'd Like Fun)\"\n  ],\n  \n  \"sora_2_specific_keywords\": [\n    \"Style: Pixar-like 3D animation\",\n    \"Smooth movements with bounce and squash principles\",\n    \"Vibrant colors and appealing character design\",\n    \"Soft diffused lighting\",\n    \"Big expressive eyes\",\n    \"Warm color temperature\",\n    \"Shallow depth of field\",\n    \"Subsurface scattering on skin\",\n    \"Gentle shadows\",\n    \"Pixar-quality rendering\"\n  ],\n  \n  \"what_kills_virality\": [\n    \"Breaking sincere tone with irony or winking\",\n    \"DreamWorks-style smarmy expressions\",\n    \"Harsh/flat lighting (loses Pixar warmth)\",\n    \"Too realistic or too cartoony (need Pixar sweet spot)\",\n    \"Trying multiple camera moves in one shot\",\n    \"Mean-spirited premises that punch down\",\n    \"Lack of clear emotional journey\",\n    \"Generic/predictable premise without twist\"\n  ],\n  \n  \"viral_success_factors\": {\n    \"cognitive_dissonance\": \"Gap between wholesome Pixar + ridiculous premise\",\n    \"emotional_manipulation\": \"Making people feel things about absurd topics\",\n    \"nostalgia_hijacking\": \"Leveraging childhood Pixar trust\",\n    \"share_worthiness\": \"'You have to see this' factor\",\n    \"relatability\": \"Even absurd premises connect to real emotions\",\n    \"personal_element\": \"Character journey feels genuine despite absurdity\"\n  },\n  \n  \"technical_specs\": {\n    \"format\": \"9:16 vertical for TikTok/Reels/Shorts\",\n    \"duration_sweet_spot\": \"21-34 seconds for TikTok, 50-60s for Shorts\",\n    \"clip_strategy\": \"Generate 4-second clips and stitch (better quality than single long clip)\",\n    \"aspect_ratio\": \"1080x1920\",\n    \"optimal_posting\": \"Tuesday 5-9 PM, Sunday 8 PM EST\"\n  }\n}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -4048,
+          -688
+        ],
+        "id": "c8451c58-1ac3-48c3-a0e7-4537525b6dcc",
+        "name": "Set Master Pixar Prompt1"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE",
+            "mode": "list",
+            "cachedResultName": "Viral Video Machine",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "CONFIG",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RnqrlydvdQOT_DPLs9DWOHCgCzT6vEj3sNobz_RF7lE/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.6,
+        "position": [
+          -4272,
+          -688
+        ],
+        "id": "e4c9abee-49ba-4862-ac0a-2a812e34035d",
+        "name": "Read Video Parameters from Google Sheet1",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "dowP6ywDzdtOnsKQ",
+            "name": "trazon's"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "https://serpapi.com/search",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "serpApi",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "engine",
+                "value": "google"
+              },
+              {
+                "name": "num",
+                "value": "10"
+              },
+              {
+                "name": "gl",
+                "value": "us"
+              },
+              {
+                "name": "tbs",
+                "value": "qdr:w"
+              },
+              {
+                "name": "q",
+                "value": "site:reddit.com (r/memes OR r/dankmemes OR r/shitposting OR r/whenthe OR r/meirl) OR site:twitter.com OR site:knowyourmeme.com (\"viral\" OR \"trending\" OR \"Pixar\" OR \"Disney\")"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -4960,
+          -688
+        ],
+        "id": "7db17b4e-b37b-4746-b726-befd580a4592",
+        "name": "HTTP Request",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "xutjopcylYCUIuRH",
+            "name": "Upload-Post"
+          },
+          "serpApi": {
+            "id": "uCDSUDcCcYUlmt38",
+            "name": "SerpApi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "cronExpression",
+                "expression": "0 30 7,12,23 * * *"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -5408,
+          -784
+        ],
+        "id": "819f3da3-afa2-4a93-b029-47b6f98b0a50",
+        "name": "Schedule Trigger",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "amount": "={{ Math.floor(Math.random() * 20) + 1 }}"
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -5184,
+          -784
+        ],
+        "id": "01da3663-bfbe-4932-9cc7-f91a7c3cf923",
+        "name": "Wait1",
+        "webhookId": "3686926d-696a-45f0-896d-334f3cf3358e"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "dad23c5a-6286-4174-9fc6-35d4f5ed5df7",
+                "leftValue": "={{ $if($('Discord Trigger1').isExecuted, $('Discord Trigger1').item.json.id, '') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -928,
+          -1072
+        ],
+        "id": "b80f48cc-9c41-440b-97ab-0fa644340ebf",
+        "name": "If2"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.upload-post.com/api/upload",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }}"
+              },
+              {
+                "name": "user",
+                "value": "bakaboi336"
+              },
+              {
+                "name": "platform[]",
+                "value": "instagram"
+              },
+              {
+                "name": "video",
+                "value": "={{ $json.content }}"
+              },
+              {
+                "name": "description",
+                "value": "={{ $('Save Caption Video to Google Sheets1').item.json.CAPTION }}"
+              },
+              {
+                "name": "tags",
+                "value": "={{ $('Store Script Output').item.json.previous_tags }}"
+              },
+              {
+                "name": "platform[]",
+                "value": "x"
+              },
+              {
+                "name": "x_title",
+                "value": "={{ $('Save Caption Video to Google Sheets1').item.json.Title }} \n{{ $('Store Script Output').item.json.previous_tags\n    .split(',')                               \n    .map(t => t.trim())                       \n    .filter(t => t)                           \n    .map(t => '#' + t.replace(/\\s+/g, ''))    \n    .join(' ')                                \n}}\n"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -48,
+          -1072
+        ],
+        "id": "2746e330-1d9a-4fa7-abc8-b1d6a10188f9",
+        "name": "Post1",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "xutjopcylYCUIuRH",
+            "name": "Upload-Post"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.data.state }}",
+                      "rightValue": "=success",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "ddfbd51d-ceb1-486d-ba5a-ded4d39983b9"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Video Done Processing"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "c25415f3-0d13-4eea-b4bd-3cad49cbab89",
+                      "leftValue": "={{ $json.data.state }}",
+                      "rightValue": "fail",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Generation Failed"
+              }
+            ]
+          },
+          "looseTypeValidation": true,
+          "options": {
+            "fallbackOutput": "extra"
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          -1952,
+          -800
+        ],
+        "id": "39bf8b0d-bddf-407d-bc2f-f6b88b8adf86",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "dad23c5a-6286-4174-9fc6-35d4f5ed5df7",
+                "leftValue": "={{ $if($('Discord Trigger1').isExecuted, $('Discord Trigger1').item.json.id, '') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -1728,
+          -816
+        ],
+        "id": "4b02e8ce-aa08-4195-82ee-0fdee4a69f5c",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1446921026867826688",
+            "mode": "list",
+            "cachedResultName": "viral-video-ideas",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+          },
+          "content": "=<@246812164885577729> Scheduled Video Generation Failed\n\nState: {{ $('Get Video Info').item.json.data.state }}\nFailure Code: {{ $('Get Video Info').item.json.data.failCode }}\nFailure Message: {{ $('Get Video Info').item.json.data.failMsg }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          -1440,
+          -688
+        ],
+        "id": "7c9789fd-5fb1-496a-a839-84a65bdf35ad",
+        "name": "Failure Noti",
+        "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1446921026867826688",
+            "mode": "list",
+            "cachedResultName": "viral-video-ideas",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+          },
+          "content": "=<@246812164885577729> Triggered Video Generation Failed\n\nState: {{ $('Get Video Info').item.json.data.state }}\nFailure Code: {{ $('Get Video Info').item.json.data.failCode }}\nFailure Message: {{ $('Get Video Info').item.json.data.failMsg }}",
+          "options": {
+            "message_reference": "={{ $('Discord Trigger1').item.json.id }}"
+          }
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          -1440,
+          -880
+        ],
+        "id": "84573970-917c-4048-8d39-6c8fe9c9ab71",
+        "name": "Failure Noti1",
+        "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=You rate Disney Pixar-style AI trailer concepts for viral potential.\n\nTHE PIXAR VIRAL FORMULA: Earnest Aesthetic + Ridiculous Premise + Emotional Journey\n\nRate this concept on:\n1. PREMISE ABSURDITY (0-25): Is the premise genuinely ridiculous yet specific?\n2. EMOTIONAL SINCERITY (0-25): Does it maintain Pixar's earnest tone without irony?\n3. PIXAR AESTHETIC (0-25): Does the prompt specify proper lighting, eyes, character design?\n4. TRAILER STRUCTURE (0-25): Does it follow proper 3-act emotional beats?\n\nScoring guidance:\n- 85-100: VIRAL - Perfect cognitive dissonance, clear emotional journey, proper Pixar elements\n- 70-84: STRONG - Good premise but missing some Pixar technical details\n- 50-69: MID - Either premise too safe OR execution not earnest enough\n- 0-49: WEAK - Breaking Pixar tone, lack of emotional core, or premise too offensive/generic\n\nAUTOMATIC FAIL (< 50):\n- If it breaks the sincere tone with irony/winking\n- If it lacks specific Pixar visual keywords (big eyes, soft lighting, etc.)\n- If premise punches down or targets vulnerable groups\n- If there's no clear emotional journey/character want\n- If it's just \"weird\" without the earnest/absurd contrast\n\nAUTOMATIC BOOST (+15):\n- Includes specific Pixar lighting keywords (subsurface scattering, rim lighting, soft diffused)\n- Specifies \"big expressive eyes\" and character emotion details\n- Has clear 3-act structure with emotional beats\n- Premise creates strong cognitive dissonance (wholesome + absurd)\n- Wordplay title that's clever without being mean\n\nTitle: {{ $json.previous_title }}\n\nPrompt: {{ $json.previous_prompt }}\n\nRate it and provide specific feedback on Pixar technical elements or emotional journey.",
+          "hasOutputParser": true,
+          "messages": {
+            "messageValues": [
+              {
+                "message": "=...\nAdditional Scoring Notes:\n- Pixar trailers live or die on SINCERITY - any hint of self-awareness kills it\n- The more specific the visual details (clothing, expressions, lighting), the better\n- Emotional journey must feel genuine even if premise is absurd\n- Check: Would this make someone say 'Why does this actually look good?'\n..."
+              }
+            ]
+          },
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.7,
+        "position": [
+          -2976,
+          -816
+        ],
+        "id": "53695fb9-d408-40fb-bc21-afda5f68890b",
+        "name": "Virality Rater"
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-2.5-flash-lite",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          -2976,
+          -592
+        ],
+        "id": "08c77549-3b93-4891-87b4-71f3ffcfce4b",
+        "name": "Google Gemini Chat Model2",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "ReeAGi73g7iXliN4",
+            "name": "Trazon's Gemini"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"score\": 0,\n  \"verdict\": \"weak\",\n  \"feedback\": \"short 1–2 sentence note on how to improve Pixar elements or emotional journey\",\n  \"should_regenerate\": true\n}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -2848,
+          -592
+        ],
+        "id": "fa266cc3-7f6b-4a06-ae3b-cd5302573d2d",
+        "name": "Structured Output Parser2"
+      },
+      {
+        "parameters": {
+          "options": {
+            "safetySettings": {
+              "values": [
+                {
+                  "category": "HARM_CATEGORY_HARASSMENT",
+                  "threshold": "BLOCK_NONE"
+                },
+                {
+                  "category": "HARM_CATEGORY_HATE_SPEECH",
+                  "threshold": "BLOCK_NONE"
+                },
+                {
+                  "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                  "threshold": "BLOCK_NONE"
+                },
+                {
+                  "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                  "threshold": "BLOCK_NONE"
+                }
+              ]
+            }
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          -3824,
+          -464
+        ],
+        "id": "1e9d7d5c-2ee6-4c04-b1c2-8201ce7eba62",
+        "name": "Google Gemini Chat Model1",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "ReeAGi73g7iXliN4",
+            "name": "Trazon's Gemini"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"title\": \"string\",\n  \"final_prompt\": \"string\",\n  \"tags\": \"string\"\n}\n",
+          "autoFix": true
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -3568,
+          -464
+        ],
+        "id": "a924b637-be99-4555-a3e7-60dc8b326416",
+        "name": "Structured Output Parser1"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=PREMISE: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.premise }}\nPROTAGONIST: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.protagonist }}\nEMOTIONAL CORE: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.emotional_core }}\nTRAILER ARC: {{ $('Topic Generator (Pixar Trailer)1').item.json.output.trailer_arc }}\n\n{{ $json.feedback ? '⚠️ REGENERATION REQUIRED - PREVIOUS ATTEMPT FAILED\\n\\nPrevious Score: ' + $json.output.score + '/100 (' + $json.output.verdict + ')\\nFeedback: ' + $json.feedback + '\\nPrevious Title: ' + $json.previous_title + '\\n\\nFix the Pixar technical elements or emotional journey based on feedback.\\n' : '' }}",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "=## SYSTEM PROMPT: Disney Pixar Trailer Prompt Generator for Sora 2\n\nA - Ask:\n  Generate a Sora 2 video prompt for a Disney Pixar-style trailer,\n  based on the Pixar specifications in: {{ $('Set Master Pixar Prompt1').item.json.json_master }}.\n  Output JSON with: `title`, `final_prompt`, and `tags`.\n\nG - Guidance:\n  role: Disney Pixar Trailer Director\n  output_count: 1\n\n  IMPORTANT - USE THE THINK TOOL FIRST:\n    Before generating, you MUST use the Think tool to:\n    1. Identify the EMOTIONAL JOURNEY (setup, struggle, resolution)\n    2. Plan the PIXAR AESTHETIC requirements (lighting, eyes, colors)\n    3. Map the TRAILER BEATS (for 15s format: hook, disruption, reaction, action, payoff, button)\n    4. Define CAMERA MOVEMENTS (one per shot: push-in, crane, tracking, arc)\n    5. Plan MUSIC PROGRESSION (ambient → build → climax → fade)\n    6. Pressure-test: Does this feel like REAL Pixar played completely straight?\n\n  THE PIXAR TRAILER FORMULA:\n    Earnest Pixar Aesthetic + Ridiculous Premise + Emotional Journey = Viral\n    \n    AESTHETIC: Soft diffused lighting, big expressive eyes, warm colors, subsurface scattering\n    PREMISE: Absurd but specific (not \"a confused person\" but \"a 45-year-old accountant who dreams of becoming a K-pop idol\")\n    EMOTIONAL: Genuine character want/need with sincere journey (even if absurd)\n\n  SORA 2 PROMPT STRUCTURE (use OpenAI's official template):\n    ```\n    Style: Pixar-like 3D animation with smooth movements, vibrant colors, bounce and squash animation principles, appealing character design.\n\n    [Scene: Describe protagonist in environment with specific visual details. Include lighting description.]\n\n    Cinematography:\n    Camera: [shot type], [single camera movement]\n    Lens: [focal length] virtual lens; shallow depth of field\n    Lighting: soft diffused key light with warm color temperature; rim lighting separates character from background; subsurface scattering visible on skin\n    Mood: [emotional tone - sincere/hopeful/determined]\n\n    Character:\n    - Big expressive eyes with detailed irises and catchlights\n    - [Specific clothing/appearance details]\n    - [Emotional expression - SINCERE, not ironic]\n\n    Actions:\n    - [Specific action beat 1]\n    - [Specific action beat 2]\n    - [Specific action beat 3]\n\n    Background Sound:\n    [Music progression: ambient piano building to emotional swell]\n    ```\n\n  CRITICAL PIXAR TECHNICAL REQUIREMENTS:\n    LIGHTING (MANDATORY keywords):\n    - \"soft diffused lighting\" OR \"warm tungsten lighting\"\n    - \"rim lighting\" (separates character from background)\n    - \"subsurface scattering\" (makes skin look Pixar-real, not plastic)\n    - \"gentle shadows\" (never harsh)\n    - \"warm color temperature\" (3200K-4500K feel)\n    \n    CHARACTER (MANDATORY keywords):\n    - \"big expressive eyes\" (THE most important Pixar element)\n    - \"detailed irises with catchlights\" (makes eyes alive)\n    - \"sincere expression\" (never smarmy or ironic)\n    - \"Pixar-style character design\"\n    - \"rounded shapes\" OR \"appealing proportions\"\n    \n    ANIMATION (MANDATORY keywords):\n    - \"Pixar-like 3D animation\"\n    - \"smooth movements\"\n    - \"bounce and squash animation principles\"\n    - \"appealing character design\"\n    \n    CAMERA (pick ONE per shot):\n    - \"slow push-in\" OR \"slow dolly-in\"\n    - \"slow crane down\" OR \"crane up\"\n    - \"smooth tracking shot\"\n    - \"slow arc around character\"\n    - Always include: \"shallow depth of field\"\n\n  EMOTIONAL STRUCTURE FOR 15-SECOND TRAILER:\n    Beat 1 (0-2s): HOOK - Surprising visual, medium close-up\n    Beat 2 (2-5s): SETUP - Reveal absurd situation, wider shot\n    Beat 3 (5-8s): REACTION - Character emotion close-up, music swells\n    Beat 4 (8-12s): ACTION - Character attempts goal, dynamic camera\n    Beat 5 (12-14s): PAYOFF - Twist or emotional peak, dramatic shot\n    Beat 6 (14-15s): BUTTON - Final reaction, create loop value\n\n  TONE RULES (NEVER BREAK THESE):\n    - 100% SINCERE - Pixar never winks at the audience\n    - Character has GENUINE want/need (even if goal is absurd)\n    - NO irony, NO fourth-wall breaking, NO self-awareness\n    - Treat ridiculous premise with complete earnestness\n    - Music should be genuinely emotional (not parody)\n    - The AI must BELIEVE it's making a real Pixar movie\n\n{{ $json.feedback ? 'CRITICAL - PREVIOUS ATTEMPT FAILED:\\n  - Score: ' + $json.output.score + '/100\\n  - Verdict: ' + $json.output.verdict + '\\n  - Feedback: ' + $json.feedback + '\\n  - Use Think tool to analyze what Pixar elements are missing\\n  - Check: Did you include \"big expressive eyes\"?\\n  - Check: Did you include lighting keywords (subsurface scattering, rim lighting)?\\n  - Check: Is the tone 100% sincere without irony?\\n' : '' }}\n\n  constraints:\n    - Valid JSON output only\n    - `title`: Movie title (can include wordplay, max 5 words)\n    - `final_prompt`: Single detailed Sora 2 prompt using official template structure\n    - `tags`: Comma-separated (include: disneypixar, pixar, sora, ai, plus theme tags)\n    - Prompt must include ALL mandatory Pixar technical keywords\n    - ONE camera movement per shot description\n    - Sincere emotional tone throughout\n\nN - Notation:\n  format: JSON\n  expected_output:\n    {\n      \"title\": \"Movie Title (with optional pun)\",\n      \"final_prompt\": \"Complete Sora 2 prompt with Pixar technical specifications, emotional beats, camera directions, lighting details, and character descriptions in OpenAI's official template format\",\n      \"tags\": \"disneypixar, pixar, sora, ai, [theme-specific tags]\"\n    }"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2,
+        "position": [
+          -3776,
+          -688
+        ],
+        "id": "e71268fc-a339-45f2-8c86-2e8e9bcaf112",
+        "name": "AI Agent: Generate Pixar Script1",
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "f0ab38af-d33e-42b5-936d-7c62ca4ff721",
+                "leftValue": "={{ $json.output.should_regenerate }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "false",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "054cd96c-dab0-4913-8183-0d7cce0baa22",
+                "leftValue": "={{ $json.output.score }}",
+                "rightValue": 75,
+                "operator": {
+                  "type": "number",
+                  "operation": "gte"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -2624,
+          -688
+        ],
+        "id": "6326fc01-3bc6-4957-be92-6911464ec795",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "description": "Use this tool to plan your Disney Pixar-style trailer before generating the prompt.\n\nTHINK THROUGH THE PIXAR FORMULA:\n\n1. WHAT'S THE EMOTIONAL JOURNEY?\n   - What does the character WANT? (even if absurd)\n   - What's stopping them? (the obstacle)\n   - What's the emotional payoff? (resolution or twist)\n   - Is there a genuine emotional core beneath the absurdity?\n\n2. PIXAR VISUAL CHECKLIST:\n   - ✓ \"Big expressive eyes\" specified?\n   - ✓ \"Soft diffused lighting\" OR \"warm tungsten lighting\"?\n   - ✓ \"Rim lighting\" mentioned?\n   - ✓ \"Subsurface scattering\" for realistic skin?\n   - ✓ \"Gentle shadows\" (not harsh)?\n   - ✓ \"Sincere expression\" (not smarmy)?\n   - ✓ \"Vibrant saturated colors\"?\n   - If ANY of these are missing, the Pixar look will fail.\n\n3. TRAILER BEAT STRUCTURE (15 seconds):\n   - 0-2s: What's the HOOK? (surprising visual)\n   - 2-5s: How do we reveal the ABSURD PREMISE?\n   - 5-8s: Character's EMOTIONAL REACTION close-up?\n   - 8-12s: Character ATTEMPTS their goal?\n   - 12-14s: What's the PAYOFF/TWIST?\n   - 14-15s: Final BUTTON that creates replay value?\n\n4. CAMERA MOVEMENTS:\n   - Pick ONE movement per shot\n   - Slow push-in for emotion?\n   - Crane down for scale reveal?\n   - Tracking to follow action?\n   - Arc around for dramatic moment?\n   - Remember: \"shallow depth of field\" always\n\n5. MUSIC PROGRESSION:\n   - Start: Ambient/soft (piano, strings)?\n   - Middle: Building energy?\n   - Peak: Emotional swell?\n   - End: Pause then resolution?\n\n6. THE SINCERITY TEST:\n   - Would this work if Pixar ACTUALLY made this movie?\n   - Is the tone 100% earnest (no winking at audience)?\n   - Does the character's journey feel GENUINE?\n   - Is the absurdity played completely STRAIGHT?\n\n7. IF REGENERATING:\n   - What Pixar technical keywords were missing?\n   - Was the emotional journey unclear?\n   - Did it break sincerity/earnestness?\n   - Were camera movements too complex (multiple in one shot)?\n\nRED FLAGS - MUST FIX:\n- Missing \"big expressive eyes\" = instant fail\n- Missing lighting keywords = plastic/fake look\n- Ironic or self-aware tone = kills the formula\n- Multiple camera moves per shot = Sora 2 can't handle\n- No clear emotional want/need = just weird, not Pixar\n- Premise too mean-spirited = not wholesome Pixar vibe"
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "typeVersion": 1,
+        "position": [
+          -3696,
+          -464
+        ],
+        "id": "0d37f63b-2a57-464f-a502-537e605c55dd",
+        "name": "Think Tool"
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "typeVersion": 1.1,
+        "position": [
+          -4608,
+          -464
+        ],
+        "id": "f80479e9-8ca4-422d-a0dd-6d0a97694f76",
+        "name": "Think"
+      },
+      {
+        "parameters": {
+          "model": "openai/gpt-oss-120b",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+        "typeVersion": 1,
+        "position": [
+          -3488,
+          -256
+        ],
+        "id": "43bbf23d-1653-49da-9106-9ad67d40d2a2",
+        "name": "Groq Chat Model",
+        "credentials": {
+          "groqApi": {
+            "id": "Yi51lX7Jst94KFYD",
+            "name": "Groq account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "store-title",
+                "name": "previous_title",
+                "value": "={{ $json.output.title }}",
+                "type": "string"
+              },
+              {
+                "id": "store-prompt",
+                "name": "previous_prompt",
+                "value": "={{ $json.output.final_prompt }}",
+                "type": "string"
+              },
+              {
+                "id": "store-tags",
+                "name": "previous_tags",
+                "value": "={{ $json.output.tags }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -3200,
+          -816
+        ],
+        "id": "855b5c31-05f8-4840-9a42-4ca4c95e7a2d",
+        "name": "Store Script Output"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "message",
+          "operation": "sendAndWait",
+          "guildId": {
+            "__rl": true,
+            "value": "745447586697052201",
+            "mode": "list",
+            "cachedResultName": "BakaBoi's Mall",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1446921026867826688",
+            "mode": "list",
+            "cachedResultName": "viral-video-ideas",
+            "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
+          },
+          "message": "={{ $json['URL VIDEO'] }}",
+          "approvalOptions": {
+            "values": {
+              "approvalType": "double"
+            }
+          },
+          "options": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          -704,
+          -1072
+        ],
+        "id": "f7791d3c-62ad-45d6-a660-68be46e80e8f",
+        "name": "Send message and wait for response",
+        "webhookId": "c1630e34-1ea6-4924-95ba-dd529f7554fc",
+        "credentials": {
+          "discordOAuth2Api": {
+            "id": "UEztFF3QWknIwrx9",
+            "name": "BakaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4ce0313f-ce04-4ff0-9314-cc5de1f53ddd",
+                "leftValue": "={{ $json.data.approved }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          -496,
+          -1072
+        ],
+        "id": "fdd1dfb0-6373-40be-bb30-eaba41b9c173",
+        "name": "Filter"
+      }
+    ],
+    "connections": {
+      "Schedule Trigger (4x Daily)": {
+        "main": [
+          [
+            {
+              "node": "Random Delay (Anti-Detection)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Random Delay (Anti-Detection)": {
+        "main": [
+          [
+            {
+              "node": "Google Trends (What's Hot Now)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Reddit (Satisfying/Amazing Content)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Amazon Trending Products",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Trends (What's Hot Now)": {
+        "main": [
+          [
+            {
+              "node": "Merge All Sources",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reddit (Satisfying/Amazing Content)": {
+        "main": [
+          [
+            {
+              "node": "Merge All Sources",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Merge All Sources": {
+        "main": [
+          [
+            {
+              "node": "Combine Data + Affiliate Config",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Combine Data + Affiliate Config": {
+        "main": [
+          [
+            {
+              "node": "AI Content Strategist",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Content Strategist": {
+        "main": [
+          [
+            {
+              "node": "Has Product to Monetize?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Gemini 2.5 Flash": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Content Strategist",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Strategy Output Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "AI Content Strategist",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Has Product to Monetize?": {
+        "main": [
+          [
+            {
+              "node": "Build Affiliate Link",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Affiliate Link",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Build Affiliate Link": {
+        "main": [
+          [
+            {
+              "node": "Merge Paths",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "No Affiliate Link": {
+        "main": [
+          [
+            {
+              "node": "Merge Paths",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Merge Paths": {
+        "main": [
+          [
+            {
+              "node": "Video Prompt Template",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Video Prompt Template": {
+        "main": [
+          [
+            {
+              "node": "AI Video Director",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Video Director": {
+        "main": [
+          [
+            {
+              "node": "Quality & Monetization Rater",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Gemini 2.5 Pro": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Video Director",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Director Output Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "AI Video Director",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Quality & Monetization Rater": {
+        "main": [
+          [
+            {
+              "node": "Score >= 65?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Score >= 65?": {
+        "main": [
+          [
+            {
+              "node": "Generate Video (VEO2)",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Notify Regeneration",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Notify Regeneration": {
+        "main": [
+          [
+            {
+              "node": "AI Content Strategist",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Video (VEO2)": {
+        "main": [
+          [
+            {
+              "node": "Wait 20s",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait 20s": {
+        "main": [
+          [
+            {
+              "node": "Check Video Status",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check Video Status": {
+        "main": [
+          [
+            {
+              "node": "Video Ready?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Video Ready?": {
+        "main": [
+          [
+            {
+              "node": "Download Video",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait 15s More",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait 15s More": {
+        "main": [
+          [
+            {
+              "node": "Check Video Status",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download Video": {
+        "main": [
+          [
+            {
+              "node": "Multi-Platform Caption Generator",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Multi-Platform Caption Generator": {
+        "main": [
+          [
+            {
+              "node": "Save to Analytics Sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Save to Analytics Sheet": {
+        "main": [
+          [
+            {
+              "node": "Discord Approval Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Discord Approval Request": {
+        "main": [
+          [
+            {
+              "node": "Post to All Platforms",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Post to All Platforms": {
+        "main": [
+          [
+            {
+              "node": "Update Posted Status",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update Posted Status": {
+        "main": [
+          [
+            {
+              "node": "Discord Success Notification",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Post": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Post1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Topic Generator (Pixar Trailer)1": {
+        "main": [
+          [
+            {
+              "node": "Read Video Parameters from Google Sheet1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Topic Generator (Pixar Trailer)1",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Topic Generator (Pixar Trailer)1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Get Video Info",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Video Info": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Discord Trigger1": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Save Caption Video to Google Sheets1": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Rewrite Caption with GPT-4o1": {
+        "main": [
+          [
+            {
+              "node": "Save Caption Video to Google Sheets1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download Video from VEO": {
+        "main": [
+          [
+            {
+              "node": "Rewrite Caption with GPT-4o1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Video with VEO": {
+        "main": [
+          [
+            {
+              "node": "Get Video Info",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Master Pixar Prompt1": {
+        "main": [
+          [
+            {
+              "node": "AI Agent: Generate Pixar Script1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Read Video Parameters from Google Sheet1": {
+        "main": [
+          [
+            {
+              "node": "Set Master Pixar Prompt1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          [
+            {
+              "node": "Topic Generator (Pixar Trailer)1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "Send message and wait for response",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Send message and wait for response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Download Video from VEO",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Failure Noti1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Failure Noti",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Virality Rater": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Virality Rater",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser2": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Virality Rater",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent: Generate Pixar Script1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser1": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "AI Agent: Generate Pixar Script1",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent: Generate Pixar Script1": {
+        "main": [
+          [
+            {
+              "node": "Store Script Output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Generate Video with VEO",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "AI Agent: Generate Pixar Script1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Think Tool": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent: Generate Pixar Script1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Think": {
+        "ai_tool": [
+          [
+            {
+              "node": "Topic Generator (Pixar Trailer)1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Groq Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Structured Output Parser1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Store Script Output": {
+        "main": [
+          [
+            {
+              "node": "Virality Rater",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send message and wait for response": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Post",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Trazon Mitchell",
+    "name": "Version dc3834da",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "dc3834da-6b7d-4fad-90ea-462d5cfd6b54",
   "connections": {
     "Schedule Trigger (4x Daily)": {
       "main": [
@@ -442,11 +3501,6 @@
         ]
       ]
     },
-    "Send Video URL via Discord": {
-      "main": [
-        []
-      ]
-    },
     "Discord Trigger1": {
       "main": [
         [
@@ -746,11 +3800,6 @@
         ]
       ]
     },
-    "Send Video URL via Discord1": {
-      "main": [
-        []
-      ]
-    },
     "Send message and wait for response": {
       "main": [
         [
@@ -797,7 +3846,7 @@
       "typeVersion": 1.3,
       "position": [
         -5408,
-        580
+        592
       ],
       "id": "b4a32382-e765-413b-a907-6915c171a6d0",
       "name": "Schedule Trigger (4x Daily)",
@@ -811,7 +3860,7 @@
       "typeVersion": 1.1,
       "position": [
         -5184,
-        580
+        592
       ],
       "id": "ffc2590f-89ff-488f-996a-8883d9b9bcb4",
       "name": "Random Delay (Anti-Detection)",
@@ -845,7 +3894,7 @@
       "typeVersion": 4.3,
       "position": [
         -4960,
-        388
+        400
       ],
       "id": "92a26324-c4be-42b2-b9c4-76da85cf6a24",
       "name": "Google Trends (What's Hot Now)",
@@ -892,7 +3941,7 @@
       "typeVersion": 4.3,
       "position": [
         -4960,
-        580
+        592
       ],
       "id": "34af0128-d5ee-4901-97fc-614464b6fc79",
       "name": "Reddit (Satisfying/Amazing Content)",
@@ -939,7 +3988,7 @@
       "typeVersion": 4.3,
       "position": [
         -4960,
-        772
+        784
       ],
       "id": "e3764779-f444-431e-8643-e803a7ea3636",
       "name": "Amazon Trending Products",
@@ -959,7 +4008,7 @@
       "typeVersion": 3,
       "position": [
         -4736,
-        484
+        496
       ],
       "id": "b53194a5-0eb0-4688-9844-536227d073cf",
       "name": "Merge All Sources"
@@ -988,7 +4037,7 @@
       "typeVersion": 3.4,
       "position": [
         -4512,
-        484
+        496
       ],
       "id": "858fcf2e-e90b-4419-a6cf-306c8d821d53",
       "name": "Combine Data + Affiliate Config"
@@ -1006,7 +4055,7 @@
       "typeVersion": 3,
       "position": [
         -4288,
-        484
+        496
       ],
       "id": "038c7f44-a17d-4666-8a86-95ec8afd5782",
       "name": "AI Content Strategist"
@@ -1018,8 +4067,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -4152,
-        708
+        -4160,
+        720
       ],
       "id": "95f54675-5ee8-47ca-a679-227bfae313fa",
       "name": "Strategy Output Parser"
@@ -1031,8 +4080,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -4280,
-        708
+        -4288,
+        720
       ],
       "id": "a50c2dcf-6c0b-4849-8da3-78ae427f2a2a",
       "name": "Gemini 2.5 Flash",
@@ -1073,7 +4122,7 @@
       "typeVersion": 2.2,
       "position": [
         -3936,
-        360
+        368
       ],
       "id": "f974d665-dcf0-4a26-917b-cbfc61153896",
       "name": "Has Product to Monetize?"
@@ -1102,7 +4151,7 @@
       "typeVersion": 3.4,
       "position": [
         -3712,
-        264
+        272
       ],
       "id": "4afafb7b-a3ad-4003-ae4b-63629698104d",
       "name": "Build Affiliate Link"
@@ -1131,7 +4180,7 @@
       "typeVersion": 3.4,
       "position": [
         -3712,
-        456
+        464
       ],
       "id": "0f66556f-a8be-4068-a984-fdb7201d0b78",
       "name": "No Affiliate Link"
@@ -1145,7 +4194,7 @@
       "typeVersion": 3,
       "position": [
         -3488,
-        360
+        368
       ],
       "id": "989cfffb-93ec-4f3f-be1d-6c98287f585f",
       "name": "Merge Paths"
@@ -1168,7 +4217,7 @@
       "typeVersion": 3.4,
       "position": [
         -3264,
-        360
+        368
       ],
       "id": "ab04c235-5573-46a9-820f-335c17a6787c",
       "name": "Video Prompt Template"
@@ -1186,7 +4235,7 @@
       "typeVersion": 3,
       "position": [
         -3040,
-        360
+        368
       ],
       "id": "e628b125-ba3b-4bb5-92be-b11e71dce050",
       "name": "AI Video Director"
@@ -1198,8 +4247,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -2904,
-        584
+        -2912,
+        592
       ],
       "id": "85a4ce60-337a-4687-b04d-3ca287384ed9",
       "name": "Director Output Parser"
@@ -1211,8 +4260,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -3032,
-        584
+        -3040,
+        592
       ],
       "id": "d85fb35c-f77f-4700-9ecc-ec797e8a62ad",
       "name": "Gemini 2.5 Pro",
@@ -1247,7 +4296,7 @@
       "typeVersion": 1,
       "position": [
         -2688,
-        360
+        368
       ],
       "id": "7d775696-6698-4f2e-90dd-259659f846ed",
       "name": "Quality & Monetization Rater",
@@ -1287,7 +4336,7 @@
       "typeVersion": 2.2,
       "position": [
         -2336,
-        360
+        368
       ],
       "id": "1838125e-c1a0-4b3a-869c-c180e6686fbf",
       "name": "Score >= 65?"
@@ -1308,7 +4357,7 @@
       "typeVersion": 4.2,
       "position": [
         -2112,
-        312
+        320
       ],
       "id": "0981b406-0ec3-4787-ab24-f62f2b715b98",
       "name": "Generate Video (VEO2)",
@@ -1327,7 +4376,7 @@
       "typeVersion": 1.1,
       "position": [
         -1888,
-        312
+        320
       ],
       "id": "bac2371e-086a-49bd-8305-02c02548bb29",
       "name": "Wait 20s",
@@ -1353,7 +4402,7 @@
       "typeVersion": 4.3,
       "position": [
         -1664,
-        312
+        320
       ],
       "id": "71dc8c0d-4617-4f74-b4fd-76b061b46577",
       "name": "Check Video Status",
@@ -1407,7 +4456,7 @@
       "typeVersion": 1.1,
       "position": [
         -1216,
-        408
+        416
       ],
       "id": "dbe3fba2-e11c-4180-8eb6-0f385192d2c3",
       "name": "Wait 15s More",
@@ -1903,7 +4952,7 @@
       "typeVersion": 2,
       "position": [
         -2112,
-        604
+        608
       ],
       "id": "e4042e97-40a5-424b-a8d7-158de9ce8ae2",
       "name": "Notify Regeneration",
@@ -1999,7 +5048,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -4680,
+        -4688,
         -688
       ],
       "id": "9640e8e8-dd6e-4988-b5e3-dffad143460a",
@@ -2104,46 +5153,6 @@
           "name": "Kie"
         }
       }
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "745447586697052201",
-          "mode": "list",
-          "cachedResultName": "BakaBoi's Mall",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1446921026867826688",
-          "mode": "list",
-          "cachedResultName": "viral-video-ideas",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
-        },
-        "content": "={{ $json['URL VIDEO'] }}",
-        "options": {
-          "message_reference": "={{ $('Discord Trigger1').item.json.id }}"
-        }
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -5408,
-        -32
-      ],
-      "id": "eda69bbc-6758-4869-a26f-906c8076dda2",
-      "name": "Send Video URL via Discord",
-      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
-      "credentials": {
-        "discordOAuth2Api": {
-          "id": "UEztFF3QWknIwrx9",
-          "name": "BakaBot"
-        }
-      },
-      "disabled": true
     },
     {
       "parameters": {
@@ -2480,7 +5489,8 @@
         -784
       ],
       "id": "819f3da3-afa2-4a93-b029-47b6f98b0a50",
-      "name": "Schedule Trigger"
+      "name": "Schedule Trigger",
+      "disabled": true
     },
     {
       "parameters": {
@@ -2793,7 +5803,7 @@
       "typeVersion": 1.7,
       "position": [
         -2976,
-        -812
+        -816
       ],
       "id": "53695fb9-d408-40fb-bc21-afda5f68890b",
       "name": "Virality Rater"
@@ -2806,8 +5816,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -2968,
-        -588
+        -2976,
+        -592
       ],
       "id": "08c77549-3b93-4891-87b4-71f3ffcfce4b",
       "name": "Google Gemini Chat Model2",
@@ -2825,8 +5835,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -2840,
-        -588
+        -2848,
+        -592
       ],
       "id": "fa266cc3-7f6b-4a06-ae3b-cd5302573d2d",
       "name": "Structured Output Parser2"
@@ -2897,7 +5907,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -3768,
+        -3776,
         -688
       ],
       "id": "e71268fc-a339-45f2-8c86-2e8e9bcaf112",
@@ -3024,7 +6034,7 @@
       "typeVersion": 3.4,
       "position": [
         -3200,
-        -812
+        -816
       ],
       "id": "855b5c31-05f8-4840-9a42-4ca4c95e7a2d",
       "name": "Store Script Output"
@@ -3076,44 +6086,6 @@
     },
     {
       "parameters": {
-        "authentication": "oAuth2",
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "745447586697052201",
-          "mode": "list",
-          "cachedResultName": "BakaBoi's Mall",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1446921026867826688",
-          "mode": "list",
-          "cachedResultName": "viral-video-ideas",
-          "cachedResultUrl": "https://discord.com/channels/745447586697052201/1446921026867826688"
-        },
-        "content": "={{ $json['URL VIDEO'] }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -5408,
-        -256
-      ],
-      "id": "9238f9b2-b826-4c11-88be-0b2490151458",
-      "name": "Send Video URL via Discord1",
-      "webhookId": "4a87fa7e-7d74-432d-945d-839b0b7780d2",
-      "credentials": {
-        "discordOAuth2Api": {
-          "id": "UEztFF3QWknIwrx9",
-          "name": "BakaBot"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -3161,103 +6133,6 @@
           "Minute": "30",
           "Second": "00",
           "Timezone": "America/New_York (UTC-05:00)"
-        }
-      }
-    ],
-    "Send Video URL via Discord": [
-      {
-        "json": {
-          "type": 19,
-          "content": "https://tempfile.aiquickdraw.com/f/c51c8f95a5cf032a3fc904f4fd13be78/073d52cc-f0d9-47da-80a3-a3b01efff1f2.mp4",
-          "mentions": [
-            {
-              "id": "246812164885577729",
-              "username": "bakaboi341",
-              "avatar": "62b3d7b107b76962d7239f40db95ce6a",
-              "discriminator": "0",
-              "public_flags": 0,
-              "flags": 0,
-              "banner": null,
-              "accent_color": 0,
-              "global_name": "bakaboi",
-              "avatar_decoration_data": null,
-              "collectibles": null,
-              "display_name_styles": null,
-              "banner_color": "#000000",
-              "clan": null,
-              "primary_guild": null
-            }
-          ],
-          "mention_roles": [],
-          "attachments": [],
-          "embeds": [],
-          "timestamp": "2025-12-16T23:53:32.938000+00:00",
-          "edited_timestamp": null,
-          "flags": 0,
-          "components": [],
-          "id": "1450637002541240465",
-          "channel_id": "1446921026867826688",
-          "author": {
-            "id": "1306443523553366090",
-            "username": "BakaBot",
-            "avatar": "c6fc95648cb270cd9617d6f0de37de38",
-            "discriminator": "1333",
-            "public_flags": 0,
-            "flags": 0,
-            "bot": true,
-            "banner": null,
-            "accent_color": null,
-            "global_name": null,
-            "avatar_decoration_data": null,
-            "collectibles": null,
-            "display_name_styles": null,
-            "banner_color": null,
-            "clan": null,
-            "primary_guild": null
-          },
-          "pinned": false,
-          "mention_everyone": false,
-          "tts": false,
-          "message_reference": {
-            "type": 0,
-            "channel_id": "1446921026867826688",
-            "message_id": "1450630657314127993",
-            "guild_id": "745447586697052201"
-          },
-          "referenced_message": {
-            "type": 0,
-            "content": "!viral",
-            "mentions": [],
-            "mention_roles": [],
-            "attachments": [],
-            "embeds": [],
-            "timestamp": "2025-12-16T23:28:20.118000+00:00",
-            "edited_timestamp": null,
-            "flags": 0,
-            "components": [],
-            "id": "1450630657314127993",
-            "channel_id": "1446921026867826688",
-            "author": {
-              "id": "246812164885577729",
-              "username": "bakaboi341",
-              "avatar": "62b3d7b107b76962d7239f40db95ce6a",
-              "discriminator": "0",
-              "public_flags": 0,
-              "flags": 0,
-              "banner": null,
-              "accent_color": null,
-              "global_name": "bakaboi",
-              "avatar_decoration_data": null,
-              "collectibles": null,
-              "display_name_styles": null,
-              "banner_color": null,
-              "clan": null,
-              "primary_guild": null
-            },
-            "pinned": false,
-            "mention_everyone": false,
-            "tts": false
-          }
         }
       }
     ],
@@ -3390,7 +6265,7 @@
     }
   },
   "tags": [],
-  "triggerCount": 2,
-  "updatedAt": "2025-12-17T00:20:09.000Z",
-  "versionId": "e78ad5d1-3090-4052-8ebd-d02601efd900"
+  "triggerCount": 1,
+  "updatedAt": "2026-01-04T16:33:32.980Z",
+  "versionId": "dc3834da-6b7d-4fad-90ea-462d5cfd6b54"
 }
