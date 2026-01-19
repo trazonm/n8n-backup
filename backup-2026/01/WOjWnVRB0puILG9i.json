@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-17T23:01:54.000Z",
-    "createdAt": "2026-01-17T23:01:53.239Z",
-    "versionId": "5edc1461-8245-40b1-af16-50a75ddcc484",
+    "updatedAt": "2026-01-18T09:12:09.000Z",
+    "createdAt": "2026-01-18T09:12:07.503Z",
+    "versionId": "d2887d8c-66b6-4ea7-887b-da46452648fc",
     "workflowId": "WOjWnVRB0puILG9i",
     "nodes": [
       {
@@ -16,8 +16,8 @@
         "type": "n8n-nodes-base.webhook",
         "typeVersion": 2.1,
         "position": [
-          0,
-          336
+          -704,
+          928
         ],
         "id": "52524031-f9a0-46b7-aa98-e73270891cb6",
         "name": "Content Repurpose Webhook",
@@ -26,15 +26,22 @@
       {
         "parameters": {
           "promptType": "define",
-          "text": "=You are a content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone}}\n\nIf a platform isn't requested DO NOT write content for it.  Return an empty string for that platform in those cases.\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line",
+          "text": "=You are a content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone}}\n\nWebsite Context (if available, scraped from {{ $json.body.scrapingUrl }}):\n{{ $json?.markdown?.join(\"\\n\\n\") || '' }}\n\nIf a platform isn't requested DO NOT write content for it. Return an empty string for that platform in those cases.\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line\n",
           "hasOutputParser": true,
+          "messages": {
+            "messageValues": [
+              {
+                "message": "=# UNLIMITED TIER — System Prompt (Premium + Viral)\n\nYou are **ContentSpray (Unlimited)** — a premium content repurposing agent.\nYour job is to create platform-native drafts that feel like a real creator wrote them: punchy, fun, scroll-stopping.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Core Rules (Non-negotiable)\n1) ONLY generate content for requested `platforms`.\n2) For any platform not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, claims, awards, or results not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- If tone is NOT explicitly \"professional\", \"formal\", or \"serious\":\n  - You MUST include emojis.\n  - You MUST include playful punchlines / personality.\n  - You MUST sound like social media (not an essay).\n- If tone IS \"professional\"/\"formal\"/\"serious\":\n  - Keep emojis light but present (1–3 total) unless the user explicitly asks for no emojis.\n  - Keep it cleaner and more polished.\n- Avoid generic “motivational poster” phrasing.\n- Prefer short lines, sharp phrasing, rhythm, and comedic timing.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Must contain 1–5 tweets.\n- Each tweet line MUST start with `N/ `.\n- Numbering may be either `1/` style or `1/5` style.\n- Separate each tweet with a blank line (two newlines).\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the hook line**\n  - Include **at least 1 emoji total every 1–2 tweets**\n  - Use humor, memes, or punchy internet phrasing when appropriate\n- Do NOT use \"---\" or separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Keep it creator-style (not corporate)\n- 4–7 bullets max\n- End with a discussion question\n- 0–3 emojis depending on tone\n\n### Instagram (instagram)\n- Punchy first line\n- Line breaks for readability\n- Add 10–15 hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line: `Subject: <subject line>`\n- Blank line, then body\n- Skimmable sections + clear CTA\n- Minimal emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+              }
+            ]
+          },
           "batching": {}
         },
         "type": "@n8n/n8n-nodes-langchain.chainLlm",
         "typeVersion": 1.8,
         "position": [
-          256,
-          336
+          1968,
+          1472
         ],
         "id": "0454ac29-5ca7-4222-bd55-268bc1d4ed80",
         "name": "Basic LLM Chain",
@@ -43,14 +50,14 @@
       },
       {
         "parameters": {
-          "model": "anthropic/claude-haiku-4.5",
+          "model": "anthropic/claude-sonnet-4.5",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          224,
-          560
+          1936,
+          1696
         ],
         "id": "f9d54df9-fa4c-47f6-ba3a-2d8f48fea319",
         "name": "OpenRouter Chat Model",
@@ -69,8 +76,8 @@
         "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
         "typeVersion": 1.3,
         "position": [
-          352,
-          560
+          2064,
+          1696
         ],
         "id": "1c18ce8e-eed0-43bd-8d67-19232282d13f",
         "name": "Structured Output Parser"
@@ -82,8 +89,8 @@
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          432,
-          768
+          2144,
+          1904
         ],
         "id": "582dabe0-eec7-484d-8f4c-5b9a4521457d",
         "name": "OpenRouter Chat Model1",
@@ -105,8 +112,8 @@
         "type": "n8n-nodes-base.respondToWebhook",
         "typeVersion": 1.5,
         "position": [
-          720,
-          336
+          2432,
+          1472
         ],
         "id": "e95aac39-7f93-4bf2-b2cf-6ab81d577780",
         "name": "Respond to Webhook"
@@ -121,8 +128,8 @@
         "type": "n8n-nodes-base.webhook",
         "typeVersion": 2.1,
         "position": [
-          0,
-          -96
+          -704,
+          -112
         ],
         "id": "8b4b7fb8-c30e-44cc-b512-b1e1f0ad0cf3",
         "name": "Email Signup",
@@ -155,8 +162,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          224,
-          -96
+          -480,
+          -112
         ],
         "id": "66543215-9056-4a35-bb40-b81e0cbb96bb",
         "name": "If"
@@ -228,8 +235,8 @@
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4.7,
         "position": [
-          448,
-          -96
+          -256,
+          -112
         ],
         "id": "de6d8261-c920-4672-a52e-04a17f9ed808",
         "name": "Append or update row in sheet",
@@ -253,8 +260,8 @@
         "type": "n8n-nodes-base.emailSend",
         "typeVersion": 2.1,
         "position": [
-          672,
-          -96
+          -32,
+          -112
         ],
         "id": "4d4f8194-4ded-43ce-9621-9fc6b14b1d95",
         "name": "Send email",
@@ -277,8 +284,8 @@
         "type": "n8n-nodes-base.respondToWebhook",
         "typeVersion": 1.5,
         "position": [
-          896,
-          -96
+          192,
+          -112
         ],
         "id": "4d79f347-7059-4df0-9cef-3737338d8fda",
         "name": "Respond to Webhook1"
@@ -292,12 +299,572 @@
         "type": "n8n-nodes-base.webhook",
         "typeVersion": 2.1,
         "position": [
-          0,
-          768
+          -704,
+          1904
         ],
         "id": "990a9150-5745-4d45-b408-ed24c7d0df98",
         "name": "Contact Form",
         "webhookId": "52009c8e-b5f9-4ffe-8de7-4d9e07c6d8ed"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Keep copy tight and usable.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+          "hasOutputParser": true,
+          "needsFallback": true,
+          "messages": {
+            "messageValues": [
+              {
+                "message": "=# FREE TIER — System Prompt (Fast + Fun)\n\nYou are **ContentSpray (Free)** — a fast, budget-friendly content repurposing assistant.\nYour job is to turn the user’s content into platform-specific drafts with **clear formatting** and **fun social energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, results, or claims not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- Default vibe: **social, playful, light humor**.\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Keep emojis minimal (0–1 total)\n  - Keep phrasing cleaner + more business-like\n- Otherwise:\n  - Include emojis (at least 2 total across the output)\n  - Keep it punchy and creator-style (not essay-like)\n- Keep outputs short and usable.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 1–4 tweets total.\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include at least **1 more emoji somewhere in the thread**\n  - Keep jokes / punchlines simple (don’t overthink)\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Strong hook in first 1–2 lines\n- Short paragraphs and/or bullets\n- End with a light CTA question\n- Emojis optional depending on tone\n\n### Instagram (instagram)\n- Caption that feels like a real creator wrote it\n- Add 8–12 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then a blank line, then the email body\n- Skimmable and concise\n- Avoid heavy emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+              }
+            ]
+          },
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.8,
+        "position": [
+          -200,
+          112
+        ],
+        "id": "bc83d56a-4c6c-4eff-8c18-8fdbc1c09068",
+        "name": "Repurpose LLM Chain (Free)",
+        "retryOnFail": true,
+        "maxTries": 3
+      },
+      {
+        "parameters": {
+          "model": "xiaomi/mimo-v2-flash",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          -256,
+          336
+        ],
+        "id": "e1dd5746-614f-440f-ae0e-ec37fc62e181",
+        "name": "OpenRouter Chat Model (Free Main)",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n",
+          "autoFix": true
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          336
+        ],
+        "id": "c1f23e28-4040-47b7-a938-123c3b648231",
+        "name": "Structured Output Parser (Free)"
+      },
+      {
+        "parameters": {
+          "model": "google/gemini-2.0-flash-lite-001",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          80,
+          544
+        ],
+        "id": "a175c5d8-688b-40bf-bff0-64fba1ca03ad",
+        "name": "OpenRouter Chat Model (JSON Fixer)",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}",
+          "options": {
+            "responseCode": 200
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          368,
+          320
+        ],
+        "id": "18285eed-6582-4d6a-ae7a-87654f480808",
+        "name": "Respond to Webhook (Free)"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.body.userTier }}",
+                      "rightValue": "free",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "eff71517-5085-408c-8114-05d923c07d28"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Free"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "28f5f903-3740-4ab2-bedb-07439dc4287b",
+                      "leftValue": "={{ $json.body.userTier }}",
+                      "rightValue": "pro",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Pro"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "116dbc7c-8d40-46af-9fb9-9f8698b4f974",
+                      "leftValue": "={{ $json.body.userTier }}",
+                      "rightValue": "unlimited",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Unlimited"
+              }
+            ]
+          },
+          "looseTypeValidation": true,
+          "options": {
+            "fallbackOutput": 2,
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          -480,
+          912
+        ],
+        "id": "6d6a0b40-adaf-4029-9bbe-592a09f0383d",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Write with higher polish than the Free tier: stronger hooks, clearer structure, more varied phrasing.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- Add 1 concrete takeaway list (3–5 bullets) when possible.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable, includes 2–4 section headers.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+          "hasOutputParser": true,
+          "messages": {
+            "messageValues": [
+              {
+                "message": "=# PRO TIER — System Prompt (Higher Quality + More Personality)\n\nYou are **ContentSpray (Pro)** — a high-quality repurposing agent.\nYour job is to produce polished platform-native drafts with **strong hooks**, **good rhythm**, and **creator energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, awards, results, numbers, testimonials, or guarantees not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Pro Style Standards\n- Better hooks and phrasing than Free tier\n- Better structure and readability\n- More “human” and scroll-stopping\n- Avoid sounding like a blog article or textbook summary\n\n## Emoji + Tone Rules\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Emojis should be minimal (0–2 total)\n- Otherwise:\n  - Emojis are REQUIRED (at least 1 in the Twitter hook + 2+ across all outputs)\n  - Light humor / punchlines are encouraged\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 2–5 tweets total.\n- Each tweet must be under 280 characters.\n- Tweet 1 must be the strongest hook/premise.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include emojis every 1–2 tweets\n  - Punchy “internet creator” phrasing encouraged\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Include 3–6 bullets with takeaways when possible\n- End with a thoughtful CTA question\n- Optional emojis based on tone\n\n### Instagram (instagram)\n- Strong first line + line breaks for readability\n- Add 10–15 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then blank line, then body\n- 2–4 short sections with headers\n- Clear CTA at the end\n- Avoid excessive emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+              }
+            ]
+          },
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.8,
+        "position": [
+          -160,
+          720
+        ],
+        "id": "e181b21d-48d0-475b-8f22-eb4c66820437",
+        "name": "Repurpose LLM Chain (Pro)",
+        "retryOnFail": true,
+        "maxTries": 3
+      },
+      {
+        "parameters": {
+          "model": "openai/gpt-4o-mini",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          -192,
+          944
+        ],
+        "id": "a468625d-9197-46d2-92a2-0e5363e853b3",
+        "name": "OpenRouter Chat Model (Pro Main)",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n",
+          "autoFix": true
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -64,
+          944
+        ],
+        "id": "b505b438-485c-42fe-b50e-2fbf4ac316fd",
+        "name": "Structured Output Parser (Pro)"
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}",
+          "options": {
+            "responseCode": 200
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          368,
+          928
+        ],
+        "id": "174cbb89-9960-4b62-8416-41acbb618758",
+        "name": "Respond to Webhook (Pro)"
+      },
+      {
+        "parameters": {
+          "model": "google/gemini-2.0-flash-lite-001",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          16,
+          1152
+        ],
+        "id": "02982724-9d83-4ba5-b06b-6c6c3c9d2e38",
+        "name": "OpenRouter Chat Model (JSON Fixer)1",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": "google/gemini-2.5-flash-lite",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          -128,
+          336
+        ],
+        "id": "aafbccda-52c2-4823-95a5-4586c5567af7",
+        "name": "OpenRouter Chat Model2",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6c0835e7-a2f3-4990-a769-da0843f944d5",
+                "leftValue": "={{ $json.body.scrapingUrl }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          -56,
+          1392
+        ],
+        "id": "e463eadc-a36c-4b90-908f-ccaac7f71071",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "resource": "MapSearch",
+          "operation": "map",
+          "url": "={{ $json.body.scrapingUrl.replace(/^https?:\\/\\//, '').split('/')[0] }}",
+          "limit": 5,
+          "timeout": 120000,
+          "requestOptions": {}
+        },
+        "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+        "typeVersion": 1,
+        "position": [
+          368,
+          1248
+        ],
+        "id": "67003505-dfcb-4b83-bfc0-8a80bfd8ee0a",
+        "name": "Map Website",
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "firecrawlApi": {
+            "id": "YO5EjX3C5DM3qPra",
+            "name": "Firecrawl - Patch"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "const outputItems = [];\n\nfor (const item of $input.all()) {\n  const links = Array.isArray(item.json.links) ? item.json.links : [];\n  const filtered = links.filter(l => !String(l.url || '').toLowerCase().includes('xml'));\n  outputItems.push({ json: { ...item.json, links: filtered } });\n}\n\nreturn outputItems;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          816,
+          1032
+        ],
+        "id": "767b7585-e56a-4137-bdb2-0b925ddbc9d6",
+        "name": "Filter XML Links"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "links",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          1040,
+          1032
+        ],
+        "id": "35a284dd-35fc-4527-8edf-cab95e4c6263",
+        "name": "Split Links"
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "data.markdown"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          1488,
+          1032
+        ],
+        "id": "bdcd297d-38cc-4440-982b-d0cfb895baaf",
+        "name": "Aggregate Website Content"
+      },
+      {
+        "parameters": {
+          "operation": "scrape",
+          "url": "={{ $json.url }}",
+          "scrapeOptions": {
+            "options": {
+              "formats": {
+                "format": [
+                  {}
+                ]
+              },
+              "includeTags": {
+                "items": [
+                  {
+                    "tag": "title"
+                  },
+                  {
+                    "tag": "meta"
+                  },
+                  {
+                    "tag": "h1"
+                  },
+                  {
+                    "tag": "h2"
+                  },
+                  {
+                    "tag": "h3"
+                  },
+                  {
+                    "tag": "p"
+                  },
+                  {
+                    "tag": "li"
+                  },
+                  {
+                    "tag": "a"
+                  },
+                  {
+                    "tag": "section"
+                  }
+                ]
+              },
+              "excludeTags": {
+                "items": [
+                  {
+                    "tag": "img"
+                  },
+                  {
+                    "tag": "picture"
+                  },
+                  {
+                    "tag": "svg"
+                  },
+                  {
+                    "tag": "video"
+                  },
+                  {
+                    "tag": "source"
+                  },
+                  {
+                    "tag": "canvas"
+                  },
+                  {
+                    "tag": "figure"
+                  },
+                  {
+                    "tag": "figcaption"
+                  }
+                ]
+              },
+              "headers": {},
+              "waitFor": 2000,
+              "timeout": 120000
+            }
+          },
+          "requestOptions": {}
+        },
+        "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+        "typeVersion": 1,
+        "position": [
+          1264,
+          1032
+        ],
+        "id": "0ece4abd-1a1b-4449-887e-52c3423aa74e",
+        "name": "Scrape a url and get its content1",
+        "retryOnFail": true,
+        "maxTries": 5,
+        "waitBetweenTries": 5000,
+        "credentials": {
+          "firecrawlApi": {
+            "id": "YO5EjX3C5DM3qPra",
+            "name": "Firecrawl - Patch"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          1712,
+          1320
+        ],
+        "id": "fd990b70-7ecd-4ae9-82c0-81d92eea7179",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "bc963451-8e1a-422d-9cb2-6efc76d55e40",
+                "leftValue": "={{ $json.links }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "array",
+                  "operation": "lengthGt",
+                  "rightType": "number"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          592,
+          1104
+        ],
+        "id": "b154a64d-3d54-4074-adf6-db889a0b193e",
+        "name": "If2"
       }
     ],
     "connections": {
@@ -305,7 +872,7 @@
         "main": [
           [
             {
-              "node": "Basic LLM Chain",
+              "node": "Switch",
               "type": "main",
               "index": 0
             }
@@ -399,20 +966,258 @@
             }
           ]
         ]
+      },
+      "Repurpose LLM Chain (Free)": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook (Free)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model (Free Main)": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Repurpose LLM Chain (Free)",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser (Free)": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Repurpose LLM Chain (Free)",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model (JSON Fixer)": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Structured Output Parser (Free)",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Repurpose LLM Chain (Free)",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Repurpose LLM Chain (Pro)",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Repurpose LLM Chain (Pro)": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook (Pro)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model (Pro Main)": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Repurpose LLM Chain (Pro)",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser (Pro)": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Repurpose LLM Chain (Pro)",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model (JSON Fixer)1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Structured Output Parser (Pro)",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Repurpose LLM Chain (Free)",
+              "type": "ai_languageModel",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Map Website",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Map Website": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Links": {
+        "main": [
+          [
+            {
+              "node": "Scrape a url and get its content1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter XML Links": {
+        "main": [
+          [
+            {
+              "node": "Split Links",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Scrape a url and get its content1": {
+        "main": [
+          [
+            {
+              "node": "Aggregate Website Content",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate Website Content": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "Filter XML Links",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Trazon Mitchell",
-    "name": "Version 5edc1461",
+    "name": "Version d2887d8c",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "5edc1461-8245-40b1-af16-50a75ddcc484",
+  "activeVersionId": "d2887d8c-66b6-4ea7-887b-da46452648fc",
   "connections": {
     "Content Repurpose Webhook": {
       "main": [
         [
           {
-            "node": "Basic LLM Chain",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -506,6 +1311,244 @@
           }
         ]
       ]
+    },
+    "Repurpose LLM Chain (Free)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook (Free)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model (Free Main)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Repurpose LLM Chain (Free)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser (Free)": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Repurpose LLM Chain (Free)",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model (JSON Fixer)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser (Free)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Repurpose LLM Chain (Free)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Repurpose LLM Chain (Pro)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Repurpose LLM Chain (Pro)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook (Pro)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model (Pro Main)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Repurpose LLM Chain (Pro)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser (Pro)": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Repurpose LLM Chain (Pro)",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model (JSON Fixer)1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser (Pro)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Repurpose LLM Chain (Free)",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Website",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Map Website": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Links": {
+      "main": [
+        [
+          {
+            "node": "Scrape a url and get its content1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter XML Links": {
+      "main": [
+        [
+          {
+            "node": "Split Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape a url and get its content1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Website Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Website Content": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Filter XML Links",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-01-17T20:33:35.336Z",
@@ -526,8 +1569,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        336
+        -704,
+        928
       ],
       "id": "52524031-f9a0-46b7-aa98-e73270891cb6",
       "name": "Content Repurpose Webhook",
@@ -536,15 +1579,22 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are a content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone}}\n\nIf a platform isn't requested DO NOT write content for it.  Return an empty string for that platform in those cases.\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line",
+        "text": "=You are a content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone || $json.body.customTone}}\n\nWebsite Context (if available, scraped from {{ $json?.body?.scrapingUrl || 'N/A' }}):\n{{ $json?.markdown?.join(\"\\n\\n\") || '' }}\n\nIf a platform isn't requested DO NOT write content for it. Return an empty string for that platform in those cases.\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line\n",
         "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# UNLIMITED TIER — System Prompt (Premium + Viral)\n\nYou are **ContentSpray (Unlimited)** — a premium content repurposing agent.\nYour job is to create platform-native drafts that feel like a real creator wrote them: punchy, fun, scroll-stopping.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Core Rules (Non-negotiable)\n1) ONLY generate content for requested `platforms`.\n2) For any platform not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, claims, awards, or results not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- If tone is NOT explicitly \"professional\", \"formal\", or \"serious\":\n  - You MUST include emojis.\n  - You MUST include playful punchlines / personality.\n  - You MUST sound like social media (not an essay).\n- If tone IS \"professional\"/\"formal\"/\"serious\":\n  - Keep emojis light but present (1–3 total) unless the user explicitly asks for no emojis.\n  - Keep it cleaner and more polished.\n- Avoid generic “motivational poster” phrasing.\n- Prefer short lines, sharp phrasing, rhythm, and comedic timing.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Must contain 1–5 tweets.\n- Each tweet line MUST start with `N/ `.\n- Numbering may be either `1/` style or `1/5` style.\n- Separate each tweet with a blank line (two newlines).\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the hook line**\n  - Include **at least 1 emoji total every 1–2 tweets**\n  - Use humor, memes, or punchy internet phrasing when appropriate\n- Do NOT use \"---\" or separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Keep it creator-style (not corporate)\n- 4–7 bullets max\n- End with a discussion question\n- 0–3 emojis depending on tone\n\n### Instagram (instagram)\n- Punchy first line\n- Line breaks for readability\n- Add 10–15 hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line: `Subject: <subject line>`\n- Blank line, then body\n- Skimmable sections + clear CTA\n- Minimal emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+            }
+          ]
+        },
         "batching": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.8,
       "position": [
-        256,
-        336
+        1968,
+        1472
       ],
       "id": "0454ac29-5ca7-4222-bd55-268bc1d4ed80",
       "name": "Basic LLM Chain",
@@ -553,14 +1603,14 @@
     },
     {
       "parameters": {
-        "model": "anthropic/claude-haiku-4.5",
+        "model": "anthropic/claude-sonnet-4.5",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        224,
-        560
+        1936,
+        1696
       ],
       "id": "f9d54df9-fa4c-47f6-ba3a-2d8f48fea319",
       "name": "OpenRouter Chat Model",
@@ -579,8 +1629,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        352,
-        560
+        2064,
+        1696
       ],
       "id": "1c18ce8e-eed0-43bd-8d67-19232282d13f",
       "name": "Structured Output Parser"
@@ -592,8 +1642,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        432,
-        768
+        2144,
+        1904
       ],
       "id": "582dabe0-eec7-484d-8f4c-5b9a4521457d",
       "name": "OpenRouter Chat Model1",
@@ -615,8 +1665,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        720,
-        336
+        2432,
+        1472
       ],
       "id": "e95aac39-7f93-4bf2-b2cf-6ab81d577780",
       "name": "Respond to Webhook"
@@ -631,8 +1681,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        -96
+        -704,
+        -112
       ],
       "id": "8b4b7fb8-c30e-44cc-b512-b1e1f0ad0cf3",
       "name": "Email Signup",
@@ -665,8 +1715,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        224,
-        -96
+        -480,
+        -112
       ],
       "id": "66543215-9056-4a35-bb40-b81e0cbb96bb",
       "name": "If"
@@ -738,8 +1788,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        448,
-        -96
+        -256,
+        -112
       ],
       "id": "de6d8261-c920-4672-a52e-04a17f9ed808",
       "name": "Append or update row in sheet",
@@ -763,8 +1813,8 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        672,
-        -96
+        -32,
+        -112
       ],
       "id": "4d4f8194-4ded-43ce-9621-9fc6b14b1d95",
       "name": "Send email",
@@ -787,8 +1837,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        896,
-        -96
+        192,
+        -112
       ],
       "id": "4d79f347-7059-4df0-9cef-3737338d8fda",
       "name": "Respond to Webhook1"
@@ -802,12 +1852,572 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        768
+        -704,
+        1904
       ],
       "id": "990a9150-5745-4d45-b408-ed24c7d0df98",
       "name": "Contact Form",
       "webhookId": "52009c8e-b5f9-4ffe-8de7-4d9e07c6d8ed"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Keep copy tight and usable.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# FREE TIER — System Prompt (Fast + Fun)\n\nYou are **ContentSpray (Free)** — a fast, budget-friendly content repurposing assistant.\nYour job is to turn the user’s content into platform-specific drafts with **clear formatting** and **fun social energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, results, or claims not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- Default vibe: **social, playful, light humor**.\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Keep emojis minimal (0–1 total)\n  - Keep phrasing cleaner + more business-like\n- Otherwise:\n  - Include emojis (at least 2 total across the output)\n  - Keep it punchy and creator-style (not essay-like)\n- Keep outputs short and usable.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 1–4 tweets total.\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include at least **1 more emoji somewhere in the thread**\n  - Keep jokes / punchlines simple (don’t overthink)\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Strong hook in first 1–2 lines\n- Short paragraphs and/or bullets\n- End with a light CTA question\n- Emojis optional depending on tone\n\n### Instagram (instagram)\n- Caption that feels like a real creator wrote it\n- Add 8–12 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then a blank line, then the email body\n- Skimmable and concise\n- Avoid heavy emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.8,
+      "position": [
+        -200,
+        112
+      ],
+      "id": "bc83d56a-4c6c-4eff-8c18-8fdbc1c09068",
+      "name": "Repurpose LLM Chain (Free)",
+      "retryOnFail": true,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "model": "xiaomi/mimo-v2-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        336
+      ],
+      "id": "e1dd5746-614f-440f-ae0e-ec37fc62e181",
+      "name": "OpenRouter Chat Model (Free Main)",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        336
+      ],
+      "id": "c1f23e28-4040-47b7-a938-123c3b648231",
+      "name": "Structured Output Parser (Free)"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.0-flash-lite-001",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        80,
+        544
+      ],
+      "id": "a175c5d8-688b-40bf-bff0-64fba1ca03ad",
+      "name": "OpenRouter Chat Model (JSON Fixer)",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        368,
+        320
+      ],
+      "id": "18285eed-6582-4d6a-ae7a-87654f480808",
+      "name": "Respond to Webhook (Free)"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.userTier }}",
+                    "rightValue": "free",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "eff71517-5085-408c-8114-05d923c07d28"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Free"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "28f5f903-3740-4ab2-bedb-07439dc4287b",
+                    "leftValue": "={{ $json.body.userTier }}",
+                    "rightValue": "pro",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Pro"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "116dbc7c-8d40-46af-9fb9-9f8698b4f974",
+                    "leftValue": "={{ $json.body.userTier }}",
+                    "rightValue": "unlimited",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Unlimited"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "fallbackOutput": 2,
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        912
+      ],
+      "id": "6d6a0b40-adaf-4029-9bbe-592a09f0383d",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Write with higher polish than the Free tier: stronger hooks, clearer structure, more varied phrasing.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- Add 1 concrete takeaway list (3–5 bullets) when possible.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable, includes 2–4 section headers.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# PRO TIER — System Prompt (Higher Quality + More Personality)\n\nYou are **ContentSpray (Pro)** — a high-quality repurposing agent.\nYour job is to produce polished platform-native drafts with **strong hooks**, **good rhythm**, and **creator energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, awards, results, numbers, testimonials, or guarantees not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Pro Style Standards\n- Better hooks and phrasing than Free tier\n- Better structure and readability\n- More “human” and scroll-stopping\n- Avoid sounding like a blog article or textbook summary\n\n## Emoji + Tone Rules\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Emojis should be minimal (0–2 total)\n- Otherwise:\n  - Emojis are REQUIRED (at least 1 in the Twitter hook + 2+ across all outputs)\n  - Light humor / punchlines are encouraged\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 2–5 tweets total.\n- Each tweet must be under 280 characters.\n- Tweet 1 must be the strongest hook/premise.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include emojis every 1–2 tweets\n  - Punchy “internet creator” phrasing encouraged\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Include 3–6 bullets with takeaways when possible\n- End with a thoughtful CTA question\n- Optional emojis based on tone\n\n### Instagram (instagram)\n- Strong first line + line breaks for readability\n- Add 10–15 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then blank line, then body\n- 2–4 short sections with headers\n- Clear CTA at the end\n- Avoid excessive emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.8,
+      "position": [
+        -160,
+        720
+      ],
+      "id": "e181b21d-48d0-475b-8f22-eb4c66820437",
+      "name": "Repurpose LLM Chain (Pro)",
+      "retryOnFail": true,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4o-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        944
+      ],
+      "id": "a468625d-9197-46d2-92a2-0e5363e853b3",
+      "name": "OpenRouter Chat Model (Pro Main)",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -64,
+        944
+      ],
+      "id": "b505b438-485c-42fe-b50e-2fbf4ac316fd",
+      "name": "Structured Output Parser (Pro)"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        368,
+        928
+      ],
+      "id": "174cbb89-9960-4b62-8416-41acbb618758",
+      "name": "Respond to Webhook (Pro)"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.0-flash-lite-001",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        16,
+        1152
+      ],
+      "id": "02982724-9d83-4ba5-b06b-6c6c3c9d2e38",
+      "name": "OpenRouter Chat Model (JSON Fixer)1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        336
+      ],
+      "id": "aafbccda-52c2-4823-95a5-4586c5567af7",
+      "name": "OpenRouter Chat Model2",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6c0835e7-a2f3-4990-a769-da0843f944d5",
+              "leftValue": "={{ $json.body.scrapingUrl }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -56,
+        1392
+      ],
+      "id": "e463eadc-a36c-4b90-908f-ccaac7f71071",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "resource": "MapSearch",
+        "operation": "map",
+        "url": "={{ $json.body.scrapingUrl.replace(/^https?:\\/\\//, '').split('/')[0] }}",
+        "limit": 5,
+        "timeout": 120000,
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+      "typeVersion": 1,
+      "position": [
+        368,
+        1248
+      ],
+      "id": "67003505-dfcb-4b83-bfc0-8a80bfd8ee0a",
+      "name": "Map Website",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "firecrawlApi": {
+          "id": "YO5EjX3C5DM3qPra",
+          "name": "Firecrawl - Patch"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const outputItems = [];\n\nfor (const item of $input.all()) {\n  const links = Array.isArray(item.json.links) ? item.json.links : [];\n  const filtered = links.filter(l => !String(l.url || '').toLowerCase().includes('xml'));\n  outputItems.push({ json: { ...item.json, links: filtered } });\n}\n\nreturn outputItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        1032
+      ],
+      "id": "767b7585-e56a-4137-bdb2-0b925ddbc9d6",
+      "name": "Filter XML Links"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "links",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        1032
+      ],
+      "id": "35a284dd-35fc-4527-8edf-cab95e4c6263",
+      "name": "Split Links"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "data.markdown"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1488,
+        1032
+      ],
+      "id": "bdcd297d-38cc-4440-982b-d0cfb895baaf",
+      "name": "Aggregate Website Content"
+    },
+    {
+      "parameters": {
+        "operation": "scrape",
+        "url": "={{ $json.url }}",
+        "scrapeOptions": {
+          "options": {
+            "formats": {
+              "format": [
+                {}
+              ]
+            },
+            "includeTags": {
+              "items": [
+                {
+                  "tag": "title"
+                },
+                {
+                  "tag": "meta"
+                },
+                {
+                  "tag": "h1"
+                },
+                {
+                  "tag": "h2"
+                },
+                {
+                  "tag": "h3"
+                },
+                {
+                  "tag": "p"
+                },
+                {
+                  "tag": "li"
+                },
+                {
+                  "tag": "a"
+                },
+                {
+                  "tag": "section"
+                }
+              ]
+            },
+            "excludeTags": {
+              "items": [
+                {
+                  "tag": "img"
+                },
+                {
+                  "tag": "picture"
+                },
+                {
+                  "tag": "svg"
+                },
+                {
+                  "tag": "video"
+                },
+                {
+                  "tag": "source"
+                },
+                {
+                  "tag": "canvas"
+                },
+                {
+                  "tag": "figure"
+                },
+                {
+                  "tag": "figcaption"
+                }
+              ]
+            },
+            "headers": {},
+            "waitFor": 2000,
+            "timeout": 120000
+          }
+        },
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        1032
+      ],
+      "id": "0ece4abd-1a1b-4449-887e-52c3423aa74e",
+      "name": "Scrape a url and get its content1",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "firecrawlApi": {
+          "id": "YO5EjX3C5DM3qPra",
+          "name": "Firecrawl - Patch"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1712,
+        1320
+      ],
+      "id": "fd990b70-7ecd-4ae9-82c0-81d92eea7179",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bc963451-8e1a-422d-9cb2-6efc76d55e40",
+              "leftValue": "={{ $json.links }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "array",
+                "operation": "lengthGt",
+                "rightType": "number"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        592,
+        1104
+      ],
+      "id": "b154a64d-3d54-4074-adf6-db889a0b193e",
+      "name": "If2"
     }
   ],
   "pinData": {
@@ -834,65 +2444,6 @@
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook-test/content-spray-email-flow",
           "executionMode": "test"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
-    "Content Repurpose Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "bakaflow.gleeze.com",
-            "x-forwarded-scheme": "https",
-            "x-forwarded-proto": "https",
-            "x-forwarded-for": "75.177.85.65",
-            "x-real-ip": "75.177.85.65",
-            "content-length": "91",
-            "sec-ch-ua-platform": "\"macOS\"",
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0",
-            "sec-ch-ua": "\"Opera GX\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"",
-            "content-type": "application/json",
-            "sec-ch-ua-mobile": "?0",
-            "accept": "*/*",
-            "origin": "https://0aaedb48-d7f0-4825-b3a2-352bf6d19365.lovableproject.com",
-            "sec-fetch-site": "cross-site",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-dest": "empty",
-            "referer": "https://0aaedb48-d7f0-4825-b3a2-352bf6d19365.lovableproject.com/",
-            "accept-encoding": "gzip, deflate, br, zstd",
-            "accept-language": "en-US,en;q=0.9,hu;q=0.8,da;q=0.7,fr;q=0.6,zh-CN;q=0.5,zh;q=0.4",
-            "priority": "u=1, i"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "content": "skibbidi toilet",
-            "platforms": [
-              "twitter",
-              "linkedin",
-              "instagram"
-            ],
-            "tone": "witty"
-          },
-          "webhookUrl": "https://bakaflow.gleeze.com/webhook/content-spray-repurpose-tool",
-          "executionMode": "production"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
-    "Basic LLM Chain": [
-      {
-        "json": {
-          "output": {
-            "twitter": "🚽 Thread: Skibidi Toilet is the internet's most unhinged masterpiece\n\n1/ Created by @DaFuqBoom, this machinima series pits singing toilets with human heads against camera-headed agents. Yes, you read that right. And yes, Gen Alpha has made it their culture.\n\n2/ Since Feb 2023, we've gotten 79 episodes across 26 seasons of pure chaos. The plot? Literal toilet warfare with an arms race that would make military strategists weep. It's giving apocalypse, but make it plumbing.\n\n3/ The lore is DEEP. We're talking mind-control parasites, Titan allies, and an omnipresent Administrator orchestrating everything. This isn't just toilet humor—it's philosophical toilet humor.\n\n4/ From flying giant toilets to urinal variants, the creativity is unmatched. Destroy a toilet? Flush it. Simple. Elegant. Chaotic.\n\n5/ Whether you get it or you don't, Skibidi Toilet is Gen Alpha's first true internet culture moment. It's weird, it's wonderful, and it absolutely slaps. 🚽✨",
-            "linkedin": "🚽 What Skibidi Toilet Teaches Us About Digital-First Content Creation\n\nLet's talk about a phenomenon most of us have yet to understand: Skibidi Toilet, the machinima series that's captured 79 episodes and millions of hearts—primarily from Gen Alpha.\n\nHere's what makes it brilliant from a content strategy perspective:\n\n✓ VIRAL AUTHENTICITY: Created by Alexey Gerasimov (@DaFuqBoom) using Source Filmmaker, it proves that niche platforms and unconventional formats can dominate the cultural conversation.\n\n✓ TRANSMEDIA STORYTELLING: What started as a YouTube short evolved into complex narrative arcs with licensed merchandise, world-building, and consistent fan engagement—sound familiar?\n\n✓ GENERATIONAL MARKETING: This series became Gen Alpha's defining internet culture moment. Understanding what resonates with emerging audiences is crucial for long-term brand strategy.\n\n✓ SIMPLICITY SCALES: The core concept (singing toilets vs. tech-headed agents) is absurd yet memorable. Sometimes the best ideas are the ones that seem ridiculous at first.\n\nThe lesson? Don't underestimate unconventional content. Sometimes the most successful campaigns emerge from creative risks and genuine originality.\n\n#ContentStrategy #DigitalMarketing #CreativeExecution #WebSeries #GenerationAlpha",
-            "instagram": "🚽✨ Skibidi Toilet: The Toilet Paper of the Internet\n\nGen Alpha said \"what if we made toilets... iconic?\" and honestly? They served. 💅\n\nFrom singing porcelain queens to an intergalactic toilet invasion plot twist that hits harder than your morning coffee—this machinima series is the unhinged content we didn't know we needed.\n\n79 episodes. 26 seasons. Endless chaos. 🌪️\n\nWho knew plumbing could be this profound?\n\n#SkibidiToilet #InternetCulture #GenAlpha #YouTubeShorts #Machinima #WebSeries #ContentCreator #ViralTok #MemeLife #TechHeads #PlumbingHumor #CasuallyObsessed #SendHelp #WhyIsThisSoFunny #ToiletTok 🚽💦",
-            "email": "Subject: We Need to Talk About Why Toilets Are Dominating the Internet 🚽\n\n---\n\nHey there,\n\nYou know that feeling when something becomes so absurdly popular that you can't ignore it anymore? Yeah. That's Skibidi Toilet.\n\nIn case you've been living under a rock (or just scrolling LinkedIn), there's a machinima web series that's absolutely taken over the internet—and honestly, it's worth understanding why.\n\n🎬 THE BASICS:\nCreator Alexey Gerasimov (@DaFuqBoom) launched Skibidi Toilet in February 2023 with a simple premise: toilets with human heads coming out of them singing, versus humanoids with cameras, speakers, and TVs for heads. It's delightfully unhinged.\n\n📊 THE NUMBERS:\n• 79 episodes across 26 seasons\n• Viral sensation particularly with Gen Alpha\n• Licensed merchandise already in circulation\n• Complex lore that rivals Game of Thrones\n\n🤔 WHY THIS MATTERS:\nThis isn't just toilet humor (though it absolutely is). It's a masterclass in viral content creation—unconventional, authentic, and resonant with its audience. The series proves that sometimes the most \"ridiculous\" ideas create the most lasting cultural impact.\n\n💡 THE TAKEAWAY:\nWhether you're a marketer, content creator, or just someone trying to understand what Gen Alpha finds funny, Skibidi Toilet is a case study in modern internet culture.\n\nCurious about the lore? Check out [wikipedia.org](https://en.wikipedia.org/wiki/Skibadee_Toilet) or dive into the YouTube shorts.\n\nUntil next time,\nYour Content Strategist"
-          }
         },
         "pairedItem": {
           "item": 0
@@ -936,6 +2487,45 @@
           "item": 0
         }
       }
+    ],
+    "Content Repurpose Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "bakaflow.gleeze.com",
+            "x-forwarded-scheme": "https",
+            "x-forwarded-proto": "https",
+            "x-forwarded-for": "100.26.146.207",
+            "x-real-ip": "100.26.146.207",
+            "content-length": "236",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "accept-language": "*",
+            "user-agent": "Deno/2.1.4 (variant; SupabaseEdgeRuntime/1.69.25)",
+            "accept-encoding": "gzip,br"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "content": "yeetus that fetus",
+            "platforms": [
+              "twitter",
+              "linkedin",
+              "instagram"
+            ],
+            "tone": "professional",
+            "source": "api",
+            "user_id": "d11148fe-d9ed-4c8f-9ec4-8fa29c6ac6e8",
+            "userTier": "unlimited",
+            "customTone": "Optional: Custom tone description"
+          },
+          "webhookUrl": "https://bakaflow.gleeze.com/webhook/content-spray-repurpose-tool",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
     ]
   },
   "repo_name": "n8n-backup",
@@ -957,6 +2547,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 3,
-  "updatedAt": "2026-01-18T03:49:21.619Z",
-  "versionId": "5edc1461-8245-40b1-af16-50a75ddcc484"
+  "updatedAt": "2026-01-18T09:45:52.590Z",
+  "versionId": "e6c3f778-ebf6-4505-91ff-235e9c7ecdca"
 }
