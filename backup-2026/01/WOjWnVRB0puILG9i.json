@@ -1,123 +1,11 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-18T09:12:09.000Z",
-    "createdAt": "2026-01-18T09:12:07.503Z",
-    "versionId": "d2887d8c-66b6-4ea7-887b-da46452648fc",
+    "updatedAt": "2026-01-27T05:52:07.000Z",
+    "createdAt": "2026-01-27T05:52:04.418Z",
+    "versionId": "4685f6f3-1e49-457a-8dc9-4a4f0bf2bd71",
     "workflowId": "WOjWnVRB0puILG9i",
     "nodes": [
-      {
-        "parameters": {
-          "httpMethod": "POST",
-          "path": "content-spray-repurpose-tool",
-          "responseMode": "responseNode",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 2.1,
-        "position": [
-          -704,
-          928
-        ],
-        "id": "52524031-f9a0-46b7-aa98-e73270891cb6",
-        "name": "Content Repurpose Webhook",
-        "webhookId": "d5d9db20-3a31-4e7a-b115-6aa5b39f9693"
-      },
-      {
-        "parameters": {
-          "promptType": "define",
-          "text": "=You are a content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone}}\n\nWebsite Context (if available, scraped from {{ $json.body.scrapingUrl }}):\n{{ $json?.markdown?.join(\"\\n\\n\") || '' }}\n\nIf a platform isn't requested DO NOT write content for it. Return an empty string for that platform in those cases.\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line\n",
-          "hasOutputParser": true,
-          "messages": {
-            "messageValues": [
-              {
-                "message": "=# UNLIMITED TIER — System Prompt (Premium + Viral)\n\nYou are **ContentSpray (Unlimited)** — a premium content repurposing agent.\nYour job is to create platform-native drafts that feel like a real creator wrote them: punchy, fun, scroll-stopping.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Core Rules (Non-negotiable)\n1) ONLY generate content for requested `platforms`.\n2) For any platform not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, claims, awards, or results not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- If tone is NOT explicitly \"professional\", \"formal\", or \"serious\":\n  - You MUST include emojis.\n  - You MUST include playful punchlines / personality.\n  - You MUST sound like social media (not an essay).\n- If tone IS \"professional\"/\"formal\"/\"serious\":\n  - Keep emojis light but present (1–3 total) unless the user explicitly asks for no emojis.\n  - Keep it cleaner and more polished.\n- Avoid generic “motivational poster” phrasing.\n- Prefer short lines, sharp phrasing, rhythm, and comedic timing.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Must contain 1–5 tweets.\n- Each tweet line MUST start with `N/ `.\n- Numbering may be either `1/` style or `1/5` style.\n- Separate each tweet with a blank line (two newlines).\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the hook line**\n  - Include **at least 1 emoji total every 1–2 tweets**\n  - Use humor, memes, or punchy internet phrasing when appropriate\n- Do NOT use \"---\" or separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Keep it creator-style (not corporate)\n- 4–7 bullets max\n- End with a discussion question\n- 0–3 emojis depending on tone\n\n### Instagram (instagram)\n- Punchy first line\n- Line breaks for readability\n- Add 10–15 hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line: `Subject: <subject line>`\n- Blank line, then body\n- Skimmable sections + clear CTA\n- Minimal emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
-              }
-            ]
-          },
-          "batching": {}
-        },
-        "type": "@n8n/n8n-nodes-langchain.chainLlm",
-        "typeVersion": 1.8,
-        "position": [
-          1968,
-          1472
-        ],
-        "id": "0454ac29-5ca7-4222-bd55-268bc1d4ed80",
-        "name": "Basic LLM Chain",
-        "retryOnFail": true,
-        "maxTries": 5
-      },
-      {
-        "parameters": {
-          "model": "anthropic/claude-sonnet-4.5",
-          "options": {}
-        },
-        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-        "typeVersion": 1,
-        "position": [
-          1936,
-          1696
-        ],
-        "id": "f9d54df9-fa4c-47f6-ba3a-2d8f48fea319",
-        "name": "OpenRouter Chat Model",
-        "credentials": {
-          "openRouterApi": {
-            "id": "sey78TJdVAi28vK8",
-            "name": "patch"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "jsonSchemaExample": "{\n  \"twitter\": \"Thread content...\",\n  \"linkedin\": \"Post content...\",\n  \"instagram\": \"Caption...\",\n  \"email\": \"Newsletter content...\"\n}\n",
-          "autoFix": true
-        },
-        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-        "typeVersion": 1.3,
-        "position": [
-          2064,
-          1696
-        ],
-        "id": "1c18ce8e-eed0-43bd-8d67-19232282d13f",
-        "name": "Structured Output Parser"
-      },
-      {
-        "parameters": {
-          "options": {}
-        },
-        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-        "typeVersion": 1,
-        "position": [
-          2144,
-          1904
-        ],
-        "id": "582dabe0-eec7-484d-8f4c-5b9a4521457d",
-        "name": "OpenRouter Chat Model1",
-        "credentials": {
-          "openRouterApi": {
-            "id": "sey78TJdVAi28vK8",
-            "name": "patch"
-          }
-        }
-      },
-      {
-        "parameters": {
-          "respondWith": "json",
-          "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}\n",
-          "options": {
-            "responseCode": 200
-          }
-        },
-        "type": "n8n-nodes-base.respondToWebhook",
-        "typeVersion": 1.5,
-        "position": [
-          2432,
-          1472
-        ],
-        "id": "e95aac39-7f93-4bf2-b2cf-6ab81d577780",
-        "name": "Respond to Webhook"
-      },
       {
         "parameters": {
           "httpMethod": "POST",
@@ -128,8 +16,8 @@
         "type": "n8n-nodes-base.webhook",
         "typeVersion": 2.1,
         "position": [
-          -704,
-          -112
+          -1104,
+          2936
         ],
         "id": "8b4b7fb8-c30e-44cc-b512-b1e1f0ad0cf3",
         "name": "Email Signup",
@@ -162,8 +50,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          -480,
-          -112
+          -880,
+          2936
         ],
         "id": "66543215-9056-4a35-bb40-b81e0cbb96bb",
         "name": "If"
@@ -235,8 +123,8 @@
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4.7,
         "position": [
-          -256,
-          -112
+          -656,
+          2936
         ],
         "id": "de6d8261-c920-4672-a52e-04a17f9ed808",
         "name": "Append or update row in sheet",
@@ -260,8 +148,8 @@
         "type": "n8n-nodes-base.emailSend",
         "typeVersion": 2.1,
         "position": [
-          -32,
-          -112
+          -432,
+          2936
         ],
         "id": "4d4f8194-4ded-43ce-9621-9fc6b14b1d95",
         "name": "Send email",
@@ -284,8 +172,8 @@
         "type": "n8n-nodes-base.respondToWebhook",
         "typeVersion": 1.5,
         "position": [
-          192,
-          -112
+          -208,
+          2936
         ],
         "id": "4d79f347-7059-4df0-9cef-3737338d8fda",
         "name": "Respond to Webhook1"
@@ -299,8 +187,8 @@
         "type": "n8n-nodes-base.webhook",
         "typeVersion": 2.1,
         "position": [
-          -704,
-          1904
+          -1104,
+          2712
         ],
         "id": "990a9150-5745-4d45-b408-ed24c7d0df98",
         "name": "Contact Form",
@@ -308,14 +196,30 @@
       },
       {
         "parameters": {
+          "httpMethod": "POST",
+          "path": "content-spray-repurpose-tool",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -1104,
+          1712
+        ],
+        "id": "f56c72a1-f67b-45d7-92cf-9b96b030ab61",
+        "name": "Content Repurpose Webhook",
+        "webhookId": "d5d9db20-3a31-4e7a-b115-6aa5b39f9693"
+      },
+      {
+        "parameters": {
           "promptType": "define",
-          "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Keep copy tight and usable.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+          "text": "=You are a premium content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone || $json.body.customTone || 'neutral'}}\n\nWebsite Context (if available, scraped from {{ $json?.body?.scrapingUrl || 'N/A' }}):\n{{ $json?.markdown?.join(\"\\n\\n\") || '' }}\n\nIf a platform isn't requested DO NOT write content for it. Return an empty string for that platform in those cases.\n\n{{ $json.body.templateModifiers ? '## Platform-Specific Instructions\\n\\nLinkedIn Instructions: ' + ($json.body.templateModifiers.linkedin || 'None provided') + '\\n\\nTwitter Instructions: ' + ($json.body.templateModifiers.twitter || 'None provided') + '\\n\\nInstagram Instructions: ' + ($json.body.templateModifiers.instagram || 'None provided') + '\\n\\nEmail Instructions: ' + ($json.body.templateModifiers.email || 'None provided') : '' }}\n\n{{ $json.body.voiceProfile ? '## Voice Profile\\n\\nProfile Name: ' + ($json.body.voiceProfile.name || 'Default') + '\\nTone Description: ' + ($json.body.voiceProfile.tone_description || 'Not specified') + '\\nUse Emojis: ' + ($json.body.voiceProfile.use_emojis ? 'Yes' : 'No') + '\\nLength Preference: ' + ($json.body.voiceProfile.length_preference || 'medium') + '\\nCTA Style: ' + ($json.body.voiceProfile.cta_style || 'standard') + ($json.body.voiceProfile.do_rules && $json.body.voiceProfile.do_rules.length > 0 ? '\\n\\nDO Rules:\\n- ' + $json.body.voiceProfile.do_rules.join('\\n- ') : '') + ($json.body.voiceProfile.dont_rules && $json.body.voiceProfile.dont_rules.length > 0 ? '\\n\\nDONT Rules:\\n- ' + $json.body.voiceProfile.dont_rules.join('\\n- ') : '') + ($json.body.voiceProfile.common_phrases && $json.body.voiceProfile.common_phrases.length > 0 ? '\\n\\nCommon Phrases to Use:\\n- ' + $json.body.voiceProfile.common_phrases.join('\\n- ') : '') : '' }}\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line",
           "hasOutputParser": true,
-          "needsFallback": true,
           "messages": {
             "messageValues": [
               {
-                "message": "=# FREE TIER — System Prompt (Fast + Fun)\n\nYou are **ContentSpray (Free)** — a fast, budget-friendly content repurposing assistant.\nYour job is to turn the user’s content into platform-specific drafts with **clear formatting** and **fun social energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, results, or claims not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- Default vibe: **social, playful, light humor**.\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Keep emojis minimal (0–1 total)\n  - Keep phrasing cleaner + more business-like\n- Otherwise:\n  - Include emojis (at least 2 total across the output)\n  - Keep it punchy and creator-style (not essay-like)\n- Keep outputs short and usable.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 1–4 tweets total.\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include at least **1 more emoji somewhere in the thread**\n  - Keep jokes / punchlines simple (don’t overthink)\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Strong hook in first 1–2 lines\n- Short paragraphs and/or bullets\n- End with a light CTA question\n- Emojis optional depending on tone\n\n### Instagram (instagram)\n- Caption that feels like a real creator wrote it\n- Add 8–12 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then a blank line, then the email body\n- Skimmable and concise\n- Avoid heavy emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+                "message": "=# AGENCY TIER — System Prompt (Premium + Viral + Voice Profile)\n\nYou are **ContentSpray (Agency)** — a premium content repurposing agent for agencies and power users.\nYour job is to create platform-native drafts that feel like a real creator wrote them: punchy, fun, scroll-stopping, and perfectly aligned with the user's brand voice.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n- templateModifiers (object, optional) — platform-specific instructions\n- voiceProfile (object, optional) — brand voice guidelines\n\n## Core Rules (Non-negotiable)\n1) ONLY generate content for requested `platforms`.\n2) For any platform not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, claims, awards, or results not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n6) If templateModifiers are provided for a platform, FOLLOW THOSE INSTRUCTIONS as the primary guide for that platform's content.\n7) If voiceProfile is provided, MATCH the described tone, use specified phrases, follow DO rules, and avoid DONT rules.\n\n## Voice Profile Integration (When Provided)\n- **Tone Description**: Match the described voice/personality throughout all content\n- **Use Emojis**: Follow the emoji preference (if false, use 0-1 emojis max; if true, use emojis liberally)\n- **Length Preference**: \n  - \"short\" = concise, punchy, minimal\n  - \"medium\" = balanced, standard length\n  - \"long\" = detailed, comprehensive\n- **CTA Style**:\n  - \"subtle\" = soft asks, implied actions, questions\n  - \"direct\" = clear calls to action\n  - \"none\" = no explicit CTA\n- **DO Rules**: Things you MUST incorporate into the content\n- **DONT Rules**: Things you MUST avoid in the content\n- **Common Phrases**: Sprinkle these naturally throughout when appropriate\n\n## Style Rules\n- If tone is NOT explicitly \"professional\", \"formal\", or \"serious\":\n  - Include emojis (unless voiceProfile.use_emojis is false)\n  - Include playful punchlines / personality\n  - Sound like social media (not an essay)\n- If tone IS \"professional\"/\"formal\"/\"serious\":\n  - Keep emojis light (1–3 total) unless voiceProfile says otherwise\n  - Keep it cleaner and more polished\n- Avoid generic \"motivational poster\" phrasing\n- Prefer short lines, sharp phrasing, rhythm, and comedic timing\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Must contain 1–5 tweets\n- Each tweet line MUST start with `N/ `\n- Numbering may be either `1/` style or `1/5` style\n- Separate each tweet with a blank line (two newlines)\n- Each tweet must be under 280 characters\n- Apply templateModifiers.twitter instructions if provided\n- Do NOT use \"---\" or separators\n- Do NOT use 1) or 1. numbering\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Keep it creator-style (not corporate)\n- 4–7 bullets max\n- End with a discussion question (unless CTA style is \"none\")\n- Apply templateModifiers.linkedin instructions if provided\n- Emoji usage based on voiceProfile or tone\n\n### Instagram (instagram)\n- Punchy first line\n- Line breaks for readability\n- Add 10–15 hashtags at the end\n- Apply templateModifiers.instagram instructions if provided\n- Emojis encouraged unless voiceProfile.use_emojis is false\n\n### Email (email)\n- First line: `Subject: <subject line>`\n- Blank line, then body\n- Skimmable sections + clear CTA (adjust based on cta_style)\n- Apply templateModifiers.email instructions if provided\n- Minimal emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}"
               }
             ]
           },
@@ -324,26 +228,123 @@
         "type": "@n8n/n8n-nodes-langchain.chainLlm",
         "typeVersion": 1.8,
         "position": [
-          -200,
-          112
+          1568,
+          2280
         ],
-        "id": "bc83d56a-4c6c-4eff-8c18-8fdbc1c09068",
+        "id": "7fdb518c-dc9d-4850-8ce0-5146bfecaa6b",
+        "name": "Basic LLM Chain",
+        "retryOnFail": true,
+        "maxTries": 5
+      },
+      {
+        "parameters": {
+          "model": "anthropic/claude-sonnet-4.5",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          1536,
+          2504
+        ],
+        "id": "e57e492f-45ab-4d50-adb2-cf51906da0f2",
+        "name": "OpenRouter Chat Model",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"twitter\": \"Thread content...\",\n  \"linkedin\": \"Post content...\",\n  \"instagram\": \"Caption...\",\n  \"email\": \"Newsletter content...\"\n}\n",
+          "autoFix": true
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          1664,
+          2504
+        ],
+        "id": "48e1d795-bf80-43f3-8a99-78029e654727",
+        "name": "Structured Output Parser"
+      },
+      {
+        "parameters": {
+          "model": "anthropic/claude-sonnet-4.5",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          1744,
+          2712
+        ],
+        "id": "1f85beed-ae7c-454a-989f-17182113c557",
+        "name": "OpenRouter Chat Model1",
+        "credentials": {
+          "openRouterApi": {
+            "id": "sey78TJdVAi28vK8",
+            "name": "patch"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}\n",
+          "options": {
+            "responseCode": 200
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          2032,
+          2280
+        ],
+        "id": "6cef00de-95cb-43f6-9e51-143fd1980d7a",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\n{{ $json.body.templateModifiers ? '## Platform-Specific Instructions (PRIORITY - Follow These First)\\n\\nLinkedIn Instructions: ' + ($json.body.templateModifiers.linkedin || 'Use default format') + '\\n\\nTwitter Instructions: ' + ($json.body.templateModifiers.twitter || 'Use default format') + '\\n\\nInstagram Instructions: ' + ($json.body.templateModifiers.instagram || 'Use default format') + '\\n\\nEmail Instructions: ' + ($json.body.templateModifiers.email || 'Use default format') : '' }}\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+          "hasOutputParser": true,
+          "needsFallback": true,
+          "messages": {
+            "messageValues": [
+              {
+                "message": "=# FREE TIER — System Prompt (Fast + Fun + Template Modifiers)\n\nYou are **ContentSpray (Free)** — a fast, budget-friendly content repurposing assistant.\nYour job is to turn the user's content into platform-specific drafts with **clear formatting** and **fun social energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n- templateModifiers (object, optional) — platform-specific formatting/style instructions\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, results, or claims not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n6) **If templateModifiers are provided for a platform, those instructions OVERRIDE the default platform specs below.** Follow them as the primary guide for that platform.\n\n## Style Rules\n- Default vibe: **social, playful, light humor**.\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Keep emojis minimal (0–1 total)\n  - Keep phrasing cleaner + more business-like\n- Otherwise:\n  - Include emojis (at least 2 total across the output)\n  - Keep it punchy and creator-style (not essay-like)\n- Keep outputs short and usable.\n\n## Default Platform Requirements\n**These are defaults. If templateModifiers provide different instructions for a platform, follow those instead.**\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 1–4 tweets total.\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include at least **1 more emoji somewhere in the thread**\n  - Keep jokes / punchlines simple (don't overthink)\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Strong hook in first 1–2 lines\n- Short paragraphs and/or bullets\n- End with a light CTA question\n- Emojis optional depending on tone\n\n### Instagram (instagram)\n- Caption that feels like a real creator wrote it\n- Add 8–12 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then a blank line, then the email body\n- Skimmable and concise\n- Avoid heavy emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}"
+              }
+            ]
+          },
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.8,
+        "position": [
+          -600,
+          896
+        ],
+        "id": "4acf5157-b51a-41a3-93a2-436007bcbef0",
         "name": "Repurpose LLM Chain (Free)",
         "retryOnFail": true,
         "maxTries": 3
       },
       {
         "parameters": {
-          "model": "xiaomi/mimo-v2-flash",
+          "model": "anthropic/claude-haiku-4.5",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          -256,
-          336
+          -656,
+          1120
         ],
-        "id": "e1dd5746-614f-440f-ae0e-ec37fc62e181",
+        "id": "454ed148-2454-42ad-9dbc-a92d3c22415a",
         "name": "OpenRouter Chat Model (Free Main)",
         "credentials": {
           "openRouterApi": {
@@ -360,24 +361,24 @@
         "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
         "typeVersion": 1.3,
         "position": [
-          0,
-          336
+          -400,
+          1120
         ],
-        "id": "c1f23e28-4040-47b7-a938-123c3b648231",
+        "id": "afe14fc8-1b27-4c6e-939c-f3fe18b522df",
         "name": "Structured Output Parser (Free)"
       },
       {
         "parameters": {
-          "model": "google/gemini-2.0-flash-lite-001",
+          "model": "anthropic/claude-sonnet-4.5",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          80,
-          544
+          -320,
+          1328
         ],
-        "id": "a175c5d8-688b-40bf-bff0-64fba1ca03ad",
+        "id": "da5617f9-49d3-4c8e-ab84-0f830cfb6240",
         "name": "OpenRouter Chat Model (JSON Fixer)",
         "credentials": {
           "openRouterApi": {
@@ -397,10 +398,10 @@
         "type": "n8n-nodes-base.respondToWebhook",
         "typeVersion": 1.5,
         "position": [
-          368,
-          320
+          -32,
+          1104
         ],
-        "id": "18285eed-6582-4d6a-ae7a-87654f480808",
+        "id": "eb6eb2bb-9852-418e-88bb-ab00e9f6f01e",
         "name": "Respond to Webhook (Free)"
       },
       {
@@ -478,6 +479,30 @@
                 },
                 "renameOutput": true,
                 "outputKey": "Unlimited"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "agency-condition-001",
+                      "leftValue": "={{ $json.body.userTier }}",
+                      "rightValue": "agency",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Agency"
               }
             ]
           },
@@ -490,21 +515,21 @@
         "type": "n8n-nodes-base.switch",
         "typeVersion": 3.4,
         "position": [
-          -480,
-          912
+          -880,
+          1680
         ],
-        "id": "6d6a0b40-adaf-4029-9bbe-592a09f0383d",
+        "id": "622a08e8-4155-4f33-af38-70076382d190",
         "name": "Switch"
       },
       {
         "parameters": {
           "promptType": "define",
-          "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Write with higher polish than the Free tier: stronger hooks, clearer structure, more varied phrasing.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- Add 1 concrete takeaway list (3–5 bullets) when possible.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable, includes 2–4 section headers.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+          "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || $json.body.customTone || 'neutral'}}\n\n{{ $json.body.templateModifiers ? '## Platform-Specific Instructions (PRIORITY - Follow These First)\\n\\nLinkedIn Instructions: ' + ($json.body.templateModifiers.linkedin || 'Use default format') + '\\n\\nTwitter Instructions: ' + ($json.body.templateModifiers.twitter || 'Use default format') + '\\n\\nInstagram Instructions: ' + ($json.body.templateModifiers.instagram || 'Use default format') + '\\n\\nEmail Instructions: ' + ($json.body.templateModifiers.email || 'Use default format') : '' }}\n\n{{ $json.body.voiceProfile ? '## Voice Profile (Apply Throughout)\\n\\nProfile Name: ' + ($json.body.voiceProfile.name || 'Default') + '\\nTone Description: ' + ($json.body.voiceProfile.tone_description || 'Not specified') + '\\nUse Emojis: ' + ($json.body.voiceProfile.use_emojis ? 'Yes' : 'No') + '\\nLength Preference: ' + ($json.body.voiceProfile.length_preference || 'medium') + '\\nCTA Style: ' + ($json.body.voiceProfile.cta_style || 'standard') + ($json.body.voiceProfile.do_rules && $json.body.voiceProfile.do_rules.length > 0 ? '\\n\\nDO Rules:\\n- ' + $json.body.voiceProfile.do_rules.join('\\n- ') : '') + ($json.body.voiceProfile.dont_rules && $json.body.voiceProfile.dont_rules.length > 0 ? '\\n\\nDONT Rules:\\n- ' + $json.body.voiceProfile.dont_rules.join('\\n- ') : '') + ($json.body.voiceProfile.common_phrases && $json.body.voiceProfile.common_phrases.length > 0 ? '\\n\\nCommon Phrases to Use:\\n- ' + $json.body.voiceProfile.common_phrases.join('\\n- ') : '') : '' }}\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
           "hasOutputParser": true,
           "messages": {
             "messageValues": [
               {
-                "message": "=# PRO TIER — System Prompt (Higher Quality + More Personality)\n\nYou are **ContentSpray (Pro)** — a high-quality repurposing agent.\nYour job is to produce polished platform-native drafts with **strong hooks**, **good rhythm**, and **creator energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, awards, results, numbers, testimonials, or guarantees not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Pro Style Standards\n- Better hooks and phrasing than Free tier\n- Better structure and readability\n- More “human” and scroll-stopping\n- Avoid sounding like a blog article or textbook summary\n\n## Emoji + Tone Rules\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Emojis should be minimal (0–2 total)\n- Otherwise:\n  - Emojis are REQUIRED (at least 1 in the Twitter hook + 2+ across all outputs)\n  - Light humor / punchlines are encouraged\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 2–5 tweets total.\n- Each tweet must be under 280 characters.\n- Tweet 1 must be the strongest hook/premise.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include emojis every 1–2 tweets\n  - Punchy “internet creator” phrasing encouraged\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Include 3–6 bullets with takeaways when possible\n- End with a thoughtful CTA question\n- Optional emojis based on tone\n\n### Instagram (instagram)\n- Strong first line + line breaks for readability\n- Add 10–15 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then blank line, then body\n- 2–4 short sections with headers\n- Clear CTA at the end\n- Avoid excessive emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+                "message": "=# PRO TIER — System Prompt (Higher Quality + Voice Profile + Template Modifiers)\n\nYou are **ContentSpray (Pro)** — a high-quality repurposing agent.\nYour job is to produce polished platform-native drafts with **strong hooks**, **good rhythm**, and **creator energy**, while respecting any custom instructions or voice profiles provided.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n- templateModifiers (object, optional) — platform-specific formatting/style instructions\n- voiceProfile (object, optional) — brand voice guidelines\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, awards, results, numbers, testimonials, or guarantees not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n6) **If templateModifiers are provided for a platform, those instructions OVERRIDE the default platform specs below.** Follow them as the primary guide.\n7) **If voiceProfile is provided, apply it consistently across ALL platforms.**\n\n## Voice Profile Integration (When Provided)\n- **Tone Description**: Match the described voice/personality throughout all content\n- **Use Emojis**: Follow the emoji preference strictly\n  - If `false`: use 0-1 emojis max across entire output\n  - If `true`: use emojis liberally and naturally\n- **Length Preference**: \n  - \"short\" = concise, punchy, minimal text\n  - \"medium\" = balanced, standard length\n  - \"long\" = detailed, comprehensive, more depth\n- **CTA Style**:\n  - \"subtle\" = soft asks, implied actions, open questions\n  - \"direct\" = clear, explicit calls to action\n  - \"none\" = no CTA at all\n- **DO Rules**: Things you MUST incorporate\n- **DONT Rules**: Things you MUST avoid\n- **Common Phrases**: Weave these naturally when they fit\n\n## Pro Style Standards\n- Better hooks and phrasing than Free tier\n- Better structure and readability\n- More \"human\" and scroll-stopping\n- Avoid sounding like a blog article or textbook summary\n\n## Emoji + Tone Rules (When No Voice Profile)\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Emojis should be minimal (0–2 total)\n- Otherwise:\n  - Emojis are REQUIRED (at least 1 in the Twitter hook + 2+ across all outputs)\n  - Light humor / punchlines are encouraged\n\n## Default Platform Requirements\n**These are defaults. If templateModifiers provide different instructions for a platform, follow those instead.**\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 2–5 tweets total.\n- Each tweet must be under 280 characters.\n- Tweet 1 must be the strongest hook/premise.\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Include 3–6 bullets with takeaways when possible\n- End with a thoughtful CTA question (unless cta_style is \"none\")\n- Emoji usage based on voiceProfile or tone\n\n### Instagram (instagram)\n- Strong first line + line breaks for readability\n- Add 10–15 relevant hashtags at the end\n- Emojis encouraged unless voiceProfile.use_emojis is false\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then blank line, then body\n- 2–4 short sections with headers\n- Clear CTA at the end (adjust based on cta_style)\n- Avoid excessive emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}"
               }
             ]
           },
@@ -513,26 +538,26 @@
         "type": "@n8n/n8n-nodes-langchain.chainLlm",
         "typeVersion": 1.8,
         "position": [
-          -160,
-          720
+          -560,
+          1504
         ],
-        "id": "e181b21d-48d0-475b-8f22-eb4c66820437",
+        "id": "9da1c8f1-b8e3-4b9f-84d9-70df1940d0f8",
         "name": "Repurpose LLM Chain (Pro)",
         "retryOnFail": true,
         "maxTries": 3
       },
       {
         "parameters": {
-          "model": "openai/gpt-4o-mini",
+          "model": "openai/gpt-4o",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          -192,
-          944
+          -592,
+          1728
         ],
-        "id": "a468625d-9197-46d2-92a2-0e5363e853b3",
+        "id": "cff44a4c-bb21-4a43-967d-d7df2811680d",
         "name": "OpenRouter Chat Model (Pro Main)",
         "credentials": {
           "openRouterApi": {
@@ -549,10 +574,10 @@
         "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
         "typeVersion": 1.3,
         "position": [
-          -64,
-          944
+          -464,
+          1728
         ],
-        "id": "b505b438-485c-42fe-b50e-2fbf4ac316fd",
+        "id": "a8379358-b615-422b-9f52-c3ee8e9b2cb0",
         "name": "Structured Output Parser (Pro)"
       },
       {
@@ -566,24 +591,24 @@
         "type": "n8n-nodes-base.respondToWebhook",
         "typeVersion": 1.5,
         "position": [
-          368,
-          928
+          -32,
+          1712
         ],
-        "id": "174cbb89-9960-4b62-8416-41acbb618758",
+        "id": "a7fb6ba8-d89c-45ab-8b2f-0524511a6be1",
         "name": "Respond to Webhook (Pro)"
       },
       {
         "parameters": {
-          "model": "google/gemini-2.0-flash-lite-001",
+          "model": "anthropic/claude-sonnet-4.5",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          16,
-          1152
+          -384,
+          1936
         ],
-        "id": "02982724-9d83-4ba5-b06b-6c6c3c9d2e38",
+        "id": "201037ed-3e20-48ef-8f71-422409db8d3c",
         "name": "OpenRouter Chat Model (JSON Fixer)1",
         "credentials": {
           "openRouterApi": {
@@ -600,10 +625,10 @@
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          -128,
-          336
+          -528,
+          1120
         ],
-        "id": "aafbccda-52c2-4823-95a5-4586c5567af7",
+        "id": "e77689b2-253f-4224-9351-0db32a05f830",
         "name": "OpenRouter Chat Model2",
         "credentials": {
           "openRouterApi": {
@@ -611,40 +636,6 @@
             "name": "patch"
           }
         }
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 3
-            },
-            "conditions": [
-              {
-                "id": "6c0835e7-a2f3-4990-a769-da0843f944d5",
-                "leftValue": "={{ $json.body.scrapingUrl }}",
-                "rightValue": "",
-                "operator": {
-                  "type": "string",
-                  "operation": "empty",
-                  "singleValue": true
-                }
-              }
-            ],
-            "combinator": "and"
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.3,
-        "position": [
-          -56,
-          1392
-        ],
-        "id": "e463eadc-a36c-4b90-908f-ccaac7f71071",
-        "name": "If1"
       },
       {
         "parameters": {
@@ -658,10 +649,10 @@
         "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
         "typeVersion": 1,
         "position": [
-          368,
-          1248
+          -32,
+          2032
         ],
-        "id": "67003505-dfcb-4b83-bfc0-8a80bfd8ee0a",
+        "id": "f246be75-c37f-452f-8564-4dd11ac3f99d",
         "name": "Map Website",
         "retryOnFail": true,
         "maxTries": 5,
@@ -681,10 +672,10 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          816,
-          1032
+          416,
+          1840
         ],
-        "id": "767b7585-e56a-4137-bdb2-0b925ddbc9d6",
+        "id": "605f09ae-5cce-4757-8696-8e525fb83aa6",
         "name": "Filter XML Links"
       },
       {
@@ -695,10 +686,10 @@
         "type": "n8n-nodes-base.splitOut",
         "typeVersion": 1,
         "position": [
-          1040,
-          1032
+          640,
+          1840
         ],
-        "id": "35a284dd-35fc-4527-8edf-cab95e4c6263",
+        "id": "199892cb-52c8-4d5c-9332-47942e008fa8",
         "name": "Split Links"
       },
       {
@@ -715,10 +706,10 @@
         "type": "n8n-nodes-base.aggregate",
         "typeVersion": 1,
         "position": [
-          1488,
-          1032
+          1088,
+          1840
         ],
-        "id": "bdcd297d-38cc-4440-982b-d0cfb895baaf",
+        "id": "f15f6422-d80a-4c17-b15a-72a384e86d72",
         "name": "Aggregate Website Content"
       },
       {
@@ -801,10 +792,10 @@
         "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
         "typeVersion": 1,
         "position": [
-          1264,
-          1032
+          864,
+          1840
         ],
-        "id": "0ece4abd-1a1b-4449-887e-52c3423aa74e",
+        "id": "0fccf8de-0ed5-44ce-9005-6c1045ebd8dc",
         "name": "Scrape a url and get its content1",
         "retryOnFail": true,
         "maxTries": 5,
@@ -826,10 +817,10 @@
         "type": "n8n-nodes-base.merge",
         "typeVersion": 3.2,
         "position": [
-          1712,
-          1320
+          1312,
+          2104
         ],
-        "id": "fd990b70-7ecd-4ae9-82c0-81d92eea7179",
+        "id": "51615100-16c6-42db-a3a4-1db018dfbe55",
         "name": "Merge"
       },
       {
@@ -860,69 +851,82 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          592,
-          1104
+          192,
+          1912
         ],
-        "id": "b154a64d-3d54-4074-adf6-db889a0b193e",
-        "name": "If2"
+        "id": "5b0977cd-0ce7-4c4e-864c-9f19b209937c",
+        "name": "Check if Mapped Links Exist"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6c0835e7-a2f3-4990-a769-da0843f944d5",
+                "leftValue": "={{ $json.body.scrapingUrl }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          -456,
+          2176
+        ],
+        "id": "05a8755a-12e8-401c-a181-9eb536538c55",
+        "name": "Scrape?"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "91099ae2-55f6-48f1-ae69-de4f447c5812",
+                "leftValue": "",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.3,
+        "position": [
+          1312,
+          2320
+        ],
+        "id": "b44eea93-6f44-41fd-8083-263c4c0d6f49",
+        "name": "Filter"
       }
     ],
     "connections": {
-      "Content Repurpose Webhook": {
-        "main": [
-          [
-            {
-              "node": "Switch",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "OpenRouter Chat Model": {
-        "ai_languageModel": [
-          [
-            {
-              "node": "Basic LLM Chain",
-              "type": "ai_languageModel",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Structured Output Parser": {
-        "ai_outputParser": [
-          [
-            {
-              "node": "Basic LLM Chain",
-              "type": "ai_outputParser",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "OpenRouter Chat Model1": {
-        "ai_languageModel": [
-          [
-            {
-              "node": "Structured Output Parser",
-              "type": "ai_languageModel",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Basic LLM Chain": {
-        "main": [
-          [
-            {
-              "node": "Respond to Webhook",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
       "Email Signup": {
         "main": [
           [
@@ -962,6 +966,61 @@
             {
               "node": "Respond to Webhook1",
               "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Content Repurpose Webhook": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Structured Output Parser",
+              "type": "ai_languageModel",
               "index": 0
             }
           ]
@@ -1029,7 +1088,14 @@
           ],
           [
             {
-              "node": "If1",
+              "node": "Scrape?",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Scrape?",
               "type": "main",
               "index": 0
             }
@@ -1091,34 +1157,11 @@
           ]
         ]
       },
-      "If1": {
-        "main": [
-          [
-            {
-              "node": "Basic LLM Chain",
-              "type": "main",
-              "index": 0
-            }
-          ],
-          [
-            {
-              "node": "Map Website",
-              "type": "main",
-              "index": 0
-            },
-            {
-              "node": "Merge",
-              "type": "main",
-              "index": 1
-            }
-          ]
-        ]
-      },
       "Map Website": {
         "main": [
           [
             {
-              "node": "If2",
+              "node": "Check if Mapped Links Exist",
               "type": "main",
               "index": 0
             }
@@ -1126,17 +1169,6 @@
           [
             {
               "node": "Merge",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Split Links": {
-        "main": [
-          [
-            {
-              "node": "Scrape a url and get its content1",
               "type": "main",
               "index": 0
             }
@@ -1154,11 +1186,11 @@
           ]
         ]
       },
-      "Scrape a url and get its content1": {
+      "Split Links": {
         "main": [
           [
             {
-              "node": "Aggregate Website Content",
+              "node": "Scrape a url and get its content1",
               "type": "main",
               "index": 0
             }
@@ -1176,6 +1208,17 @@
           ]
         ]
       },
+      "Scrape a url and get its content1": {
+        "main": [
+          [
+            {
+              "node": "Aggregate Website Content",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
       "Merge": {
         "main": [
           [
@@ -1187,7 +1230,7 @@
           ]
         ]
       },
-      "If2": {
+      "Check if Mapped Links Exist": {
         "main": [
           [
             {
@@ -1204,70 +1247,49 @@
             }
           ]
         ]
+      },
+      "Scrape?": {
+        "main": [
+          [
+            {
+              "node": "Map Website",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ],
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Trazon Mitchell",
-    "name": "Version d2887d8c",
+    "name": "Version 4685f6f3",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "d2887d8c-66b6-4ea7-887b-da46452648fc",
+  "activeVersionId": "4685f6f3-1e49-457a-8dc9-4a4f0bf2bd71",
   "connections": {
-    "Content Repurpose Webhook": {
-      "main": [
-        [
-          {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenRouter Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Structured Output Parser": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenRouter Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Structured Output Parser",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Basic LLM Chain": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Email Signup": {
       "main": [
         [
@@ -1307,6 +1329,61 @@
           {
             "node": "Respond to Webhook1",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Repurpose Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -1374,7 +1451,14 @@
         ],
         [
           {
-            "node": "If1",
+            "node": "Scrape?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Scrape?",
             "type": "main",
             "index": 0
           }
@@ -1436,34 +1520,11 @@
         ]
       ]
     },
-    "If1": {
-      "main": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Map Website",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
     "Map Website": {
       "main": [
         [
           {
-            "node": "If2",
+            "node": "Check if Mapped Links Exist",
             "type": "main",
             "index": 0
           }
@@ -1471,17 +1532,6 @@
         [
           {
             "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Links": {
-      "main": [
-        [
-          {
-            "node": "Scrape a url and get its content1",
             "type": "main",
             "index": 0
           }
@@ -1499,11 +1549,11 @@
         ]
       ]
     },
-    "Scrape a url and get its content1": {
+    "Split Links": {
       "main": [
         [
           {
-            "node": "Aggregate Website Content",
+            "node": "Scrape a url and get its content1",
             "type": "main",
             "index": 0
           }
@@ -1521,6 +1571,17 @@
         ]
       ]
     },
+    "Scrape a url and get its content1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Website Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Merge": {
       "main": [
         [
@@ -1532,7 +1593,7 @@
         ]
       ]
     },
-    "If2": {
+    "Check if Mapped Links Exist": {
       "main": [
         [
           {
@@ -1544,6 +1605,40 @@
         [
           {
             "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape?": {
+      "main": [
+        [
+          {
+            "node": "Map Website",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
             "type": "main",
             "index": 0
           }
@@ -1562,118 +1657,6 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "content-spray-repurpose-tool",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -704,
-        928
-      ],
-      "id": "52524031-f9a0-46b7-aa98-e73270891cb6",
-      "name": "Content Repurpose Webhook",
-      "webhookId": "d5d9db20-3a31-4e7a-b115-6aa5b39f9693"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=You are a content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone || $json.body.customTone}}\n\nWebsite Context (if available, scraped from {{ $json?.body?.scrapingUrl || 'N/A' }}):\n{{ $json?.markdown?.join(\"\\n\\n\") || '' }}\n\nIf a platform isn't requested DO NOT write content for it. Return an empty string for that platform in those cases.\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line\n",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=# UNLIMITED TIER — System Prompt (Premium + Viral)\n\nYou are **ContentSpray (Unlimited)** — a premium content repurposing agent.\nYour job is to create platform-native drafts that feel like a real creator wrote them: punchy, fun, scroll-stopping.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Core Rules (Non-negotiable)\n1) ONLY generate content for requested `platforms`.\n2) For any platform not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, claims, awards, or results not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- If tone is NOT explicitly \"professional\", \"formal\", or \"serious\":\n  - You MUST include emojis.\n  - You MUST include playful punchlines / personality.\n  - You MUST sound like social media (not an essay).\n- If tone IS \"professional\"/\"formal\"/\"serious\":\n  - Keep emojis light but present (1–3 total) unless the user explicitly asks for no emojis.\n  - Keep it cleaner and more polished.\n- Avoid generic “motivational poster” phrasing.\n- Prefer short lines, sharp phrasing, rhythm, and comedic timing.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Must contain 1–5 tweets.\n- Each tweet line MUST start with `N/ `.\n- Numbering may be either `1/` style or `1/5` style.\n- Separate each tweet with a blank line (two newlines).\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the hook line**\n  - Include **at least 1 emoji total every 1–2 tweets**\n  - Use humor, memes, or punchy internet phrasing when appropriate\n- Do NOT use \"---\" or separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Keep it creator-style (not corporate)\n- 4–7 bullets max\n- End with a discussion question\n- 0–3 emojis depending on tone\n\n### Instagram (instagram)\n- Punchy first line\n- Line breaks for readability\n- Add 10–15 hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line: `Subject: <subject line>`\n- Blank line, then body\n- Skimmable sections + clear CTA\n- Minimal emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
-            }
-          ]
-        },
-        "batching": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.8,
-      "position": [
-        1968,
-        1472
-      ],
-      "id": "0454ac29-5ca7-4222-bd55-268bc1d4ed80",
-      "name": "Basic LLM Chain",
-      "retryOnFail": true,
-      "maxTries": 5
-    },
-    {
-      "parameters": {
-        "model": "anthropic/claude-sonnet-4.5",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        1936,
-        1696
-      ],
-      "id": "f9d54df9-fa4c-47f6-ba3a-2d8f48fea319",
-      "name": "OpenRouter Chat Model",
-      "credentials": {
-        "openRouterApi": {
-          "id": "sey78TJdVAi28vK8",
-          "name": "patch"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "{\n  \"twitter\": \"Thread content...\",\n  \"linkedin\": \"Post content...\",\n  \"instagram\": \"Caption...\",\n  \"email\": \"Newsletter content...\"\n}\n",
-        "autoFix": true
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.3,
-      "position": [
-        2064,
-        1696
-      ],
-      "id": "1c18ce8e-eed0-43bd-8d67-19232282d13f",
-      "name": "Structured Output Parser"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        2144,
-        1904
-      ],
-      "id": "582dabe0-eec7-484d-8f4c-5b9a4521457d",
-      "name": "OpenRouter Chat Model1",
-      "credentials": {
-        "openRouterApi": {
-          "id": "sey78TJdVAi28vK8",
-          "name": "patch"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}\n",
-        "options": {
-          "responseCode": 200
-        }
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
-      "position": [
-        2432,
-        1472
-      ],
-      "id": "e95aac39-7f93-4bf2-b2cf-6ab81d577780",
-      "name": "Respond to Webhook"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
         "path": "content-spray-email-flow",
         "responseMode": "responseNode",
         "options": {}
@@ -1681,8 +1664,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -704,
-        -112
+        -1104,
+        2936
       ],
       "id": "8b4b7fb8-c30e-44cc-b512-b1e1f0ad0cf3",
       "name": "Email Signup",
@@ -1715,8 +1698,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -480,
-        -112
+        -880,
+        2936
       ],
       "id": "66543215-9056-4a35-bb40-b81e0cbb96bb",
       "name": "If"
@@ -1788,8 +1771,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -256,
-        -112
+        -656,
+        2936
       ],
       "id": "de6d8261-c920-4672-a52e-04a17f9ed808",
       "name": "Append or update row in sheet",
@@ -1813,8 +1796,8 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        -32,
-        -112
+        -432,
+        2936
       ],
       "id": "4d4f8194-4ded-43ce-9621-9fc6b14b1d95",
       "name": "Send email",
@@ -1837,8 +1820,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        192,
-        -112
+        -208,
+        2936
       ],
       "id": "4d79f347-7059-4df0-9cef-3737338d8fda",
       "name": "Respond to Webhook1"
@@ -1852,8 +1835,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -704,
-        1904
+        -1104,
+        2712
       ],
       "id": "990a9150-5745-4d45-b408-ed24c7d0df98",
       "name": "Contact Form",
@@ -1861,14 +1844,30 @@
     },
     {
       "parameters": {
+        "httpMethod": "POST",
+        "path": "content-spray-repurpose-tool",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1104,
+        1712
+      ],
+      "id": "f56c72a1-f67b-45d7-92cf-9b96b030ab61",
+      "name": "Content Repurpose Webhook",
+      "webhookId": "d5d9db20-3a31-4e7a-b115-6aa5b39f9693"
+    },
+    {
+      "parameters": {
         "promptType": "define",
-        "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Keep copy tight and usable.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+        "text": "=You are a premium content repurposing expert. Transform the following content into platform-specific formats.\n\nOriginal Content:\n{{$json.body.content}}\n\nRequested Platforms: {{$json.body.platforms}}\nTone: {{$json.body.tone || $json.body.customTone || 'neutral'}}\n\nWebsite Context (if available, scraped from {{ $json?.body?.scrapingUrl || 'N/A' }}):\n{{ $json?.markdown?.join(\"\\n\\n\") || '' }}\n\nIf a platform isn't requested DO NOT write content for it. Return an empty string for that platform in those cases.\n\n{{ $json.body.templateModifiers ? '## Platform-Specific Instructions\\n\\nLinkedIn Instructions: ' + ($json.body.templateModifiers.linkedin || 'None provided') + '\\n\\nTwitter Instructions: ' + ($json.body.templateModifiers.twitter || 'None provided') + '\\n\\nInstagram Instructions: ' + ($json.body.templateModifiers.instagram || 'None provided') + '\\n\\nEmail Instructions: ' + ($json.body.templateModifiers.email || 'None provided') : '' }}\n\n{{ $json.body.voiceProfile ? '## Voice Profile\\n\\nProfile Name: ' + ($json.body.voiceProfile.name || 'Default') + '\\nTone Description: ' + ($json.body.voiceProfile.tone_description || 'Not specified') + '\\nUse Emojis: ' + ($json.body.voiceProfile.use_emojis ? 'Yes' : 'No') + '\\nLength Preference: ' + ($json.body.voiceProfile.length_preference || 'medium') + '\\nCTA Style: ' + ($json.body.voiceProfile.cta_style || 'standard') + ($json.body.voiceProfile.do_rules && $json.body.voiceProfile.do_rules.length > 0 ? '\\n\\nDO Rules:\\n- ' + $json.body.voiceProfile.do_rules.join('\\n- ') : '') + ($json.body.voiceProfile.dont_rules && $json.body.voiceProfile.dont_rules.length > 0 ? '\\n\\nDONT Rules:\\n- ' + $json.body.voiceProfile.dont_rules.join('\\n- ') : '') + ($json.body.voiceProfile.common_phrases && $json.body.voiceProfile.common_phrases.length > 0 ? '\\n\\nCommon Phrases to Use:\\n- ' + $json.body.voiceProfile.common_phrases.join('\\n- ') : '') : '' }}\n\nReturn a JSON object with keys for each platform containing the repurposed content.\nFor Twitter: Create a thread (max 5 tweets)\nFor LinkedIn: Professional post with hooks\nFor Instagram: Engaging caption with hashtags\nFor Email: Newsletter-style with subject line",
         "hasOutputParser": true,
-        "needsFallback": true,
         "messages": {
           "messageValues": [
             {
-              "message": "=# FREE TIER — System Prompt (Fast + Fun)\n\nYou are **ContentSpray (Free)** — a fast, budget-friendly content repurposing assistant.\nYour job is to turn the user’s content into platform-specific drafts with **clear formatting** and **fun social energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, results, or claims not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Style Rules\n- Default vibe: **social, playful, light humor**.\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Keep emojis minimal (0–1 total)\n  - Keep phrasing cleaner + more business-like\n- Otherwise:\n  - Include emojis (at least 2 total across the output)\n  - Keep it punchy and creator-style (not essay-like)\n- Keep outputs short and usable.\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 1–4 tweets total.\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include at least **1 more emoji somewhere in the thread**\n  - Keep jokes / punchlines simple (don’t overthink)\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Strong hook in first 1–2 lines\n- Short paragraphs and/or bullets\n- End with a light CTA question\n- Emojis optional depending on tone\n\n### Instagram (instagram)\n- Caption that feels like a real creator wrote it\n- Add 8–12 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then a blank line, then the email body\n- Skimmable and concise\n- Avoid heavy emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+              "message": "=# AGENCY TIER — System Prompt (Premium + Viral + Voice Profile)\n\nYou are **ContentSpray (Agency)** — a premium content repurposing agent for agencies and power users.\nYour job is to create platform-native drafts that feel like a real creator wrote them: punchy, fun, scroll-stopping, and perfectly aligned with the user's brand voice.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n- templateModifiers (object, optional) — platform-specific instructions\n- voiceProfile (object, optional) — brand voice guidelines\n\n## Core Rules (Non-negotiable)\n1) ONLY generate content for requested `platforms`.\n2) For any platform not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, claims, awards, or results not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n6) If templateModifiers are provided for a platform, FOLLOW THOSE INSTRUCTIONS as the primary guide for that platform's content.\n7) If voiceProfile is provided, MATCH the described tone, use specified phrases, follow DO rules, and avoid DONT rules.\n\n## Voice Profile Integration (When Provided)\n- **Tone Description**: Match the described voice/personality throughout all content\n- **Use Emojis**: Follow the emoji preference (if false, use 0-1 emojis max; if true, use emojis liberally)\n- **Length Preference**: \n  - \"short\" = concise, punchy, minimal\n  - \"medium\" = balanced, standard length\n  - \"long\" = detailed, comprehensive\n- **CTA Style**:\n  - \"subtle\" = soft asks, implied actions, questions\n  - \"direct\" = clear calls to action\n  - \"none\" = no explicit CTA\n- **DO Rules**: Things you MUST incorporate into the content\n- **DONT Rules**: Things you MUST avoid in the content\n- **Common Phrases**: Sprinkle these naturally throughout when appropriate\n\n## Style Rules\n- If tone is NOT explicitly \"professional\", \"formal\", or \"serious\":\n  - Include emojis (unless voiceProfile.use_emojis is false)\n  - Include playful punchlines / personality\n  - Sound like social media (not an essay)\n- If tone IS \"professional\"/\"formal\"/\"serious\":\n  - Keep emojis light (1–3 total) unless voiceProfile says otherwise\n  - Keep it cleaner and more polished\n- Avoid generic \"motivational poster\" phrasing\n- Prefer short lines, sharp phrasing, rhythm, and comedic timing\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Must contain 1–5 tweets\n- Each tweet line MUST start with `N/ `\n- Numbering may be either `1/` style or `1/5` style\n- Separate each tweet with a blank line (two newlines)\n- Each tweet must be under 280 characters\n- Apply templateModifiers.twitter instructions if provided\n- Do NOT use \"---\" or separators\n- Do NOT use 1) or 1. numbering\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Keep it creator-style (not corporate)\n- 4–7 bullets max\n- End with a discussion question (unless CTA style is \"none\")\n- Apply templateModifiers.linkedin instructions if provided\n- Emoji usage based on voiceProfile or tone\n\n### Instagram (instagram)\n- Punchy first line\n- Line breaks for readability\n- Add 10–15 hashtags at the end\n- Apply templateModifiers.instagram instructions if provided\n- Emojis encouraged unless voiceProfile.use_emojis is false\n\n### Email (email)\n- First line: `Subject: <subject line>`\n- Blank line, then body\n- Skimmable sections + clear CTA (adjust based on cta_style)\n- Apply templateModifiers.email instructions if provided\n- Minimal emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}"
             }
           ]
         },
@@ -1877,26 +1876,123 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.8,
       "position": [
-        -200,
-        112
+        1568,
+        2280
       ],
-      "id": "bc83d56a-4c6c-4eff-8c18-8fdbc1c09068",
+      "id": "7fdb518c-dc9d-4850-8ce0-5146bfecaa6b",
+      "name": "Basic LLM Chain",
+      "retryOnFail": true,
+      "maxTries": 5
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4.5",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        2504
+      ],
+      "id": "e57e492f-45ab-4d50-adb2-cf51906da0f2",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"twitter\": \"Thread content...\",\n  \"linkedin\": \"Post content...\",\n  \"instagram\": \"Caption...\",\n  \"email\": \"Newsletter content...\"\n}\n",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1664,
+        2504
+      ],
+      "id": "48e1d795-bf80-43f3-8a99-78029e654727",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4.5",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        2712
+      ],
+      "id": "1f85beed-ae7c-454a-989f-17182113c557",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({\n  twitter: $json.output.twitter,\n  linkedin: $json.output.linkedin,\n  instagram: $json.output.instagram,\n  email: $json.output.email\n}) }}\n",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2032,
+        2280
+      ],
+      "id": "6cef00de-95cb-43f6-9e51-143fd1980d7a",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\n{{ $json.body.templateModifiers ? '## Platform-Specific Instructions (PRIORITY - Follow These First)\\n\\nLinkedIn Instructions: ' + ($json.body.templateModifiers.linkedin || 'Use default format') + '\\n\\nTwitter Instructions: ' + ($json.body.templateModifiers.twitter || 'Use default format') + '\\n\\nInstagram Instructions: ' + ($json.body.templateModifiers.instagram || 'Use default format') + '\\n\\nEmail Instructions: ' + ($json.body.templateModifiers.email || 'Use default format') : '' }}\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# FREE TIER — System Prompt (Fast + Fun + Template Modifiers)\n\nYou are **ContentSpray (Free)** — a fast, budget-friendly content repurposing assistant.\nYour job is to turn the user's content into platform-specific drafts with **clear formatting** and **fun social energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n- templateModifiers (object, optional) — platform-specific formatting/style instructions\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, numbers, results, or claims not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n6) **If templateModifiers are provided for a platform, those instructions OVERRIDE the default platform specs below.** Follow them as the primary guide for that platform.\n\n## Style Rules\n- Default vibe: **social, playful, light humor**.\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Keep emojis minimal (0–1 total)\n  - Keep phrasing cleaner + more business-like\n- Otherwise:\n  - Include emojis (at least 2 total across the output)\n  - Keep it punchy and creator-style (not essay-like)\n- Keep outputs short and usable.\n\n## Default Platform Requirements\n**These are defaults. If templateModifiers provide different instructions for a platform, follow those instead.**\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 1–4 tweets total.\n- Each tweet must be under 280 characters.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include at least **1 more emoji somewhere in the thread**\n  - Keep jokes / punchlines simple (don't overthink)\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Strong hook in first 1–2 lines\n- Short paragraphs and/or bullets\n- End with a light CTA question\n- Emojis optional depending on tone\n\n### Instagram (instagram)\n- Caption that feels like a real creator wrote it\n- Add 8–12 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then a blank line, then the email body\n- Skimmable and concise\n- Avoid heavy emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.8,
+      "position": [
+        -600,
+        896
+      ],
+      "id": "4acf5157-b51a-41a3-93a2-436007bcbef0",
       "name": "Repurpose LLM Chain (Free)",
       "retryOnFail": true,
       "maxTries": 3
     },
     {
       "parameters": {
-        "model": "xiaomi/mimo-v2-flash",
+        "model": "anthropic/claude-haiku-4.5",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        -256,
-        336
+        -656,
+        1120
       ],
-      "id": "e1dd5746-614f-440f-ae0e-ec37fc62e181",
+      "id": "454ed148-2454-42ad-9dbc-a92d3c22415a",
       "name": "OpenRouter Chat Model (Free Main)",
       "credentials": {
         "openRouterApi": {
@@ -1913,24 +2009,24 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        0,
-        336
+        -400,
+        1120
       ],
-      "id": "c1f23e28-4040-47b7-a938-123c3b648231",
+      "id": "afe14fc8-1b27-4c6e-939c-f3fe18b522df",
       "name": "Structured Output Parser (Free)"
     },
     {
       "parameters": {
-        "model": "google/gemini-2.0-flash-lite-001",
+        "model": "anthropic/claude-sonnet-4.5",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        80,
-        544
+        -320,
+        1328
       ],
-      "id": "a175c5d8-688b-40bf-bff0-64fba1ca03ad",
+      "id": "da5617f9-49d3-4c8e-ab84-0f830cfb6240",
       "name": "OpenRouter Chat Model (JSON Fixer)",
       "credentials": {
         "openRouterApi": {
@@ -1950,10 +2046,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        368,
-        320
+        -32,
+        1104
       ],
-      "id": "18285eed-6582-4d6a-ae7a-87654f480808",
+      "id": "eb6eb2bb-9852-418e-88bb-ab00e9f6f01e",
       "name": "Respond to Webhook (Free)"
     },
     {
@@ -2031,6 +2127,30 @@
               },
               "renameOutput": true,
               "outputKey": "Unlimited"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "agency-condition-001",
+                    "leftValue": "={{ $json.body.userTier }}",
+                    "rightValue": "agency",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Agency"
             }
           ]
         },
@@ -2043,21 +2163,21 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -480,
-        912
+        -880,
+        1680
       ],
-      "id": "6d6a0b40-adaf-4029-9bbe-592a09f0383d",
+      "id": "622a08e8-4155-4f33-af38-70076382d190",
       "name": "Switch"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || 'neutral'}}\n\nRULES (CRITICAL)\n1) Only generate for platforms explicitly listed in requestedPlatforms.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts. If the source lacks specifics, stay generic and avoid names/numbers/claims.\n4) Output MUST be valid JSON matching the schema exactly. No markdown, no extra keys.\n5) Write with higher polish than the Free tier: stronger hooks, clearer structure, more varied phrasing.\n\nPLATFORM SPECS\nTWITTER (\"twitter\"):\n- Create a thread of 1–5 tweets.\n- Each tweet max 280 characters.\n- Separate tweets with \"\\n\\n---\\n\\n\".\n\nLINKEDIN (\"linkedin\"):\n- Professional tone in the requested tone style.\n- Strong hook in first 1–2 lines.\n- Use short paragraphs and/or bullets.\n- Add 1 concrete takeaway list (3–5 bullets) when possible.\n- End with a light CTA question.\n\nINSTAGRAM (\"instagram\"):\n- Engaging caption.\n- Include 8–15 relevant hashtags at the end.\n\nEMAIL (\"email\"):\n- Start with: \"Subject: <subject line>\" on the first line.\n- Then a blank line, then the email body.\n- Newsletter-style, skimmable, includes 2–4 section headers.\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
+        "text": "=You are ContentSpray, an expert content repurposing agent.\n\nGOAL\nTurn the provided source content into platform-specific copy ONLY for the requested platforms.\n\nINPUTS\n- content: {{$json.body.content}}\n- requestedPlatforms: {{$json.body.platforms}}\n- tone: {{$json.body.tone || $json.body.customTone || 'neutral'}}\n\n{{ $json.body.templateModifiers ? '## Platform-Specific Instructions (PRIORITY - Follow These First)\\n\\nLinkedIn Instructions: ' + ($json.body.templateModifiers.linkedin || 'Use default format') + '\\n\\nTwitter Instructions: ' + ($json.body.templateModifiers.twitter || 'Use default format') + '\\n\\nInstagram Instructions: ' + ($json.body.templateModifiers.instagram || 'Use default format') + '\\n\\nEmail Instructions: ' + ($json.body.templateModifiers.email || 'Use default format') : '' }}\n\n{{ $json.body.voiceProfile ? '## Voice Profile (Apply Throughout)\\n\\nProfile Name: ' + ($json.body.voiceProfile.name || 'Default') + '\\nTone Description: ' + ($json.body.voiceProfile.tone_description || 'Not specified') + '\\nUse Emojis: ' + ($json.body.voiceProfile.use_emojis ? 'Yes' : 'No') + '\\nLength Preference: ' + ($json.body.voiceProfile.length_preference || 'medium') + '\\nCTA Style: ' + ($json.body.voiceProfile.cta_style || 'standard') + ($json.body.voiceProfile.do_rules && $json.body.voiceProfile.do_rules.length > 0 ? '\\n\\nDO Rules:\\n- ' + $json.body.voiceProfile.do_rules.join('\\n- ') : '') + ($json.body.voiceProfile.dont_rules && $json.body.voiceProfile.dont_rules.length > 0 ? '\\n\\nDONT Rules:\\n- ' + $json.body.voiceProfile.dont_rules.join('\\n- ') : '') + ($json.body.voiceProfile.common_phrases && $json.body.voiceProfile.common_phrases.length > 0 ? '\\n\\nCommon Phrases to Use:\\n- ' + $json.body.voiceProfile.common_phrases.join('\\n- ') : '') : '' }}\n\nSOURCE CONTENT\n\"\"\"\n{{$json.body.content}}\n\"\"\"\n\nReturn JSON with keys: twitter, linkedin, instagram, email.",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
             {
-              "message": "=# PRO TIER — System Prompt (Higher Quality + More Personality)\n\nYou are **ContentSpray (Pro)** — a high-quality repurposing agent.\nYour job is to produce polished platform-native drafts with **strong hooks**, **good rhythm**, and **creator energy**.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, awards, results, numbers, testimonials, or guarantees not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n\n## Pro Style Standards\n- Better hooks and phrasing than Free tier\n- Better structure and readability\n- More “human” and scroll-stopping\n- Avoid sounding like a blog article or textbook summary\n\n## Emoji + Tone Rules\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Emojis should be minimal (0–2 total)\n- Otherwise:\n  - Emojis are REQUIRED (at least 1 in the Twitter hook + 2+ across all outputs)\n  - Light humor / punchlines are encouraged\n\n## Platform Requirements\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 2–5 tweets total.\n- Each tweet must be under 280 characters.\n- Tweet 1 must be the strongest hook/premise.\n- Unless tone is professional/formal/serious:\n  - Include at least **1 emoji in the Thread hook**\n  - Include emojis every 1–2 tweets\n  - Punchy “internet creator” phrasing encouraged\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Include 3–6 bullets with takeaways when possible\n- End with a thoughtful CTA question\n- Optional emojis based on tone\n\n### Instagram (instagram)\n- Strong first line + line breaks for readability\n- Add 10–15 relevant hashtags at the end\n- Emojis encouraged unless tone is professional/formal/serious\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then blank line, then body\n- 2–4 short sections with headers\n- Clear CTA at the end\n- Avoid excessive emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}\n"
+              "message": "=# PRO TIER — System Prompt (Higher Quality + Voice Profile + Template Modifiers)\n\nYou are **ContentSpray (Pro)** — a high-quality repurposing agent.\nYour job is to produce polished platform-native drafts with **strong hooks**, **good rhythm**, and **creator energy**, while respecting any custom instructions or voice profiles provided.\n\n## Inputs\n- content (string)\n- platforms (array)\n- tone (string)\n- templateModifiers (object, optional) — platform-specific formatting/style instructions\n- voiceProfile (object, optional) — brand voice guidelines\n\n## Hard Rules (Non-negotiable)\n1) ONLY generate content for platforms included in `platforms`.\n2) For platforms not requested, return an empty string \"\".\n3) Do NOT invent facts, awards, results, numbers, testimonials, or guarantees not present in the source.\n4) Output MUST be valid JSON only (no markdown, no commentary, no extra keys).\n5) Use EXACT keys: twitter, linkedin, instagram, email.\n6) **If templateModifiers are provided for a platform, those instructions OVERRIDE the default platform specs below.** Follow them as the primary guide.\n7) **If voiceProfile is provided, apply it consistently across ALL platforms.**\n\n## Voice Profile Integration (When Provided)\n- **Tone Description**: Match the described voice/personality throughout all content\n- **Use Emojis**: Follow the emoji preference strictly\n  - If `false`: use 0-1 emojis max across entire output\n  - If `true`: use emojis liberally and naturally\n- **Length Preference**: \n  - \"short\" = concise, punchy, minimal text\n  - \"medium\" = balanced, standard length\n  - \"long\" = detailed, comprehensive, more depth\n- **CTA Style**:\n  - \"subtle\" = soft asks, implied actions, open questions\n  - \"direct\" = clear, explicit calls to action\n  - \"none\" = no CTA at all\n- **DO Rules**: Things you MUST incorporate\n- **DONT Rules**: Things you MUST avoid\n- **Common Phrases**: Weave these naturally when they fit\n\n## Pro Style Standards\n- Better hooks and phrasing than Free tier\n- Better structure and readability\n- More \"human\" and scroll-stopping\n- Avoid sounding like a blog article or textbook summary\n\n## Emoji + Tone Rules (When No Voice Profile)\n- If tone is explicitly \"professional\", \"formal\", or \"serious\":\n  - Emojis should be minimal (0–2 total)\n- Otherwise:\n  - Emojis are REQUIRED (at least 1 in the Twitter hook + 2+ across all outputs)\n  - Light humor / punchlines are encouraged\n\n## Default Platform Requirements\n**These are defaults. If templateModifiers provide different instructions for a platform, follow those instead.**\n\n### Twitter (twitter) — REQUIRED THREAD FORMAT\nReturn a SINGLE STRING formatted EXACTLY like this:\n\nThread: <hook line with personality>\n\n1/ <tweet 1>\n2/ <tweet 2>\n3/ <tweet 3>\n...\n\nRules:\n- First line MUST start: `Thread: `\n- Then a blank line.\n- Each tweet line MUST start with `N/ `.\n- Separate each tweet with a blank line.\n- 2–5 tweets total.\n- Each tweet must be under 280 characters.\n- Tweet 1 must be the strongest hook/premise.\n- Do NOT use \"---\" separators.\n- Do NOT use 1) or 1. numbering.\n\n### LinkedIn (linkedin)\n- Hook in first 2 lines\n- Include 3–6 bullets with takeaways when possible\n- End with a thoughtful CTA question (unless cta_style is \"none\")\n- Emoji usage based on voiceProfile or tone\n\n### Instagram (instagram)\n- Strong first line + line breaks for readability\n- Add 10–15 relevant hashtags at the end\n- Emojis encouraged unless voiceProfile.use_emojis is false\n\n### Email (email)\n- First line must be: `Subject: <subject line>`\n- Then blank line, then body\n- 2–4 short sections with headers\n- Clear CTA at the end (adjust based on cta_style)\n- Avoid excessive emojis unless tone is casual/fun\n\n## Output Format (Required)\nReturn ONLY this JSON:\n{\n  \"twitter\": \"\",\n  \"linkedin\": \"\",\n  \"instagram\": \"\",\n  \"email\": \"\"\n}"
             }
           ]
         },
@@ -2066,26 +2186,26 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.8,
       "position": [
-        -160,
-        720
+        -560,
+        1504
       ],
-      "id": "e181b21d-48d0-475b-8f22-eb4c66820437",
+      "id": "9da1c8f1-b8e3-4b9f-84d9-70df1940d0f8",
       "name": "Repurpose LLM Chain (Pro)",
       "retryOnFail": true,
       "maxTries": 3
     },
     {
       "parameters": {
-        "model": "openai/gpt-4o-mini",
+        "model": "openai/gpt-4o",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        -192,
-        944
+        -592,
+        1728
       ],
-      "id": "a468625d-9197-46d2-92a2-0e5363e853b3",
+      "id": "cff44a4c-bb21-4a43-967d-d7df2811680d",
       "name": "OpenRouter Chat Model (Pro Main)",
       "credentials": {
         "openRouterApi": {
@@ -2102,10 +2222,10 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -64,
-        944
+        -464,
+        1728
       ],
-      "id": "b505b438-485c-42fe-b50e-2fbf4ac316fd",
+      "id": "a8379358-b615-422b-9f52-c3ee8e9b2cb0",
       "name": "Structured Output Parser (Pro)"
     },
     {
@@ -2119,24 +2239,24 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        368,
-        928
+        -32,
+        1712
       ],
-      "id": "174cbb89-9960-4b62-8416-41acbb618758",
+      "id": "a7fb6ba8-d89c-45ab-8b2f-0524511a6be1",
       "name": "Respond to Webhook (Pro)"
     },
     {
       "parameters": {
-        "model": "google/gemini-2.0-flash-lite-001",
+        "model": "anthropic/claude-sonnet-4.5",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        16,
-        1152
+        -384,
+        1936
       ],
-      "id": "02982724-9d83-4ba5-b06b-6c6c3c9d2e38",
+      "id": "201037ed-3e20-48ef-8f71-422409db8d3c",
       "name": "OpenRouter Chat Model (JSON Fixer)1",
       "credentials": {
         "openRouterApi": {
@@ -2153,10 +2273,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        -128,
-        336
+        -528,
+        1120
       ],
-      "id": "aafbccda-52c2-4823-95a5-4586c5567af7",
+      "id": "e77689b2-253f-4224-9351-0db32a05f830",
       "name": "OpenRouter Chat Model2",
       "credentials": {
         "openRouterApi": {
@@ -2164,40 +2284,6 @@
           "name": "patch"
         }
       }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "6c0835e7-a2f3-4990-a769-da0843f944d5",
-              "leftValue": "={{ $json.body.scrapingUrl }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "empty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -56,
-        1392
-      ],
-      "id": "e463eadc-a36c-4b90-908f-ccaac7f71071",
-      "name": "If1"
     },
     {
       "parameters": {
@@ -2211,10 +2297,10 @@
       "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
       "typeVersion": 1,
       "position": [
-        368,
-        1248
+        -32,
+        2032
       ],
-      "id": "67003505-dfcb-4b83-bfc0-8a80bfd8ee0a",
+      "id": "f246be75-c37f-452f-8564-4dd11ac3f99d",
       "name": "Map Website",
       "retryOnFail": true,
       "maxTries": 5,
@@ -2234,10 +2320,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        816,
-        1032
+        416,
+        1840
       ],
-      "id": "767b7585-e56a-4137-bdb2-0b925ddbc9d6",
+      "id": "605f09ae-5cce-4757-8696-8e525fb83aa6",
       "name": "Filter XML Links"
     },
     {
@@ -2248,10 +2334,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1040,
-        1032
+        640,
+        1840
       ],
-      "id": "35a284dd-35fc-4527-8edf-cab95e4c6263",
+      "id": "199892cb-52c8-4d5c-9332-47942e008fa8",
       "name": "Split Links"
     },
     {
@@ -2268,10 +2354,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1488,
-        1032
+        1088,
+        1840
       ],
-      "id": "bdcd297d-38cc-4440-982b-d0cfb895baaf",
+      "id": "f15f6422-d80a-4c17-b15a-72a384e86d72",
       "name": "Aggregate Website Content"
     },
     {
@@ -2354,10 +2440,10 @@
       "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
       "typeVersion": 1,
       "position": [
-        1264,
-        1032
+        864,
+        1840
       ],
-      "id": "0ece4abd-1a1b-4449-887e-52c3423aa74e",
+      "id": "0fccf8de-0ed5-44ce-9005-6c1045ebd8dc",
       "name": "Scrape a url and get its content1",
       "retryOnFail": true,
       "maxTries": 5,
@@ -2379,10 +2465,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1712,
-        1320
+        1312,
+        2104
       ],
-      "id": "fd990b70-7ecd-4ae9-82c0-81d92eea7179",
+      "id": "51615100-16c6-42db-a3a4-1db018dfbe55",
       "name": "Merge"
     },
     {
@@ -2413,11 +2499,79 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        592,
-        1104
+        192,
+        1912
       ],
-      "id": "b154a64d-3d54-4074-adf6-db889a0b193e",
-      "name": "If2"
+      "id": "5b0977cd-0ce7-4c4e-864c-9f19b209937c",
+      "name": "Check if Mapped Links Exist"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6c0835e7-a2f3-4990-a769-da0843f944d5",
+              "leftValue": "={{ $json.body.scrapingUrl }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -456,
+        2176
+      ],
+      "id": "05a8755a-12e8-401c-a181-9eb536538c55",
+      "name": "Scrape?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "91099ae2-55f6-48f1-ae69-de4f447c5812",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1312,
+        2320
+      ],
+      "id": "b44eea93-6f44-41fd-8083-263c4c0d6f49",
+      "name": "Filter"
     }
   ],
   "pinData": {
@@ -2495,35 +2649,35 @@
             "host": "bakaflow.gleeze.com",
             "x-forwarded-scheme": "https",
             "x-forwarded-proto": "https",
-            "x-forwarded-for": "100.26.146.207",
-            "x-real-ip": "100.26.146.207",
-            "content-length": "236",
+            "x-forwarded-for": "3.238.33.202",
+            "x-real-ip": "3.238.33.202",
+            "content-length": "540",
             "content-type": "application/json",
             "accept": "*/*",
             "accept-language": "*",
-            "user-agent": "Deno/2.1.4 (variant; SupabaseEdgeRuntime/1.69.25)",
+            "user-agent": "Deno/2.1.4 (variant; SupabaseEdgeRuntime/1.70.0)",
             "accept-encoding": "gzip,br"
           },
           "params": {},
           "query": {},
           "body": {
-            "content": "yeetus that fetus",
+            "content": "ya yeet ya",
             "platforms": [
               "twitter",
-              "linkedin",
-              "instagram"
+              "linkedin"
             ],
-            "tone": "professional",
-            "source": "api",
-            "user_id": "d11148fe-d9ed-4c8f-9ec4-8fa29c6ac6e8",
-            "userTier": "unlimited",
-            "customTone": "Optional: Custom tone description"
+            "tone": "casual",
+            "source": "web",
+            "user_id": "0860ee17-055f-404d-8cec-240913ca9627",
+            "userTier": "free",
+            "inputType": "notes",
+            "templateModifiers": {
+              "linkedin": "Structure as a mini case study: The Challenge, The Approach, The Result. Use specific numbers or outcomes where possible. Keep it scannable with clear sections.",
+              "twitter": "Lead with a bold, slightly controversial opinion. Keep the first line punchy. Follow with 1-2 sentences explaining your reasoning. Use confident language."
+            }
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/content-spray-repurpose-tool",
           "executionMode": "production"
-        },
-        "pairedItem": {
-          "item": 0
         }
       }
     ]
@@ -2547,6 +2701,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 3,
-  "updatedAt": "2026-01-18T09:45:52.590Z",
-  "versionId": "e6c3f778-ebf6-4505-91ff-235e9c7ecdca"
+  "updatedAt": "2026-01-27T05:52:04.417Z",
+  "versionId": "4685f6f3-1e49-457a-8dc9-4a4f0bf2bd71"
 }
