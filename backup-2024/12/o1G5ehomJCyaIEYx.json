@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
-    "versionId": "fdb43940-5862-45dd-9913-d9a915f0d339",
+    "updatedAt": "2026-02-04T05:45:27.000Z",
+    "createdAt": "2026-02-04T05:45:26.142Z",
+    "versionId": "92f7b02e-8491-482c-ae95-352b954e9d61",
     "workflowId": "o1G5ehomJCyaIEYx",
     "nodes": [
       {
@@ -42,7 +42,7 @@
         "typeVersion": 2,
         "position": [
           640,
-          -164
+          -160
         ],
         "id": "004c47f4-62cb-4c9c-ba34-fcf3c8404d41",
         "name": "Discord",
@@ -89,7 +89,7 @@
         "typeVersion": 2,
         "position": [
           -32,
-          28
+          32
         ],
         "id": "95a309bd-1241-4e98-b639-7934ce71da28",
         "name": "Discord4",
@@ -228,7 +228,7 @@
         "typeVersion": 4.2,
         "position": [
           192,
-          -164
+          -160
         ],
         "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
         "name": "HTTP Request"
@@ -242,7 +242,7 @@
         "typeVersion": 4.2,
         "position": [
           416,
-          -164
+          -160
         ],
         "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
         "name": "HTTP Request1"
@@ -260,7 +260,7 @@
         "typeVersion": 1.7,
         "position": [
           -384,
-          -68
+          -64
         ],
         "id": "5e3f84c0-d3cc-4804-8b3b-3b0d31190ee3",
         "name": "AI Agent",
@@ -276,8 +276,8 @@
         "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
         "typeVersion": 1.3,
         "position": [
-          -248,
-          156
+          -256,
+          160
         ],
         "id": "7f40a6ef-0339-4086-9f44-3cdbe3d17118",
         "name": "Postgres Chat Memory",
@@ -290,7 +290,7 @@
       },
       {
         "parameters": {
-          "modelName": "models/gemini-2.0-flash-exp",
+          "modelName": "models/gemini-2.0-flash",
           "options": {
             "safetySettings": {
               "values": [
@@ -317,15 +317,15 @@
         "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
         "typeVersion": 1,
         "position": [
-          -376,
-          156
+          -384,
+          160
         ],
         "id": "ac2f3b97-72c4-47bf-8deb-31c83de9a54d",
         "name": "Google Gemini Chat Model",
         "credentials": {
           "googlePalmApi": {
-            "id": "SXxerOXC902v1BV6",
-            "name": "Google Gemini(PaLM) Api account 2"
+            "id": "ReeAGi73g7iXliN4",
+            "name": "Trazon's Gemini"
           }
         }
       },
@@ -386,7 +386,7 @@
         "typeVersion": 3.2,
         "position": [
           -832,
-          -68
+          -64
         ],
         "id": "dec58d51-ff5a-4216-a3e5-cda9e05aa90e",
         "name": "Switch"
@@ -400,7 +400,7 @@
         "typeVersion": 4.2,
         "position": [
           -608,
-          -188
+          -192
         ],
         "id": "42d1cd89-5284-47f0-a920-2c51e23090be",
         "name": "Get TXT File",
@@ -414,7 +414,7 @@
         "typeVersion": 2,
         "position": [
           -32,
-          -164
+          -160
         ],
         "id": "b254db7e-0ef0-4ff0-a503-455d73773702",
         "name": "Code"
@@ -619,12 +619,12 @@
         ]
       }
     },
-    "authors": "system migration",
-    "name": null,
-    "description": null,
+    "authors": "Trazon Mitchell",
+    "name": "Version 92f7b02e",
+    "description": "",
     "autosaved": false
   },
-  "activeVersionId": "fdb43940-5862-45dd-9913-d9a915f0d339",
+  "activeVersionId": "92f7b02e-8491-482c-ae95-352b954e9d61",
   "connections": {
     "Webhook": {
       "main": [
@@ -833,7 +833,7 @@
       "typeVersion": 2,
       "position": [
         640,
-        -164
+        -160
       ],
       "id": "004c47f4-62cb-4c9c-ba34-fcf3c8404d41",
       "name": "Discord",
@@ -880,7 +880,7 @@
       "typeVersion": 2,
       "position": [
         -32,
-        28
+        32
       ],
       "id": "95a309bd-1241-4e98-b639-7934ce71da28",
       "name": "Discord4",
@@ -1019,7 +1019,7 @@
       "typeVersion": 4.2,
       "position": [
         192,
-        -164
+        -160
       ],
       "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
       "name": "HTTP Request"
@@ -1033,7 +1033,7 @@
       "typeVersion": 4.2,
       "position": [
         416,
-        -164
+        -160
       ],
       "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
       "name": "HTTP Request1"
@@ -1051,7 +1051,7 @@
       "typeVersion": 1.7,
       "position": [
         -384,
-        -68
+        -64
       ],
       "id": "5e3f84c0-d3cc-4804-8b3b-3b0d31190ee3",
       "name": "AI Agent",
@@ -1067,8 +1067,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -248,
-        156
+        -256,
+        160
       ],
       "id": "7f40a6ef-0339-4086-9f44-3cdbe3d17118",
       "name": "Postgres Chat Memory",
@@ -1081,7 +1081,7 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.0-flash-exp",
+        "modelName": "models/gemini-2.0-flash",
         "options": {
           "safetySettings": {
             "values": [
@@ -1108,15 +1108,15 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -376,
-        156
+        -384,
+        160
       ],
       "id": "ac2f3b97-72c4-47bf-8deb-31c83de9a54d",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "SXxerOXC902v1BV6",
-          "name": "Google Gemini(PaLM) Api account 2"
+          "id": "ReeAGi73g7iXliN4",
+          "name": "Trazon's Gemini"
         }
       }
     },
@@ -1177,7 +1177,7 @@
       "typeVersion": 3.2,
       "position": [
         -832,
-        -68
+        -64
       ],
       "id": "dec58d51-ff5a-4216-a3e5-cda9e05aa90e",
       "name": "Switch"
@@ -1191,7 +1191,7 @@
       "typeVersion": 4.2,
       "position": [
         -608,
-        -188
+        -192
       ],
       "id": "42d1cd89-5284-47f0-a920-2c51e23090be",
       "name": "Get TXT File",
@@ -1205,7 +1205,7 @@
       "typeVersion": 2,
       "position": [
         -32,
-        -164
+        -160
       ],
       "id": "b254db7e-0ef0-4ff0-a503-455d73773702",
       "name": "Code"
@@ -1311,6 +1311,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-10-19T21:38:56.000Z",
-  "versionId": "fdb43940-5862-45dd-9913-d9a915f0d339"
+  "updatedAt": "2026-02-04T05:45:26.141Z",
+  "versionId": "92f7b02e-8491-482c-ae95-352b954e9d61"
 }
