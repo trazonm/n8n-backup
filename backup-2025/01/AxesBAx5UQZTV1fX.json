@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-02-04T06:05:39.000Z",
-    "createdAt": "2026-02-04T06:05:36.551Z",
-    "versionId": "e12474c8-4a46-4548-9d1e-0c188cdc5884",
+    "updatedAt": "2026-02-15T00:11:12.000Z",
+    "createdAt": "2026-02-15T00:11:06.034Z",
+    "versionId": "cca2a79a-4695-47d0-825d-3cfeda0b879e",
     "workflowId": "AxesBAx5UQZTV1fX",
     "nodes": [
       {
@@ -130,10 +130,10 @@
               {
                 "id": "5ffd4081-6285-4fe0-a7f2-0dd85ddcd533",
                 "leftValue": "={{ $json.body.content }}",
-                "rightValue": "^gg[^\\w]*[^a-zA-Z0-9].*$",
+                "rightValue": "gg",
                 "operator": {
                   "type": "string",
-                  "operation": "regex"
+                  "operation": "startsWith"
                 }
               }
             ],
@@ -562,11 +562,11 @@
       }
     },
     "authors": "Trazon Mitchell",
-    "name": "Version e12474c8",
+    "name": "Version cca2a79a",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "e12474c8-4a46-4548-9d1e-0c188cdc5884",
+  "activeVersionId": "cca2a79a-4695-47d0-825d-3cfeda0b879e",
   "connections": {
     "Webhook": {
       "main": [
@@ -850,10 +850,10 @@
             {
               "id": "5ffd4081-6285-4fe0-a7f2-0dd85ddcd533",
               "leftValue": "={{ $json.body.content }}",
-              "rightValue": "^gg[^\\w]*[^a-zA-Z0-9].*$",
+              "rightValue": "gg",
               "operator": {
                 "type": "string",
-                "operation": "regex"
+                "operation": "startsWith"
               }
             }
           ],
@@ -1139,7 +1139,7 @@
             "x-forwarded-proto": "https",
             "x-forwarded-for": "75.177.85.65",
             "x-real-ip": "75.177.85.65",
-            "content-length": "201",
+            "content-length": "574",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -1148,16 +1148,19 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "ellies-break-room",
-            "channelId": "930254213739581511",
-            "author": "wizkid201",
-            "userId": "399252178260197377",
-            "messageId": "1345279049303588948",
-            "content": "gg give me the story",
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
+            "author": "bakaboi341",
+            "userId": "246812164885577729",
+            "messageId": "1472384363701473382",
+            "content": "gg help me finish this prompt for a video generation AI called sora 2.  Guy goes to nursing home and asks old lady for Kirk.  The old woman then offers bro to get get some kirky in the mess hall.  She takes her teeth out and starts giving bro kirky.\n\nI'm writing a prompt for sora 2.  \"Kirk\" is slang so keep it as the way I used it.  Kirk isn't a person.  I want in a Disney Pixar type animation",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/gooner-girl",
           "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
         }
       }
     ]
@@ -1193,6 +1196,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2026-02-04T06:05:36.549Z",
-  "versionId": "e12474c8-4a46-4548-9d1e-0c188cdc5884"
+  "updatedAt": "2026-02-15T00:11:06.032Z",
+  "versionId": "cca2a79a-4695-47d0-825d-3cfeda0b879e"
 }
