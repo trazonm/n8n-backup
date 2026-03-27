@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
-    "versionId": "6969a992-8639-4db0-81be-d321d0cfb9af",
+    "updatedAt": "2026-03-27T05:27:09.000Z",
+    "createdAt": "2026-03-27T05:27:02.684Z",
+    "versionId": "56b3a9a4-b593-442d-9edd-c8cc8214482b",
     "workflowId": "HiHq4riL9nVKWTAk",
     "nodes": [
       {
@@ -68,7 +68,7 @@
       },
       {
         "parameters": {
-          "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+          "model": "meta-llama/llama-4-scout-17b-16e-instruct",
           "options": {
             "temperature": 0.5
           }
@@ -200,7 +200,7 @@
         "type": "n8n-nodes-base.filter",
         "typeVersion": 2.2,
         "position": [
-          2472,
+          2480,
           -384
         ],
         "id": "a424a917-0c68-4270-add3-7d694209a036",
@@ -619,7 +619,7 @@
       },
       {
         "parameters": {
-          "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+          "model": "meta-llama/llama-4-scout-17b-16e-instruct",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
@@ -1063,12 +1063,12 @@
         ]
       }
     },
-    "authors": "system migration",
-    "name": null,
-    "description": null,
+    "authors": "Trazon Mitchell",
+    "name": "Version 56b3a9a4",
+    "description": "",
     "autosaved": false
   },
-  "activeVersionId": "6969a992-8639-4db0-81be-d321d0cfb9af",
+  "activeVersionId": "56b3a9a4-b593-442d-9edd-c8cc8214482b",
   "connections": {
     "Schedule Trigger": {
       "main": [
@@ -1504,7 +1504,7 @@
     },
     {
       "parameters": {
-        "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
         "options": {
           "temperature": 0.5
         }
@@ -1636,7 +1636,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        2472,
+        2480,
         -384
       ],
       "id": "a424a917-0c68-4270-add3-7d694209a036",
@@ -2055,7 +2055,7 @@
     },
     {
       "parameters": {
-        "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
@@ -2138,17 +2138,20 @@
     "Schedule Trigger": [
       {
         "json": {
-          "timestamp": "2025-06-06T21:36:37.004-04:00",
-          "Readable date": "June 6th 2025, 9:36:37 pm",
-          "Readable time": "9:36:37 pm",
-          "Day of week": "Friday",
-          "Year": "2025",
-          "Month": "June",
-          "Day of month": "06",
-          "Hour": "21",
-          "Minute": "36",
-          "Second": "37",
+          "timestamp": "2026-03-26T15:42:25.004-04:00",
+          "Readable date": "March 26th 2026, 3:42:25 pm",
+          "Readable time": "3:42:25 pm",
+          "Day of week": "Thursday",
+          "Year": "2026",
+          "Month": "March",
+          "Day of month": "26",
+          "Hour": "15",
+          "Minute": "42",
+          "Second": "25",
           "Timezone": "America/New_York (UTC-04:00)"
+        },
+        "pairedItem": {
+          "item": 0
         }
       }
     ]
@@ -11442,6 +11445,6 @@
     }
   ],
   "triggerCount": 2,
-  "updatedAt": "2025-08-14T14:27:36.000Z",
-  "versionId": "6969a992-8639-4db0-81be-d321d0cfb9af"
+  "updatedAt": "2026-03-27T05:27:02.681Z",
+  "versionId": "56b3a9a4-b593-442d-9edd-c8cc8214482b"
 }
