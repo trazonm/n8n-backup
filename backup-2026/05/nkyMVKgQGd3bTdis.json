@@ -1,0 +1,130 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-05-28T02:59:54.238Z",
+  "id": "nkyMVKgQGd3bTdis",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 9",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ab28c732-c53f-494d-8214-43a52ef0e438",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ceeb31a3-278e-4165-a70e-4a8ef67ab245",
+      "name": "When chat message received",
+      "webhookId": "7d21f801-a5f4-434e-8ff4-ee0b5e62c50c"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d4b23d38-f4be-4fda-853b-f5ef1288caa3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "authentication": "mcpOAuth2Api",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        384,
+        208
+      ],
+      "id": "4a2801f3-8448-4609-8fe1-9670d16942f5",
+      "name": "MCP Client",
+      "credentials": {
+        "mcpOAuth2Api": {
+          "id": "XyJ1mmMTHO72J63D",
+          "name": "Unnamed credential 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-05-28T02:59:54.242Z",
+      "createdAt": "2026-05-28T02:59:54.242Z",
+      "role": "workflow:owner",
+      "workflowId": "nkyMVKgQGd3bTdis",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-05-28T03:50:34.897Z",
+  "versionId": "6f171fda-868f-426c-8f0d-79bc0a271181"
+}
