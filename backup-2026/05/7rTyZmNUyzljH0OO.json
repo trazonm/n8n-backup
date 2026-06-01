@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-30T18:04:35.000Z",
-    "createdAt": "2026-05-30T18:04:34.088Z",
-    "versionId": "73d663a6-6ca6-4987-9343-faa0930b1f69",
+    "updatedAt": "2026-05-31T18:10:31.000Z",
+    "createdAt": "2026-05-31T18:10:28.551Z",
+    "versionId": "bc3b10de-be3d-44af-aeb4-c8fef61eaca2",
     "workflowId": "7rTyZmNUyzljH0OO",
     "nodes": [
       {
@@ -39,8 +39,7 @@
         "position": [
           4816,
           6016
-        ],
-        "disabled": true
+        ]
       },
       {
         "parameters": {
@@ -833,7 +832,7 @@
       },
       {
         "parameters": {
-          "jsCode": "// Filename format from main workflow: {broadcaster_login}_{clip_id}.mp4\n// Split on FIRST underscore. Twitch clip slugs CAN contain underscores\n// (e.g. \"FancyKindFrogChocolateRain-24tkhXyJRr_-PbeI\"), so we cannot split\n// from the right side. Broadcaster logins almost never contain underscores\n// in practice, so first-underscore is reliable.\n// Recovery filenames have a \"recovered_\" prefix we strip first.\n\nconst out = [];\nfor (const item of $input.all()) {\n  const drive = $('New File in Clips Folder').itemMatching($input.all().indexOf(item))?.json || item.json;\n  let name = drive.name || '';\n  const stem = name.replace(/\\.mp4$/i, '').replace(/^recovered_/, '');\n  const firstUnderscore = stem.indexOf('_');\n  if (firstUnderscore < 1) {\n    console.log('Filename pattern unexpected, skipping:', name);\n    continue;\n  }\n  const broadcaster_login = stem.substring(0, firstUnderscore);\n  const clip_id = stem.substring(firstUnderscore + 1);\n  out.push({\n    json: {\n      drive_file_id: drive.id,\n      drive_file_name: drive.name,\n      broadcaster_login,\n      clip_id,\n    }\n  });\n}\nreturn out;"
+          "jsCode": "const sourceItems = $('New File in Clips Folder').all();\nconst out = [];\n\nfor (const item of sourceItems) {\n  const drive = item.json;\n\n  const name = drive.name || '';\n  const stem = name.replace(/\\.mp4$/i, '').replace(/^recovered_/, '');\n\n  const firstUnderscore = stem.indexOf('_');\n\n  const broadcaster_login =\n    firstUnderscore >= 1\n      ? stem.substring(0, firstUnderscore)\n      : null;\n\n  const clip_id = name.replace('.mp4', '');\n\n  out.push({\n    json: {\n      drive_file_id: drive.id,\n      drive_file_name: drive.name,\n      broadcaster_login,\n      clip_id,\n    },\n  });\n}\n\nreturn out;"
         },
         "id": "f5df3c0c-4bc3-409e-a028-c7c607ec652a",
         "name": "Parse Filename",
@@ -3213,11 +3212,11 @@
       }
     },
     "authors": "Trazon Mitchell",
-    "name": "Version 73d663a6",
+    "name": "Version bc3b10de",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "73d663a6-6ca6-4987-9343-faa0930b1f69",
+  "activeVersionId": "bc3b10de-be3d-44af-aeb4-c8fef61eaca2",
   "connections": {
     "Every 6 Hours": {
       "main": [
@@ -4015,8 +4014,7 @@
       "position": [
         4816,
         6016
-      ],
-      "disabled": true
+      ]
     },
     {
       "parameters": {
@@ -4809,7 +4807,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Filename format from main workflow: {broadcaster_login}_{clip_id}.mp4\n// Split on FIRST underscore. Twitch clip slugs CAN contain underscores\n// (e.g. \"FancyKindFrogChocolateRain-24tkhXyJRr_-PbeI\"), so we cannot split\n// from the right side. Broadcaster logins almost never contain underscores\n// in practice, so first-underscore is reliable.\n// Recovery filenames have a \"recovered_\" prefix we strip first.\n\nconst out = [];\nfor (const item of $input.all()) {\n  const drive = $('New File in Clips Folder').itemMatching($input.all().indexOf(item))?.json || item.json;\n  let name = drive.name || '';\n  const stem = name.replace(/\\.mp4$/i, '').replace(/^recovered_/, '');\n  const firstUnderscore = stem.indexOf('_');\n  if (firstUnderscore < 1) {\n    console.log('Filename pattern unexpected, skipping:', name);\n    continue;\n  }\n  const broadcaster_login = stem.substring(0, firstUnderscore);\n  const clip_id = stem.substring(firstUnderscore + 1);\n  out.push({\n    json: {\n      drive_file_id: drive.id,\n      drive_file_name: drive.name,\n      broadcaster_login,\n      clip_id,\n    }\n  });\n}\nreturn out;"
+        "jsCode": "const sourceItems = $('New File in Clips Folder').all();\nconst out = [];\n\nfor (const item of sourceItems) {\n  const drive = item.json;\n\n  const name = drive.name || '';\n  const stem = name.replace(/\\.mp4$/i, '').replace(/^recovered_/, '');\n\n  const firstUnderscore = stem.indexOf('_');\n\n  const broadcaster_login =\n    firstUnderscore >= 1\n      ? stem.substring(0, firstUnderscore)\n      : null;\n\n  const clip_id = name.replace('.mp4', '');\n\n  out.push({\n    json: {\n      drive_file_id: drive.id,\n      drive_file_name: drive.name,\n      broadcaster_login,\n      clip_id,\n    },\n  });\n}\n\nreturn out;"
       },
       "id": "f5df3c0c-4bc3-409e-a028-c7c607ec652a",
       "name": "Parse Filename",
@@ -6699,6 +6697,288 @@
           "item": 2
         }
       }
+    ],
+    "New File in Clips Folder": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "fileExtension": "mp4",
+          "copyRequiresWriterPermission": false,
+          "md5Checksum": "0ebc19cf1a646b5eace12489e8cfc09b",
+          "writersCanShare": true,
+          "viewedByMe": false,
+          "mimeType": "video/mp4",
+          "parents": [
+            "1K7m8RxAGPd_m1NZrg-G5bru9uz37yRvw"
+          ],
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/video/mp4",
+          "shared": false,
+          "lastModifyingUser": {
+            "displayName": "Trazon Mitchell",
+            "kind": "drive#user",
+            "me": true,
+            "permissionId": "17427654158448702185",
+            "emailAddress": "trazon0430@gmail.com",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLVSvFzD1Fias4byRj_oKFKyLgFDrrQtxcWfcIDT9al0am60A=s64"
+          },
+          "owners": [
+            {
+              "displayName": "Trazon Mitchell",
+              "kind": "drive#user",
+              "me": true,
+              "permissionId": "17427654158448702185",
+              "emailAddress": "trazon0430@gmail.com",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLVSvFzD1Fias4byRj_oKFKyLgFDrrQtxcWfcIDT9al0am60A=s64"
+            }
+          ],
+          "headRevisionId": "0ByIDXlynNIWTa2l3d2w1dDVsSWh5ZWNQbGZxWkJ2YnlyNEhBPQ",
+          "webViewLink": "https://drive.google.com/file/d/18dFtNteo7CR69-BPTQw61QT9RQdRSRFk/view?usp=drivesdk",
+          "webContentLink": "https://drive.google.com/uc?id=18dFtNteo7CR69-BPTQw61QT9RQdRSRFk&export=download",
+          "size": "503828",
+          "viewersCanCopyContent": true,
+          "permissions": [
+            {
+              "id": "17427654158448702185",
+              "displayName": "Trazon Mitchell",
+              "type": "user",
+              "kind": "drive#permission",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLVSvFzD1Fias4byRj_oKFKyLgFDrrQtxcWfcIDT9al0am60A=s64",
+              "emailAddress": "trazon0430@gmail.com",
+              "role": "owner",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "hasThumbnail": false,
+          "spaces": [
+            "drive"
+          ],
+          "id": "18dFtNteo7CR69-BPTQw61QT9RQdRSRFk",
+          "name": "AmazonianHeadstrongAlmondChefFrank-QrvSrWe-Ic9iB_8j.mp4",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "createdTime": "2026-05-31T17:50:13.137Z",
+          "modifiedTime": "2026-05-31T17:50:14.218Z",
+          "modifiedByMeTime": "2026-05-31T17:50:14.218Z",
+          "quotaBytesUsed": "503828",
+          "version": "4",
+          "originalFilename": "AmazonianHeadstrongAlmondChefFrank-QrvSrWe-Ic9iB_8j.mp4",
+          "ownedByMe": true,
+          "fullFileExtension": "mp4",
+          "isAppAuthorized": true,
+          "capabilities": {
+            "canChangeViewersCanCopyContent": true,
+            "canEdit": true,
+            "canCopy": true,
+            "canComment": true,
+            "canAddChildren": false,
+            "canDelete": true,
+            "canDownload": true,
+            "canListChildren": false,
+            "canRemoveChildren": false,
+            "canRename": true,
+            "canTrash": true,
+            "canReadRevisions": true,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canMoveItemIntoTeamDrive": true,
+            "canUntrash": true,
+            "canModifyContent": true,
+            "canMoveItemOutOfDrive": true,
+            "canAddMyDriveParent": false,
+            "canRemoveMyDriveParent": true,
+            "canMoveItemWithinDrive": true,
+            "canShare": true,
+            "canMoveChildrenWithinDrive": false,
+            "canModifyContentRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canAcceptOwnership": false,
+            "canReadLabels": false,
+            "canModifyLabels": false,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canRemoveContentRestriction": false,
+            "canDisableInheritedPermissions": false,
+            "canEnableInheritedPermissions": true,
+            "canChangeItemDownloadRestriction": true,
+            "canStartApproval": false
+          },
+          "thumbnailVersion": "0",
+          "modifiedByMe": true,
+          "permissionIds": [
+            "17427654158448702185"
+          ],
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "sha1Checksum": "4c2c60bc323fe57ed783895a38d49053a075f352",
+          "sha256Checksum": "eb1f4f78f68831b360814bf50bb0c13823b1cfdf3346b43c488b983a1e636a6a",
+          "inheritedPermissionsDisabled": false,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "clientEncryptionDetails": {
+            "decryptionMetadata": {
+              "wrappedKey": "",
+              "kaclsId": "0",
+              "aes256GcmChunkSize": "unset",
+              "keyFormat": "unsetKeyFormat",
+              "encryptionResourceKeyHash": ""
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "kind": "drive#file",
+          "fileExtension": "mp4",
+          "copyRequiresWriterPermission": false,
+          "md5Checksum": "b97bccb93d128f74a4559e1a873041bb",
+          "writersCanShare": true,
+          "viewedByMe": false,
+          "mimeType": "video/mp4",
+          "parents": [
+            "1K7m8RxAGPd_m1NZrg-G5bru9uz37yRvw"
+          ],
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/video/mp4",
+          "shared": false,
+          "lastModifyingUser": {
+            "displayName": "Trazon Mitchell",
+            "kind": "drive#user",
+            "me": true,
+            "permissionId": "17427654158448702185",
+            "emailAddress": "trazon0430@gmail.com",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLVSvFzD1Fias4byRj_oKFKyLgFDrrQtxcWfcIDT9al0am60A=s64"
+          },
+          "owners": [
+            {
+              "displayName": "Trazon Mitchell",
+              "kind": "drive#user",
+              "me": true,
+              "permissionId": "17427654158448702185",
+              "emailAddress": "trazon0430@gmail.com",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLVSvFzD1Fias4byRj_oKFKyLgFDrrQtxcWfcIDT9al0am60A=s64"
+            }
+          ],
+          "headRevisionId": "0ByIDXlynNIWTU2E2T3JNeGJDeTBTL1NtVSt6V2VDNEliOGc0PQ",
+          "webViewLink": "https://drive.google.com/file/d/1DdLO4zafmVd3rcKT53h9EImklOccUy4f/view?usp=drivesdk",
+          "webContentLink": "https://drive.google.com/uc?id=1DdLO4zafmVd3rcKT53h9EImklOccUy4f&export=download",
+          "size": "820080",
+          "viewersCanCopyContent": true,
+          "permissions": [
+            {
+              "id": "17427654158448702185",
+              "displayName": "Trazon Mitchell",
+              "type": "user",
+              "kind": "drive#permission",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocLVSvFzD1Fias4byRj_oKFKyLgFDrrQtxcWfcIDT9al0am60A=s64",
+              "emailAddress": "trazon0430@gmail.com",
+              "role": "owner",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "hasThumbnail": false,
+          "spaces": [
+            "drive"
+          ],
+          "id": "1DdLO4zafmVd3rcKT53h9EImklOccUy4f",
+          "name": "ProudBigKathyRlyTho--y5l5PU5NwOMA9aF.mp4",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "createdTime": "2026-05-31T17:50:10.152Z",
+          "modifiedTime": "2026-05-31T17:50:11.215Z",
+          "modifiedByMeTime": "2026-05-31T17:50:11.215Z",
+          "quotaBytesUsed": "820080",
+          "version": "4",
+          "originalFilename": "ProudBigKathyRlyTho--y5l5PU5NwOMA9aF.mp4",
+          "ownedByMe": true,
+          "fullFileExtension": "mp4",
+          "isAppAuthorized": true,
+          "capabilities": {
+            "canChangeViewersCanCopyContent": true,
+            "canEdit": true,
+            "canCopy": true,
+            "canComment": true,
+            "canAddChildren": false,
+            "canDelete": true,
+            "canDownload": true,
+            "canListChildren": false,
+            "canRemoveChildren": false,
+            "canRename": true,
+            "canTrash": true,
+            "canReadRevisions": true,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canMoveItemIntoTeamDrive": true,
+            "canUntrash": true,
+            "canModifyContent": true,
+            "canMoveItemOutOfDrive": true,
+            "canAddMyDriveParent": false,
+            "canRemoveMyDriveParent": true,
+            "canMoveItemWithinDrive": true,
+            "canShare": true,
+            "canMoveChildrenWithinDrive": false,
+            "canModifyContentRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canAcceptOwnership": false,
+            "canReadLabels": false,
+            "canModifyLabels": false,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canRemoveContentRestriction": false,
+            "canDisableInheritedPermissions": false,
+            "canEnableInheritedPermissions": true,
+            "canChangeItemDownloadRestriction": true,
+            "canStartApproval": false
+          },
+          "thumbnailVersion": "0",
+          "modifiedByMe": true,
+          "permissionIds": [
+            "17427654158448702185"
+          ],
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "sha1Checksum": "ccc3692130e78d88e30291e04c2ab33146c72631",
+          "sha256Checksum": "3925bef38d4699fd4d43e0d8213f5d4e4dfd1288e613a99b44498f59fb2abb53",
+          "inheritedPermissionsDisabled": false,
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "clientEncryptionDetails": {
+            "decryptionMetadata": {
+              "wrappedKey": "",
+              "kaclsId": "0",
+              "aes256GcmChunkSize": "unset",
+              "keyFormat": "unsetKeyFormat",
+              "encryptionResourceKeyHash": ""
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      }
     ]
   },
   "repo_name": "n8n-backup",
@@ -6720,17 +7000,19 @@
   ],
   "staticData": {
     "node:Every 6 Hours": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        0
+      ]
     },
     "node:New File in Clips Folder": {
-      "lastTimeChecked": "2026-05-30T20:24:15Z"
+      "lastTimeChecked": "2026-06-01T05:00:10Z"
     },
     "node:Hourly Cron": {
       "recurrenceRules": []
     }
   },
   "tags": [],
-  "triggerCount": 4,
-  "updatedAt": "2026-05-30T18:04:34.085Z",
-  "versionId": "73d663a6-6ca6-4987-9343-faa0930b1f69"
+  "triggerCount": 5,
+  "updatedAt": "2026-05-31T18:10:28.548Z",
+  "versionId": "bc3b10de-be3d-44af-aeb4-c8fef61eaca2"
 }
