@@ -335,6 +335,7 @@
     "templateId": "4758"
   },
   "name": "Perplexity-Style Iterative Research with Gemini and Google Search",
+  "nodeGroups": [],
   "nodes": [
     {
       "id": "c350704e-408a-48a5-8cca-0f3000fd9964",
