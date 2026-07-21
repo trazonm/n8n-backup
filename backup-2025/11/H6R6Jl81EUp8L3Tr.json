@@ -771,6 +771,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Viral Video Machine v2 - Monetized",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
