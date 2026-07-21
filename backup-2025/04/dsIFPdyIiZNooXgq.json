@@ -152,6 +152,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -211,6 +212,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Update Plex Upon File Upload",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
