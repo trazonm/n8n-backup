@@ -75,6 +75,7 @@
   "isArchived": false,
   "meta": null,
   "name": "lime ai",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
