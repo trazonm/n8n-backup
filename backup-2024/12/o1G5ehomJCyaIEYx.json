@@ -619,6 +619,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": "Version 92f7b02e",
     "description": "",
@@ -796,6 +797,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Baka YN",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
