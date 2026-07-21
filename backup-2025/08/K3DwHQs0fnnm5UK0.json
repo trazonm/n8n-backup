@@ -175,6 +175,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -229,6 +230,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Arize Demo",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
