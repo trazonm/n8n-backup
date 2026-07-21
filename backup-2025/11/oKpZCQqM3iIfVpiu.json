@@ -494,6 +494,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -648,6 +649,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "[IDS 4370] Document Ingestion",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
