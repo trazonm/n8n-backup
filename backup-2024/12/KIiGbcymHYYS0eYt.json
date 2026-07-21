@@ -490,6 +490,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": "Version fb77760b",
     "description": "",
@@ -627,6 +628,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Baka Girl",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
