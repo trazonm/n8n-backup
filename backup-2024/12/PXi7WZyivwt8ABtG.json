@@ -603,6 +603,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -791,6 +792,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "BakaPix",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
