@@ -1063,6 +1063,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": "Version 56b3a9a4",
     "description": "",
@@ -1441,6 +1442,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Stonks",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
@@ -2173,7 +2175,12 @@
   ],
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
     },
     "global": {
       "seenOptionSymbols": [
