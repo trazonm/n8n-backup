@@ -130,6 +130,7 @@
   "isArchived": false,
   "meta": null,
   "name": "Micro-SaaS Lead Generator - B2B Tech",
+  "nodeGroups": [],
   "nodes": [
     {
       "id": "config_2",
