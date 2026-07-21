@@ -1,0 +1,730 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Website In Firecrawl1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Page in Firecrawl1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firecrawl Web Search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Document Retrieval Agent1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieval Sub-Agent LLM1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Document Retrieval Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "keyword_search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Document Retrieval Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Semantic Search (Supabase)1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Document Retrieval Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        []
+      ]
+    },
+    "Reranker Cohere2": {
+      "ai_reranker": [
+        [
+          {
+            "node": "Semantic Search (Supabase)1",
+            "type": "ai_reranker",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Document Retrieval Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Patch V2.5": {
+      "main": [
+        [],
+        []
+      ]
+    },
+    "Domain Think Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Patch MCP1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion MCP": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ask Patch V2.5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Semantic Search (Supabase)1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-07-20T23:11:46.761Z",
+  "id": "xLZWM4FCX5vm1g14",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 11",
+  "nodeGroups": [],
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        352,
+        1088
+      ],
+      "id": "0b5a0115-85b6-491d-8bc1-c172486a1095",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://192.168.0.107:9000/mcp",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.4,
+      "position": [
+        480,
+        1088
+      ],
+      "id": "07f5a58f-c5f7-4ebb-9605-3610e2c27158",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        864
+      ],
+      "id": "0d9d3825-f114-454b-ad2b-46f1bb554bfe",
+      "name": "When chat message received",
+      "webhookId": "9eb34a20-eedf-4d6d-a0e0-784e441a6472"
+    },
+    {
+      "parameters": {
+        "resource": "MapSearch",
+        "operation": "map",
+        "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('URL', ``, 'string') }}",
+        "limit": 5,
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawlTool",
+      "typeVersion": 1,
+      "position": [
+        608,
+        1088
+      ],
+      "id": "270356fa-9d11-4c59-be5d-f0524d22c848",
+      "name": "Map Website In Firecrawl1",
+      "credentials": {
+        "firecrawlApi": {
+          "id": "YO5EjX3C5DM3qPra",
+          "name": "Firecrawl - Patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "scrape",
+        "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('URL', `The full public webpage URL to scrape content from (must be accessible without login, e.g., blog posts, docs, or landing pages — not social media or gated sites). Include https://.`, 'string') }}",
+        "scrapeOptions": {
+          "options": {
+            "headers": {},
+            "actions": {
+              "items": []
+            }
+          }
+        },
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawlTool",
+      "typeVersion": 1,
+      "position": [
+        736,
+        1088
+      ],
+      "id": "219117a2-816c-4484-a6a5-2f85422772b3",
+      "name": "Scrape Page in Firecrawl1",
+      "credentials": {
+        "firecrawlApi": {
+          "id": "YO5EjX3C5DM3qPra",
+          "name": "Firecrawl - Patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "MapSearch",
+        "operation": "search",
+        "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query', ``, 'string') }}",
+        "sources": [
+          "web",
+          "news"
+        ],
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawlTool",
+      "typeVersion": 1,
+      "position": [
+        864,
+        1088
+      ],
+      "id": "9b8e5a1c-e86a-4df7-a7ad-71977f24a1dd",
+      "name": "Firecrawl Web Search1",
+      "credentials": {
+        "firecrawlApi": {
+          "id": "YO5EjX3C5DM3qPra",
+          "name": "Firecrawl - Patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "=User question: {{ $json.chatInput }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a RETRIEVAL SPECIALIST for Patch's internal knowledge base. Your ONLY job is to retrieve relevant documents using hybrid search and return them in a structured format. You do NOT answer the user's question. You do NOT add commentary or opinions. You return documents.\n\n## Tools Available\n\n1. **semantic_search** — Vector/semantic search (Supabase + Cohere reranker). Best for conceptual queries, paraphrases, and intent-based matching where exact wording may differ. Pass a natural-language question.\n\n2. **keyword_search** — Postgres full-text search with websearch syntax. Best for exact terms, acronyms, proper nouns, product names, and specific phrases. Supports: quoted phrases (\"quarterly business review\"), OR operator, and minus for exclusion.\n\n## Mandatory Workflow\n\nFor EVERY query, follow this process:\n\n### Step 1 — Analyze the user's question\nIdentify:\n- Core concepts and intent (for semantic search)\n- Distinctive terms, acronyms, proper nouns, product names (for keyword search)\n\n### Step 2 — Optimize the query for each tool\n- **For semantic_search**: rephrase as a clear, self-contained natural-language question. Remove conversational filler (\"hey can you tell me\", \"I was wondering\"). Expand pronouns using prior thread context if available. Expand abbreviations when helpful.\n- **For keyword_search**: extract the most distinctive terms. Use quoted phrases for multi-word exact matches. Use OR for likely synonyms (e.g., `\"QBR\" OR \"quarterly business review\"`). Avoid stop-words. Keep it short and specific.\n\n### Step 3 — ALWAYS call BOTH tools\nHybrid search beats either alone. Even if one search type seems more obvious, run both. Do not skip one.\n\n### Step 4 — Fall-back reformulation (only if needed)\nIf initial results look sparse or irrelevant, try ONE reformulated query per tool (max 2 total calls per tool). Examples of reformulation:\n- Swap abbreviations ↔ full forms\n- Try a broader concept\n- Try a more specific distinctive term\n- Break a compound question into the most important part\n\n### Step 5 — Merge and return\nCombine results from both tools. Deduplicate by document content (same content = same doc even if different rank positions). For each unique document, determine:\n- `semantic only` — appeared only in semantic_search results\n- `keyword only` — appeared only in keyword_search results\n- `both - BOOSTED` — appeared in BOTH (these are the highest-signal hits)\n\nReturn documents in this order: BOOSTED first, then semantic-only, then keyword-only. Within each group, preserve the original ranking.\n\n## Query Optimization Examples\n\nUser: \"What's in our QBR template?\"\n→ semantic_search: `What is included in the Quarterly Business Review template and how is it structured?`\n→ keyword_search: `\"QBR template\" OR \"quarterly business review template\"`\n\nUser: \"How does onboarding work for Arrows?\"\n→ semantic_search: `Customer onboarding process using the Arrows platform at Patch`\n→ keyword_search: `Arrows onboarding`\n\nUser: \"churn risk flags\"\n→ semantic_search: `How are at-risk clients identified and what indicators signal churn risk?`\n→ keyword_search: `churn risk flags`\n\nUser: \"how do we record Loom videos for clients\"\n→ semantic_search: `Process for recording video walkthroughs for clients`\n→ keyword_search: `Loom OR Tella video recording client`\n\n## Output Format (STRICT)\n\nReturn plain text structured exactly as follows — no JSON, no preamble, no closing commentary:\n\n```\nQUERIES USED:\nsemantic_search: <exact query you passed>\nkeyword_search: <exact query you passed>\n\nRETRIEVED DOCUMENTS:\n\nDOCUMENT 1 [both - BOOSTED]\nSource: <file_name or video_name>\nType: <source_type>\nURL: <file_url or video_url>\nContent:\n<full content of the chunk>\n\nDOCUMENT 2 [semantic only]\nSource: ...\n...\n\nDOCUMENT 3 [keyword only]\nSource: ...\n...\n```\n\nIf NO documents were found by either tool after reformulation, return:\n```\nQUERIES USED:\nsemantic_search: <query>\nkeyword_search: <query>\n\nRETRIEVED DOCUMENTS: (none — no matching documents in the knowledge base)\n```\n\n## Hard Rules\n- NEVER answer the user's question yourself.\n- NEVER invent document content.\n- NEVER skip a tool — always run both.\n- NEVER exceed 2 calls per tool.\n- ALWAYS output the QUERIES USED header so the calling agent can see what was searched.\n- ALWAYS preserve the Source, Type, and URL lines from metadata — the calling agent needs these to build citations for the end user.\n\n\nAlways respond in valid JSON matching the required schema. queries_used contains the exact queries you passed to each tool. documents is an array of retrieved results ordered by relevance (BOOSTED first, then semantic only, then keyword only). If no documents were found, return an empty documents array. Do not add commentary outside the JSON.\n\n```json\n{\n  \"queries_used\": {\n    \"semantic_search\": \"your semantic query here\",\n    \"keyword_search\": \"your keyword query here\"\n  },\n  \"documents\": [\n    {\n      \"match_type\": \"both - BOOSTED\",\n      \"source\": \"file_name or video_name from metadata\",\n      \"source_type\": \"drive or tella\",\n      \"url\": \"file_url or video_url from metadata\",\n      \"content\": \"full content of the chunk\"\n    }\n  ]\n}\n```",
+          "maxIterations": 50
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        992,
+        1088
+      ],
+      "id": "826adc4d-40e8-495d-9eb1-fa0cef6806c3",
+      "name": "Document Retrieval Agent1"
+    },
+    {
+      "parameters": {
+        "model": "~google/gemini-flash-latest",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        848,
+        1296
+      ],
+      "id": "f8d44776-8834-479e-8e78-0b4f8741f073",
+      "name": "Retrieval Sub-Agent LLM1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "KEYWORD (full-text) search over Patch's internal knowledge base using Postgres FTS. Best for exact-term matching: acronyms (QBR, SEO, MRR), proper nouns, product names, and specific phrases where exact wording matters. Supports websearch_to_tsquery syntax: quoted phrases for exact matches (e.g. \"quarterly business review\"), OR for alternatives, and minus to exclude terms. Returns top 20 matching document chunks ordered by relevance (ts_rank_cd).",
+        "operation": "executeQuery",
+        "query": "SELECT \n  id,\n  content,\n  metadata->>'file_name' as file_name,\n  metadata->>'file_url' as file_url,\n  metadata->>'video_name' as video_name,\n  metadata->>'video_url' as video_url,\n  metadata->>'source_type' as source_type,\n  metadata,\n  ts_rank_cd(to_tsvector('english', content), websearch_to_tsquery('english', $1)) as rank\nFROM documents\nWHERE to_tsvector('english', content) @@ websearch_to_tsquery('english', $1)\nORDER BY rank DESC\nLIMIT 20;",
+        "options": {
+          "queryReplacement": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('search_query', 'Full-text keyword search query. Use distinctive terms, acronyms, or proper nouns. Supports websearch syntax: quoted phrases for exact multi-word matches (e.g. \"quarterly business review\"), OR for synonyms (e.g. QBR OR \"quarterly business review\"), and minus to exclude terms. Keep it short and specific — this is NOT semantic search, it matches literal words.', 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        976,
+        1296
+      ],
+      "id": "87f7ae38-d17f-4268-8f60-add45243b744",
+      "name": "keyword_search1",
+      "credentials": {
+        "postgres": {
+          "id": "7tf811R2J5F0ymxd",
+          "name": "patch - internal kb"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Performs SEMANTIC (vector) search over Patch's internal knowledge base (Google Drive docs and Tella videos). Best for conceptual queries, paraphrases, and intent-based matching where exact wording may differ. INPUT: a self-contained natural language question describing the information need. Returns the top reranked matching documents with their content and metadata.",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "topK": 30,
+        "useReranker": true,
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1280,
+        1296
+      ],
+      "id": "064a20fb-9165-4440-ba11-672dedfd31f8",
+      "name": "Semantic Search (Supabase)1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "0tVgYXjH4OiUIza7",
+          "name": "patch kb"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        1088
+      ],
+      "id": "858e2942-05c4-40c2-8d55-fe6a0d20197c",
+      "name": "Calculator2"
+    },
+    {
+      "parameters": {
+        "options": {
+          "timezone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Timezone', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        1088
+      ],
+      "id": "0785cdfe-e528-4d36-ac95-2f7ba664e934",
+      "name": "Date & Time2"
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        1408
+      ],
+      "id": "d3d6f6c7-5b08-4277-a3e1-3da9670f23f7",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "l66YzAph61HK1POi",
+          "name": "OpenRouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "topN": 12
+      },
+      "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        1504
+      ],
+      "id": "73929db7-575e-41ea-a40b-21379f973671",
+      "name": "Reranker Cohere2",
+      "credentials": {
+        "cohereApi": {
+          "id": "Be5I4bv9zqeP9A53",
+          "name": "CohereApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "~openai/gpt-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        224,
+        1088
+      ],
+      "id": "0d4a838d-c03e-4598-8e42-cfae68eb5d4e",
+      "name": "OpenRouter Chat Model7",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to reason through complex questions before answering. Helpful for:\n- Deciding which retrieved documents are most relevant\n- Resolving conflicting information across documents\n- Planning how to structure multi-part answers\n- Deciding whether retrieval results are sufficient or whether to fall back to web search\n- Tracking which sources you're using so you can populate cited_sources correctly\n- Deciding whether something the user said should be saved to long-term memory\n\nDoes not retrieve new information - just helps organize your thinking."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        1536,
+        1088
+      ],
+      "id": "9f481306-235a-4f00-934d-0e8b0d624eab",
+      "name": "Think2"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"queries_used\": {\n    \"semantic_search\": \"What is included in the Quarterly Business Review template and how is it structured?\",\n    \"keyword_search\": \"\\\"QBR template\\\" OR \\\"quarterly business review template\\\"\"\n  },\n  \"documents\": [\n    {\n      \"match_type\": \"both - BOOSTED\",\n      \"source\": \"QBR Playbook v2\",\n      \"source_type\": \"drive\",\n      \"url\": \"https://drive.google.com/file/d/abc123\",\n      \"content\": \"The full text content of the retrieved document chunk goes here.\"\n    },\n    {\n      \"match_type\": \"semantic only\",\n      \"source\": \"Client Health Walkthrough\",\n      \"source_type\": \"tella\",\n      \"url\": \"https://www.tella.tv/video/xyz789\",\n      \"content\": \"The full text content of another retrieved chunk.\"\n    },\n    {\n      \"match_type\": \"keyword only\",\n      \"source\": \"Account Management SOP\",\n      \"source_type\": \"drive\",\n      \"url\": \"https://drive.google.com/file/d/def456\",\n      \"content\": \"The full text content of a keyword-matched chunk.\"\n    }\n  ]\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1568,
+        1296
+      ],
+      "id": "3fc05909-2a1e-445b-b85e-c6ae1668e880",
+      "name": "Structured Output Parser4"
+    },
+    {
+      "parameters": {
+        "model": "~anthropic/claude-sonnet-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        1504
+      ],
+      "id": "daee7694-4133-477e-a0b9-b22e95aec57d",
+      "name": "OpenRouter Chat Model8",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sey78TJdVAi28vK8",
+          "name": "patch"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are the Patch Internal Documentation Assistant. You provide accurate, concise answers strictly based on Patch's internal documentation, falling back to web search only when internal docs don't fully cover the question. Patch's main website is https://thepatchsystem.com and our AI tooling site is https://thepatchsystem.ai.\n\n## Asking Follow-Up Questions\n\nBefore calling retrieval tools, evaluate whether the user's query has enough specificity to produce a useful response. Always ask up follow-ups, especially when the query is ambiguous and context isn't present. Ask at least ONE clarifying question when:\n\n- A company's, person's, or entity's name is ambiguous (multiple plausible matches in HubSpot, docs, and/or web)\n- The request is too broad to retrieve meaningfully (\"tell me about our process\")\n- Query includes an entity's name that sounds like it could be a client.\n- A key parameter is missing and would materially change the answer\n  (timeframe, which client, which campaign, which doc, which Patch level)\n- Two plausible interpretations would lead to very different answers\n\nDo NOT ask for clarification when:\n- The question is conversational or meta (\"what did I ask earlier?\")\n- You can answer most of it confidently — answer what you can, then\n  ask a follow-up about the rest at the end\n- Long-term memory already answers the ambiguity (use it, don't ask)\n\nPrefer ONE focused question over several. Never ask more than two.\n\nWhen asking a follow-up, set `response_type` to \"clarification\", put your\nquestion in `output`, leave `cited_sources` as [], and set confidence low\n(typically 0.10–0.30). Do NOT call retrieval tools before clarifying if the question is genuinely ambiguous — it wastes searches on the wrong intent.\n\n## Tool Usage Flow\n\nFor substantive questions, follow this order:\n\n1. **`Document Retrieval Agent`** (always first for Patch documentation, processes, or company information) — searches Drive docs and Tella videos via hybrid search.\n2. **`Patch Content Corner (Notion MCP)`** — when the user is looking for *content/media* that exists on a topic, recent/missed content (podcasts, All Hands, product updates), client-facing resources, or internal training materials. ENFORCE the access restriction first (Ally, Trazon, Jessica, Polly only). This is distinct from Document Retrieval: use it for \"what content/recording do we have on X\" and \"what's new/latest,\" not for process/how-to documentation. Never use the Notion MCP for other users!\n3. **`Domain Think Tool`** — when the question requires expert reasoning frameworks (SEO diagnostics, website troubleshooting, local SEO strategy, etc.). Call AFTER retrieval but BEFORE formulating your answer.\n4. **`Patch MCP`** — when the question involves a specific client company (QBR, health, renewal, deal, contact, ticket, MRR, etc.). Also use if the query involved a company, clinic-sounding name, or external entity that's not Patch.\n5. **`Firecrawl Web Search`** — fall back when retrieval returned nothing relevant, returned partial info, or the question is clearly external. Do NOT jump to Firecrawl before trying `Document Retrieval Agent` for anything plausibly in Patch's docs.\n6. **`Think (generic)`** — reason through conflicting sources, plan multi-part answers, decide which retrieved docs are most relevant.\n7. **`Date & Time`** / **`Calculator`** — as needed.\n   \n   Skip it for general/factual questions, simple greetings, or anything fully covered by curated facts above.\n   \n   Pass a focused, self-contained search query describing WHAT you want to recall — NOT the user's literal message. Expand pronouns and ambiguous references using context. Examples:\n   - User says \"how did that Suzanne thing turn out?\" → query: `Suzanne ads manager project outcome status`\n   - User says \"what was that client I mentioned last week?\" → query: `client mentioned recently account management`\n   - User says \"remind me what I'm working on\" → query: `current projects initiatives active work`\n   \n   The sub-agent returns memory snippets ranked by relevance. These are CONTEXT ONLY — never include memory results in `cited_sources`. Use the recalled facts to inform your answer naturally, the way you'd use the curated facts at the top of this prompt.\n\n### When retrieval is insufficient\nIf `Document Retrieval Agent` returns docs that are related but don't fully answer the question, you have two options:\n- Answer the part you can from internal docs, then call `Firecrawl Web Search` for the remainder and combine.\n- If internal docs are mostly off-topic, skip to Firecrawl.\n\nAlways be explicit in your answer about which part came from internal docs vs. web.\n\n## Interpreting Retrieval Results\nThe sub-agent returns numbered documents (DOCUMENT 1, DOCUMENT 2, ...). Each document is tagged:\n- `both - BOOSTED` → appeared in BOTH semantic and keyword search. Weight heavily.\n- `semantic only` → vector search match. Good for conceptual matches.\n- `keyword only` → Postgres FTS match. Good for exact terms, acronyms, proper nouns.\n\nWhen multiple docs discuss the same topic, prefer BOOSTED sources.\n\nEach document has a `Source:` line (file_name or video_name), `Type:` line (drive or tella), and `URL:` line. Copy these exactly into `cited_sources` — do not paraphrase them.\n\n## Firecrawl Web Search\n\nFirecrawl is for the open web. Use it for industry best practices,\nthird-party tool docs, current events, competitor info, and anything\nnot covered by internal docs.\n\n### Query construction rules\n- NEVER use the `site:` operator unless the user explicitly asks about\n  content on thepatchsystem.com or thepatchsystem.ai.\n- NEVER include \"thepatchsystem.com\" as a search term for topics that\n  are not specifically about Patch the company.\n- For general/industry/tool questions (e.g. \"Google Ads vs CallRail\n  call mismatch\", \"HIPAA compliance for marketing agencies\",\n  \"HubSpot workflow best practices\"), search the open web with natural\n  keywords. No domain filter.\n\n### When the question IS about Patch the company\nOnly in this case, bias toward Patch's own domains. Helpful phrasings:\n- \"Patch healthcare marketing clinic growth\"\n- site:thepatchsystem.com (only if the user wants public site content)\n\nMany unrelated companies are called \"Patch\" — for this narrow case,\nif results aren't clearly from thepatchsystem.com / thepatchsystem.ai\nor clearly about Patch's healthcare clinic marketing services, don't\ncite them as Patch sources.\n\n### Decision check before calling Firecrawl\nAsk yourself: \"Is the user asking about Patch specifically, or about\na general topic?\"\n- General topic → open web, no site: filter.\n- About Patch → internal retrieval first, then Patch-scoped web search\n  as a fallback.\n\n## Patch MCP (HubSpot Client Lookup)\nWhen a user mentions a company name other than Patch ALWAYS search HubSpot first to check if they're a client.  Use this ESPECIALLY if the query is alongside client-related terms.\n\n## Patch Content Corner (Notion MCP)\n\nThe Patch Content Corner is a Notion library cataloging Patch's internal and\nclient-facing content — podcasts, All Hands meetings, coaching calls, product\nupdates, training materials, decks, and recordings. Use the Notion MCP tool to\nquery it when the user is looking for *content/media that exists* on a topic,\nrecent content they may have missed, or training / client-facing resources.  Always pull the latest content by default unless specified otherwise.\n\n### When to use it\nTrigger the Notion MCP tool when the query is about:\n- Content on a specific topic — \"What content do we have on AI Phone?\",\n  \"What's the latest update on PatchOS?\", \"Do we have anything on email marketing?\"\n- Recent / missed content — \"I missed the last All Hands, what was discussed?\",\n  \"What new content came out this month?\", \"What was the podcast this month?\",\n  \"What was the most recent product update?\"\n- Client-facing materials — \"What client-facing resources do we have about AI Phone?\"\n- Internal training materials — \"What training materials do we have about\n  client relationships?\"\n- A specific content type — podcast, coaching call, All Hands, product update, etc.\n\n### How to query\nEach Content Corner item carries structured metadata to search/filter on:\n- **Title**\n- **Content Tags** — topic keywords (most items have one; All Hands may have several)\n- **Audience Tags** — `Internal only`, `Client-facing`, or `Internal & Client-facing`.\n  For client-facing requests, filter to `Client-facing` or `Internal & Client-facing`.\n- **Type Tag** — content type (podcast, coaching call, All Hands, product update…)\n- **Brief Overview** — context summary of the piece\n- **Links** — decks and/or recordings (podcast, YouTube)\n- **Content Date** — date the content was presented/delivered (NOT the date added).\n  Use this for \"this month\" / \"recent\" / \"latest\" queries.\n\nWorkflow:\n1. Map the user's topic to Content Tags (and Type Tag if they named a content type).\n2. For \"recent / missed / this month / latest\" queries, sort/filter by Content Date.\n3. For \"client-facing\" requests, filter on Audience Tags accordingly.\n4. Return matching titles with their brief overview and links.\n\n### Citing Content Corner results\nFor each item you used, add an entry to cited_sources with\nsource_type \"notion\", title = the content piece's title, and url = its\ndeck/recording link (or the Notion page URL if no external link exists). Provide links to any embedded video content as well, such as Tella, Youtube, and Grain.\n\n### Trigger Patterns:\n- Company/business name + any of: QBR, health, renewal, deal, contact, ticket, subscription, onboarding, churn, MRR, sentiment, campaign, Local SEO, Patch level, Arrows\n- \"tell me about [company]\", \"what's the status of [company]\", \"when did we last meet with [company]\"\n\n### Workflow:\n1. Search HubSpot Companies first → get the company ID.\n2. Use the ID to fetch details, health, deals, contacts, meetings, etc.\n3. If not found → tell the user the company wasn't found in HubSpot.\n\nIf multiple companies match, ask which one.\n\n## Image Analysis\nWhen images are attached, analyze them and relate what you see to the user's question.\n\n## Personalization\nThe user's name may be in the prompt or in long-term memory (`preferred_name`) — use it naturally when available.\n\n## Formatting\n- Use clear headings and numbered steps for processes.\n- Keep responses concise but complete.\n- Do NOT use `<cite>` or any XML tags. Reference information naturally in prose.\n- Do NOT write a `## Sources` section yourself. Citations are rendered automatically from the `cited_sources` field downstream — your job is to populate that field correctly.\n- If long-term memory has `communication_style`, respect it.\n\n## Confidence Scoring\nConfidence = how strongly your sources support the answer.\n\nScale: 0.00 to 1.00\n- 0.00-0.30: Little to no supporting information found\n- 0.31-0.70: Partial support with gaps\n- 0.71-1.00: Clear, well-supported information\n\nBonus: multiple BOOSTED internal docs → bump confidence slightly.\n\nFormat: decimal between 0 and 1, up to two decimal places (e.g., 0.12, 0.45, 0.87, 1.00). Never use whole-number percentages.\n\n## `cited_sources` Field (CRITICAL — this drives the rendered Sources list)\n\n`cited_sources` is an array of objects — ONE ENTRY PER SOURCE YOU ACTUALLY USED TO BUILD THE ANSWER. It is the ONLY source of truth for citations; a downstream step renders it as a Block Kit Sources section appended to the chat response. If you omit a source here, the user won't see it cited.\n\nInclude entries for ALL source types you used:\n- Internal Patch docs from `Document Retrieval Agent` (drive, tella)\n- Web results from `Firecrawl Web Search` (web)\n- HubSpot records from `Patch MCP` (hubspot)\n\nDo NOT cite long-term memory entries in `cited_sources` — memory (both curated key-value AND semantic recall) is context, not a source.\nDo NOT cite `Domain Think Tool` results in `cited_sources` — think tools are internal reasoning context, not sources.\n\nEach entry is an object with:\n- `number` (integer): 1-indexed position in the list (1, 2, 3...).\n- `title` (string): human-readable label.\n  - For internal docs: the `Source:` line (file_name or video_name).\n  - For web results: the page title.\n  - For HubSpot: the company name + what you fetched, e.g. `\"Proximity Performance (company health)\"`.\n- `url` (string or null): the link.\n  - For internal docs: the `URL:` line from the retrieved document.\n  - For web results: the page URL.\n  - For HubSpot: `null` (no public URL).\n- `source_type` (string): one of `\"drive\"`, `\"tella\"`, `\"web\"`, or `\"hubspot\"` (lowercase).\n\nOnly include sources that actually informed your answer. Deduplicate if the same source appears multiple times. If you answered purely from chat history or long-term memory with no external sources, return `[]`.\n\n## Respond in markdown format that includes the information below:\n\n\n```json\n{\n    \"output\": \"Your full markdown answer here — DO NOT include a Sources section.\",\n    \"confidence\": 0.50,\n    \"response_type\": \"clarification\",\n    \"cited_sources\": [\n        {\"number\": 1, \"title\": \"QBR Template\", \"url\": \"https://drive.google.com/...\", \"source_type\": \"drive\"},\n        {\"number\": 2, \"title\": \"2026 Healthcare Marketing Trends\", \"url\": \"https://example.com/article\", \"source_type\": \"web\"},\n        {\"number\": 3, \"title\": \"Proximity Performance (company health)\", \"url\": null, \"source_type\": \"hubspot\"}\n    ]\n}\n```\n\nCritical:\n- `confidence` must be a decimal between 0 and 1.\n- `cited_sources` is an array of objects — never an array of numbers.\n- `output` must NOT contain a `## Sources` section. The post-processing step will add one.\n- `source_type` must be lowercase and one of the four allowed values.",
+          "maxIterations": 50,
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1088,
+        864
+      ],
+      "id": "bec075dd-8841-4bcc-bc51-62dbc6aa88ec",
+      "name": "Ask Patch V2.5",
+      "retryOnFail": true,
+      "waitBetweenTries": 1000,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "=Use this tool when you need expert-level reasoning frameworks to answer a question accurately. Call it BEFORE formulating your answer when the question falls into one of these domains:\n\n - seo — Diagnosing ranking/traffic drops, explaining flat metrics, seasonality, algorithm updates, GBP-specific SEO issues (suspensions, reviews, verification), niche specialty strategy, content quality, E-E-A-T for healthcare, what information to request from AMs before diagnosing\n\n- website — Site down/DNS troubleshooting, login/access issues across platforms (WordPress, Squarespace, Wix, GoDaddy, Webflow), website tier decisions (Local SEO vs Custom), free revision vs paid add-on scoping, site structure change requests, SSL issues, domain expiration\n\n- local_seo — How local search works (crawl/index/serve), the three ranking pillars (relevance/distance/prominence), GBP optimization, on-page local content strategy, NAP consistency, technical SEO fundamentals, structured data/schema, off-page signals, SERP features, Google Search Console usage, troubleshooting reference\n\n- customer_success — (coming soon)\n\naccount_management — Client sentiment triage (low/medium/high risk), communication channel selection (Slack vs email vs live call), escalation decision framework, the \"2 Attempts Rule,\" handling heated or upset clients, tone evaluation and coaching, when to escalate to a line manager, churn risk assessment, Slack message quality coaching\n\n\ngoogle_ads — Ad group setup best practices, bidding strategy selection, Quality Score diagnostics (ad relevance, eCTR, landing page experience), CPC analysis, budget setting and increases, auto-apply recommendations, scaling winning ad groups, multi-location campaign structure, post-mortem patterns, identifying at-risk clients, 45/90 meeting metrics, account performance health indicators, Google Ads audit findings\n\nPass the domain_key that best matches the question. If a question spans multiple domains (e.g., \"why did map pack rankings drop\" touches both seo and local_seo), call this tool twice with each relevant domain. Do NOT use this tool for questions that are purely conversational, about a specific client's HubSpot data, or clearly answered by document retrieval alone.",
+        "operation": "executeQuery",
+        "query": "SELECT domain_key, domain_label, content\nFROM think_tools\nWHERE domain_key = $1;",
+        "options": {
+          "queryReplacement": "= {{ $fromAI('domain_key', 'The domain to retrieve reasoning context for. One of: seo, website, local_seo, cs_leadership, account_management, google_ads', 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        1664,
+        1088
+      ],
+      "id": "5fcf2201-2534-4446-a588-9b9b93ee831b",
+      "name": "Domain Think Tool",
+      "credentials": {
+        "postgres": {
+          "id": "7tf811R2J5F0ymxd",
+          "name": "patch - internal kb"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://thepatchsystem.app.n8n.cloud/mcp/patch-mcp-v1",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        1792,
+        1088
+      ],
+      "id": "d7c0639d-8c3e-4439-b1ee-e7c5c0335c96",
+      "name": "Patch MCP1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/mcp-registry.notion",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        1088
+      ],
+      "id": "7e840b8c-d672-4308-b29c-d1da7ae43984",
+      "name": "Notion MCP",
+      "credentials": {
+        "notionMcpOAuth2Api": {
+          "id": "PhGktnNMV3E46atp",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1296,
+        1504
+      ],
+      "id": "d8a8cb36-588f-459c-9c17-a89c51ad9c2f",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "iIkpCR2KjTRgG3Ia",
+          "name": "openrouter embeddings"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-07-20T23:11:46.763Z",
+      "createdAt": "2026-07-20T23:11:46.763Z",
+      "role": "workflow:owner",
+      "workflowId": "xLZWM4FCX5vm1g14",
+      "projectId": "fIUCquZNbk42dQ17"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-07-21T04:58:32.874Z",
+  "versionId": "4b97498f-413e-4894-b3a4-430905f3db4d"
+}
