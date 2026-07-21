@@ -115,6 +115,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "AI Blog from Google Trends to WordPress",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
