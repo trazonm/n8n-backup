@@ -421,6 +421,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Brainrot V2 anon",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
