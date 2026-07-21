@@ -8,6 +8,7 @@
   "isArchived": false,
   "meta": null,
   "name": "Ideal RAG+ Reranking",
+  "nodeGroups": [],
   "nodes": [],
   "pinData": {},
   "repo_name": "n8n-backup",
