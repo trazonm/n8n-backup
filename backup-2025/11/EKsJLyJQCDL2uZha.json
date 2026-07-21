@@ -702,6 +702,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": "Version 0c9fa0c7",
     "description": "",
@@ -921,6 +922,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "James Bot",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
