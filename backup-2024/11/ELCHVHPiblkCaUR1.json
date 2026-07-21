@@ -1443,6 +1443,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": null,
     "description": null,
@@ -1882,6 +1883,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "BakaBot",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
