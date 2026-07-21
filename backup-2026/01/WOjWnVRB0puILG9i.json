@@ -1283,6 +1283,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": "Version 4685f6f3",
     "description": "",
@@ -1653,6 +1654,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "ContentSpray",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
