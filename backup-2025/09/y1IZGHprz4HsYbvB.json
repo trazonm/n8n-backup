@@ -90,6 +90,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -125,6 +126,7 @@
   "isArchived": false,
   "meta": null,
   "name": "Lead Generator - Error Handler",
+  "nodeGroups": [],
   "nodes": [
     {
       "id": "error_trigger_2",
