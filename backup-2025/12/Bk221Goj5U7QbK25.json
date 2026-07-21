@@ -736,6 +736,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": "Version d3ca4226",
     "description": "",
@@ -899,6 +900,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "AI Lead Generation Agent - Real Estate",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
@@ -1498,7 +1500,12 @@
   ],
   "staticData": {
     "node:Weekly Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
     }
   },
   "tags": [],
