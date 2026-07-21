@@ -655,6 +655,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Brainrot V3",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
