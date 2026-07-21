@@ -75,6 +75,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -110,6 +111,7 @@
   "isArchived": false,
   "meta": null,
   "name": "My workflow 2",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
