@@ -3211,6 +3211,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "Trazon Mitchell",
     "name": "Version bc3b10de",
     "description": "",
@@ -3980,6 +3981,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "BakaClipz - Publish to Socials",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
@@ -7001,7 +7003,7 @@
   "staticData": {
     "node:Every 6 Hours": {
       "recurrenceRules": [
-        0
+        18
       ]
     },
     "node:New File in Clips Folder": {
