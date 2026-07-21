@@ -83,6 +83,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Demo: RAG in n8n",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
