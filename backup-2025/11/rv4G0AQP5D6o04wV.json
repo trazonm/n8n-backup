@@ -592,6 +592,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -802,6 +803,7 @@
   "isArchived": false,
   "meta": null,
   "name": "[IDS 4370] RAG Vector Search",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
