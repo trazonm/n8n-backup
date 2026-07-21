@@ -816,6 +816,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -1103,6 +1104,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Back Up n8n Workflows To Github",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {},
@@ -1657,7 +1659,12 @@
   ],
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
     }
   },
   "tags": [
