@@ -55,6 +55,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Update Server Packages Everyday",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
