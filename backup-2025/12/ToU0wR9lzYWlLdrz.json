@@ -143,6 +143,7 @@
     "templateId": "2301"
   },
   "name": "Check if workflows contain build-in nodes that are not of the latest version",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
