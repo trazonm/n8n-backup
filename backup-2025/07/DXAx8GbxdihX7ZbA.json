@@ -120,6 +120,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Delete BakaWorld Downloads every 30 days",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
