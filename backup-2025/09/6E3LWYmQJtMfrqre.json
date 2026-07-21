@@ -119,6 +119,7 @@
   "isArchived": false,
   "meta": null,
   "name": "AI Newsletter Curator - Tech Innovation",
+  "nodeGroups": [],
   "nodes": [
     {
       "id": "config_1",
