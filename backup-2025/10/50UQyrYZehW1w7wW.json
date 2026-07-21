@@ -33,6 +33,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "My workflow 4",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
