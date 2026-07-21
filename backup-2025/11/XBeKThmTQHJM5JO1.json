@@ -114,6 +114,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -162,6 +163,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "My workflow 8",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
