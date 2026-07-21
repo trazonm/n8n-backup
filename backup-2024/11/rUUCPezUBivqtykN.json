@@ -325,6 +325,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -429,6 +430,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Anime AI Voice Analysis",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
@@ -678,6 +680,9 @@
     "node:Schedule Trigger": {
       "recurrenceRules": [
         161
+      ],
+      "recurrenceRuleSignatures": [
+        null
       ]
     }
   },
