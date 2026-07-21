@@ -77,6 +77,7 @@
         ]
       }
     },
+    "nodeGroups": [],
     "authors": "system migration",
     "name": null,
     "description": null,
@@ -103,6 +104,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "Auto Update BakaWorld χ",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
