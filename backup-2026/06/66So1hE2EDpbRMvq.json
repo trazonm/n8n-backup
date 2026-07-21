@@ -80,6 +80,7 @@
   "isArchived": false,
   "meta": null,
   "name": "My workflow 10",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
