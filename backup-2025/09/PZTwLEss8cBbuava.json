@@ -118,6 +118,7 @@
   "isArchived": true,
   "meta": null,
   "name": "Product Creator Pipeline",
+  "nodeGroups": [],
   "nodes": [
     {
       "id": "webhook",
