@@ -78,7 +78,9 @@
   "createdAt": "2026-06-06T05:59:24.896Z",
   "id": "66So1hE2EDpbRMvq",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "My workflow 10",
   "nodeGroups": [],
   "nodes": [
@@ -118,7 +120,13 @@
         1728,
         816
       ],
-      "typeVersion": 1.2
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "kqvjmHGyZ6NvASxT",
+          "name": "OpenAI account"
+        }
+      }
     },
     {
       "parameters": {
@@ -248,7 +256,13 @@
         1936,
         544
       ],
-      "typeVersion": 1.2
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "kqvjmHGyZ6NvASxT",
+          "name": "OpenAI account"
+        }
+      }
     },
     {
       "parameters": {
@@ -303,6 +317,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-06-06T06:06:34.214Z",
-  "versionId": "89a862a5-6031-4649-a93c-670e3ee8a773"
+  "updatedAt": "2026-07-28T17:44:00.556Z",
+  "versionId": "c17c8e64-0c53-430b-93ec-727451f8405d"
 }
