@@ -13280,7 +13280,7 @@
         "0db48e45-46a9-46d7-aed7-b6fc9c0a4136": {
           "session_id": "0db48e45-46a9-46d7-aed7-b6fc9c0a4136",
           "created_at": 1785299533933,
-          "updated_at": 1785300645686,
+          "updated_at": 1785354377366,
           "mode": "complete",
           "profile": {
             "role": "patient",
@@ -13759,17 +13759,6 @@
           "transcript": [
             {
               "role": "patient",
-              "text": "7/15/2026",
-              "at": 1785300041456
-            },
-            {
-              "role": "assistant",
-              "text": "What day of the week is it?",
-              "at": 1785300048006,
-              "kind": "assessment_item"
-            },
-            {
-              "role": "patient",
               "text": "monday",
               "at": 1785300057108
             },
@@ -13976,10 +13965,21 @@
               "text": "We already finished the questions for this session. If you have something you would like to understand better, I am happy to talk it through.",
               "at": 1785300645659,
               "kind": "inactive"
+            },
+            {
+              "role": "patient",
+              "text": "i want to know more",
+              "at": 1785354369884
+            },
+            {
+              "role": "assistant",
+              "text": "We already finished the questions for this session. If you have something you would like to understand better, I am happy to talk it through.",
+              "at": 1785354377337,
+              "kind": "inactive"
             }
           ],
           "score_released": true,
-          "turn_count": 32,
+          "turn_count": 33,
           "clinical_note": "## Summary\n- **Session ID:** 0db48e45-46a9-46d7-aed7-b6fc9c0a4136\n- **Instrument:** Mini-Mental State Examination (MMSE), corpus version 1.0.0\n- **Profile:** Age band under_65; education level college_plus. No accessibility needs reported.\n- **Presenting concerns:** attention deficits, working memory problems, and mental fatigue.\n- **Interpretation:** Interpretation bands are not applied: the instrument was only partially administered (29 of 30 points). A partial score is not comparable to the published cutoffs.\n\n## Score\n- **Raw score:** 12\n- **Adjusted score:** 12\n- **Points attempted:** 29\n- **Points not administered:** 0\n- **Instrument maximum:** 30\n- **Administration status:** Partial administration\n\n## Per-domain breakdown\n| Domain | Score |\n|---|---:|\n| Attention and Calculation | 1/5 |\n| Complex Commands | 0/3 |\n| Language | 4/4 |\n| Orientation to Place | 4/5 |\n| Orientation to Time | 3/5 |\n| Recall | 0/3 |\n| Registration | 0/3 |\n| Repetition | 0/1 |\n\n## Symptom summary\n### Reported at intake\n- **Attention:** Reported attention deficits. Corresponding session measure: Attention and Calculation.\n- **Memory:** Reported working memory problems. Registration and Recall were affected by an undelivered stimulus and could not be validly scored from the recorded responses; this is a gap for direct clinical follow-up.\n- **Mood or behaviour:** Reported mental fatigue. No corresponding item assessing mental fatigue was administered in this instrument.\n- **Language, orientation, executive function, visuospatial abilities, and functional impact on daily living:** No concerns were reported at intake in these categories.\n\n### Observable session pattern\n- **Attention and Calculation:** Count backward from 100 by sevens was 1/5. Three responses were provided for an item requiring five answers; one of the three provided subtractions was correct, and no credit was assigned for the two unanswered subtractions.\n- **Orientation:** Orientation to Time was 3/5, with date and day-of-week items scored 0/1; year, season, and month items were scored 1/1. Orientation to Place was 4/5, with the county item scored 0/1 and the other place-orientation items scored 1/1.\n- **Memory:** Registration was recorded as 0/3 and Recall as 0/3; the required word-list stimulus was not delivered, so these items cannot be validly scored from the recorded responses.\n- **Language:** Language was 4/4 across naming, reading, and writing items. Repetition was 0/1 because the final word of the phrase was omitted.\n- **Complex commands/visuospatial-executive task:** The 3-Stage Command was 0/3. Execution could not be verified because no captured artifact or observer report was available.\n\n## Not administered\n- The scoring data list no items in the formal `not_administered` field.\n- **Registration — Repeat the three named objects:** The required word list was not delivered (`stimulus_not_delivered`; `item_unadministered`), so the item cannot be scored from the recorded response.\n- **Recall — What were the three words I asked you to remember?:** The required registration word list was not delivered (`stimulus_not_delivered`; `recall_item_unadministered`), so the item cannot be validly scored.\n- **Complex Commands — 3-Stage Command:** Unadministered for verification purposes because no captured artifact or observer report was available to verify execution of the motor-command stages (`channel_unsupported`).\n- The total is therefore partial, as supplied: 29 of 30 points.\n\n## Items flagged for review\n- **Registration — Repeat the three named objects:** Marked for review; stimulus not delivered and item unadministered.\n- **Recall — What were the three words I asked you to remember?:** Marked for review; stimulus not delivered and recall item unadministered.\n- **Total items flagged for review:** 2.\n\n## Administration notes\n- Attention and Calculation carried an administration flag: only three responses were provided although five answers were required.\n- Complex Commands carried an administration flag: `channel_unsupported`.\n- Refer to a clinical professional for interpretation.",
           "final_scoring": {
             "instrument_id": "mmse",
