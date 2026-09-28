@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
     "versionId": "e16e22b9-8f24-4373-9a67-8009fbc68653",
     "workflowId": "VFZws0WqfClRsKQ2",
     "nodes": [
@@ -820,7 +818,9 @@
     "authors": "system migration",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "updatedAt": "2025-11-27T17:00:06.895Z"
   },
   "activeVersionId": "e16e22b9-8f24-4373-9a67-8009fbc68653",
   "connections": {
@@ -1650,11 +1650,11 @@
   "settings": {},
   "shared": [
     {
-      "updatedAt": "2024-11-29T17:15:22.271Z",
-      "createdAt": "2024-11-29T17:15:22.271Z",
       "role": "workflow:owner",
       "workflowId": "VFZws0WqfClRsKQ2",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2024-11-29T17:15:22.271Z",
+      "updatedAt": "2024-11-29T17:15:22.271Z"
     }
   ],
   "staticData": {
@@ -1669,16 +1669,16 @@
   },
   "tags": [
     {
-      "updatedAt": "2024-12-02T06:49:06.916Z",
-      "createdAt": "2024-12-02T06:49:06.916Z",
       "id": "bIK4dtdVXcCnTrnb",
-      "name": "backup"
+      "name": "backup",
+      "createdAt": "2024-12-02T06:49:06.916Z",
+      "updatedAt": "2024-12-02T06:49:06.916Z"
     },
     {
-      "updatedAt": "2024-12-04T16:28:57.767Z",
-      "createdAt": "2024-12-04T16:28:57.767Z",
       "id": "jNX3zmhxJxy6ZeWC",
-      "name": "server"
+      "name": "server",
+      "createdAt": "2024-12-04T16:28:57.767Z",
+      "updatedAt": "2024-12-04T16:28:57.767Z"
     }
   ],
   "triggerCount": 1,
