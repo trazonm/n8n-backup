@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-27T05:52:07.000Z",
-    "createdAt": "2026-01-27T05:52:04.418Z",
     "versionId": "4685f6f3-1e49-457a-8dc9-4a4f0bf2bd71",
     "workflowId": "WOjWnVRB0puILG9i",
     "nodes": [
@@ -1287,7 +1285,9 @@
     "authors": "Trazon Mitchell",
     "name": "Version 4685f6f3",
     "description": "",
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2026-01-27T05:52:04.418Z",
+    "updatedAt": "2026-01-27T05:52:07.000Z"
   },
   "activeVersionId": "4685f6f3-1e49-457a-8dc9-4a4f0bf2bd71",
   "connections": {
@@ -2693,11 +2693,11 @@
   },
   "shared": [
     {
-      "updatedAt": "2026-01-17T20:33:35.339Z",
-      "createdAt": "2026-01-17T20:33:35.339Z",
       "role": "workflow:owner",
       "workflowId": "WOjWnVRB0puILG9i",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2026-01-17T20:33:35.339Z",
+      "updatedAt": "2026-01-17T20:33:35.339Z"
     }
   ],
   "staticData": null,
