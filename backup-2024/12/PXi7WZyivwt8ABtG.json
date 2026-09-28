@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
     "versionId": "36ee8dd1-789c-4920-82d2-9ce388d0f94d",
     "workflowId": "PXi7WZyivwt8ABtG",
     "nodes": [
@@ -607,7 +605,9 @@
     "authors": "system migration",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "updatedAt": "2025-11-27T17:00:06.895Z"
   },
   "activeVersionId": "36ee8dd1-789c-4920-82d2-9ce388d0f94d",
   "connections": {
@@ -1258,26 +1258,26 @@
   },
   "shared": [
     {
-      "updatedAt": "2024-12-05T08:04:15.227Z",
-      "createdAt": "2024-12-05T08:04:15.227Z",
       "role": "workflow:owner",
       "workflowId": "PXi7WZyivwt8ABtG",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2024-12-05T08:04:15.227Z",
+      "updatedAt": "2024-12-05T08:04:15.227Z"
     }
   ],
   "staticData": null,
   "tags": [
     {
-      "updatedAt": "2024-11-15T04:55:24.768Z",
-      "createdAt": "2024-11-15T04:55:24.768Z",
       "id": "fbNR3j10OPFaIddI",
-      "name": "discord"
+      "name": "discord",
+      "createdAt": "2024-11-15T04:55:24.768Z",
+      "updatedAt": "2024-11-15T04:55:24.768Z"
     },
     {
-      "updatedAt": "2024-12-04T06:27:23.212Z",
-      "createdAt": "2024-12-04T06:27:23.212Z",
       "id": "kckGg4PTeUpEwe5c",
-      "name": "ai"
+      "name": "ai",
+      "createdAt": "2024-12-04T06:27:23.212Z",
+      "updatedAt": "2024-12-04T06:27:23.212Z"
     }
   ],
   "triggerCount": 1,
