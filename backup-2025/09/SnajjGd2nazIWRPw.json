@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
     "versionId": "302eafe4-f3cd-4f88-b0e4-b40f488eb822",
     "workflowId": "SnajjGd2nazIWRPw",
     "nodes": [
@@ -94,7 +92,9 @@
     "authors": "system migration",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "updatedAt": "2025-11-27T17:00:06.895Z"
   },
   "activeVersionId": "302eafe4-f3cd-4f88-b0e4-b40f488eb822",
   "connections": {
@@ -202,11 +202,11 @@
   },
   "shared": [
     {
-      "updatedAt": "2025-09-13T19:16:16.084Z",
-      "createdAt": "2025-09-13T19:16:16.084Z",
       "role": "workflow:owner",
       "workflowId": "SnajjGd2nazIWRPw",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2025-09-13T19:16:16.084Z",
+      "updatedAt": "2025-09-13T19:16:16.084Z"
     }
   ],
   "staticData": null,
