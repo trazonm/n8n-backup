@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
     "versionId": "733c125b-0df6-4ed1-b341-c1e8ef9cd0d7",
     "workflowId": "TYfiZ1Hpwz604g1c",
     "nodes": [
@@ -493,7 +491,9 @@
     "authors": "system migration",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "updatedAt": "2025-11-27T17:00:06.895Z"
   },
   "activeVersionId": "733c125b-0df6-4ed1-b341-c1e8ef9cd0d7",
   "connections": {
@@ -997,16 +997,21 @@
   },
   "shared": [
     {
-      "updatedAt": "2025-09-29T22:36:19.054Z",
-      "createdAt": "2025-09-29T22:36:19.054Z",
       "role": "workflow:owner",
       "workflowId": "TYfiZ1Hpwz604g1c",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2025-09-29T22:36:19.054Z",
+      "updatedAt": "2025-09-29T22:36:19.054Z"
     }
   ],
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
     },
     "node:Twitch Trigger": {
       "webhookId": "8a65bbb1-0403-4d51-9cb4-937462a09d3b"
