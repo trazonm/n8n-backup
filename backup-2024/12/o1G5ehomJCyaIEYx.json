@@ -1,9 +1,7 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-02-04T05:45:27.000Z",
-    "createdAt": "2026-02-04T05:45:26.142Z",
-    "versionId": "92f7b02e-8491-482c-ae95-352b954e9d61",
+    "versionId": "c2a02d9c-18de-4a18-ab4d-39029c526e4f",
     "workflowId": "o1G5ehomJCyaIEYx",
     "nodes": [
       {
@@ -204,25 +202,38 @@
       {
         "parameters": {
           "method": "POST",
-          "url": "https://baka-discord-service.dynuddns.com/tts",
+          "url": "http://192.168.0.107:8086/v1/audio/speech",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
           "sendBody": true,
           "bodyParameters": {
             "parameters": [
               {
-                "name": "cid",
-                "value": "-O4Q26x5XkWtJ5vdvQzxiYbRoiCWRiCK2y6gXoWHPBg"
+                "name": "model",
+                "value": "qwen-tts"
               },
               {
-                "name": "voiceId",
-                "value": "128e7e3d-4c81-42c8-bb6c-2144f88584db"
+                "name": "voice",
+                "value": "byn"
               },
               {
-                "name": "content",
+                "name": "input",
                 "value": "={{ $json.message }}"
+              },
+              {
+                "name": "response_format",
+                "value": "mp3"
               }
             ]
           },
-          "options": {}
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "file"
+              }
+            },
+            "timeout": 300000
+          }
         },
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.2,
@@ -231,25 +242,17 @@
           -160
         ],
         "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
-        "name": "HTTP Request"
-      },
-      {
-        "parameters": {
-          "url": "={{ $json.replayUrl }}",
-          "options": {}
+        "name": "HTTP Request",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "bakaaiVoiceHdr01",
+            "name": "BakaAI Voice (local)"
+          }
         },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.2,
-        "position": [
-          416,
-          -160
-        ],
-        "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
-        "name": "HTTP Request1"
+        "notes": "Local voice (byn) via BakaAI gateway: wakes BakaPC if asleep"
       },
       {
         "parameters": {
-          "agent": "conversationalAgent",
           "promptType": "define",
           "text": "={{ $('Webhook').item.json.body.content }}\n\nAttachment (if applicable): {{ $json.data }}\n\nThis message came from {{ $('Webhook').item.json.body.author }}",
           "options": {
@@ -257,7 +260,7 @@
           }
         },
         "type": "@n8n/n8n-nodes-langchain.agent",
-        "typeVersion": 1.7,
+        "typeVersion": 3.1,
         "position": [
           -384,
           -64
@@ -290,42 +293,27 @@
       },
       {
         "parameters": {
-          "modelName": "models/gemini-2.0-flash",
-          "options": {
-            "safetySettings": {
-              "values": [
-                {
-                  "category": "HARM_CATEGORY_HARASSMENT",
-                  "threshold": "BLOCK_NONE"
-                },
-                {
-                  "category": "HARM_CATEGORY_HATE_SPEECH",
-                  "threshold": "BLOCK_NONE"
-                },
-                {
-                  "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                  "threshold": "BLOCK_NONE"
-                },
-                {
-                  "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                  "threshold": "BLOCK_NONE"
-                }
-              ]
-            }
-          }
+          "model": {
+            "__rl": true,
+            "value": "bonsai-27b",
+            "mode": "list",
+            "cachedResultName": "bonsai-27b"
+          },
+          "builtInTools": {},
+          "options": {}
         },
-        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-        "typeVersion": 1,
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.3,
         "position": [
           -384,
           160
         ],
         "id": "ac2f3b97-72c4-47bf-8deb-31c83de9a54d",
-        "name": "Google Gemini Chat Model",
+        "name": "OpenAI Chat Model",
         "credentials": {
-          "googlePalmApi": {
-            "id": "ReeAGi73g7iXliN4",
-            "name": "Trazon's Gemini"
+          "openAiApi": {
+            "id": "khNgbxTdmsmZlKiD",
+            "name": "BakaAI"
           }
         }
       },
@@ -509,17 +497,6 @@
         "main": [
           [
             {
-              "node": "HTTP Request1",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "HTTP Request1": {
-        "main": [
-          [
-            {
               "node": "Discord",
               "type": "main",
               "index": 0
@@ -533,17 +510,6 @@
             {
               "node": "AI Agent",
               "type": "ai_memory",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Google Gemini Chat Model": {
-        "ai_languageModel": [
-          [
-            {
-              "node": "AI Agent",
-              "type": "ai_languageModel",
               "index": 0
             }
           ]
@@ -617,15 +583,28 @@
             }
           ]
         ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "nodeGroups": [],
     "authors": "Trazon Mitchell",
-    "name": "Version 92f7b02e",
+    "name": "Version c2a02d9c",
     "description": "",
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2026-09-28T03:43:33.153Z",
+    "updatedAt": "2026-09-28T03:45:56.583Z"
   },
-  "activeVersionId": "92f7b02e-8491-482c-ae95-352b954e9d61",
+  "activeVersionId": "c2a02d9c-18de-4a18-ab4d-39029c526e4f",
   "connections": {
     "Webhook": {
       "main": [
@@ -680,17 +659,6 @@
       "main": [
         [
           {
-            "node": "HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request1": {
-      "main": [
-        [
-          {
             "node": "Discord",
             "type": "main",
             "index": 0
@@ -704,17 +672,6 @@
           {
             "node": "AI Agent",
             "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -784,6 +741,17 @@
           {
             "node": "Merge",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -997,25 +965,38 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://baka-discord-service.dynuddns.com/tts",
+        "url": "http://192.168.0.107:8086/v1/audio/speech",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
             {
-              "name": "cid",
-              "value": "-O4Q26x5XkWtJ5vdvQzxiYbRoiCWRiCK2y6gXoWHPBg"
+              "name": "model",
+              "value": "qwen-tts"
             },
             {
-              "name": "voiceId",
-              "value": "128e7e3d-4c81-42c8-bb6c-2144f88584db"
+              "name": "voice",
+              "value": "byn"
             },
             {
-              "name": "content",
+              "name": "input",
               "value": "={{ $json.message }}"
+            },
+            {
+              "name": "response_format",
+              "value": "mp3"
             }
           ]
         },
-        "options": {}
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 300000
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -1024,25 +1005,17 @@
         -160
       ],
       "id": "458a3c91-12fc-415c-b02c-3517b9bebdab",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "url": "={{ $json.replayUrl }}",
-        "options": {}
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "bakaaiVoiceHdr01",
+          "name": "BakaAI Voice (local)"
+        }
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        416,
-        -160
-      ],
-      "id": "79eb7b31-6604-4b5b-89ed-5c83fe1b7c84",
-      "name": "HTTP Request1"
+      "notes": "Local voice (byn) via BakaAI gateway: wakes BakaPC if asleep"
     },
     {
       "parameters": {
-        "agent": "conversationalAgent",
         "promptType": "define",
         "text": "={{ $('Webhook').item.json.body.content }}\n\nAttachment (if applicable): {{ $json.data }}\n\nThis message came from {{ $('Webhook').item.json.body.author }}",
         "options": {
@@ -1050,7 +1023,7 @@
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
+      "typeVersion": 3.1,
       "position": [
         -384,
         -64
@@ -1083,42 +1056,27 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.0-flash",
-        "options": {
-          "safetySettings": {
-            "values": [
-              {
-                "category": "HARM_CATEGORY_HARASSMENT",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_HATE_SPEECH",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                "threshold": "BLOCK_NONE"
-              },
-              {
-                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                "threshold": "BLOCK_NONE"
-              }
-            ]
-          }
-        }
+        "model": {
+          "__rl": true,
+          "value": "bonsai-27b",
+          "mode": "list",
+          "cachedResultName": "bonsai-27b"
+        },
+        "builtInTools": {},
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
       "position": [
         -384,
         160
       ],
       "id": "ac2f3b97-72c4-47bf-8deb-31c83de9a54d",
-      "name": "Google Gemini Chat Model",
+      "name": "OpenAI Chat Model",
       "credentials": {
-        "googlePalmApi": {
-          "id": "ReeAGi73g7iXliN4",
-          "name": "Trazon's Gemini"
+        "openAiApi": {
+          "id": "khNgbxTdmsmZlKiD",
+          "name": "BakaAI"
         }
       }
     },
@@ -1257,9 +1215,9 @@
             "host": "bakaflow.gleeze.com",
             "x-forwarded-scheme": "https",
             "x-forwarded-proto": "https",
-            "x-forwarded-for": "75.177.85.65",
-            "x-real-ip": "75.177.85.65",
-            "content-length": "191",
+            "x-forwarded-for": "75.177.84.219",
+            "x-real-ip": "75.177.84.219",
+            "content-length": "226",
             "content-type": "application/json",
             "accept": "*/*",
             "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
@@ -1268,16 +1226,29 @@
           "params": {},
           "query": {},
           "body": {
-            "channel": "testing",
-            "channelId": "1292732202211086426",
+            "channel": "testing2",
+            "channelId": "1313893408166772756",
             "author": "bakaboi341",
             "userId": "246812164885577729",
-            "messageId": "1429577237736456313",
-            "content": "byn you there bro?",
+            "messageId": "1553974505376972841",
+            "content": "byn basically the same gangy but more \"expressive\"",
             "attachments": null
           },
           "webhookUrl": "https://bakaflow.gleeze.com/webhook/bakanigga",
           "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "AI Agent": [
+      {
+        "json": {
+          "output": "Aight, my nigga, that's wassup! Let's keep it 100. What you need help with, bruh?"
+        },
+        "pairedItem": {
+          "item": 0
         }
       }
     ]
@@ -1286,33 +1257,34 @@
   "repo_owner": "trazonm",
   "repo_path": "backup-",
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "shared": [
     {
-      "updatedAt": "2024-12-23T19:43:18.831Z",
-      "createdAt": "2024-12-23T19:43:18.831Z",
       "role": "workflow:owner",
       "workflowId": "o1G5ehomJCyaIEYx",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2024-12-23T19:43:18.831Z",
+      "updatedAt": "2024-12-23T19:43:18.831Z"
     }
   ],
   "staticData": null,
   "tags": [
     {
-      "updatedAt": "2024-11-15T04:55:24.768Z",
-      "createdAt": "2024-11-15T04:55:24.768Z",
       "id": "fbNR3j10OPFaIddI",
-      "name": "discord"
+      "name": "discord",
+      "createdAt": "2024-11-15T04:55:24.768Z",
+      "updatedAt": "2024-11-15T04:55:24.768Z"
     },
     {
-      "updatedAt": "2024-12-04T06:27:23.212Z",
-      "createdAt": "2024-12-04T06:27:23.212Z",
       "id": "kckGg4PTeUpEwe5c",
-      "name": "ai"
+      "name": "ai",
+      "createdAt": "2024-12-04T06:27:23.212Z",
+      "updatedAt": "2024-12-04T06:27:23.212Z"
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2026-02-04T05:45:26.141Z",
-  "versionId": "92f7b02e-8491-482c-ae95-352b954e9d61"
+  "updatedAt": "2026-09-28T03:46:34.090Z",
+  "versionId": "c2a02d9c-18de-4a18-ab4d-39029c526e4f"
 }
