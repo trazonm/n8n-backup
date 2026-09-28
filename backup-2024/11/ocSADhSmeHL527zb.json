@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
     "versionId": "e76bd6e4-c447-4124-81e3-31fb29c00d48",
     "workflowId": "ocSADhSmeHL527zb",
     "nodes": [
@@ -398,7 +396,9 @@
     "authors": "system migration",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "updatedAt": "2025-11-27T17:00:06.895Z"
   },
   "activeVersionId": "e76bd6e4-c447-4124-81e3-31fb29c00d48",
   "connections": {
@@ -817,11 +817,11 @@
   },
   "shared": [
     {
-      "updatedAt": "2024-11-15T04:00:56.943Z",
-      "createdAt": "2024-11-15T04:00:56.943Z",
       "role": "workflow:owner",
       "workflowId": "ocSADhSmeHL527zb",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2024-11-15T04:00:56.943Z",
+      "updatedAt": "2024-11-15T04:00:56.943Z"
     }
   ],
   "staticData": {
@@ -917,16 +917,16 @@
   },
   "tags": [
     {
-      "updatedAt": "2024-11-15T04:55:15.385Z",
-      "createdAt": "2024-11-15T04:55:15.385Z",
       "id": "CK0EpGAHy9VO6rnR",
-      "name": "plex"
+      "name": "plex",
+      "createdAt": "2024-11-15T04:55:15.385Z",
+      "updatedAt": "2024-11-15T04:55:15.385Z"
     },
     {
-      "updatedAt": "2024-12-04T16:28:57.767Z",
-      "createdAt": "2024-12-04T16:28:57.767Z",
       "id": "jNX3zmhxJxy6ZeWC",
-      "name": "server"
+      "name": "server",
+      "createdAt": "2024-12-04T16:28:57.767Z",
+      "updatedAt": "2024-12-04T16:28:57.767Z"
     }
   ],
   "triggerCount": 1,
