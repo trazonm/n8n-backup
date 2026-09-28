@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:00:06.895Z",
-    "createdAt": "2025-11-27T17:00:06.895Z",
     "versionId": "37c6d578-25ac-4fbc-a414-5ad3e85bc39a",
     "workflowId": "b0U0voToxwlroWcy",
     "nodes": [
@@ -81,7 +79,9 @@
     "authors": "system migration",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-11-27T17:00:06.895Z",
+    "updatedAt": "2025-11-27T17:00:06.895Z"
   },
   "activeVersionId": "37c6d578-25ac-4fbc-a414-5ad3e85bc39a",
   "connections": {
@@ -386,19 +386,20 @@
   },
   "shared": [
     {
-      "updatedAt": "2025-11-05T00:28:30.551Z",
-      "createdAt": "2025-11-05T00:28:30.551Z",
       "role": "workflow:owner",
       "workflowId": "b0U0voToxwlroWcy",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2025-11-05T00:28:30.551Z",
+      "updatedAt": "2025-11-05T00:28:30.551Z"
     }
   ],
   "staticData": {
     "node:Github Trigger": {
-      "webhookId": 583307853,
+      "webhookId": 686847800,
       "webhookEvents": [
         "push"
-      ]
+      ],
+      "webhookSecret": "e55fad7b528dc701bf26226497c179f4813c6700887cf97a8539be8d838580dd"
     }
   },
   "tags": [],
