@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-11-27T17:49:09.234Z",
-    "createdAt": "2025-11-27T17:49:09.234Z",
     "versionId": "e047a5ee-61cc-4914-afe6-d44f57500947",
     "workflowId": "ELCHVHPiblkCaUR1",
     "nodes": [
@@ -1447,7 +1445,9 @@
     "authors": "Trazon Mitchell",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-11-27T17:49:09.234Z",
+    "updatedAt": "2025-11-27T17:49:09.234Z"
   },
   "activeVersionId": "e047a5ee-61cc-4914-afe6-d44f57500947",
   "connections": {
@@ -2945,26 +2945,26 @@
   },
   "shared": [
     {
-      "updatedAt": "2024-11-14T01:27:53.122Z",
-      "createdAt": "2024-11-14T01:27:53.122Z",
       "role": "workflow:owner",
       "workflowId": "ELCHVHPiblkCaUR1",
-      "projectId": "fIUCquZNbk42dQ17"
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2024-11-14T01:27:53.122Z",
+      "updatedAt": "2024-11-14T01:27:53.122Z"
     }
   ],
   "staticData": null,
   "tags": [
     {
-      "updatedAt": "2024-11-15T04:55:24.768Z",
-      "createdAt": "2024-11-15T04:55:24.768Z",
-      "id": "fbNR3j10OPFaIddI",
-      "name": "discord"
+      "id": "kckGg4PTeUpEwe5c",
+      "name": "ai",
+      "createdAt": "2024-12-04T06:27:23.212Z",
+      "updatedAt": "2024-12-04T06:27:23.212Z"
     },
     {
-      "updatedAt": "2024-12-04T06:27:23.212Z",
-      "createdAt": "2024-12-04T06:27:23.212Z",
-      "id": "kckGg4PTeUpEwe5c",
-      "name": "ai"
+      "id": "fbNR3j10OPFaIddI",
+      "name": "discord",
+      "createdAt": "2024-11-15T04:55:24.768Z",
+      "updatedAt": "2024-11-15T04:55:24.768Z"
     }
   ],
   "triggerCount": 1,
