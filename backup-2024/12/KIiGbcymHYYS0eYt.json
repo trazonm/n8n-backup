@@ -1001,16 +1001,16 @@
   "staticData": null,
   "tags": [
     {
-      "id": "kckGg4PTeUpEwe5c",
-      "name": "ai",
-      "createdAt": "2024-12-04T06:27:23.212Z",
-      "updatedAt": "2024-12-04T06:27:23.212Z"
-    },
-    {
       "id": "fbNR3j10OPFaIddI",
       "name": "discord",
       "createdAt": "2024-11-15T04:55:24.768Z",
       "updatedAt": "2024-11-15T04:55:24.768Z"
+    },
+    {
+      "id": "kckGg4PTeUpEwe5c",
+      "name": "ai",
+      "createdAt": "2024-12-04T06:27:23.212Z",
+      "updatedAt": "2024-12-04T06:27:23.212Z"
     }
   ],
   "triggerCount": 1,
