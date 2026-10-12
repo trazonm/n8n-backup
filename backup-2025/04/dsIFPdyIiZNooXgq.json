@@ -1,7 +1,7 @@
 {
   "active": true,
   "activeVersion": {
-    "versionId": "80b12432-f212-4e91-b5b2-8b06719d8ceb",
+    "versionId": "e06ccac3-1cc2-43f8-9bd7-501780451fba",
     "workflowId": "dsIFPdyIiZNooXgq",
     "nodes": [
       {
@@ -31,7 +31,7 @@
         "type": "n8n-nodes-base.filter",
         "typeVersion": 2.2,
         "position": [
-          220,
+          160,
           0
         ],
         "id": "d1c81181-f749-40c4-8d80-8dcbf677ef41",
@@ -45,7 +45,7 @@
         "type": "n8n-nodes-base.ssh",
         "typeVersion": 1,
         "position": [
-          660,
+          608,
           0
         ],
         "id": "0c5d3e65-c1c5-47fa-9a2d-1da300cf4a47",
@@ -64,7 +64,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          440,
+          384,
           0
         ],
         "id": "1f3a0642-1944-440f-8546-14979890be5d",
@@ -84,10 +84,10 @@
         "type": "n8n-nodes-base.localFileTrigger",
         "typeVersion": 1,
         "position": [
-          0,
+          -64,
           0
         ],
-        "id": "51925203-bd93-4856-a548-f0355cc073b3",
+        "id": "6affceb7-7329-4973-840b-d9270d73c8c9",
         "name": "Local File Trigger"
       },
       {
@@ -97,10 +97,10 @@
         "type": "n8n-nodes-base.executeCommand",
         "typeVersion": 1,
         "position": [
-          880,
+          832,
           0
         ],
-        "id": "6d576b8a-a237-4590-8dda-abe4fc675b51",
+        "id": "333f82de-95a0-4774-9582-c565e8fe53c6",
         "name": "Execute Command"
       }
     ],
@@ -127,17 +127,6 @@
           ]
         ]
       },
-      "Local File Trigger": {
-        "main": [
-          [
-            {
-              "node": "Filter",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
       "SSH": {
         "main": [
           [
@@ -148,17 +137,28 @@
             }
           ]
         ]
+      },
+      "Local File Trigger": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "nodeGroups": [],
-    "authors": "system migration",
-    "name": null,
-    "description": null,
-    "autosaved": false,
-    "createdAt": "2025-11-27T17:00:06.895Z",
-    "updatedAt": "2025-11-27T17:00:06.895Z"
+    "authors": "Trazon Mitchell",
+    "name": "Version e06ccac3",
+    "description": "",
+    "autosaved": true,
+    "createdAt": "2026-10-11T08:15:33.454Z",
+    "updatedAt": "2026-10-11T08:15:34.992Z"
   },
-  "activeVersionId": "80b12432-f212-4e91-b5b2-8b06719d8ceb",
+  "activeVersionId": "e06ccac3-1cc2-43f8-9bd7-501780451fba",
   "connections": {
     "Filter": {
       "main": [
@@ -182,22 +182,22 @@
         ]
       ]
     },
-    "Local File Trigger": {
+    "SSH": {
       "main": [
         [
           {
-            "node": "Filter",
+            "node": "Execute Command",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "SSH": {
+    "Local File Trigger": {
       "main": [
         [
           {
-            "node": "Execute Command",
+            "node": "Filter",
             "type": "main",
             "index": 0
           }
@@ -241,7 +241,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        220,
+        160,
         0
       ],
       "id": "d1c81181-f749-40c4-8d80-8dcbf677ef41",
@@ -255,7 +255,7 @@
       "type": "n8n-nodes-base.ssh",
       "typeVersion": 1,
       "position": [
-        660,
+        608,
         0
       ],
       "id": "0c5d3e65-c1c5-47fa-9a2d-1da300cf4a47",
@@ -274,7 +274,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        440,
+        384,
         0
       ],
       "id": "1f3a0642-1944-440f-8546-14979890be5d",
@@ -294,10 +294,10 @@
       "type": "n8n-nodes-base.localFileTrigger",
       "typeVersion": 1,
       "position": [
-        0,
+        -64,
         0
       ],
-      "id": "51925203-bd93-4856-a548-f0355cc073b3",
+      "id": "6affceb7-7329-4973-840b-d9270d73c8c9",
       "name": "Local File Trigger"
     },
     {
@@ -307,28 +307,20 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        880,
+        832,
         0
       ],
-      "id": "6d576b8a-a237-4590-8dda-abe4fc675b51",
+      "id": "333f82de-95a0-4774-9582-c565e8fe53c6",
       "name": "Execute Command"
     }
   ],
-  "pinData": {
-    "Local File Trigger": [
-      {
-        "json": {
-          "event": "add",
-          "path": "/home/node/n8n-watched/plexmediaserver_1.42.0.9975-6b2b441e1_amd64 (1).deb"
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "repo_name": "n8n-backup",
   "repo_owner": "trazonm",
   "repo_path": "backup-",
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "shared": [
     {
@@ -355,6 +347,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-16T02:41:18.000Z",
-  "versionId": "80b12432-f212-4e91-b5b2-8b06719d8ceb"
+  "updatedAt": "2026-10-11T08:15:33.453Z",
+  "versionId": "e06ccac3-1cc2-43f8-9bd7-501780451fba"
 }
