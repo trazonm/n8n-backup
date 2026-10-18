@@ -1,0 +1,247 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Get X Home HTML": {
+      "main": [
+        [
+          {
+            "node": "Discover X Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discover X Config": {
+      "main": [
+        [
+          {
+            "node": "Fetch Bookmarks Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get X Home HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Bookmarks Page": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-10-18T05:14:19.027Z",
+  "id": "2lLfI2tMlgjMstnX",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 13",
+  "nodeGroups": [],
+  "nodes": [
+    {
+      "parameters": {
+        "path": "x-bm-test",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Test Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "5b0f7c1e-2a6d-4a39-9d1e-3c4b5a6d7e81",
+      "id": "2e257645-ed5a-468b-b246-bbcbd7d09e40"
+    },
+    {
+      "parameters": {
+        "url": "https://x.com/home",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "user-agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "accept",
+              "value": "text/html,application/xhtml+xml"
+            },
+            {
+              "name": "accept-language",
+              "value": "en-US,en;q=0.9"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "name": "Get X Home HTML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "eef34f26-e0ae-4fb2-9f19-29d919e9e672",
+      "credentials": {
+        "httpCustomAuth": {
+          "id": "NpHYNO4FMHEoq5Fu",
+          "name": "X Session"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Discover current X web config: Bookmarks queryId, features, fieldToggles, public web bearer.\n// Input: logged-in x.com/home HTML from the previous HTTP Request node (fetched with the X Session credential).\nconst html = String($input.first().json.data || '');\nconst UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';\nconst BASE = 'https://abs.twimg.com/responsive-web/client-web/';\nconst get = async (url) => {\n  try { return String(await this.helpers.httpRequest({ method: 'GET', url, headers: { 'user-agent': UA }, json: false })); }\n  catch (e) { return ''; }\n};\nconst OP_RE = /queryId:\"([^\"]+)\",operationName:\"Bookmarks\",operationType:\"query\",metadata:\\{featureSwitches:\\[([^\\]]*)\\],fieldToggles:\\[([^\\]]*)\\]/;\nconst list = (s) => (s || '').split(',').map(x => x.replace(/\"/g, '').trim()).filter(Boolean);\n\nconst mainUrl = (html.match(/https:\\/\\/abs\\.twimg\\.com\\/responsive-web\\/client-web\\/main\\.[0-9a-f]+\\.js/) || [])[0];\nlet bearer = null, queryId = null, featureNames = [], toggleNames = [], source = null;\n\nif (mainUrl) {\n  const mainJs = await get(mainUrl);\n  bearer = (mainJs.match(/\"(AAAAAAAAAAAAAAAAAAAAA[A-Za-z0-9%]+)\"/) || [])[1] || null;\n  let m = mainJs.match(OP_RE);\n  if (m) { queryId = m[1]; featureNames = list(m[2]); toggleNames = list(m[3]); source = 'main.js'; }\n\n  if (!queryId) {\n    // Webpack runtime maps (chunk id -> name, chunk id -> hash) are inlined in the HTML.\n    const names = {}, hashes = {};\n    for (const p of html.matchAll(/(\\d+):\"([^\"]+)\"/g)) {\n      if (/^[0-9a-f]{16}$/.test(p[2])) hashes[p[1]] = p[2];\n      else if (/^(shared~|bundle\\.|loader\\.|loaders\\.|ondemand\\.)/.test(p[2])) names[p[1]] = p[2];\n    }\n    const score = id => { const n = names[id] || ''; return /Bookmark/.test(n) ? 0 : (n.startsWith('shared~') ? 1 : 2); };\n    const cands = Object.keys(hashes).filter(id => score(id) < 2)\n      .sort((a, b) => score(a) - score(b) || ((names[b] || '').length - (names[a] || '').length))\n      .slice(0, 200);\n    for (const id of cands) {\n      const js = await get(BASE + (names[id] || id) + '.' + hashes[id] + 'a.js');\n      m = js.match(OP_RE);\n      if (m) { queryId = m[1]; featureNames = list(m[2]); toggleNames = list(m[3]); source = 'chunk ' + (names[id] || id); break; }\n    }\n  }\n}\n\nlet features = {};\nfor (const f of featureNames) {\n  const v = html.match(new RegExp('\"' + f + '\":\\\\{\"value\":(true|false)'));\n  features[f] = v ? v[1] === 'true' : false;\n}\n\n// Fallback: community-maintained mirror of X's internal API params.\nif (!queryId || !bearer) {\n  try {\n    const doc = await this.helpers.httpRequest({ method: 'GET', url: 'https://raw.githubusercontent.com/fa0311/TwitterInternalAPIDocument/refs/heads/develop/docs/json/API.json', json: true });\n    const b = doc.graphql && doc.graphql.Bookmarks;\n    if (!queryId && b) { queryId = b.queryId; features = b.features || {}; source = 'github fallback'; }\n    if (!bearer && doc.header && doc.header.authorization) bearer = String(doc.header.authorization).replace(/^Bearer\\s+/i, '');\n  } catch (e) {}\n}\n\nif (!mainUrl && !queryId) throw new Error('x.com returned a logged-out page. X Session cookies (auth_token/ct0) are likely expired. Refresh the \"X Session\" credential.');\nif (!queryId || !bearer) throw new Error('Could not discover Bookmarks queryId/bearer from x.com JS.');\n\nconst fieldToggles = {};\nfor (const t of toggleNames) fieldToggles[t] = false;\n\nreturn [{ json: { queryId, bearer, features: JSON.stringify(features), fieldToggles: JSON.stringify(fieldToggles), source, discovered_at: new Date().toISOString(), logged_in: !!mainUrl } }];\n"
+      },
+      "name": "Discover X Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "7a05efdb-e806-44a8-aa09-0e15a1f7014d"
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://x.com/i/api/graphql/' + $json.queryId + '/Bookmarks' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "variables",
+              "value": "={{ JSON.stringify(Object.assign({ count: 20, includePromotedContent: true }, $json.cursor ? { cursor: $json.cursor } : {})) }}"
+            },
+            {
+              "name": "features",
+              "value": "={{ $json.features }}"
+            },
+            {
+              "name": "fieldToggles",
+              "value": "={{ $json.fieldToggles }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "={{ 'Bearer ' + $json.bearer }}"
+            },
+            {
+              "name": "x-twitter-active-user",
+              "value": "yes"
+            },
+            {
+              "name": "x-twitter-auth-type",
+              "value": "OAuth2Session"
+            },
+            {
+              "name": "x-twitter-client-language",
+              "value": "en"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            },
+            {
+              "name": "referer",
+              "value": "https://x.com/i/bookmarks"
+            },
+            {
+              "name": "user-agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "name": "Fetch Bookmarks Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "db970b8b-3c01-4c31-a020-4637215a79d4",
+      "credentials": {
+        "httpCustomAuth": {
+          "id": "NpHYNO4FMHEoq5Fu",
+          "name": "X Session"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const r = $input.first().json;\nlet body = r.body;\nif (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) {} }\nconst instr = (body && body.data && body.data.bookmark_timeline_v2 && body.data.bookmark_timeline_v2.timeline && body.data.bookmark_timeline_v2.timeline.instructions) || [];\nconst add = instr.find(i => i.type === 'TimelineAddEntries') || {};\nconst entries = add.entries || [];\nconst d = $('Discover X Config').first().json;\nreturn [{ json: {\n  status: r.statusCode,\n  entries: entries.length,\n  tweets: entries.filter(e => String(e.entryId).startsWith('tweet-')).length,\n  cursorBottom: !!entries.find(e => String(e.entryId).startsWith('cursor-bottom')),\n  errors: (body && body.errors) || null,\n  rawStart: typeof body === 'string' ? body.slice(0, 300) : JSON.stringify(body).slice(0, 300),\n  source: d.source, queryId: d.queryId, logged_in: d.logged_in\n} }];\n"
+      },
+      "name": "Summarize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "b597a41f-00e0-4ee1-880d-40e139972150"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "2lLfI2tMlgjMstnX",
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2026-10-18T05:14:19.027Z",
+      "updatedAt": "2026-10-18T05:14:19.027Z"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-10-18T05:22:11.715Z",
+  "versionId": "9e5fa74c-520c-4fe7-97a1-b18a46605500"
+}
