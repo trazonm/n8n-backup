@@ -1,14 +1,14 @@
 {
   "active": true,
   "activeVersion": {
-    "versionId": "c5b85dcf-fe67-4138-9223-8b38ce666511",
+    "versionId": "1a700dba-a778-48a4-a6d8-82dd62cc1351",
     "workflowId": "2lLfI2tMlgjMstnX",
     "nodes": [
       {
         "parameters": {
-          "content": "## 1. Connect X\nThe **Connect X** Chrome extension POSTs your x.com `auth_token` + `ct0` here whenever they change. Saved to the `x_session` data table, then a sync kicks off.\n\nConnect / sync / data webhooks require the `x-bm-key` header (value set in each *Key OK?* node and in the extension's `config.js`).",
-          "height": 260,
-          "width": 1080,
+          "content": "## 1. API (n8n sign-in)\nOne endpoint, `POST /webhook/x-bookmarks/api`, protected by **n8n User Auth (OAuth2)** with *Require Workflow Execute Permission* off, so any n8n user on this instance can sign in. **Who Is Calling** reads the caller's n8n user id from the verified token; every action only touches that user's X accounts (`x_session.owner`).\n\nActions: `data` (page load), `sync` (page Sync button), `connect` (extension sends fresh X cookies).",
+          "height": 700,
+          "width": 1540,
           "color": 5
         },
         "id": "211e61a5-8c7f-4084-a00d-f458408b1bff",
@@ -16,69 +16,15 @@
         "type": "n8n-nodes-base.stickyNote",
         "typeVersion": 1,
         "position": [
-          -1184,
+          -1648,
           -144
-        ]
-      },
-      {
-        "parameters": {
-          "multipleMethods": false,
-          "httpMethod": "POST",
-          "path": "x-bookmarks/connect",
-          "authentication": "none",
-          "responseMode": "responseNode",
-          "webhookNotice": "",
-          "options": {}
-        },
-        "id": "3bcd59a3-a0d9-4d88-a48f-ebf23352c4be",
-        "name": "Connect Webhook",
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 2.1,
-        "position": [
-          -1104,
-          0
-        ],
-        "webhookId": "5baefb59-fe64-47aa-bc2f-2416ac24117d"
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 2
-            },
-            "conditions": [
-              {
-                "id": "e65fc33f-b6ab-41db-ad1f-afbb2510edce",
-                "leftValue": "={{ $json.headers['x-bm-key'] }}",
-                "operator": {
-                  "type": "string",
-                  "operation": "equals"
-                },
-                "rightValue": "4BRezdhgtHg3pCsuzB-_CHIn"
-              }
-            ],
-            "combinator": "and"
-          },
-          "looseTypeValidation": false,
-          "options": {}
-        },
-        "id": "6d02c507-e0d5-4149-9244-efd53e7bf33b",
-        "name": "Connect Key OK?",
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.2,
-        "position": [
-          -880,
-          0
         ]
       },
       {
         "parameters": {
           "mode": "runOnceForAllItems",
           "language": "javaScript",
-          "jsCode": "// Cookies posted by the \"Connect X\" extension. One row per X account (keyed by account id).\nconst b = $json.body || {};\nif (!b.auth_token || !b.ct0) throw new Error('Missing auth_token or ct0 - make sure you are logged into x.com');\nconst acct = decodeURIComponent(String(b.twid || '')).replace(/\"/g, '').replace(/^u=/, '');\nif (!/^\\d+$/.test(acct)) throw new Error('Missing twid cookie - log into x.com and try again');\nreturn [{ json: {\n  session_key: acct,\n  auth_token: String(b.auth_token),\n  ct0: String(b.ct0),\n  twid: String(b.twid),\n  status: 'connected',\n  last_error: '',\n  connected_at: new Date().toISOString(),\n} }];",
+          "jsCode": "// Cookies posted by the \"Connect X\" extension (caller already identified by n8n sign-in). One row per X account (keyed by account id).\nconst b = $json.body || {};\nif (!b.auth_token || !b.ct0) throw new Error('Missing auth_token or ct0 - make sure you are logged into x.com');\nconst acct = decodeURIComponent(String(b.twid || '')).replace(/\"/g, '').replace(/^u=/, '');\nif (!/^\\d+$/.test(acct)) throw new Error('Missing twid cookie - log into x.com and try again');\nreturn [{ json: {\n  session_key: acct,\n  owner: $json.user_id,\n  auth_token: String(b.auth_token),\n  ct0: String(b.ct0),\n  twid: String(b.twid),\n  status: 'connected',\n  last_error: '',\n  connected_at: new Date().toISOString(),\n} }];",
           "notice": ""
         },
         "id": "83448c86-5b82-4fae-baae-c77fc74c0d94",
@@ -144,60 +90,6 @@
         "position": [
           -224,
           -16
-        ]
-      },
-      {
-        "parameters": {
-          "multipleMethods": false,
-          "httpMethod": "GET",
-          "path": "x-bookmarks/sync",
-          "authentication": "none",
-          "responseMode": "responseNode",
-          "webhookNotice": "",
-          "options": {}
-        },
-        "id": "44b9c154-be1a-4305-a94c-24c1c1fde33d",
-        "name": "Sync Webhook",
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 2.1,
-        "position": [
-          -1104,
-          224
-        ],
-        "webhookId": "efa1871d-63b1-44a9-a7e0-72cb33669870"
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 2
-            },
-            "conditions": [
-              {
-                "id": "f71f0b2a-46a6-411c-a30c-36cdf53220ac",
-                "leftValue": "={{ $json.headers['x-bm-key'] }}",
-                "operator": {
-                  "type": "string",
-                  "operation": "equals"
-                },
-                "rightValue": "4BRezdhgtHg3pCsuzB-_CHIn"
-              }
-            ],
-            "combinator": "and"
-          },
-          "looseTypeValidation": false,
-          "options": {}
-        },
-        "id": "52b58cc6-27e3-49d6-ae88-689479f34a53",
-        "name": "Sync Key OK?",
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.2,
-        "position": [
-          -880,
-          224
         ]
       },
       {
@@ -587,7 +479,7 @@
       },
       {
         "parameters": {
-          "content": "## 3. Bookmarks page\nOpen `/webhook/x-bookmarks#key=…` (the extension's **Open my bookmarks** button does this). The key stays in the URL fragment so it never hits server logs. The page pulls everything from `/data` once, then sorts (newest/oldest saved or posted, most liked), shuffles, picks a random one and searches client-side.",
+          "content": "## 3. Bookmarks page\nOpen `/webhook/x-bookmarks`. The page signs in with n8n (OAuth, PKCE) on each visit, since n8n serves it sandboxed and it can't store anything, then loads only that user's bookmarks via the API. Sorting, shuffle, random, search and Watch mode all run in the browser.",
           "height": 600,
           "width": 1260,
           "color": 6
@@ -627,7 +519,7 @@
           "generalNotice": "",
           "respondWith": "text",
           "webhookNotice": "",
-          "responseBody": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<meta name=\"referrer\" content=\"no-referrer\">\n<title>X Bookmarks</title>\n<style>\n:root{--bg:#0b0d10;--panel:#14181d;--line:#232a32;--text:#e7ebef;--muted:#8b96a3;--accent:#1d9bf0;--accent2:#0d6eae;--warn:#f4b740;--bad:#f4606c;--mark:#1d9bf033}\n@media (prefers-color-scheme: light){:root{--bg:#f5f7f9;--panel:#fff;--line:#e3e8ed;--text:#0f1419;--muted:#5b6670;--mark:#1d9bf02e}}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,\"Segoe UI\",Roboto,sans-serif}\na{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}\nheader{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}\n.wrap{max-width:720px;margin:0 auto;padding:0 16px}\n.top{display:flex;align-items:center;gap:10px;padding:10px 0 6px;min-width:0}\n.top h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.01em}\n.count{color:var(--muted);font-size:13px}\n.spacer{flex:1}\n.pill{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}\n.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,transparent)}\n.controls{display:flex;gap:8px;padding:0 0 8px}\ninput[type=search]{flex:1 1 220px;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font:inherit;outline:none}\ninput[type=search]:focus{border-color:var(--accent)}\nselect,button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 11px;font:inherit;font-size:14px;cursor:pointer}\nbutton:hover,select:hover{border-color:var(--muted)}\nbutton.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}\nbutton.primary:hover{background:var(--accent2)}\nlabel.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);padding:0 4px;cursor:pointer}\n.banner{margin:12px 0 0;padding:10px 12px;border-radius:10px;border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);background:color-mix(in srgb,var(--warn) 10%,transparent);font-size:14px}\nmain{padding:12px 0 60px}\n.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 10px;display:grid;grid-template-columns:44px 1fr;gap:12px}\n.card.spot{border-color:var(--accent);box-shadow:0 0 0 3px var(--mark)}\n.av{width:44px;height:44px;border-radius:50%;background:var(--line);object-fit:cover}\n.meta{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;min-width:0}\n.name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}\n.handle,.date{color:var(--muted);font-size:14px}\n.txt{white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere;margin-top:3px}\n.txt mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}\n.media{display:grid;gap:4px;margin-top:10px;border-radius:12px;overflow:hidden}\n.media.n2,.media.n3,.media.n4{grid-template-columns:1fr 1fr}\n.media .m{position:relative;background:var(--line);aspect-ratio:16/10;overflow:hidden;cursor:pointer}\n.media.n1 .m{aspect-ratio:auto;max-height:480px}\n.media img,.media video{width:100%;height:100%;object-fit:cover;display:block}\n.media.n1 img{object-fit:contain;max-height:480px;background:#000}\n.play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}\n.play span{background:#000a;color:#fff;border-radius:50%;width:48px;height:48px;display:grid;place-items:center;font-size:20px}\n.quote{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}\n.quote .meta .name{max-width:50%}\n.foot{display:flex;gap:16px;color:var(--muted);font-size:13px;margin-top:10px}\n.foot a{color:var(--muted)}\n.empty{color:var(--muted);text-align:center;padding:60px 0}\nbody{overflow-x:clip}\nheader{transition:transform .22s ease}\nheader.hide{transform:translateY(-101%)}\n.sub{display:flex;align-items:center;gap:8px;padding:0 0 8px;min-width:0}\n.sub .pill{min-width:0;overflow:hidden;text-overflow:ellipsis}\n.sub #acct{max-width:60%;min-width:0;font-size:13px;padding:4px 8px}\n.chips{display:flex;gap:8px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}\n.chips::-webkit-scrollbar{display:none}\n.chips>*{flex:0 0 auto}\n.iconbtn{display:inline-flex;align-items:center;gap:6px}\n.iconbtn svg{width:16px;height:16px}\n.iconbtn.busy svg{animation:spin 1s linear infinite}\n@keyframes spin{to{transform:rotate(360deg)}}\n@media (max-width:520px){.wrap{padding:0 12px}input[type=search],select{font-size:16px}.top h1{font-size:18px}}\n#more{height:1px}\nbody.noscroll{overflow:hidden}\n#feed{position:fixed;inset:0;height:100dvh;z-index:50;background:#000;color:#fff}\n#feedTrack{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none}\n#feedTrack::-webkit-scrollbar,.fpages::-webkit-scrollbar{display:none}\n.fslide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}\n.fpages{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}\n.fpage{flex:0 0 100%;height:100%;scroll-snap-align:start}\n.fvid{position:relative;width:100%;height:100%}\n.fmedia{width:100%;height:100%;object-fit:contain;display:block;background:#000}\n.fvid video{position:absolute;inset:0}\n.ftop{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 10px) 12px 18px;background:linear-gradient(#000b,#0000);pointer-events:none}\n.ftop>*{pointer-events:auto}\n.ftop button{background:#0007;border:0;color:#fff;border-radius:999px;width:40px;height:40px;padding:0;display:grid;place-items:center}\n.ftop button svg{width:20px;height:20px}\n#fcount{font-size:13px;opacity:.8;flex:1}\n.fdots{position:absolute;top:calc(env(safe-area-inset-top) + 62px);left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2;pointer-events:none}\n.fdots i{width:6px;height:6px;border-radius:50%;background:#fff6}.fdots i.on{background:#fff}\n.fcap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:48px 16px calc(env(safe-area-inset-bottom) + 38px);background:linear-gradient(#0000,#000d 55%);pointer-events:none}\n.fcap a,.ftxt{pointer-events:auto}.fcap a{color:#8ecdf8}\n.fwho{font-weight:700}.fwho span{font-weight:400;opacity:.7}\n.ftxt{margin-top:4px;font-size:14px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}\n.ftxt.open{display:block;max-height:45dvh;overflow:auto}\n.fmeta{margin-top:6px;font-size:13px;opacity:.85}\n#fseek{position:absolute;left:0;right:0;bottom:env(safe-area-inset-bottom);height:34px;z-index:5;touch-action:none;cursor:pointer;display:flex;align-items:flex-end;padding-bottom:8px}\n#fseek[hidden]{display:none}\n.fbar{position:relative;flex:1;height:3px;margin:0 14px;background:#ffffff45;border-radius:3px;transition:height .12s}\n#fseek.drag .fbar{height:6px}\n.ffill{position:absolute;left:0;top:0;bottom:0;width:0;background:#1d9bf0;border-radius:3px}\n.fknob{position:absolute;left:0;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;transform:scale(.7);transition:transform .12s;box-shadow:0 0 4px #0008}\n#fseek.drag .fknob{transform:scale(1.25)}\n#ftime{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:#000b;padding:4px 10px;border-radius:8px;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap;display:none;pointer-events:none}\n#fseek.drag #ftime{display:block}\n.fvid{touch-action:manipulation}\n.fhint{position:absolute;top:50%;width:88px;height:88px;margin-top:-44px;border-radius:50%;background:#000a;display:grid;place-items:center;font-weight:700;font-size:15px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:1}\n.fhint.l{left:10%}.fhint.r{right:10%}.fhint.show{opacity:1}\n#feed .ftop,#feed .fcap,#feed #fseek,#feed .fdots,#fplay{transition:opacity .2s ease,visibility .2s ease}\n#feed:not(.ui) .ftop,#feed:not(.ui) .fcap,#feed:not(.ui) #fseek,#feed:not(.ui) .fdots,#feed:not(.ui) #fplay{opacity:0;visibility:hidden}\n#fplay{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;border:0;padding:0;background:#0009;color:#fff;display:grid;place-items:center;z-index:4}\n#fplay svg{width:34px;height:34px}\n#feed.novid #fplay{display:none}\n.keyform{display:flex;flex-direction:column;align-items:center;gap:10px}\n.keyform input{width:min(320px,100%);background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}\n@media (max-width:520px){.card{grid-template-columns:36px 1fr;padding:12px}.av{width:36px;height:36px}.controls select{flex:1}}\n</style>\n</head>\n<body>\n<header>\n  <div class=\"wrap\">\n    <div class=\"top\">\n      <h1>Bookmarks</h1><span class=\"count\" id=\"count\"></span>\n      <span class=\"spacer\"></span>\n      <button id=\"syncBtn\" class=\"iconbtn\" title=\"Pull the latest bookmarks from X\" aria-label=\"Sync now\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 11a8 8 0 10-2.3 5.7\"/><path d=\"M20 5v6h-6\"/></svg><span>Sync</span></button>\n    </div>\n    <div class=\"sub\">\n      <select id=\"acct\" hidden title=\"X account\"></select>\n      <span class=\"pill\" id=\"status\">loading…</span>\n    </div>\n    <div class=\"controls\">\n      <input type=\"search\" id=\"q\" placeholder=\"Search text, names, @handles…\" autocomplete=\"off\" enterkeyhint=\"search\">\n    </div>\n    <div class=\"chips\">\n      <select id=\"sort\" title=\"Sort\">\n        <option value=\"saved_desc\">Newest saved</option>\n        <option value=\"saved_asc\">Oldest saved</option>\n        <option value=\"posted_desc\">Newest posted</option>\n        <option value=\"posted_asc\">Oldest posted</option>\n        <option value=\"likes\">Most liked</option>\n        <option value=\"random\">Shuffled</option>\n      </select>\n      <button id=\"feedBtn\" class=\"primary\" title=\"Swipe through photos and videos full-screen ( w )\">Watch</button>\n      <button id=\"shuffleBtn\" title=\"Shuffle the list\">Shuffle</button>\n      <button id=\"randomBtn\" title=\"Jump to one random bookmark ( r )\">Random</button>\n      <label class=\"chk\"><input type=\"checkbox\" id=\"mediaOnly\"> Media</label>\n    </div>\n  </div>\n</header>\n<div class=\"wrap\">\n  <div id=\"banner\"></div>\n  <main id=\"list\"></main>\n  <div id=\"more\"></div>\n</div>\n<div id=\"feed\" hidden>\n  <div class=\"ftop\">\n    <button id=\"fclose\" title=\"Close (Esc)\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg></button>\n    <span id=\"fcount\"></span>\n    <button id=\"fmute\" title=\"Sound (m)\"></button>\n  </div>\n  <div id=\"feedTrack\"></div>\n  <button id=\"fplay\" aria-label=\"Play or pause\"></button>\n  <div id=\"fseek\" hidden><div class=\"fbar\"><div class=\"ffill\"></div><div class=\"fknob\"></div></div><div id=\"ftime\"></div></div>\n</div>\n<script>\n(() => {\n  const BASE = location.pathname.replace(/\\/$/, '');\n  const PAGE = 40;\n  const $ = (id) => document.getElementById(id);\n  const store = { get(k){ try { return localStorage.getItem('xbm.' + k); } catch { return null; } }, set(k, v){ try { localStorage.setItem('xbm.' + k, v); } catch {} } };\n  const KEY = (() => { const h = new URLSearchParams(location.hash.slice(1)).get('key'); if (h) { store.set('key', h); history.replaceState(null, '', location.pathname); return h; } return store.get('key') || ''; })();\n  const AUTH = { headers: { 'x-bm-key': KEY } };\n\n  let everything = [], accounts = [], acct = store.get('acct') || '', all = [], view = [], shown = 0, shuffleSeed = Math.random(), spotId = null;\n\n  const esc = (s) => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));\n  const terms = () => $('q').value.trim().toLowerCase().split(/\\s+/).filter(Boolean);\n  const big = (s) => { try { return BigInt(s || 0); } catch { return 0n; } };\n\n  function richText(raw, hl) {\n    let h = esc(raw);\n    h = h.replace(/(https?:\\/\\/[^\\s<]+)/g, (u) => `<a href=\"${u}\" target=\"_blank\" rel=\"noopener\">${u.replace(/^https?:\\/\\/(www\\.)?/, '').slice(0, 48)}${u.length > 56 ? '…' : ''}</a>`);\n    h = h.replace(/(^|[^\\w/])@(\\w{1,15})/g, '$1<a href=\"https://x.com/$2\" target=\"_blank\" rel=\"noopener\">@$2</a>');\n    h = h.replace(/(^|[^\\w/&])#(\\w+)/g, '$1<a href=\"https://x.com/hashtag/$2\" target=\"_blank\" rel=\"noopener\">#$2</a>');\n    if (hl.length) {\n      const re = new RegExp('(' + hl.map(t => esc(t).replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('|') + ')', 'gi');\n      h = h.split(/(<[^>]+>)/).map(part => part.startsWith('<') ? part : part.replace(re, '<mark>$1</mark>')).join('');\n    }\n    return h;\n  }\n\n  function mediaHtml(media) {\n    if (!media || !media.length) return '';\n    const items = media.slice(0, 4).map(m => {\n      const thumb = esc(m.thumb) + (m.thumb && m.thumb.includes('pbs.twimg.com/media') ? '?name=small' : '');\n      const vid = m.video ? ` data-video=\"${esc(m.video)}\"` : '';\n      const full = m.video ? '' : ` data-full=\"${esc(m.thumb)}?name=large\"`;\n      return `<div class=\"m\"${vid}${full}><img loading=\"lazy\" src=\"${thumb}\" alt=\"\">${m.video ? '<div class=\"play\"><span>▶</span></div>' : ''}</div>`;\n    }).join('');\n    return `<div class=\"media n${Math.min(media.length, 4)}\">${items}</div>`;\n  }\n\n  const fmtDate = (iso) => { const d = new Date(iso); if (isNaN(d)) return ''; const sameYear = d.getFullYear() === new Date().getFullYear(); return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', ...(sameYear ? {} : { year: 'numeric' }) }); };\n  const fmtNum = (n) => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(n || 0);\n\n  function card(b, hl) {\n    const d = b.d;\n    const q = d.quote ? `<div class=\"quote\"><div class=\"meta\"><span class=\"name\">${esc(d.quote.name)}</span><span class=\"handle\">@${esc(d.quote.handle)}</span></div><div class=\"txt\">${richText(d.quote.text, hl)}</div>${mediaHtml(d.quote.media)}<div class=\"foot\"><a href=\"${esc(d.quote.url)}\" target=\"_blank\" rel=\"noopener\">Open quoted post ↗</a></div></div>` : '';\n    return `<article class=\"card${b.id === spotId ? ' spot' : ''}\" id=\"t${esc(b.id)}\">\n      <img class=\"av\" loading=\"lazy\" src=\"${esc(d.avatar)}\" alt=\"\">\n      <div style=\"min-width:0\">\n        <div class=\"meta\"><span class=\"name\">${esc(d.name)}</span><a class=\"handle\" href=\"https://x.com/${esc(d.handle)}\" target=\"_blank\" rel=\"noopener\">@${esc(d.handle)}</a><span class=\"date\">· ${fmtDate(b.posted)}</span></div>\n        <div class=\"txt\">${richText(d.text, hl)}</div>\n        ${mediaHtml(d.media)}${q}\n        <div class=\"foot\"><span>♥ ${fmtNum(d.likes)}</span><span>↻ ${fmtNum(d.rts)}</span>${d.views ? `<span>${fmtNum(d.views)} views</span>` : ''}<span class=\"spacer\"></span><a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div>\n      </div></article>`;\n  }\n\n  function seededShuffle(arr, seed) {\n    const a = arr.slice(); let s = Math.floor(seed * 2 ** 31) || 1;\n    const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;\n    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }\n    return a;\n  }\n\n  function compute() {\n    const t = terms(), mediaOnly = $('mediaOnly').checked;\n    let v = all.filter(b => (!mediaOnly || (b.d.media && b.d.media.length) || (b.d.quote && b.d.quote.media && b.d.quote.media.length)) && t.every(w => b.hay.includes(w)));\n    const s = $('sort').value;\n    if (s === 'saved_desc') v.sort((a, b) => (big(b.s) > big(a.s)) - (big(b.s) < big(a.s)));\n    else if (s === 'saved_asc') v.sort((a, b) => (big(a.s) > big(b.s)) - (big(a.s) < big(b.s)));\n    else if (s === 'posted_desc') v.sort((a, b) => b.ts - a.ts);\n    else if (s === 'posted_asc') v.sort((a, b) => a.ts - b.ts);\n    else if (s === 'likes') v.sort((a, b) => (b.d.likes || 0) - (a.d.likes || 0));\n    else if (s === 'random') v = seededShuffle(v, shuffleSeed);\n    view = v; shown = 0;\n    $('count').textContent = t.length || mediaOnly ? `${v.length} of ${all.length}` : `${all.length}`;\n    $('list').innerHTML = v.length ? '' : `<div class=\"empty\">${all.length ? 'Nothing matches.' : 'No bookmarks yet. Hit Sync, or connect X with the extension.'}</div>`;\n    renderMore();\n  }\n\n  function renderMore(upTo) {\n    const hl = terms();\n    const end = Math.min(view.length, Math.max(shown + PAGE, upTo || 0));\n    if (end <= shown) return;\n    $('list').insertAdjacentHTML('beforeend', view.slice(shown, end).map(b => card(b, hl)).join(''));\n    shown = end;\n  }\n\n  new IntersectionObserver((e) => { if (e[0].isIntersecting) renderMore(); }, { rootMargin: '1200px' }).observe($('more'));\n\n  $('list').addEventListener('click', (e) => {\n    const m = e.target.closest('.m'); if (!m) return;\n    const card = m.closest('.card'); openFeed(card ? card.id.slice(1) : null);\n  });\n\n  let qt; $('q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(compute, 120); });\n  $('sort').addEventListener('change', () => { store.set('sort', $('sort').value); spotId = null; compute(); });\n  $('mediaOnly').addEventListener('change', compute);\n  $('shuffleBtn').addEventListener('click', () => { shuffleSeed = Math.random(); $('sort').value = 'random'; spotId = null; compute(); scrollTo({ top: 0 }); });\n  $('randomBtn').addEventListener('click', () => {\n    if (!view.length) return;\n    const i = Math.floor(Math.random() * view.length);\n    spotId = view[i].id;\n    document.querySelectorAll('.card.spot').forEach(c => c.classList.remove('spot'));\n    renderMore(i + 1);\n    const el = document.getElementById('t' + spotId);\n    if (el) { el.classList.add('spot'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }\n  });\n  document.addEventListener('keydown', (e) => {\n    if (feedOpen) {\n      if (e.key === 'Escape') closeFeed(false);\n      else if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); track.scrollBy({ top: track.clientHeight, behavior: 'smooth' }); }\n      else if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); track.scrollBy({ top: -track.clientHeight, behavior: 'smooth' }); }\n      else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); const s = e.key === 'ArrowLeft' ? -1 : 1; seekBy(s * 5); if (fv.parentNode) showHint(fv.parentNode, s); }\n      else if (e.key === 'm') $('fmute').click();\n      else if (e.key === ' ') { e.preventDefault(); if (fv.parentNode) fv.paused ? play() : fv.pause(); showUI(); }\n      return;\n    }\n    if (e.target.matches('input,select,textarea')) { if (e.key === 'Escape') e.target.blur(); return; }\n    if (e.key === 'w') $('feedBtn').click();\n    if (e.key === '/') { e.preventDefault(); $('q').focus(); }\n    if (e.key === 'r') $('randomBtn').click();\n  });\n\n  $('syncBtn').addEventListener('click', async () => {\n    const btn = $('syncBtn'); btn.disabled = true; btn.classList.add('busy'); btn.querySelector('span').textContent = 'Syncing';\n    try {\n      await fetch(`${BASE}/sync`, AUTH);\n      const before = statusInfo.last_sync_at;\n      for (let i = 0; i < 40; i++) {\n        await new Promise(r => setTimeout(r, 4000));\n        const d = await load(true);\n        const s = d && curAccount(); if (s && (s.last_sync_at !== before || s.status === 'expired')) break;\n      }\n    } finally { btn.disabled = false; btn.classList.remove('busy'); btn.querySelector('span').textContent = 'Sync'; }\n  });\n\n  let statusInfo = {};\n  function showStatus(s) {\n    statusInfo = s || {};\n    const pill = $('status'), banner = $('banner');\n    pill.className = 'pill'; banner.innerHTML = '';\n    if (!s || !s.status) { pill.textContent = 'not connected'; pill.classList.add('bad'); banner.innerHTML = '<div class=\"banner\">X isn\\'t connected yet. Log into x.com in the browser that has the <b>Connect X</b> extension, then click it.</div>'; return; }\n    if (s.status === 'expired' || s.status === 'error') {\n      pill.textContent = s.status === 'expired' ? 'X session expired' : 'last sync failed'; pill.classList.add('bad');\n      banner.innerHTML = `<div class=\"banner\">${s.status === 'expired' ? 'X logged this session out. Log into that account on x.com and click the <b>Connect X</b> extension (it usually does this on its own).' : 'Last sync failed: ' + esc(s.last_error || 'unknown error')}</div>`;\n      return;\n    }\n    const when = s.last_sync_at ? new Date(s.last_sync_at) : null;\n    const mins = when ? Math.round((Date.now() - when) / 60000) : 0;\n    pill.textContent = when ? 'synced ' + (mins < 1 ? 'just now' : mins < 60 ? mins + 'm ago' : mins < 1440 ? Math.round(mins / 60) + 'h ago' : Math.round(mins / 1440) + 'd ago') : 'connected, syncing…';\n    pill.title = when ? when.toLocaleString() : '';\n  }\n\n  const curAccount = () => accounts.find(a => a.id === acct) || null;\n  function renderAccounts() {\n    const sel = $('acct');\n    sel.hidden = accounts.length < 2;\n    sel.innerHTML = accounts.map((a, i) => `<option value=\"${esc(a.id)}\">${a.label ? '@' + esc(a.label) : 'Account ' + (i + 1)}</option>`).join('');\n    sel.value = acct;\n  }\n  function applyAccount(quiet) {\n    const next = everything.filter(b => b.a === acct);\n    const changed = !quiet || next.length !== all.length || (next[0] && all[0] && next[0].id !== all[0].id);\n    all = next;\n    showStatus(curAccount());\n    if (changed) compute();\n  }\n  $('acct').addEventListener('change', () => { acct = $('acct').value; store.set('acct', acct); spotId = null; applyAccount(false); scrollTo({ top: 0 }); });\n\n  // ---------- Watch mode: full-screen vertical swipe through media ----------\n  const feed = $('feed'), track = $('feedTrack');\n  const fv = document.createElement('video');\n  fv.className = 'fmedia'; fv.loop = true; fv.playsInline = true; fv.setAttribute('playsinline', ''); fv.preload = 'auto';\n  let feedItems = [], feedIdx = -1, feedOpen = false, muted = store.get('muted') === '1', io1, io2;\n  const ICON_ON = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13\"/></svg>';\n  const ICON_OFF = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M22 9l-6 6M16 9l6 6\"/></svg>';\n  const mediaList = (b) => (b.d.media && b.d.media.length) ? b.d.media : ((b.d.quote && b.d.quote.media) || []);\n  const syncMute = () => { $('fmute').innerHTML = fv.muted ? ICON_OFF : ICON_ON; };\n\n  function slideHtml(b, i) {\n    const m = mediaList(b), d = b.d;\n    const pages = m.map(x => x.video\n      ? `<div class=\"fpage\"><div class=\"fvid\" data-video=\"${esc(x.video)}\" data-poster=\"${esc(x.thumb)}\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}\" alt=\"\"></div></div>`\n      : `<div class=\"fpage\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}${x.thumb && x.thumb.includes('pbs.twimg.com/media') ? '?name=large' : ''}\" alt=\"\"></div>`).join('');\n    return `<section class=\"fslide\" data-i=\"${i}\"><div class=\"fpages\">${pages}</div>${m.length > 1 ? `<div class=\"fdots\">${m.map((_, j) => `<i class=\"${j ? '' : 'on'}\"></i>`).join('')}</div>` : ''}<div class=\"fcap\"><div class=\"fwho\">@${esc(d.handle)} <span>· ${fmtDate(b.posted)}</span></div>${d.text ? `<div class=\"ftxt\">${richText(d.text, [])}</div>` : ''}<div class=\"fmeta\">♥ ${fmtNum(d.likes)} · <a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div></div></section>`;\n  }\n\n  function play() {\n    const p = fv.play();\n    if (p) p.catch((err) => { if (err && err.name === 'NotAllowedError' && !fv.muted) { fv.muted = true; syncMute(); fv.play().catch(() => {}); } });\n  }\n\n  function placeVideo(slide, j) {\n    const page = slide.querySelectorAll('.fpage')[j];\n    const holder = page && page.querySelector('.fvid');\n    $('fseek').hidden = !holder;\n    feed.classList.toggle('novid', !holder);\n    if (!holder) { if (fv.parentNode) fv.parentNode.classList.remove('paused'); fv.pause(); fv.remove(); return; }\n    if (fv.parentNode === holder) return;\n    if (fv.parentNode) fv.parentNode.classList.remove('paused');\n    if (!fv.paused) autoPause = true;\n    fv.pause(); holder.appendChild(fv); paintBar(0);\n    fv.poster = holder.dataset.poster; fv.src = holder.dataset.video; fv.muted = muted; syncMute();\n    play();\n  }\n\n  function setActive(i) {\n    if (i === feedIdx) return;\n    feedIdx = i;\n    if (feed.classList.contains('ui')) setTimeout(showUI, 0);\n    $('fcount').textContent = `${i + 1} / ${feedItems.length}`;\n    const slide = track.querySelector(`.fslide[data-i=\"${i}\"]`); if (!slide) return;\n    const pg = slide.querySelector('.fpages');\n    placeVideo(slide, Math.round(pg.scrollLeft / (pg.clientWidth || 1)));\n  }\n\n  function openFeed(startId) {\n    feedItems = view.filter(b => mediaList(b).length);\n    if (!feedItems.length) return;\n    const start = Math.max(0, feedItems.findIndex(b => b.id === startId));\n    track.innerHTML = feedItems.map(slideHtml).join('');\n    feed.hidden = false; document.body.classList.add('noscroll'); feedOpen = true; feedIdx = -1;\n    history.pushState({ feed: 1 }, '');\n    syncMute();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    io1 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setActive(+e.target.dataset.i); }), { root: track, threshold: 0.6 });\n    io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.querySelectorAll('img[data-src]').forEach(im => { im.src = im.dataset.src; im.removeAttribute('data-src'); }); }), { root: track, rootMargin: '200% 0px' });\n    track.querySelectorAll('.fslide').forEach(s => { io1.observe(s); io2.observe(s); });\n    track.scrollTop = start * track.clientHeight;\n    setActive(start);\n    requestAnimationFrame(tick);\n    syncPlayBtn(); showUI();\n  }\n\n  function closeFeed(fromPop) {\n    if (!feedOpen) return;\n    feedOpen = false;\n    fv.pause(); fv.removeAttribute('src'); fv.load(); fv.remove();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    feed.hidden = true; document.body.classList.remove('noscroll'); track.innerHTML = '';\n    if (!fromPop && history.state && history.state.feed) history.back();\n    const b = feedItems[feedIdx];\n    if (b) { renderMore(view.indexOf(b) + 1); const el = document.getElementById('t' + b.id); if (el) el.scrollIntoView({ block: 'center' }); }\n  }\n\n  addEventListener('popstate', () => closeFeed(true));\n  $('fclose').addEventListener('click', () => closeFeed(false));\n  $('fmute').addEventListener('click', () => { showUI(); muted = !fv.muted; store.set('muted', muted ? '1' : '0'); fv.muted = muted; syncMute(); if (!muted && fv.paused && fv.parentNode) play(); });\n  $('feedBtn').addEventListener('click', () => openFeed(null));\n  track.addEventListener('click', (e) => {\n    const t = e.target.closest('.ftxt'); if (t) { t.classList.toggle('open'); showUI(); return; }\n    if (e.target.closest('a')) return;\n    const hv = e.target.closest('.fvid'); if (hv && fv.parentNode === hv) { onVidTap(e, hv); return; }\n    if (e.target.closest('.fcap')) { showUI(); return; }\n    toggleUI();\n  });\n  track.addEventListener('scroll', (e) => {\n    const pg = e.target; if (!pg.classList || !pg.classList.contains('fpages')) return;\n    const j = Math.round(pg.scrollLeft / (pg.clientWidth || 1));\n    pg.parentNode.querySelectorAll('.fdots i').forEach((d, k) => d.classList.toggle('on', k === j));\n    if (+pg.parentNode.dataset.i === feedIdx) placeVideo(pg.parentNode, j);\n  }, true);\n  // Seek bar: tap or drag anywhere along the bottom edge\n  const seek = $('fseek');\n  let dragging = false, wasPlaying = false;\n  const fmtT = (t) => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };\n  function paintBar(f) { const pct = (Math.min(1, Math.max(0, f)) * 100) + '%'; seek.querySelector('.ffill').style.width = pct; seek.querySelector('.fknob').style.left = pct; }\n  function scrubTo(x) {\n    const r = seek.querySelector('.fbar').getBoundingClientRect();\n    const f = Math.min(1, Math.max(0, (x - r.left) / r.width));\n    const t = f * fv.duration;\n    if (fv.fastSeek && dragging) fv.fastSeek(t); else fv.currentTime = t;\n    paintBar(f); $('ftime').textContent = fmtT(t) + ' / ' + fmtT(fv.duration);\n  }\n  seek.addEventListener('pointerdown', (e) => {\n    if (!fv.parentNode || !fv.duration) return;\n    e.preventDefault(); e.stopPropagation();\n    dragging = true; wasPlaying = !fv.paused; seek.setPointerCapture(e.pointerId); seek.classList.add('drag'); clearTimeout(uiTimer);\n    fv.pause(); scrubTo(e.clientX);\n  });\n  seek.addEventListener('pointermove', (e) => { if (dragging) scrubTo(e.clientX); });\n  const endDrag = (e) => {\n    if (!dragging) return;\n    dragging = false; seek.classList.remove('drag');\n    if (e && e.clientX != null && e.type === 'pointerup') { const r = seek.querySelector('.fbar').getBoundingClientRect(); fv.currentTime = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * fv.duration; }\n    if (wasPlaying) play();\n    showUI();\n  };\n  seek.addEventListener('pointerup', endDrag); seek.addEventListener('pointercancel', endDrag);\n  function tick() { if (!feedOpen) return; if (!dragging && fv.parentNode && fv.duration) paintBar(fv.currentTime / fv.duration); requestAnimationFrame(tick); }\n\n  // Paused indicator\n  const ICON_PLAY = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M8 5.5v13l11-6.5z\"/></svg>';\n  const ICON_PAUSE = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><rect x=\"6\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/><rect x=\"14\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/></svg>';\n  // Overlay controls: hidden until you tap; auto-hide after 3s while a video plays; stay up while paused.\n  let uiTimer = null, autoPause = false;\n  const hasVid = () => !!fv.parentNode;\n  function hideUI() { clearTimeout(uiTimer); feed.classList.remove('ui'); }\n  function showUI() {\n    feed.classList.add('ui'); clearTimeout(uiTimer);\n    if (hasVid() && !fv.paused && !dragging) uiTimer = setTimeout(hideUI, 3000);\n  }\n  const toggleUI = () => (feed.classList.contains('ui') ? hideUI() : showUI());\n  const syncPlayBtn = () => { $('fplay').innerHTML = fv.paused ? ICON_PLAY : ICON_PAUSE; };\n  fv.addEventListener('pause', () => { syncPlayBtn(); if (autoPause) { autoPause = false; return; } if (!dragging && feedOpen && hasVid()) showUI(); });\n  fv.addEventListener('play', () => { syncPlayBtn(); if (feed.classList.contains('ui')) showUI(); });\n  $('fplay').addEventListener('click', (e) => { e.stopPropagation(); if (!hasVid()) return; fv.paused ? play() : fv.pause(); showUI(); });\n\n  // Tap = play/pause. Double-tap left/right half = back/forward 5s (keep tapping to add more).\n  let tapTimer = null, lastTap = 0, lastSide = 0, hintTimer = null, hintAcc = 0, hintSide = 0, lastHint = 0;\n  function seekBy(s) { if (!fv.duration) return; fv.currentTime = Math.min(fv.duration - 0.1, Math.max(0, fv.currentTime + s)); }\n  function showHint(holder, side) {\n    const now = Date.now();\n    hintAcc = (side === hintSide && now - lastHint < 900) ? hintAcc + 5 : 5; hintSide = side; lastHint = now;\n    const cls = side < 0 ? 'l' : 'r';\n    let el = holder.querySelector('.fhint.' + cls);\n    if (!el) { el = document.createElement('div'); el.className = 'fhint ' + cls; holder.appendChild(el); }\n    holder.querySelectorAll('.fhint').forEach(h => { if (h !== el) h.classList.remove('show'); });\n    el.textContent = side < 0 ? '« ' + hintAcc + 's' : hintAcc + 's »';\n    el.classList.add('show'); clearTimeout(hintTimer); hintTimer = setTimeout(() => el.classList.remove('show'), 650);\n  }\n  function onVidTap(e, holder) {\n    const now = Date.now(), r = holder.getBoundingClientRect();\n    const side = (e.clientX - r.left) < r.width / 2 ? -1 : 1;\n    if (now - lastTap < 320 && side === lastSide) {\n      clearTimeout(tapTimer); tapTimer = null; lastTap = now;\n      seekBy(side * 5); showHint(holder, side);\n      return;\n    }\n    lastTap = now; lastSide = side;\n    clearTimeout(tapTimer);\n    tapTimer = setTimeout(() => { tapTimer = null; toggleUI(); }, 260);\n  }\n\n\n  function askKey(msg) {\n    $('list').innerHTML = `<form class=\"empty keyform\" id=\"keyForm\"><div>${msg}</div><input type=\"password\" id=\"keyIn\" placeholder=\"Access key\" autocomplete=\"current-password\"><button class=\"primary\">Unlock</button></form>`;\n    $('keyForm').addEventListener('submit', (e) => { e.preventDefault(); const v = $('keyIn').value.trim(); if (!v) return; store.set('key', v); location.replace(location.pathname); });\n  }\n\n  async function load(quiet) {\n    try {\n      const r = await fetch(`${BASE}/data`, AUTH);\n      if (r.status === 401 || r.status === 403) { askKey(KEY ? 'That key didn\\'t work. Try again.' : 'Enter your access key to unlock your bookmarks on this device.'); return null; }\n      const d = await r.json();\n      everything = (d.items || []).map(b => ({ ...b, ts: Date.parse(b.posted) || 0, hay: [b.d.text, b.d.name, '@' + b.d.handle, b.d.handle, b.d.quote && b.d.quote.text, b.d.quote && b.d.quote.handle].filter(Boolean).join(' ').toLowerCase() }));\n      accounts = d.accounts || [];\n      if (!accounts.some(a => a.id === acct)) acct = accounts[0] ? accounts[0].id : '';\n      renderAccounts();\n      applyAccount(quiet);\n      return d;\n    } catch (e) { if (!quiet) $('list').innerHTML = `<div class=\"empty\">Couldn't load bookmarks: ${esc(e.message)}</div>`; return null; }\n  }\n\n  let lastY = scrollY;\n  addEventListener('scroll', () => { const y = scrollY, hd = document.querySelector('header'); if (document.activeElement === $('q')) { hd.classList.remove('hide'); } else if (y > lastY + 6 && y > 140) hd.classList.add('hide'); else if (y < lastY - 6 || y < 60) hd.classList.remove('hide'); lastY = y; }, { passive: true });\n\n  const saved = store.get('sort'); if (saved && saved !== 'random') $('sort').value = saved;\n  load();\n})();\n</script>\n</body>\n</html>\n",
+          "responseBody": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<meta name=\"referrer\" content=\"no-referrer\">\n<title>X Bookmarks</title>\n<style>\n:root{--bg:#0b0d10;--panel:#14181d;--line:#232a32;--text:#e7ebef;--muted:#8b96a3;--accent:#1d9bf0;--accent2:#0d6eae;--warn:#f4b740;--bad:#f4606c;--mark:#1d9bf033}\n@media (prefers-color-scheme: light){:root{--bg:#f5f7f9;--panel:#fff;--line:#e3e8ed;--text:#0f1419;--muted:#5b6670;--mark:#1d9bf02e}}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,\"Segoe UI\",Roboto,sans-serif}\na{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}\nheader{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}\n.wrap{max-width:720px;margin:0 auto;padding:0 16px}\n.top{display:flex;align-items:center;gap:10px;padding:10px 0 6px;min-width:0}\n.top h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.01em}\n.count{color:var(--muted);font-size:13px}\n.spacer{flex:1}\n.pill{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}\n.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,transparent)}\n.controls{display:flex;gap:8px;padding:0 0 8px}\ninput[type=search]{flex:1 1 220px;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font:inherit;outline:none}\ninput[type=search]:focus{border-color:var(--accent)}\nselect,button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 11px;font:inherit;font-size:14px;cursor:pointer}\nbutton:hover,select:hover{border-color:var(--muted)}\nbutton.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}\nbutton.primary:hover{background:var(--accent2)}\nlabel.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);padding:0 4px;cursor:pointer}\n.banner{margin:12px 0 0;padding:10px 12px;border-radius:10px;border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);background:color-mix(in srgb,var(--warn) 10%,transparent);font-size:14px}\nmain{padding:12px 0 60px}\n.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 10px;display:grid;grid-template-columns:44px 1fr;gap:12px}\n.card.spot{border-color:var(--accent);box-shadow:0 0 0 3px var(--mark)}\n.av{width:44px;height:44px;border-radius:50%;background:var(--line);object-fit:cover}\n.meta{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;min-width:0}\n.name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}\n.handle,.date{color:var(--muted);font-size:14px}\n.txt{white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere;margin-top:3px}\n.txt mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}\n.media{display:grid;gap:4px;margin-top:10px;border-radius:12px;overflow:hidden}\n.media.n2,.media.n3,.media.n4{grid-template-columns:1fr 1fr}\n.media .m{position:relative;background:var(--line);aspect-ratio:16/10;overflow:hidden;cursor:pointer}\n.media.n1 .m{aspect-ratio:auto;max-height:480px}\n.media img,.media video{width:100%;height:100%;object-fit:cover;display:block}\n.media.n1 img{object-fit:contain;max-height:480px;background:#000}\n.play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}\n.play span{background:#000a;color:#fff;border-radius:50%;width:48px;height:48px;display:grid;place-items:center;font-size:20px}\n.quote{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}\n.quote .meta .name{max-width:50%}\n.foot{display:flex;gap:16px;color:var(--muted);font-size:13px;margin-top:10px}\n.foot a{color:var(--muted)}\n.empty{color:var(--muted);text-align:center;padding:60px 0}\nbody{overflow-x:clip}\nheader{transition:transform .22s ease}\nheader.hide{transform:translateY(-101%)}\n.sub{display:flex;align-items:center;gap:8px;padding:0 0 8px;min-width:0}\n.sub .pill{min-width:0;overflow:hidden;text-overflow:ellipsis}\n.sub #acct{max-width:60%;min-width:0;font-size:13px;padding:4px 8px}\n.chips{display:flex;gap:8px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}\n.chips::-webkit-scrollbar{display:none}\n.chips>*{flex:0 0 auto}\n.iconbtn{display:inline-flex;align-items:center;gap:6px}\n.iconbtn svg{width:16px;height:16px}\n.iconbtn.busy svg{animation:spin 1s linear infinite}\n@keyframes spin{to{transform:rotate(360deg)}}\n@media (max-width:520px){.wrap{padding:0 12px}input[type=search],select{font-size:16px}.top h1{font-size:18px}}\n#more{height:1px}\nbody.noscroll{overflow:hidden}\n#feed{position:fixed;inset:0;height:100dvh;z-index:50;background:#000;color:#fff}\n#feedTrack{height:100%;overflow:hidden;touch-action:none;overscroll-behavior:contain}\n#feedTrack::-webkit-scrollbar,.fpages::-webkit-scrollbar{display:none}\n.fslide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}\n.fpages{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;touch-action:pan-x}\n.fpage{flex:0 0 100%;height:100%;scroll-snap-align:start}\n.fvid{position:relative;width:100%;height:100%}\n.fmedia{width:100%;height:100%;object-fit:contain;display:block;background:#000}\n.fvid video{position:absolute;inset:0}\n.ftop{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 10px) 12px 18px;background:linear-gradient(#000b,#0000);pointer-events:none}\n.ftop>*{pointer-events:auto}\n.ftop button{background:#0007;border:0;color:#fff;border-radius:999px;width:40px;height:40px;padding:0;display:grid;place-items:center}\n.ftop button svg{width:20px;height:20px}\n#fcount{font-size:13px;opacity:.8;flex:1}\n.fdots{position:absolute;top:calc(env(safe-area-inset-top) + 62px);left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2;pointer-events:none}\n.fdots i{width:6px;height:6px;border-radius:50%;background:#fff6}.fdots i.on{background:#fff}\n.fcap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:48px 16px calc(env(safe-area-inset-bottom) + 38px);background:linear-gradient(#0000,#000d 55%);pointer-events:none}\n.fcap a,.ftxt{pointer-events:auto}.fcap a{color:#8ecdf8}\n.fwho{font-weight:700}.fwho span{font-weight:400;opacity:.7}\n.ftxt{margin-top:4px;font-size:14px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}\n.ftxt.open{display:block;max-height:45dvh;overflow:auto}\n.fmeta{margin-top:6px;font-size:13px;opacity:.85}\n#fseek{position:absolute;left:0;right:0;bottom:env(safe-area-inset-bottom);height:34px;z-index:5;touch-action:none;cursor:pointer;display:flex;align-items:flex-end;padding-bottom:8px}\n#fseek[hidden]{display:none}\n.fbar{position:relative;flex:1;height:3px;margin:0 14px;background:#ffffff45;border-radius:3px;transition:height .12s}\n#fseek.drag .fbar{height:6px}\n.ffill{position:absolute;left:0;top:0;bottom:0;width:0;background:#1d9bf0;border-radius:3px}\n.fknob{position:absolute;left:0;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;transform:scale(.7);transition:transform .12s;box-shadow:0 0 4px #0008}\n#fseek.drag .fknob{transform:scale(1.25)}\n#ftime{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:#000b;padding:4px 10px;border-radius:8px;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap;display:none;pointer-events:none}\n#fseek.drag #ftime{display:block}\n.fvid{touch-action:manipulation}\n.fhint{position:absolute;top:50%;width:88px;height:88px;margin-top:-44px;border-radius:50%;background:#000a;display:grid;place-items:center;font-weight:700;font-size:15px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:1}\n.fhint.l{left:10%}.fhint.r{right:10%}.fhint.show{opacity:1}\n#feed .ftop,#feed .fcap,#feed #fseek,#feed .fdots,#fplay{transition:opacity .2s ease,visibility .2s ease}\n#feed:not(.ui) .ftop,#feed:not(.ui) .fcap,#feed:not(.ui) #fseek,#feed:not(.ui) .fdots,#feed:not(.ui) #fplay{opacity:0;visibility:hidden}\n#fplay{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;border:0;padding:0;background:#0009;color:#fff;display:grid;place-items:center;z-index:4}\n#fplay svg{width:34px;height:34px}\n#feed.novid #fplay{display:none}\n.keyform{display:flex;flex-direction:column;align-items:center;gap:10px}\n.keyform input{width:min(320px,100%);background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}\n@media (max-width:520px){.card{grid-template-columns:36px 1fr;padding:12px}.av{width:36px;height:36px}.controls select{flex:1}}\n</style>\n</head>\n<body>\n<header>\n  <div class=\"wrap\">\n    <div class=\"top\">\n      <h1>Bookmarks</h1><span class=\"count\" id=\"count\"></span>\n      <span class=\"spacer\"></span>\n      <button id=\"syncBtn\" class=\"iconbtn\" title=\"Pull the latest bookmarks from X\" aria-label=\"Sync now\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 11a8 8 0 10-2.3 5.7\"/><path d=\"M20 5v6h-6\"/></svg><span>Sync</span></button>\n    </div>\n    <div class=\"sub\">\n      <select id=\"acct\" hidden title=\"X account\"></select>\n      <span class=\"pill\" id=\"status\">loading…</span>\n    </div>\n    <div class=\"controls\">\n      <input type=\"search\" id=\"q\" placeholder=\"Search text, names, @handles…\" autocomplete=\"off\" enterkeyhint=\"search\">\n    </div>\n    <div class=\"chips\">\n      <select id=\"sort\" title=\"Sort\">\n        <option value=\"saved_desc\">Newest saved</option>\n        <option value=\"saved_asc\">Oldest saved</option>\n        <option value=\"posted_desc\">Newest posted</option>\n        <option value=\"posted_asc\">Oldest posted</option>\n        <option value=\"likes\">Most liked</option>\n        <option value=\"random\">Shuffled</option>\n      </select>\n      <button id=\"feedBtn\" class=\"primary\" title=\"Swipe through photos and videos full-screen ( w )\">Watch</button>\n      <button id=\"shuffleBtn\" title=\"Shuffle the list\">Shuffle</button>\n      <button id=\"randomBtn\" title=\"Jump to one random bookmark ( r )\">Random</button>\n      <label class=\"chk\"><input type=\"checkbox\" id=\"mediaOnly\"> Media</label>\n    </div>\n  </div>\n</header>\n<div class=\"wrap\">\n  <div id=\"banner\"></div>\n  <main id=\"list\"></main>\n  <div id=\"more\"></div>\n</div>\n<div id=\"feed\" hidden>\n  <div class=\"ftop\">\n    <button id=\"fclose\" title=\"Close (Esc)\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg></button>\n    <span id=\"fcount\"></span>\n    <button id=\"fmute\" title=\"Sound (m)\"></button>\n  </div>\n  <div id=\"feedTrack\"></div>\n  <button id=\"fplay\" aria-label=\"Play or pause\"></button>\n  <div id=\"fseek\" hidden><div class=\"fbar\"><div class=\"ffill\"></div><div class=\"fknob\"></div></div><div id=\"ftime\"></div></div>\n</div>\n<script>\n(() => {\n  const BASE = location.pathname.replace(/\\/$/, '');\n  const PAGE = 40;\n  const $ = (id) => document.getElementById(id);\n  const store = { get(k){ try { return localStorage.getItem('xbm.' + k); } catch { return null; } }, set(k, v){ try { localStorage.setItem('xbm.' + k, v); } catch {} } };\n  // ---- Sign in with n8n (OAuth 2.1 + PKCE). n8n serves this page sandboxed, so nothing persists between visits;\n  // the PKCE verifier rides along in `state`, and the access token lives in memory for this visit only.\n  const ORIGIN = 'https://bakaflow.gleeze.com';\n  const CLIENT_ID = '9266ed7f-f0a6-4ea6-baa0-6646a359f298';\n  const API = ORIGIN + BASE + '/api';\n  const REDIRECT = ORIGIN + BASE;\n  const RESOURCE = API + '?method=POST';\n  let TOKEN = null, justSignedIn = false;\n  const b64u = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');\n  async function signIn() {\n    const verifier = b64u(crypto.getRandomValues(new Uint8Array(32)));\n    const challenge = b64u(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)));\n    const u = new URL(ORIGIN + '/mcp-oauth/authorize');\n    Object.entries({ response_type: 'code', client_id: CLIENT_ID, redirect_uri: REDIRECT, code_challenge: challenge, code_challenge_method: 'S256', state: 'p.' + verifier, resource: RESOURCE }).forEach(([k, v]) => u.searchParams.set(k, v));\n    location.href = u.toString();\n  }\n  async function finishSignIn() {\n    const q = new URLSearchParams(location.search);\n    const code = q.get('code'), state = q.get('state') || '';\n    if (q.get('error')) { history.replaceState(null, '', location.pathname); return 'error'; }\n    if (!code) return false;\n    if (state.startsWith('x.')) return 'ext';\n    if (!state.startsWith('p.')) return false;\n    history.replaceState(null, '', location.pathname);\n    try {\n      const r = await fetch(ORIGIN + '/mcp-oauth/token', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ grant_type: 'authorization_code', code, redirect_uri: REDIRECT, client_id: CLIENT_ID, code_verifier: state.slice(2), resource: RESOURCE }) });\n      const t = await r.json();\n      if (!t.access_token) return 'error';\n      TOKEN = t.access_token; return true;\n    } catch { return 'error'; }\n  }\n  async function api(action, extra) {\n    if (!TOKEN) { signIn(); throw new Error('Signing in…'); }\n    const r = await fetch(API, { method: 'POST', headers: { authorization: 'Bearer ' + TOKEN, 'content-type': 'application/json' }, body: JSON.stringify({ action, ...(extra || {}) }) });\n    if (r.status === 401 || r.status === 403) {\n      TOKEN = null;\n      if (justSignedIn) throw new Error('Signed in, but the server refused access (HTTP ' + r.status + ').');\n      signIn(); throw new Error('Signing in…');\n    }\n    if (!r.ok) throw new Error('HTTP ' + r.status);\n    return r.json();\n  }\n\n  let everything = [], accounts = [], acct = store.get('acct') || '', all = [], view = [], shown = 0, shuffleSeed = Math.random(), spotId = null;\n\n  const esc = (s) => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));\n  const terms = () => $('q').value.trim().toLowerCase().split(/\\s+/).filter(Boolean);\n  const big = (s) => { try { return BigInt(s || 0); } catch { return 0n; } };\n\n  function richText(raw, hl) {\n    let h = esc(raw);\n    h = h.replace(/(https?:\\/\\/[^\\s<]+)/g, (u) => `<a href=\"${u}\" target=\"_blank\" rel=\"noopener\">${u.replace(/^https?:\\/\\/(www\\.)?/, '').slice(0, 48)}${u.length > 56 ? '…' : ''}</a>`);\n    h = h.replace(/(^|[^\\w/])@(\\w{1,15})/g, '$1<a href=\"https://x.com/$2\" target=\"_blank\" rel=\"noopener\">@$2</a>');\n    h = h.replace(/(^|[^\\w/&])#(\\w+)/g, '$1<a href=\"https://x.com/hashtag/$2\" target=\"_blank\" rel=\"noopener\">#$2</a>');\n    if (hl.length) {\n      const re = new RegExp('(' + hl.map(t => esc(t).replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('|') + ')', 'gi');\n      h = h.split(/(<[^>]+>)/).map(part => part.startsWith('<') ? part : part.replace(re, '<mark>$1</mark>')).join('');\n    }\n    return h;\n  }\n\n  function mediaHtml(media) {\n    if (!media || !media.length) return '';\n    const items = media.slice(0, 4).map(m => {\n      const thumb = esc(m.thumb) + (m.thumb && m.thumb.includes('pbs.twimg.com/media') ? '?name=small' : '');\n      const vid = m.video ? ` data-video=\"${esc(m.video)}\"` : '';\n      const full = m.video ? '' : ` data-full=\"${esc(m.thumb)}?name=large\"`;\n      return `<div class=\"m\"${vid}${full}><img loading=\"lazy\" src=\"${thumb}\" alt=\"\">${m.video ? '<div class=\"play\"><span>▶</span></div>' : ''}</div>`;\n    }).join('');\n    return `<div class=\"media n${Math.min(media.length, 4)}\">${items}</div>`;\n  }\n\n  const fmtDate = (iso) => { const d = new Date(iso); if (isNaN(d)) return ''; const sameYear = d.getFullYear() === new Date().getFullYear(); return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', ...(sameYear ? {} : { year: 'numeric' }) }); };\n  const fmtNum = (n) => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(n || 0);\n\n  function card(b, hl) {\n    const d = b.d;\n    const q = d.quote ? `<div class=\"quote\"><div class=\"meta\"><span class=\"name\">${esc(d.quote.name)}</span><span class=\"handle\">@${esc(d.quote.handle)}</span></div><div class=\"txt\">${richText(d.quote.text, hl)}</div>${mediaHtml(d.quote.media)}<div class=\"foot\"><a href=\"${esc(d.quote.url)}\" target=\"_blank\" rel=\"noopener\">Open quoted post ↗</a></div></div>` : '';\n    return `<article class=\"card${b.id === spotId ? ' spot' : ''}\" id=\"t${esc(b.id)}\">\n      <img class=\"av\" loading=\"lazy\" src=\"${esc(d.avatar)}\" alt=\"\">\n      <div style=\"min-width:0\">\n        <div class=\"meta\"><span class=\"name\">${esc(d.name)}</span><a class=\"handle\" href=\"https://x.com/${esc(d.handle)}\" target=\"_blank\" rel=\"noopener\">@${esc(d.handle)}</a><span class=\"date\">· ${fmtDate(b.posted)}</span></div>\n        <div class=\"txt\">${richText(d.text, hl)}</div>\n        ${mediaHtml(d.media)}${q}\n        <div class=\"foot\"><span>♥ ${fmtNum(d.likes)}</span><span>↻ ${fmtNum(d.rts)}</span>${d.views ? `<span>${fmtNum(d.views)} views</span>` : ''}<span class=\"spacer\"></span><a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div>\n      </div></article>`;\n  }\n\n  function seededShuffle(arr, seed) {\n    const a = arr.slice(); let s = Math.floor(seed * 2 ** 31) || 1;\n    const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;\n    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }\n    return a;\n  }\n\n  function compute() {\n    const t = terms(), mediaOnly = $('mediaOnly').checked;\n    let v = all.filter(b => (!mediaOnly || (b.d.media && b.d.media.length) || (b.d.quote && b.d.quote.media && b.d.quote.media.length)) && t.every(w => b.hay.includes(w)));\n    const s = $('sort').value;\n    if (s === 'saved_desc') v.sort((a, b) => (big(b.s) > big(a.s)) - (big(b.s) < big(a.s)));\n    else if (s === 'saved_asc') v.sort((a, b) => (big(a.s) > big(b.s)) - (big(a.s) < big(b.s)));\n    else if (s === 'posted_desc') v.sort((a, b) => b.ts - a.ts);\n    else if (s === 'posted_asc') v.sort((a, b) => a.ts - b.ts);\n    else if (s === 'likes') v.sort((a, b) => (b.d.likes || 0) - (a.d.likes || 0));\n    else if (s === 'random') v = seededShuffle(v, shuffleSeed);\n    view = v; shown = 0;\n    $('count').textContent = t.length || mediaOnly ? `${v.length} of ${all.length}` : `${all.length}`;\n    $('list').innerHTML = v.length ? '' : `<div class=\"empty\">${all.length ? 'Nothing matches.' : 'No bookmarks yet. Hit Sync, or connect X with the extension.'}</div>`;\n    renderMore();\n  }\n\n  function renderMore(upTo) {\n    const hl = terms();\n    const end = Math.min(view.length, Math.max(shown + PAGE, upTo || 0));\n    if (end <= shown) return;\n    $('list').insertAdjacentHTML('beforeend', view.slice(shown, end).map(b => card(b, hl)).join(''));\n    shown = end;\n  }\n\n  new IntersectionObserver((e) => { if (e[0].isIntersecting) renderMore(); }, { rootMargin: '1200px' }).observe($('more'));\n\n  $('list').addEventListener('click', (e) => {\n    const m = e.target.closest('.m'); if (!m) return;\n    const card = m.closest('.card'); openFeed(card ? card.id.slice(1) : null);\n  });\n\n  let qt; $('q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(compute, 120); });\n  $('sort').addEventListener('change', () => { store.set('sort', $('sort').value); spotId = null; compute(); });\n  $('mediaOnly').addEventListener('change', compute);\n  $('shuffleBtn').addEventListener('click', () => { shuffleSeed = Math.random(); $('sort').value = 'random'; spotId = null; compute(); scrollTo({ top: 0 }); });\n  $('randomBtn').addEventListener('click', () => {\n    if (!view.length) return;\n    const i = Math.floor(Math.random() * view.length);\n    spotId = view[i].id;\n    document.querySelectorAll('.card.spot').forEach(c => c.classList.remove('spot'));\n    renderMore(i + 1);\n    const el = document.getElementById('t' + spotId);\n    if (el) { el.classList.add('spot'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }\n  });\n  document.addEventListener('keydown', (e) => {\n    if (feedOpen) {\n      if (e.key === 'Escape') closeFeed(false);\n      else if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); goTo(feedIdx + 1); }\n      else if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); goTo(feedIdx - 1); }\n      else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); const s = e.key === 'ArrowLeft' ? -1 : 1; seekBy(s * 5); if (fv.parentNode) showHint(fv.parentNode, s); }\n      else if (e.key === 'm') $('fmute').click();\n      else if (e.key === ' ') { e.preventDefault(); if (fv.parentNode) fv.paused ? play() : fv.pause(); showUI(); }\n      return;\n    }\n    if (e.target.matches('input,select,textarea')) { if (e.key === 'Escape') e.target.blur(); return; }\n    if (e.key === 'w') $('feedBtn').click();\n    if (e.key === '/') { e.preventDefault(); $('q').focus(); }\n    if (e.key === 'r') $('randomBtn').click();\n  });\n\n  $('syncBtn').addEventListener('click', async () => {\n    const btn = $('syncBtn'); btn.disabled = true; btn.classList.add('busy'); btn.querySelector('span').textContent = 'Syncing';\n    try {\n      await api('sync');\n      const before = statusInfo.last_sync_at;\n      for (let i = 0; i < 40; i++) {\n        await new Promise(r => setTimeout(r, 4000));\n        const d = await load(true);\n        const s = d && curAccount(); if (s && (s.last_sync_at !== before || s.status === 'expired')) break;\n      }\n    } finally { btn.disabled = false; btn.classList.remove('busy'); btn.querySelector('span').textContent = 'Sync'; }\n  });\n\n  let statusInfo = {};\n  function showStatus(s) {\n    statusInfo = s || {};\n    const pill = $('status'), banner = $('banner');\n    pill.className = 'pill'; banner.innerHTML = '';\n    if (!s || !s.status) { pill.textContent = 'not connected'; pill.classList.add('bad'); banner.innerHTML = '<div class=\"banner\">X isn\\'t connected yet. Log into x.com in the browser that has the <b>Connect X</b> extension, then click it.</div>'; return; }\n    if (s.status === 'expired' || s.status === 'error') {\n      pill.textContent = s.status === 'expired' ? 'X session expired' : 'last sync failed'; pill.classList.add('bad');\n      banner.innerHTML = `<div class=\"banner\">${s.status === 'expired' ? 'X logged this session out. Log into that account on x.com and click the <b>Connect X</b> extension (it usually does this on its own).' : 'Last sync failed: ' + esc(s.last_error || 'unknown error')}</div>`;\n      return;\n    }\n    const when = s.last_sync_at ? new Date(s.last_sync_at) : null;\n    const mins = when ? Math.round((Date.now() - when) / 60000) : 0;\n    pill.textContent = when ? 'synced ' + (mins < 1 ? 'just now' : mins < 60 ? mins + 'm ago' : mins < 1440 ? Math.round(mins / 60) + 'h ago' : Math.round(mins / 1440) + 'd ago') : 'connected, syncing…';\n    pill.title = when ? when.toLocaleString() : '';\n  }\n\n  const curAccount = () => accounts.find(a => a.id === acct) || null;\n  function renderAccounts() {\n    const sel = $('acct');\n    sel.hidden = accounts.length < 2;\n    sel.innerHTML = accounts.map((a, i) => `<option value=\"${esc(a.id)}\">${a.label ? '@' + esc(a.label) : 'Account ' + (i + 1)}</option>`).join('');\n    sel.value = acct;\n  }\n  function applyAccount(quiet) {\n    const next = everything.filter(b => b.a === acct);\n    const changed = !quiet || next.length !== all.length || (next[0] && all[0] && next[0].id !== all[0].id);\n    all = next;\n    showStatus(curAccount());\n    if (changed) compute();\n  }\n  $('acct').addEventListener('change', () => { acct = $('acct').value; store.set('acct', acct); spotId = null; applyAccount(false); scrollTo({ top: 0 }); });\n\n  // ---------- Watch mode: full-screen vertical swipe through media ----------\n  const feed = $('feed'), track = $('feedTrack');\n  const fv = document.createElement('video');\n  fv.className = 'fmedia'; fv.loop = true; fv.playsInline = true; fv.setAttribute('playsinline', ''); fv.preload = 'auto';\n  let feedItems = [], feedIdx = -1, feedOpen = false, muted = store.get('muted') === '1', io1, io2;\n  const ICON_ON = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13\"/></svg>';\n  const ICON_OFF = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M22 9l-6 6M16 9l6 6\"/></svg>';\n  const mediaList = (b) => (b.d.media && b.d.media.length) ? b.d.media : ((b.d.quote && b.d.quote.media) || []);\n  const syncMute = () => { $('fmute').innerHTML = fv.muted ? ICON_OFF : ICON_ON; };\n\n  function slideHtml(b, i) {\n    const m = mediaList(b), d = b.d;\n    const pages = m.map(x => x.video\n      ? `<div class=\"fpage\"><div class=\"fvid\" data-video=\"${esc(x.video)}\" data-poster=\"${esc(x.thumb)}\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}\" alt=\"\"></div></div>`\n      : `<div class=\"fpage\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}${x.thumb && x.thumb.includes('pbs.twimg.com/media') ? '?name=large' : ''}\" alt=\"\"></div>`).join('');\n    return `<section class=\"fslide\" data-i=\"${i}\"><div class=\"fpages\">${pages}</div>${m.length > 1 ? `<div class=\"fdots\">${m.map((_, j) => `<i class=\"${j ? '' : 'on'}\"></i>`).join('')}</div>` : ''}<div class=\"fcap\"><div class=\"fwho\">@${esc(d.handle)} <span>· ${fmtDate(b.posted)}</span></div>${d.text ? `<div class=\"ftxt\">${richText(d.text, [])}</div>` : ''}<div class=\"fmeta\">♥ ${fmtNum(d.likes)} · <a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div></div></section>`;\n  }\n\n  function play() {\n    const p = fv.play();\n    if (p) p.catch((err) => { if (err && err.name === 'NotAllowedError' && !fv.muted) { fv.muted = true; syncMute(); fv.play().catch(() => {}); } });\n  }\n\n  function placeVideo(slide, j) {\n    const page = slide.querySelectorAll('.fpage')[j];\n    const holder = page && page.querySelector('.fvid');\n    $('fseek').hidden = !holder;\n    feed.classList.toggle('novid', !holder);\n    if (!holder) { if (fv.parentNode) fv.parentNode.classList.remove('paused'); fv.pause(); fv.remove(); return; }\n    if (fv.parentNode === holder) return;\n    if (fv.parentNode) fv.parentNode.classList.remove('paused');\n    if (!fv.paused) autoPause = true;\n    fv.pause(); holder.appendChild(fv); paintBar(0);\n    fv.poster = holder.dataset.poster; fv.src = holder.dataset.video; fv.muted = muted; syncMute();\n    play();\n  }\n\n  function setActive(i) {\n    if (i === feedIdx) return;\n    feedIdx = i;\n    if (feed.classList.contains('ui')) setTimeout(showUI, 0);\n    $('fcount').textContent = `${i + 1} / ${feedItems.length}`;\n    const slide = track.querySelector(`.fslide[data-i=\"${i}\"]`); if (!slide) return;\n    const pg = slide.querySelector('.fpages');\n    placeVideo(slide, Math.round(pg.scrollLeft / (pg.clientWidth || 1)));\n  }\n\n  function openFeed(startId) {\n    feedItems = view.filter(b => mediaList(b).length);\n    if (!feedItems.length) return;\n    const start = Math.max(0, feedItems.findIndex(b => b.id === startId));\n    track.innerHTML = feedItems.map(slideHtml).join('');\n    feed.hidden = false; document.body.classList.add('noscroll'); feedOpen = true; feedIdx = -1;\n    history.pushState({ feed: 1 }, '');\n    syncMute();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    io1 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setActive(+e.target.dataset.i); }), { root: track, threshold: 0.6 });\n    io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.querySelectorAll('img[data-src]').forEach(im => { im.src = im.dataset.src; im.removeAttribute('data-src'); }); }), { root: track, rootMargin: '200% 0px' });\n    track.querySelectorAll('.fslide').forEach(s => { io1.observe(s); io2.observe(s); });\n    track.scrollTop = start * track.clientHeight;\n    setActive(start);\n    requestAnimationFrame(tick);\n    syncPlayBtn(); showUI();\n  }\n\n  function closeFeed(fromPop) {\n    if (!feedOpen) return;\n    feedOpen = false;\n    fv.pause(); fv.removeAttribute('src'); fv.load(); fv.remove();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    feed.hidden = true; document.body.classList.remove('noscroll'); track.innerHTML = '';\n    if (!fromPop && history.state && history.state.feed) history.back();\n    const b = feedItems[feedIdx];\n    if (b) { renderMore(view.indexOf(b) + 1); const el = document.getElementById('t' + b.id); if (el) el.scrollIntoView({ block: 'center' }); }\n  }\n\n  // ---- Pager: exactly one post per swipe. Native momentum scrolling can fling past several posts on phones\n  // (even with scroll-snap-stop), so the feed doesn't scroll natively; the post follows your finger and we\n  // animate to the next/previous one on release.\n  let drag = null, anim = 0, wheelLock = 0;\n  const pageH = () => track.clientHeight;\n  function goTo(i, ms = 260) {\n    if (!feedItems.length) return;\n    i = Math.max(0, Math.min(feedItems.length - 1, i));\n    cancelAnimationFrame(anim);\n    const from = track.scrollTop, to = i * pageH(), t0 = performance.now();\n    const step = (now) => {\n      const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3);\n      track.scrollTop = from + (to - from) * e;\n      if (k < 1) anim = requestAnimationFrame(step); else { track.scrollTop = to; setActive(i); }\n    };\n    anim = requestAnimationFrame(step);\n  }\n  track.addEventListener('touchstart', (e) => {\n    if (e.touches.length !== 1 || e.target.closest('.ftxt.open')) { drag = null; return; }\n    cancelAnimationFrame(anim);\n    const t = e.touches[0], now = performance.now();\n    drag = { x: t.clientX, y: t.clientY, top: track.scrollTop, axis: null, lastY: t.clientY, lastT: now, v: 0 };\n  }, { passive: true });\n  track.addEventListener('touchmove', (e) => {\n    if (!drag) return;\n    const t = e.touches[0], dx = t.clientX - drag.x, dy = t.clientY - drag.y;\n    if (!drag.axis) { if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return; drag.axis = Math.abs(dy) > Math.abs(dx) ? 'y' : 'x'; }\n    if (drag.axis !== 'y') return;\n    const now = performance.now();\n    if (now > drag.lastT) { drag.v = (t.clientY - drag.lastY) / (now - drag.lastT); drag.lastY = t.clientY; drag.lastT = now; }\n    const h = pageH(), base = Math.round(drag.top / h) * h;\n    track.scrollTop = Math.max(base - h, Math.min(base + h, drag.top - dy));\n  }, { passive: true });\n  const endSwipe = () => {\n    if (!drag) return;\n    const d = drag; drag = null;\n    if (d.axis !== 'y') return;\n    const h = pageH(), start = Math.round(d.top / h), moved = track.scrollTop - start * h;\n    let i = start;\n    if (moved > h * 0.15 || d.v < -0.3) i = start + 1;\n    else if (moved < -h * 0.15 || d.v > 0.3) i = start - 1;\n    goTo(i);\n  };\n  track.addEventListener('touchend', endSwipe);\n  track.addEventListener('touchcancel', endSwipe);\n  track.addEventListener('wheel', (e) => {\n    e.preventDefault();\n    if (Math.abs(e.deltaY) < 6 || performance.now() < wheelLock) return;\n    wheelLock = performance.now() + 450;\n    goTo(feedIdx + (e.deltaY > 0 ? 1 : -1));\n  }, { passive: false });\n  addEventListener('resize', () => { if (feedOpen) { cancelAnimationFrame(anim); track.scrollTop = feedIdx * pageH(); } });\n\n  addEventListener('popstate', () => closeFeed(true));\n  $('fclose').addEventListener('click', () => closeFeed(false));\n  $('fmute').addEventListener('click', () => { showUI(); muted = !fv.muted; store.set('muted', muted ? '1' : '0'); fv.muted = muted; syncMute(); if (!muted && fv.paused && fv.parentNode) play(); });\n  $('feedBtn').addEventListener('click', () => openFeed(null));\n  track.addEventListener('click', (e) => {\n    const t = e.target.closest('.ftxt'); if (t) { t.classList.toggle('open'); showUI(); return; }\n    if (e.target.closest('a')) return;\n    const hv = e.target.closest('.fvid'); if (hv && fv.parentNode === hv) { onVidTap(e, hv); return; }\n    if (e.target.closest('.fcap')) { showUI(); return; }\n    toggleUI();\n  });\n  track.addEventListener('scroll', (e) => {\n    const pg = e.target; if (!pg.classList || !pg.classList.contains('fpages')) return;\n    const j = Math.round(pg.scrollLeft / (pg.clientWidth || 1));\n    pg.parentNode.querySelectorAll('.fdots i').forEach((d, k) => d.classList.toggle('on', k === j));\n    if (+pg.parentNode.dataset.i === feedIdx) placeVideo(pg.parentNode, j);\n  }, true);\n  // Seek bar: tap or drag anywhere along the bottom edge\n  const seek = $('fseek');\n  let dragging = false, wasPlaying = false;\n  const fmtT = (t) => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };\n  function paintBar(f) { const pct = (Math.min(1, Math.max(0, f)) * 100) + '%'; seek.querySelector('.ffill').style.width = pct; seek.querySelector('.fknob').style.left = pct; }\n  function scrubTo(x) {\n    const r = seek.querySelector('.fbar').getBoundingClientRect();\n    const f = Math.min(1, Math.max(0, (x - r.left) / r.width));\n    const t = f * fv.duration;\n    if (fv.fastSeek && dragging) fv.fastSeek(t); else fv.currentTime = t;\n    paintBar(f); $('ftime').textContent = fmtT(t) + ' / ' + fmtT(fv.duration);\n  }\n  seek.addEventListener('pointerdown', (e) => {\n    if (!fv.parentNode || !fv.duration) return;\n    e.preventDefault(); e.stopPropagation();\n    dragging = true; wasPlaying = !fv.paused; seek.setPointerCapture(e.pointerId); seek.classList.add('drag'); clearTimeout(uiTimer);\n    fv.pause(); scrubTo(e.clientX);\n  });\n  seek.addEventListener('pointermove', (e) => { if (dragging) scrubTo(e.clientX); });\n  const endDrag = (e) => {\n    if (!dragging) return;\n    dragging = false; seek.classList.remove('drag');\n    if (e && e.clientX != null && e.type === 'pointerup') { const r = seek.querySelector('.fbar').getBoundingClientRect(); fv.currentTime = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * fv.duration; }\n    if (wasPlaying) play();\n    showUI();\n  };\n  seek.addEventListener('pointerup', endDrag); seek.addEventListener('pointercancel', endDrag);\n  function tick() { if (!feedOpen) return; if (!dragging && fv.parentNode && fv.duration) paintBar(fv.currentTime / fv.duration); requestAnimationFrame(tick); }\n\n  // Paused indicator\n  const ICON_PLAY = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M8 5.5v13l11-6.5z\"/></svg>';\n  const ICON_PAUSE = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><rect x=\"6\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/><rect x=\"14\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/></svg>';\n  // Overlay controls: hidden until you tap; auto-hide after 3s while a video plays; stay up while paused.\n  let uiTimer = null, autoPause = false;\n  const hasVid = () => !!fv.parentNode;\n  function hideUI() { clearTimeout(uiTimer); feed.classList.remove('ui'); }\n  function showUI() {\n    feed.classList.add('ui'); clearTimeout(uiTimer);\n    if (hasVid() && !fv.paused && !dragging) uiTimer = setTimeout(hideUI, 3000);\n  }\n  const toggleUI = () => (feed.classList.contains('ui') ? hideUI() : showUI());\n  const syncPlayBtn = () => { $('fplay').innerHTML = fv.paused ? ICON_PLAY : ICON_PAUSE; };\n  fv.addEventListener('pause', () => { syncPlayBtn(); if (autoPause) { autoPause = false; return; } if (!dragging && feedOpen && hasVid()) showUI(); });\n  fv.addEventListener('play', () => { syncPlayBtn(); if (feed.classList.contains('ui')) showUI(); });\n  $('fplay').addEventListener('click', (e) => { e.stopPropagation(); if (!hasVid()) return; fv.paused ? play() : fv.pause(); showUI(); });\n\n  // Tap = play/pause. Double-tap left/right half = back/forward 5s (keep tapping to add more).\n  let tapTimer = null, lastTap = 0, lastSide = 0, hintTimer = null, hintAcc = 0, hintSide = 0, lastHint = 0;\n  function seekBy(s) { if (!fv.duration) return; fv.currentTime = Math.min(fv.duration - 0.1, Math.max(0, fv.currentTime + s)); }\n  function showHint(holder, side) {\n    const now = Date.now();\n    hintAcc = (side === hintSide && now - lastHint < 900) ? hintAcc + 5 : 5; hintSide = side; lastHint = now;\n    const cls = side < 0 ? 'l' : 'r';\n    let el = holder.querySelector('.fhint.' + cls);\n    if (!el) { el = document.createElement('div'); el.className = 'fhint ' + cls; holder.appendChild(el); }\n    holder.querySelectorAll('.fhint').forEach(h => { if (h !== el) h.classList.remove('show'); });\n    el.textContent = side < 0 ? '« ' + hintAcc + 's' : hintAcc + 's »';\n    el.classList.add('show'); clearTimeout(hintTimer); hintTimer = setTimeout(() => el.classList.remove('show'), 650);\n  }\n  function onVidTap(e, holder) {\n    const now = Date.now(), r = holder.getBoundingClientRect();\n    const side = (e.clientX - r.left) < r.width / 2 ? -1 : 1;\n    if (now - lastTap < 320 && side === lastSide) {\n      clearTimeout(tapTimer); tapTimer = null; lastTap = now;\n      seekBy(side * 5); showHint(holder, side);\n      return;\n    }\n    lastTap = now; lastSide = side;\n    clearTimeout(tapTimer);\n    tapTimer = setTimeout(() => { tapTimer = null; toggleUI(); }, 260);\n  }\n\n\n  async function load(quiet) {\n    try {\n      const d = await api('data');\n      everything = (d.items || []).map(b => ({ ...b, ts: Date.parse(b.posted) || 0, hay: [b.d.text, b.d.name, '@' + b.d.handle, b.d.handle, b.d.quote && b.d.quote.text, b.d.quote && b.d.quote.handle].filter(Boolean).join(' ').toLowerCase() }));\n      accounts = d.accounts || [];\n      if (!accounts.some(a => a.id === acct)) acct = accounts[0] ? accounts[0].id : '';\n      renderAccounts();\n      applyAccount(quiet);\n      return d;\n    } catch (e) { if (!quiet) $('list').innerHTML = `<div class=\"empty\">Couldn't load bookmarks: ${esc(e.message)}</div>`; return null; }\n  }\n\n  let lastY = scrollY;\n  addEventListener('scroll', () => { const y = scrollY, hd = document.querySelector('header'); if (document.activeElement === $('q')) { hd.classList.remove('hide'); } else if (y > lastY + 6 && y > 140) hd.classList.add('hide'); else if (y < lastY - 6 || y < 60) hd.classList.remove('hide'); lastY = y; }, { passive: true });\n\n  const saved = store.get('sort'); if (saved && saved !== 'random') $('sort').value = saved;\n  (async () => {\n    const res = await finishSignIn();\n    if (res === 'ext') { $('list').innerHTML = '<div class=\"empty\">The extension is signed in. You can close this tab.</div>'; return; }\n    if (res === 'error') { $('list').innerHTML = '<div class=\"empty keyform\"><div>Sign-in didn\\'t complete.</div><button class=\"primary\" id=\"signInBtn\">Sign in with n8n</button></div>'; $('signInBtn').addEventListener('click', signIn); return; }\n    if (res === true) justSignedIn = true;\n    if (!TOKEN) { $('list').innerHTML = '<div class=\"empty\">Signing in with n8n…</div>'; signIn(); return; }\n    load();\n  })();\n})();\n</script>\n</body>\n</html>\n",
           "contentTypeNotice": "",
           "options": {
             "responseHeaders": {
@@ -651,60 +543,6 @@
         "position": [
           -880,
           800
-        ]
-      },
-      {
-        "parameters": {
-          "multipleMethods": false,
-          "httpMethod": "GET",
-          "path": "x-bookmarks/data",
-          "authentication": "none",
-          "responseMode": "responseNode",
-          "webhookNotice": "",
-          "options": {}
-        },
-        "id": "cef66908-36be-4af8-ac88-44a2cc74969e",
-        "name": "Data Webhook",
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 2.1,
-        "position": [
-          -1104,
-          1040
-        ],
-        "webhookId": "6159d273-ce3f-4799-89bf-5b9d22295eae"
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "options": {
-              "caseSensitive": true,
-              "leftValue": "",
-              "typeValidation": "strict",
-              "version": 2
-            },
-            "conditions": [
-              {
-                "id": "07eb2d9e-e2c8-41c6-8766-5d7c8b8145a8",
-                "leftValue": "={{ $json.headers['x-bm-key'] }}",
-                "operator": {
-                  "type": "string",
-                  "operation": "equals"
-                },
-                "rightValue": "4BRezdhgtHg3pCsuzB-_CHIn"
-              }
-            ],
-            "combinator": "and"
-          },
-          "looseTypeValidation": false,
-          "options": {}
-        },
-        "id": "637549d9-92cf-4c1a-ad18-cce310d53160",
-        "name": "Data Key OK?",
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 2.2,
-        "position": [
-          -880,
-          1040
         ]
       },
       {
@@ -760,7 +598,7 @@
         "parameters": {
           "mode": "runOnceForAllItems",
           "language": "javaScript",
-          "jsCode": "// Shape rows for the page (never send cookies to the browser)\nconst accounts = $('Get Session (page)').all().map(i => i.json).filter(j => j.session_key)\n  .sort((a, b) => String(a.connected_at || a.createdAt).localeCompare(String(b.connected_at || b.createdAt)))\n  .map(s => ({ id: s.session_key, label: s.label || '', status: s.status, last_sync_at: s.last_sync_at, last_sync_count: s.last_sync_count, last_error: s.last_error }));\nconst items = $input.all().map(i => i.json).filter(j => j.tweet_id).map(j => {\n  let d = {};\n  try { d = JSON.parse(j.data); } catch {}\n  return { id: j.tweet_id, a: j.account_id, s: j.sort_index, posted: j.tweet_created_at, d };\n});\nreturn [{ json: { accounts, items } }];",
+          "jsCode": "// Only the signed-in user's X accounts and their bookmarks (never send cookies to the browser)\nconst uid = $('Who Is Calling').first().json.user_id;\nconst mine = $('Get Session (page)').all().map(i => i.json).filter(j => j.session_key && j.owner && j.owner === uid)\n  .sort((a, b) => String(a.connected_at || a.createdAt).localeCompare(String(b.connected_at || b.createdAt)));\nconst ids = new Set(mine.map(s => s.session_key));\nconst accounts = mine.map(s => ({ id: s.session_key, label: s.label || '', status: s.status, last_sync_at: s.last_sync_at, last_sync_count: s.last_sync_count, last_error: s.last_error }));\nconst items = $input.all().map(i => i.json).filter(j => j.tweet_id && ids.has(j.account_id)).map(j => {\n  let d = {};\n  try { d = JSON.parse(j.data); } catch {}\n  return { id: j.tweet_id, a: j.account_id, s: j.sort_index, posted: j.tweet_created_at, d };\n});\nreturn [{ json: { accounts, items } }];",
           "notice": ""
         },
         "id": "8c82fcb9-1d44-4491-a74c-ae74e417f78a",
@@ -1027,38 +865,155 @@
           "jsCode": "// The account this loop pass is syncing\nreturn [{ json: $input.first().json }];",
           "notice": ""
         }
+      },
+      {
+        "id": "150a3bbf-23eb-45b9-a98a-5c54e2d7c169",
+        "name": "API Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -1568,
+          432
+        ],
+        "webhookId": "8c120887-f699-4acf-8b8b-bb6cbfa6dff4",
+        "parameters": {
+          "multipleMethods": false,
+          "httpMethod": "POST",
+          "path": "x-bookmarks/api",
+          "authentication": "n8nOAuth2",
+          "requireExecuteAccess": false,
+          "responseMode": "responseNode",
+          "webhookNotice": "",
+          "options": {}
+        }
+      },
+      {
+        "id": "bbde3213-5676-41c9-b01d-1576aee2dd9e",
+        "name": "Who Is Calling",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1344,
+          432
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "language": "javaScript",
+          "jsCode": "// n8n has already verified the sign-in token (n8n User Auth) before this runs.\n// Read the caller's n8n user id from it; no id -> request is refused.\nconst h = $json.headers || {};\nconst tok = String(h.authorization || '').replace(/^Bearer\\s+/i, '');\nlet sub = null;\ntry {\n  const part = tok.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');\n  const txt = typeof Buffer !== 'undefined' ? Buffer.from(part, 'base64').toString('utf8') : atob(part);\n  sub = JSON.parse(txt).sub || null;\n} catch (e) {}\nconst b = $json.body || {};\nreturn [{ json: { user_id: sub, action: sub ? String(b.action || '') : 'deny', body: b } }];",
+          "notice": ""
+        }
+      },
+      {
+        "id": "5f975563-5381-4586-bd91-b3d5bd41d41b",
+        "name": "Route Action",
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.2,
+        "position": [
+          -1120,
+          432
+        ],
+        "parameters": {
+          "mode": "rules",
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "0a7eab6f-6e31-4243-aaf8-ce02eb5f1d5f",
+                      "leftValue": "={{ $json.action }}",
+                      "rightValue": "data",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "data"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "297ed724-0ff0-46fd-8fa9-f882d82fb836",
+                      "leftValue": "={{ $json.action }}",
+                      "rightValue": "sync",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "sync"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "ad78766f-1360-4f16-aaf1-354372652b3d",
+                      "leftValue": "={{ $json.action }}",
+                      "rightValue": "connect",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "connect"
+              }
+            ]
+          },
+          "looseTypeValidation": false,
+          "options": {
+            "fallbackOutput": "extra"
+          }
+        }
+      },
+      {
+        "id": "10b2b77d-70c2-4f17-b8e5-2de5149f3122",
+        "name": "Pick Accounts",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          96,
+          480
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "language": "javaScript",
+          "jsCode": "// Which X accounts this run syncs: schedule = all; page Sync = the caller's accounts; extension connect = the account just connected.\nlet rows = $input.all().map(i => i.json).filter(r => r.session_key);\nlet who = null;\ntry { who = $('Who Is Calling').first().json; } catch (e) {}\nif (who && who.user_id) {\n  if (who.action === 'connect') {\n    let acct = null;\n    try { acct = $('Build Session Row').first().json.session_key; } catch (e) {}\n    rows = rows.filter(r => r.session_key === acct);\n  } else {\n    rows = rows.filter(r => r.owner === who.user_id);\n  }\n}\nreturn rows.map(json => ({ json }));",
+          "notice": ""
+        }
       }
     ],
     "connections": {
-      "Connect Webhook": {
-        "main": [
-          [
-            {
-              "node": "Connect Key OK?",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Connect Key OK?": {
-        "main": [
-          [
-            {
-              "node": "Build Session Row",
-              "type": "main",
-              "index": 0
-            }
-          ],
-          [
-            {
-              "node": "Unauthorized",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
       "Build Session Row": {
         "main": [
           [
@@ -1092,35 +1047,6 @@
           ]
         ]
       },
-      "Sync Webhook": {
-        "main": [
-          [
-            {
-              "node": "Sync Key OK?",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Sync Key OK?": {
-        "main": [
-          [
-            {
-              "node": "Respond Sync Started",
-              "type": "main",
-              "index": 0
-            }
-          ],
-          [
-            {
-              "node": "Unauthorized",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
       "Respond Sync Started": {
         "main": [
           [
@@ -1147,7 +1073,7 @@
         "main": [
           [
             {
-              "node": "Has Session?",
+              "node": "Pick Accounts",
               "type": "main",
               "index": 0
             }
@@ -1301,35 +1227,6 @@
           ]
         ]
       },
-      "Data Webhook": {
-        "main": [
-          [
-            {
-              "node": "Data Key OK?",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Data Key OK?": {
-        "main": [
-          [
-            {
-              "node": "Get Session (page)",
-              "type": "main",
-              "index": 0
-            }
-          ],
-          [
-            {
-              "node": "Unauthorized",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
       "Get Session (page)": {
         "main": [
           [
@@ -1407,47 +1304,83 @@
             }
           ]
         ]
+      },
+      "API Webhook": {
+        "main": [
+          [
+            {
+              "node": "Who Is Calling",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Who Is Calling": {
+        "main": [
+          [
+            {
+              "node": "Route Action",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Route Action": {
+        "main": [
+          [
+            {
+              "node": "Get Session (page)",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Respond Sync Started",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Build Session Row",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Unauthorized",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Pick Accounts": {
+        "main": [
+          [
+            {
+              "node": "Has Session?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "nodeGroups": [],
     "authors": "Trazon Mitchell",
-    "name": "Version c5b85dcf",
+    "name": "Version 1a700dba",
     "description": "",
     "autosaved": false,
-    "createdAt": "2026-10-18T14:30:29.913Z",
-    "updatedAt": "2026-10-18T14:30:39.077Z"
+    "createdAt": "2026-10-19T07:17:44.093Z",
+    "updatedAt": "2026-10-19T07:17:52.309Z"
   },
-  "activeVersionId": "c5b85dcf-fe67-4138-9223-8b38ce666511",
+  "activeVersionId": "1a700dba-a778-48a4-a6d8-82dd62cc1351",
   "connections": {
-    "Connect Webhook": {
-      "main": [
-        [
-          {
-            "node": "Connect Key OK?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Connect Key OK?": {
-      "main": [
-        [
-          {
-            "node": "Build Session Row",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Unauthorized",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Build Session Row": {
       "main": [
         [
@@ -1481,35 +1414,6 @@
         ]
       ]
     },
-    "Sync Webhook": {
-      "main": [
-        [
-          {
-            "node": "Sync Key OK?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Sync Key OK?": {
-      "main": [
-        [
-          {
-            "node": "Respond Sync Started",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Unauthorized",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Respond Sync Started": {
       "main": [
         [
@@ -1536,7 +1440,7 @@
       "main": [
         [
           {
-            "node": "Has Session?",
+            "node": "Pick Accounts",
             "type": "main",
             "index": 0
           }
@@ -1690,35 +1594,6 @@
         ]
       ]
     },
-    "Data Webhook": {
-      "main": [
-        [
-          {
-            "node": "Data Key OK?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Data Key OK?": {
-      "main": [
-        [
-          {
-            "node": "Get Session (page)",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Unauthorized",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get Session (page)": {
       "main": [
         [
@@ -1796,6 +1671,71 @@
           }
         ]
       ]
+    },
+    "API Webhook": {
+      "main": [
+        [
+          {
+            "node": "Who Is Calling",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Who Is Calling": {
+      "main": [
+        [
+          {
+            "node": "Route Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Action": {
+      "main": [
+        [
+          {
+            "node": "Get Session (page)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Sync Started",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Session Row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unauthorized",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick Accounts": {
+      "main": [
+        [
+          {
+            "node": "Has Session?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-10-18T05:14:19.027Z",
@@ -1807,9 +1747,9 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## 1. Connect X\nThe **Connect X** Chrome extension POSTs your x.com `auth_token` + `ct0` here whenever they change. Saved to the `x_session` data table, then a sync kicks off.\n\nConnect / sync / data webhooks require the `x-bm-key` header (value set in each *Key OK?* node and in the extension's `config.js`).",
-        "height": 260,
-        "width": 1080,
+        "content": "## 1. API (n8n sign-in)\nOne endpoint, `POST /webhook/x-bookmarks/api`, protected by **n8n User Auth (OAuth2)** with *Require Workflow Execute Permission* off, so any n8n user on this instance can sign in. **Who Is Calling** reads the caller's n8n user id from the verified token; every action only touches that user's X accounts (`x_session.owner`).\n\nActions: `data` (page load), `sync` (page Sync button), `connect` (extension sends fresh X cookies).",
+        "height": 700,
+        "width": 1540,
         "color": 5
       },
       "id": "211e61a5-8c7f-4084-a00d-f458408b1bff",
@@ -1817,69 +1757,15 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1184,
+        -1648,
         -144
-      ]
-    },
-    {
-      "parameters": {
-        "multipleMethods": false,
-        "httpMethod": "POST",
-        "path": "x-bookmarks/connect",
-        "authentication": "none",
-        "responseMode": "responseNode",
-        "webhookNotice": "",
-        "options": {}
-      },
-      "id": "3bcd59a3-a0d9-4d88-a48f-ebf23352c4be",
-      "name": "Connect Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -1104,
-        0
-      ],
-      "webhookId": "5baefb59-fe64-47aa-bc2f-2416ac24117d"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "e65fc33f-b6ab-41db-ad1f-afbb2510edce",
-              "leftValue": "={{ $json.headers['x-bm-key'] }}",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              },
-              "rightValue": "4BRezdhgtHg3pCsuzB-_CHIn"
-            }
-          ],
-          "combinator": "and"
-        },
-        "looseTypeValidation": false,
-        "options": {}
-      },
-      "id": "6d02c507-e0d5-4149-9244-efd53e7bf33b",
-      "name": "Connect Key OK?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -880,
-        0
       ]
     },
     {
       "parameters": {
         "mode": "runOnceForAllItems",
         "language": "javaScript",
-        "jsCode": "// Cookies posted by the \"Connect X\" extension. One row per X account (keyed by account id).\nconst b = $json.body || {};\nif (!b.auth_token || !b.ct0) throw new Error('Missing auth_token or ct0 - make sure you are logged into x.com');\nconst acct = decodeURIComponent(String(b.twid || '')).replace(/\"/g, '').replace(/^u=/, '');\nif (!/^\\d+$/.test(acct)) throw new Error('Missing twid cookie - log into x.com and try again');\nreturn [{ json: {\n  session_key: acct,\n  auth_token: String(b.auth_token),\n  ct0: String(b.ct0),\n  twid: String(b.twid),\n  status: 'connected',\n  last_error: '',\n  connected_at: new Date().toISOString(),\n} }];",
+        "jsCode": "// Cookies posted by the \"Connect X\" extension (caller already identified by n8n sign-in). One row per X account (keyed by account id).\nconst b = $json.body || {};\nif (!b.auth_token || !b.ct0) throw new Error('Missing auth_token or ct0 - make sure you are logged into x.com');\nconst acct = decodeURIComponent(String(b.twid || '')).replace(/\"/g, '').replace(/^u=/, '');\nif (!/^\\d+$/.test(acct)) throw new Error('Missing twid cookie - log into x.com and try again');\nreturn [{ json: {\n  session_key: acct,\n  owner: $json.user_id,\n  auth_token: String(b.auth_token),\n  ct0: String(b.ct0),\n  twid: String(b.twid),\n  status: 'connected',\n  last_error: '',\n  connected_at: new Date().toISOString(),\n} }];",
         "notice": ""
       },
       "id": "83448c86-5b82-4fae-baae-c77fc74c0d94",
@@ -1945,60 +1831,6 @@
       "position": [
         -224,
         -16
-      ]
-    },
-    {
-      "parameters": {
-        "multipleMethods": false,
-        "httpMethod": "GET",
-        "path": "x-bookmarks/sync",
-        "authentication": "none",
-        "responseMode": "responseNode",
-        "webhookNotice": "",
-        "options": {}
-      },
-      "id": "44b9c154-be1a-4305-a94c-24c1c1fde33d",
-      "name": "Sync Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -1104,
-        224
-      ],
-      "webhookId": "efa1871d-63b1-44a9-a7e0-72cb33669870"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "f71f0b2a-46a6-411c-a30c-36cdf53220ac",
-              "leftValue": "={{ $json.headers['x-bm-key'] }}",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              },
-              "rightValue": "4BRezdhgtHg3pCsuzB-_CHIn"
-            }
-          ],
-          "combinator": "and"
-        },
-        "looseTypeValidation": false,
-        "options": {}
-      },
-      "id": "52b58cc6-27e3-49d6-ae88-689479f34a53",
-      "name": "Sync Key OK?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -880,
-        224
       ]
     },
     {
@@ -2388,7 +2220,7 @@
     },
     {
       "parameters": {
-        "content": "## 3. Bookmarks page\nOpen `/webhook/x-bookmarks#key=…` (the extension's **Open my bookmarks** button does this). The key stays in the URL fragment so it never hits server logs. The page pulls everything from `/data` once, then sorts (newest/oldest saved or posted, most liked), shuffles, picks a random one and searches client-side.",
+        "content": "## 3. Bookmarks page\nOpen `/webhook/x-bookmarks`. The page signs in with n8n (OAuth, PKCE) on each visit, since n8n serves it sandboxed and it can't store anything, then loads only that user's bookmarks via the API. Sorting, shuffle, random, search and Watch mode all run in the browser.",
         "height": 600,
         "width": 1260,
         "color": 6
@@ -2428,7 +2260,7 @@
         "generalNotice": "",
         "respondWith": "text",
         "webhookNotice": "",
-        "responseBody": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<meta name=\"referrer\" content=\"no-referrer\">\n<title>X Bookmarks</title>\n<style>\n:root{--bg:#0b0d10;--panel:#14181d;--line:#232a32;--text:#e7ebef;--muted:#8b96a3;--accent:#1d9bf0;--accent2:#0d6eae;--warn:#f4b740;--bad:#f4606c;--mark:#1d9bf033}\n@media (prefers-color-scheme: light){:root{--bg:#f5f7f9;--panel:#fff;--line:#e3e8ed;--text:#0f1419;--muted:#5b6670;--mark:#1d9bf02e}}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,\"Segoe UI\",Roboto,sans-serif}\na{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}\nheader{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}\n.wrap{max-width:720px;margin:0 auto;padding:0 16px}\n.top{display:flex;align-items:center;gap:10px;padding:10px 0 6px;min-width:0}\n.top h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.01em}\n.count{color:var(--muted);font-size:13px}\n.spacer{flex:1}\n.pill{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}\n.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,transparent)}\n.controls{display:flex;gap:8px;padding:0 0 8px}\ninput[type=search]{flex:1 1 220px;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font:inherit;outline:none}\ninput[type=search]:focus{border-color:var(--accent)}\nselect,button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 11px;font:inherit;font-size:14px;cursor:pointer}\nbutton:hover,select:hover{border-color:var(--muted)}\nbutton.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}\nbutton.primary:hover{background:var(--accent2)}\nlabel.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);padding:0 4px;cursor:pointer}\n.banner{margin:12px 0 0;padding:10px 12px;border-radius:10px;border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);background:color-mix(in srgb,var(--warn) 10%,transparent);font-size:14px}\nmain{padding:12px 0 60px}\n.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 10px;display:grid;grid-template-columns:44px 1fr;gap:12px}\n.card.spot{border-color:var(--accent);box-shadow:0 0 0 3px var(--mark)}\n.av{width:44px;height:44px;border-radius:50%;background:var(--line);object-fit:cover}\n.meta{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;min-width:0}\n.name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}\n.handle,.date{color:var(--muted);font-size:14px}\n.txt{white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere;margin-top:3px}\n.txt mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}\n.media{display:grid;gap:4px;margin-top:10px;border-radius:12px;overflow:hidden}\n.media.n2,.media.n3,.media.n4{grid-template-columns:1fr 1fr}\n.media .m{position:relative;background:var(--line);aspect-ratio:16/10;overflow:hidden;cursor:pointer}\n.media.n1 .m{aspect-ratio:auto;max-height:480px}\n.media img,.media video{width:100%;height:100%;object-fit:cover;display:block}\n.media.n1 img{object-fit:contain;max-height:480px;background:#000}\n.play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}\n.play span{background:#000a;color:#fff;border-radius:50%;width:48px;height:48px;display:grid;place-items:center;font-size:20px}\n.quote{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}\n.quote .meta .name{max-width:50%}\n.foot{display:flex;gap:16px;color:var(--muted);font-size:13px;margin-top:10px}\n.foot a{color:var(--muted)}\n.empty{color:var(--muted);text-align:center;padding:60px 0}\nbody{overflow-x:clip}\nheader{transition:transform .22s ease}\nheader.hide{transform:translateY(-101%)}\n.sub{display:flex;align-items:center;gap:8px;padding:0 0 8px;min-width:0}\n.sub .pill{min-width:0;overflow:hidden;text-overflow:ellipsis}\n.sub #acct{max-width:60%;min-width:0;font-size:13px;padding:4px 8px}\n.chips{display:flex;gap:8px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}\n.chips::-webkit-scrollbar{display:none}\n.chips>*{flex:0 0 auto}\n.iconbtn{display:inline-flex;align-items:center;gap:6px}\n.iconbtn svg{width:16px;height:16px}\n.iconbtn.busy svg{animation:spin 1s linear infinite}\n@keyframes spin{to{transform:rotate(360deg)}}\n@media (max-width:520px){.wrap{padding:0 12px}input[type=search],select{font-size:16px}.top h1{font-size:18px}}\n#more{height:1px}\nbody.noscroll{overflow:hidden}\n#feed{position:fixed;inset:0;height:100dvh;z-index:50;background:#000;color:#fff}\n#feedTrack{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none}\n#feedTrack::-webkit-scrollbar,.fpages::-webkit-scrollbar{display:none}\n.fslide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}\n.fpages{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}\n.fpage{flex:0 0 100%;height:100%;scroll-snap-align:start}\n.fvid{position:relative;width:100%;height:100%}\n.fmedia{width:100%;height:100%;object-fit:contain;display:block;background:#000}\n.fvid video{position:absolute;inset:0}\n.ftop{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 10px) 12px 18px;background:linear-gradient(#000b,#0000);pointer-events:none}\n.ftop>*{pointer-events:auto}\n.ftop button{background:#0007;border:0;color:#fff;border-radius:999px;width:40px;height:40px;padding:0;display:grid;place-items:center}\n.ftop button svg{width:20px;height:20px}\n#fcount{font-size:13px;opacity:.8;flex:1}\n.fdots{position:absolute;top:calc(env(safe-area-inset-top) + 62px);left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2;pointer-events:none}\n.fdots i{width:6px;height:6px;border-radius:50%;background:#fff6}.fdots i.on{background:#fff}\n.fcap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:48px 16px calc(env(safe-area-inset-bottom) + 38px);background:linear-gradient(#0000,#000d 55%);pointer-events:none}\n.fcap a,.ftxt{pointer-events:auto}.fcap a{color:#8ecdf8}\n.fwho{font-weight:700}.fwho span{font-weight:400;opacity:.7}\n.ftxt{margin-top:4px;font-size:14px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}\n.ftxt.open{display:block;max-height:45dvh;overflow:auto}\n.fmeta{margin-top:6px;font-size:13px;opacity:.85}\n#fseek{position:absolute;left:0;right:0;bottom:env(safe-area-inset-bottom);height:34px;z-index:5;touch-action:none;cursor:pointer;display:flex;align-items:flex-end;padding-bottom:8px}\n#fseek[hidden]{display:none}\n.fbar{position:relative;flex:1;height:3px;margin:0 14px;background:#ffffff45;border-radius:3px;transition:height .12s}\n#fseek.drag .fbar{height:6px}\n.ffill{position:absolute;left:0;top:0;bottom:0;width:0;background:#1d9bf0;border-radius:3px}\n.fknob{position:absolute;left:0;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;transform:scale(.7);transition:transform .12s;box-shadow:0 0 4px #0008}\n#fseek.drag .fknob{transform:scale(1.25)}\n#ftime{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:#000b;padding:4px 10px;border-radius:8px;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap;display:none;pointer-events:none}\n#fseek.drag #ftime{display:block}\n.fvid{touch-action:manipulation}\n.fhint{position:absolute;top:50%;width:88px;height:88px;margin-top:-44px;border-radius:50%;background:#000a;display:grid;place-items:center;font-weight:700;font-size:15px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:1}\n.fhint.l{left:10%}.fhint.r{right:10%}.fhint.show{opacity:1}\n#feed .ftop,#feed .fcap,#feed #fseek,#feed .fdots,#fplay{transition:opacity .2s ease,visibility .2s ease}\n#feed:not(.ui) .ftop,#feed:not(.ui) .fcap,#feed:not(.ui) #fseek,#feed:not(.ui) .fdots,#feed:not(.ui) #fplay{opacity:0;visibility:hidden}\n#fplay{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;border:0;padding:0;background:#0009;color:#fff;display:grid;place-items:center;z-index:4}\n#fplay svg{width:34px;height:34px}\n#feed.novid #fplay{display:none}\n.keyform{display:flex;flex-direction:column;align-items:center;gap:10px}\n.keyform input{width:min(320px,100%);background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}\n@media (max-width:520px){.card{grid-template-columns:36px 1fr;padding:12px}.av{width:36px;height:36px}.controls select{flex:1}}\n</style>\n</head>\n<body>\n<header>\n  <div class=\"wrap\">\n    <div class=\"top\">\n      <h1>Bookmarks</h1><span class=\"count\" id=\"count\"></span>\n      <span class=\"spacer\"></span>\n      <button id=\"syncBtn\" class=\"iconbtn\" title=\"Pull the latest bookmarks from X\" aria-label=\"Sync now\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 11a8 8 0 10-2.3 5.7\"/><path d=\"M20 5v6h-6\"/></svg><span>Sync</span></button>\n    </div>\n    <div class=\"sub\">\n      <select id=\"acct\" hidden title=\"X account\"></select>\n      <span class=\"pill\" id=\"status\">loading…</span>\n    </div>\n    <div class=\"controls\">\n      <input type=\"search\" id=\"q\" placeholder=\"Search text, names, @handles…\" autocomplete=\"off\" enterkeyhint=\"search\">\n    </div>\n    <div class=\"chips\">\n      <select id=\"sort\" title=\"Sort\">\n        <option value=\"saved_desc\">Newest saved</option>\n        <option value=\"saved_asc\">Oldest saved</option>\n        <option value=\"posted_desc\">Newest posted</option>\n        <option value=\"posted_asc\">Oldest posted</option>\n        <option value=\"likes\">Most liked</option>\n        <option value=\"random\">Shuffled</option>\n      </select>\n      <button id=\"feedBtn\" class=\"primary\" title=\"Swipe through photos and videos full-screen ( w )\">Watch</button>\n      <button id=\"shuffleBtn\" title=\"Shuffle the list\">Shuffle</button>\n      <button id=\"randomBtn\" title=\"Jump to one random bookmark ( r )\">Random</button>\n      <label class=\"chk\"><input type=\"checkbox\" id=\"mediaOnly\"> Media</label>\n    </div>\n  </div>\n</header>\n<div class=\"wrap\">\n  <div id=\"banner\"></div>\n  <main id=\"list\"></main>\n  <div id=\"more\"></div>\n</div>\n<div id=\"feed\" hidden>\n  <div class=\"ftop\">\n    <button id=\"fclose\" title=\"Close (Esc)\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg></button>\n    <span id=\"fcount\"></span>\n    <button id=\"fmute\" title=\"Sound (m)\"></button>\n  </div>\n  <div id=\"feedTrack\"></div>\n  <button id=\"fplay\" aria-label=\"Play or pause\"></button>\n  <div id=\"fseek\" hidden><div class=\"fbar\"><div class=\"ffill\"></div><div class=\"fknob\"></div></div><div id=\"ftime\"></div></div>\n</div>\n<script>\n(() => {\n  const BASE = location.pathname.replace(/\\/$/, '');\n  const PAGE = 40;\n  const $ = (id) => document.getElementById(id);\n  const store = { get(k){ try { return localStorage.getItem('xbm.' + k); } catch { return null; } }, set(k, v){ try { localStorage.setItem('xbm.' + k, v); } catch {} } };\n  const KEY = (() => { const h = new URLSearchParams(location.hash.slice(1)).get('key'); if (h) { store.set('key', h); history.replaceState(null, '', location.pathname); return h; } return store.get('key') || ''; })();\n  const AUTH = { headers: { 'x-bm-key': KEY } };\n\n  let everything = [], accounts = [], acct = store.get('acct') || '', all = [], view = [], shown = 0, shuffleSeed = Math.random(), spotId = null;\n\n  const esc = (s) => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));\n  const terms = () => $('q').value.trim().toLowerCase().split(/\\s+/).filter(Boolean);\n  const big = (s) => { try { return BigInt(s || 0); } catch { return 0n; } };\n\n  function richText(raw, hl) {\n    let h = esc(raw);\n    h = h.replace(/(https?:\\/\\/[^\\s<]+)/g, (u) => `<a href=\"${u}\" target=\"_blank\" rel=\"noopener\">${u.replace(/^https?:\\/\\/(www\\.)?/, '').slice(0, 48)}${u.length > 56 ? '…' : ''}</a>`);\n    h = h.replace(/(^|[^\\w/])@(\\w{1,15})/g, '$1<a href=\"https://x.com/$2\" target=\"_blank\" rel=\"noopener\">@$2</a>');\n    h = h.replace(/(^|[^\\w/&])#(\\w+)/g, '$1<a href=\"https://x.com/hashtag/$2\" target=\"_blank\" rel=\"noopener\">#$2</a>');\n    if (hl.length) {\n      const re = new RegExp('(' + hl.map(t => esc(t).replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('|') + ')', 'gi');\n      h = h.split(/(<[^>]+>)/).map(part => part.startsWith('<') ? part : part.replace(re, '<mark>$1</mark>')).join('');\n    }\n    return h;\n  }\n\n  function mediaHtml(media) {\n    if (!media || !media.length) return '';\n    const items = media.slice(0, 4).map(m => {\n      const thumb = esc(m.thumb) + (m.thumb && m.thumb.includes('pbs.twimg.com/media') ? '?name=small' : '');\n      const vid = m.video ? ` data-video=\"${esc(m.video)}\"` : '';\n      const full = m.video ? '' : ` data-full=\"${esc(m.thumb)}?name=large\"`;\n      return `<div class=\"m\"${vid}${full}><img loading=\"lazy\" src=\"${thumb}\" alt=\"\">${m.video ? '<div class=\"play\"><span>▶</span></div>' : ''}</div>`;\n    }).join('');\n    return `<div class=\"media n${Math.min(media.length, 4)}\">${items}</div>`;\n  }\n\n  const fmtDate = (iso) => { const d = new Date(iso); if (isNaN(d)) return ''; const sameYear = d.getFullYear() === new Date().getFullYear(); return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', ...(sameYear ? {} : { year: 'numeric' }) }); };\n  const fmtNum = (n) => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(n || 0);\n\n  function card(b, hl) {\n    const d = b.d;\n    const q = d.quote ? `<div class=\"quote\"><div class=\"meta\"><span class=\"name\">${esc(d.quote.name)}</span><span class=\"handle\">@${esc(d.quote.handle)}</span></div><div class=\"txt\">${richText(d.quote.text, hl)}</div>${mediaHtml(d.quote.media)}<div class=\"foot\"><a href=\"${esc(d.quote.url)}\" target=\"_blank\" rel=\"noopener\">Open quoted post ↗</a></div></div>` : '';\n    return `<article class=\"card${b.id === spotId ? ' spot' : ''}\" id=\"t${esc(b.id)}\">\n      <img class=\"av\" loading=\"lazy\" src=\"${esc(d.avatar)}\" alt=\"\">\n      <div style=\"min-width:0\">\n        <div class=\"meta\"><span class=\"name\">${esc(d.name)}</span><a class=\"handle\" href=\"https://x.com/${esc(d.handle)}\" target=\"_blank\" rel=\"noopener\">@${esc(d.handle)}</a><span class=\"date\">· ${fmtDate(b.posted)}</span></div>\n        <div class=\"txt\">${richText(d.text, hl)}</div>\n        ${mediaHtml(d.media)}${q}\n        <div class=\"foot\"><span>♥ ${fmtNum(d.likes)}</span><span>↻ ${fmtNum(d.rts)}</span>${d.views ? `<span>${fmtNum(d.views)} views</span>` : ''}<span class=\"spacer\"></span><a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div>\n      </div></article>`;\n  }\n\n  function seededShuffle(arr, seed) {\n    const a = arr.slice(); let s = Math.floor(seed * 2 ** 31) || 1;\n    const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;\n    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }\n    return a;\n  }\n\n  function compute() {\n    const t = terms(), mediaOnly = $('mediaOnly').checked;\n    let v = all.filter(b => (!mediaOnly || (b.d.media && b.d.media.length) || (b.d.quote && b.d.quote.media && b.d.quote.media.length)) && t.every(w => b.hay.includes(w)));\n    const s = $('sort').value;\n    if (s === 'saved_desc') v.sort((a, b) => (big(b.s) > big(a.s)) - (big(b.s) < big(a.s)));\n    else if (s === 'saved_asc') v.sort((a, b) => (big(a.s) > big(b.s)) - (big(a.s) < big(b.s)));\n    else if (s === 'posted_desc') v.sort((a, b) => b.ts - a.ts);\n    else if (s === 'posted_asc') v.sort((a, b) => a.ts - b.ts);\n    else if (s === 'likes') v.sort((a, b) => (b.d.likes || 0) - (a.d.likes || 0));\n    else if (s === 'random') v = seededShuffle(v, shuffleSeed);\n    view = v; shown = 0;\n    $('count').textContent = t.length || mediaOnly ? `${v.length} of ${all.length}` : `${all.length}`;\n    $('list').innerHTML = v.length ? '' : `<div class=\"empty\">${all.length ? 'Nothing matches.' : 'No bookmarks yet. Hit Sync, or connect X with the extension.'}</div>`;\n    renderMore();\n  }\n\n  function renderMore(upTo) {\n    const hl = terms();\n    const end = Math.min(view.length, Math.max(shown + PAGE, upTo || 0));\n    if (end <= shown) return;\n    $('list').insertAdjacentHTML('beforeend', view.slice(shown, end).map(b => card(b, hl)).join(''));\n    shown = end;\n  }\n\n  new IntersectionObserver((e) => { if (e[0].isIntersecting) renderMore(); }, { rootMargin: '1200px' }).observe($('more'));\n\n  $('list').addEventListener('click', (e) => {\n    const m = e.target.closest('.m'); if (!m) return;\n    const card = m.closest('.card'); openFeed(card ? card.id.slice(1) : null);\n  });\n\n  let qt; $('q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(compute, 120); });\n  $('sort').addEventListener('change', () => { store.set('sort', $('sort').value); spotId = null; compute(); });\n  $('mediaOnly').addEventListener('change', compute);\n  $('shuffleBtn').addEventListener('click', () => { shuffleSeed = Math.random(); $('sort').value = 'random'; spotId = null; compute(); scrollTo({ top: 0 }); });\n  $('randomBtn').addEventListener('click', () => {\n    if (!view.length) return;\n    const i = Math.floor(Math.random() * view.length);\n    spotId = view[i].id;\n    document.querySelectorAll('.card.spot').forEach(c => c.classList.remove('spot'));\n    renderMore(i + 1);\n    const el = document.getElementById('t' + spotId);\n    if (el) { el.classList.add('spot'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }\n  });\n  document.addEventListener('keydown', (e) => {\n    if (feedOpen) {\n      if (e.key === 'Escape') closeFeed(false);\n      else if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); track.scrollBy({ top: track.clientHeight, behavior: 'smooth' }); }\n      else if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); track.scrollBy({ top: -track.clientHeight, behavior: 'smooth' }); }\n      else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); const s = e.key === 'ArrowLeft' ? -1 : 1; seekBy(s * 5); if (fv.parentNode) showHint(fv.parentNode, s); }\n      else if (e.key === 'm') $('fmute').click();\n      else if (e.key === ' ') { e.preventDefault(); if (fv.parentNode) fv.paused ? play() : fv.pause(); showUI(); }\n      return;\n    }\n    if (e.target.matches('input,select,textarea')) { if (e.key === 'Escape') e.target.blur(); return; }\n    if (e.key === 'w') $('feedBtn').click();\n    if (e.key === '/') { e.preventDefault(); $('q').focus(); }\n    if (e.key === 'r') $('randomBtn').click();\n  });\n\n  $('syncBtn').addEventListener('click', async () => {\n    const btn = $('syncBtn'); btn.disabled = true; btn.classList.add('busy'); btn.querySelector('span').textContent = 'Syncing';\n    try {\n      await fetch(`${BASE}/sync`, AUTH);\n      const before = statusInfo.last_sync_at;\n      for (let i = 0; i < 40; i++) {\n        await new Promise(r => setTimeout(r, 4000));\n        const d = await load(true);\n        const s = d && curAccount(); if (s && (s.last_sync_at !== before || s.status === 'expired')) break;\n      }\n    } finally { btn.disabled = false; btn.classList.remove('busy'); btn.querySelector('span').textContent = 'Sync'; }\n  });\n\n  let statusInfo = {};\n  function showStatus(s) {\n    statusInfo = s || {};\n    const pill = $('status'), banner = $('banner');\n    pill.className = 'pill'; banner.innerHTML = '';\n    if (!s || !s.status) { pill.textContent = 'not connected'; pill.classList.add('bad'); banner.innerHTML = '<div class=\"banner\">X isn\\'t connected yet. Log into x.com in the browser that has the <b>Connect X</b> extension, then click it.</div>'; return; }\n    if (s.status === 'expired' || s.status === 'error') {\n      pill.textContent = s.status === 'expired' ? 'X session expired' : 'last sync failed'; pill.classList.add('bad');\n      banner.innerHTML = `<div class=\"banner\">${s.status === 'expired' ? 'X logged this session out. Log into that account on x.com and click the <b>Connect X</b> extension (it usually does this on its own).' : 'Last sync failed: ' + esc(s.last_error || 'unknown error')}</div>`;\n      return;\n    }\n    const when = s.last_sync_at ? new Date(s.last_sync_at) : null;\n    const mins = when ? Math.round((Date.now() - when) / 60000) : 0;\n    pill.textContent = when ? 'synced ' + (mins < 1 ? 'just now' : mins < 60 ? mins + 'm ago' : mins < 1440 ? Math.round(mins / 60) + 'h ago' : Math.round(mins / 1440) + 'd ago') : 'connected, syncing…';\n    pill.title = when ? when.toLocaleString() : '';\n  }\n\n  const curAccount = () => accounts.find(a => a.id === acct) || null;\n  function renderAccounts() {\n    const sel = $('acct');\n    sel.hidden = accounts.length < 2;\n    sel.innerHTML = accounts.map((a, i) => `<option value=\"${esc(a.id)}\">${a.label ? '@' + esc(a.label) : 'Account ' + (i + 1)}</option>`).join('');\n    sel.value = acct;\n  }\n  function applyAccount(quiet) {\n    const next = everything.filter(b => b.a === acct);\n    const changed = !quiet || next.length !== all.length || (next[0] && all[0] && next[0].id !== all[0].id);\n    all = next;\n    showStatus(curAccount());\n    if (changed) compute();\n  }\n  $('acct').addEventListener('change', () => { acct = $('acct').value; store.set('acct', acct); spotId = null; applyAccount(false); scrollTo({ top: 0 }); });\n\n  // ---------- Watch mode: full-screen vertical swipe through media ----------\n  const feed = $('feed'), track = $('feedTrack');\n  const fv = document.createElement('video');\n  fv.className = 'fmedia'; fv.loop = true; fv.playsInline = true; fv.setAttribute('playsinline', ''); fv.preload = 'auto';\n  let feedItems = [], feedIdx = -1, feedOpen = false, muted = store.get('muted') === '1', io1, io2;\n  const ICON_ON = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13\"/></svg>';\n  const ICON_OFF = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M22 9l-6 6M16 9l6 6\"/></svg>';\n  const mediaList = (b) => (b.d.media && b.d.media.length) ? b.d.media : ((b.d.quote && b.d.quote.media) || []);\n  const syncMute = () => { $('fmute').innerHTML = fv.muted ? ICON_OFF : ICON_ON; };\n\n  function slideHtml(b, i) {\n    const m = mediaList(b), d = b.d;\n    const pages = m.map(x => x.video\n      ? `<div class=\"fpage\"><div class=\"fvid\" data-video=\"${esc(x.video)}\" data-poster=\"${esc(x.thumb)}\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}\" alt=\"\"></div></div>`\n      : `<div class=\"fpage\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}${x.thumb && x.thumb.includes('pbs.twimg.com/media') ? '?name=large' : ''}\" alt=\"\"></div>`).join('');\n    return `<section class=\"fslide\" data-i=\"${i}\"><div class=\"fpages\">${pages}</div>${m.length > 1 ? `<div class=\"fdots\">${m.map((_, j) => `<i class=\"${j ? '' : 'on'}\"></i>`).join('')}</div>` : ''}<div class=\"fcap\"><div class=\"fwho\">@${esc(d.handle)} <span>· ${fmtDate(b.posted)}</span></div>${d.text ? `<div class=\"ftxt\">${richText(d.text, [])}</div>` : ''}<div class=\"fmeta\">♥ ${fmtNum(d.likes)} · <a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div></div></section>`;\n  }\n\n  function play() {\n    const p = fv.play();\n    if (p) p.catch((err) => { if (err && err.name === 'NotAllowedError' && !fv.muted) { fv.muted = true; syncMute(); fv.play().catch(() => {}); } });\n  }\n\n  function placeVideo(slide, j) {\n    const page = slide.querySelectorAll('.fpage')[j];\n    const holder = page && page.querySelector('.fvid');\n    $('fseek').hidden = !holder;\n    feed.classList.toggle('novid', !holder);\n    if (!holder) { if (fv.parentNode) fv.parentNode.classList.remove('paused'); fv.pause(); fv.remove(); return; }\n    if (fv.parentNode === holder) return;\n    if (fv.parentNode) fv.parentNode.classList.remove('paused');\n    if (!fv.paused) autoPause = true;\n    fv.pause(); holder.appendChild(fv); paintBar(0);\n    fv.poster = holder.dataset.poster; fv.src = holder.dataset.video; fv.muted = muted; syncMute();\n    play();\n  }\n\n  function setActive(i) {\n    if (i === feedIdx) return;\n    feedIdx = i;\n    if (feed.classList.contains('ui')) setTimeout(showUI, 0);\n    $('fcount').textContent = `${i + 1} / ${feedItems.length}`;\n    const slide = track.querySelector(`.fslide[data-i=\"${i}\"]`); if (!slide) return;\n    const pg = slide.querySelector('.fpages');\n    placeVideo(slide, Math.round(pg.scrollLeft / (pg.clientWidth || 1)));\n  }\n\n  function openFeed(startId) {\n    feedItems = view.filter(b => mediaList(b).length);\n    if (!feedItems.length) return;\n    const start = Math.max(0, feedItems.findIndex(b => b.id === startId));\n    track.innerHTML = feedItems.map(slideHtml).join('');\n    feed.hidden = false; document.body.classList.add('noscroll'); feedOpen = true; feedIdx = -1;\n    history.pushState({ feed: 1 }, '');\n    syncMute();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    io1 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setActive(+e.target.dataset.i); }), { root: track, threshold: 0.6 });\n    io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.querySelectorAll('img[data-src]').forEach(im => { im.src = im.dataset.src; im.removeAttribute('data-src'); }); }), { root: track, rootMargin: '200% 0px' });\n    track.querySelectorAll('.fslide').forEach(s => { io1.observe(s); io2.observe(s); });\n    track.scrollTop = start * track.clientHeight;\n    setActive(start);\n    requestAnimationFrame(tick);\n    syncPlayBtn(); showUI();\n  }\n\n  function closeFeed(fromPop) {\n    if (!feedOpen) return;\n    feedOpen = false;\n    fv.pause(); fv.removeAttribute('src'); fv.load(); fv.remove();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    feed.hidden = true; document.body.classList.remove('noscroll'); track.innerHTML = '';\n    if (!fromPop && history.state && history.state.feed) history.back();\n    const b = feedItems[feedIdx];\n    if (b) { renderMore(view.indexOf(b) + 1); const el = document.getElementById('t' + b.id); if (el) el.scrollIntoView({ block: 'center' }); }\n  }\n\n  addEventListener('popstate', () => closeFeed(true));\n  $('fclose').addEventListener('click', () => closeFeed(false));\n  $('fmute').addEventListener('click', () => { showUI(); muted = !fv.muted; store.set('muted', muted ? '1' : '0'); fv.muted = muted; syncMute(); if (!muted && fv.paused && fv.parentNode) play(); });\n  $('feedBtn').addEventListener('click', () => openFeed(null));\n  track.addEventListener('click', (e) => {\n    const t = e.target.closest('.ftxt'); if (t) { t.classList.toggle('open'); showUI(); return; }\n    if (e.target.closest('a')) return;\n    const hv = e.target.closest('.fvid'); if (hv && fv.parentNode === hv) { onVidTap(e, hv); return; }\n    if (e.target.closest('.fcap')) { showUI(); return; }\n    toggleUI();\n  });\n  track.addEventListener('scroll', (e) => {\n    const pg = e.target; if (!pg.classList || !pg.classList.contains('fpages')) return;\n    const j = Math.round(pg.scrollLeft / (pg.clientWidth || 1));\n    pg.parentNode.querySelectorAll('.fdots i').forEach((d, k) => d.classList.toggle('on', k === j));\n    if (+pg.parentNode.dataset.i === feedIdx) placeVideo(pg.parentNode, j);\n  }, true);\n  // Seek bar: tap or drag anywhere along the bottom edge\n  const seek = $('fseek');\n  let dragging = false, wasPlaying = false;\n  const fmtT = (t) => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };\n  function paintBar(f) { const pct = (Math.min(1, Math.max(0, f)) * 100) + '%'; seek.querySelector('.ffill').style.width = pct; seek.querySelector('.fknob').style.left = pct; }\n  function scrubTo(x) {\n    const r = seek.querySelector('.fbar').getBoundingClientRect();\n    const f = Math.min(1, Math.max(0, (x - r.left) / r.width));\n    const t = f * fv.duration;\n    if (fv.fastSeek && dragging) fv.fastSeek(t); else fv.currentTime = t;\n    paintBar(f); $('ftime').textContent = fmtT(t) + ' / ' + fmtT(fv.duration);\n  }\n  seek.addEventListener('pointerdown', (e) => {\n    if (!fv.parentNode || !fv.duration) return;\n    e.preventDefault(); e.stopPropagation();\n    dragging = true; wasPlaying = !fv.paused; seek.setPointerCapture(e.pointerId); seek.classList.add('drag'); clearTimeout(uiTimer);\n    fv.pause(); scrubTo(e.clientX);\n  });\n  seek.addEventListener('pointermove', (e) => { if (dragging) scrubTo(e.clientX); });\n  const endDrag = (e) => {\n    if (!dragging) return;\n    dragging = false; seek.classList.remove('drag');\n    if (e && e.clientX != null && e.type === 'pointerup') { const r = seek.querySelector('.fbar').getBoundingClientRect(); fv.currentTime = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * fv.duration; }\n    if (wasPlaying) play();\n    showUI();\n  };\n  seek.addEventListener('pointerup', endDrag); seek.addEventListener('pointercancel', endDrag);\n  function tick() { if (!feedOpen) return; if (!dragging && fv.parentNode && fv.duration) paintBar(fv.currentTime / fv.duration); requestAnimationFrame(tick); }\n\n  // Paused indicator\n  const ICON_PLAY = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M8 5.5v13l11-6.5z\"/></svg>';\n  const ICON_PAUSE = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><rect x=\"6\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/><rect x=\"14\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/></svg>';\n  // Overlay controls: hidden until you tap; auto-hide after 3s while a video plays; stay up while paused.\n  let uiTimer = null, autoPause = false;\n  const hasVid = () => !!fv.parentNode;\n  function hideUI() { clearTimeout(uiTimer); feed.classList.remove('ui'); }\n  function showUI() {\n    feed.classList.add('ui'); clearTimeout(uiTimer);\n    if (hasVid() && !fv.paused && !dragging) uiTimer = setTimeout(hideUI, 3000);\n  }\n  const toggleUI = () => (feed.classList.contains('ui') ? hideUI() : showUI());\n  const syncPlayBtn = () => { $('fplay').innerHTML = fv.paused ? ICON_PLAY : ICON_PAUSE; };\n  fv.addEventListener('pause', () => { syncPlayBtn(); if (autoPause) { autoPause = false; return; } if (!dragging && feedOpen && hasVid()) showUI(); });\n  fv.addEventListener('play', () => { syncPlayBtn(); if (feed.classList.contains('ui')) showUI(); });\n  $('fplay').addEventListener('click', (e) => { e.stopPropagation(); if (!hasVid()) return; fv.paused ? play() : fv.pause(); showUI(); });\n\n  // Tap = play/pause. Double-tap left/right half = back/forward 5s (keep tapping to add more).\n  let tapTimer = null, lastTap = 0, lastSide = 0, hintTimer = null, hintAcc = 0, hintSide = 0, lastHint = 0;\n  function seekBy(s) { if (!fv.duration) return; fv.currentTime = Math.min(fv.duration - 0.1, Math.max(0, fv.currentTime + s)); }\n  function showHint(holder, side) {\n    const now = Date.now();\n    hintAcc = (side === hintSide && now - lastHint < 900) ? hintAcc + 5 : 5; hintSide = side; lastHint = now;\n    const cls = side < 0 ? 'l' : 'r';\n    let el = holder.querySelector('.fhint.' + cls);\n    if (!el) { el = document.createElement('div'); el.className = 'fhint ' + cls; holder.appendChild(el); }\n    holder.querySelectorAll('.fhint').forEach(h => { if (h !== el) h.classList.remove('show'); });\n    el.textContent = side < 0 ? '« ' + hintAcc + 's' : hintAcc + 's »';\n    el.classList.add('show'); clearTimeout(hintTimer); hintTimer = setTimeout(() => el.classList.remove('show'), 650);\n  }\n  function onVidTap(e, holder) {\n    const now = Date.now(), r = holder.getBoundingClientRect();\n    const side = (e.clientX - r.left) < r.width / 2 ? -1 : 1;\n    if (now - lastTap < 320 && side === lastSide) {\n      clearTimeout(tapTimer); tapTimer = null; lastTap = now;\n      seekBy(side * 5); showHint(holder, side);\n      return;\n    }\n    lastTap = now; lastSide = side;\n    clearTimeout(tapTimer);\n    tapTimer = setTimeout(() => { tapTimer = null; toggleUI(); }, 260);\n  }\n\n\n  function askKey(msg) {\n    $('list').innerHTML = `<form class=\"empty keyform\" id=\"keyForm\"><div>${msg}</div><input type=\"password\" id=\"keyIn\" placeholder=\"Access key\" autocomplete=\"current-password\"><button class=\"primary\">Unlock</button></form>`;\n    $('keyForm').addEventListener('submit', (e) => { e.preventDefault(); const v = $('keyIn').value.trim(); if (!v) return; store.set('key', v); location.replace(location.pathname); });\n  }\n\n  async function load(quiet) {\n    try {\n      const r = await fetch(`${BASE}/data`, AUTH);\n      if (r.status === 401 || r.status === 403) { askKey(KEY ? 'That key didn\\'t work. Try again.' : 'Enter your access key to unlock your bookmarks on this device.'); return null; }\n      const d = await r.json();\n      everything = (d.items || []).map(b => ({ ...b, ts: Date.parse(b.posted) || 0, hay: [b.d.text, b.d.name, '@' + b.d.handle, b.d.handle, b.d.quote && b.d.quote.text, b.d.quote && b.d.quote.handle].filter(Boolean).join(' ').toLowerCase() }));\n      accounts = d.accounts || [];\n      if (!accounts.some(a => a.id === acct)) acct = accounts[0] ? accounts[0].id : '';\n      renderAccounts();\n      applyAccount(quiet);\n      return d;\n    } catch (e) { if (!quiet) $('list').innerHTML = `<div class=\"empty\">Couldn't load bookmarks: ${esc(e.message)}</div>`; return null; }\n  }\n\n  let lastY = scrollY;\n  addEventListener('scroll', () => { const y = scrollY, hd = document.querySelector('header'); if (document.activeElement === $('q')) { hd.classList.remove('hide'); } else if (y > lastY + 6 && y > 140) hd.classList.add('hide'); else if (y < lastY - 6 || y < 60) hd.classList.remove('hide'); lastY = y; }, { passive: true });\n\n  const saved = store.get('sort'); if (saved && saved !== 'random') $('sort').value = saved;\n  load();\n})();\n</script>\n</body>\n</html>\n",
+        "responseBody": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<meta name=\"referrer\" content=\"no-referrer\">\n<title>X Bookmarks</title>\n<style>\n:root{--bg:#0b0d10;--panel:#14181d;--line:#232a32;--text:#e7ebef;--muted:#8b96a3;--accent:#1d9bf0;--accent2:#0d6eae;--warn:#f4b740;--bad:#f4606c;--mark:#1d9bf033}\n@media (prefers-color-scheme: light){:root{--bg:#f5f7f9;--panel:#fff;--line:#e3e8ed;--text:#0f1419;--muted:#5b6670;--mark:#1d9bf02e}}\n*{box-sizing:border-box}\nbody{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,\"Segoe UI\",Roboto,sans-serif}\na{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}\nheader{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}\n.wrap{max-width:720px;margin:0 auto;padding:0 16px}\n.top{display:flex;align-items:center;gap:10px;padding:10px 0 6px;min-width:0}\n.top h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.01em}\n.count{color:var(--muted);font-size:13px}\n.spacer{flex:1}\n.pill{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}\n.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,transparent)}\n.controls{display:flex;gap:8px;padding:0 0 8px}\ninput[type=search]{flex:1 1 220px;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font:inherit;outline:none}\ninput[type=search]:focus{border-color:var(--accent)}\nselect,button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 11px;font:inherit;font-size:14px;cursor:pointer}\nbutton:hover,select:hover{border-color:var(--muted)}\nbutton.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}\nbutton.primary:hover{background:var(--accent2)}\nlabel.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);padding:0 4px;cursor:pointer}\n.banner{margin:12px 0 0;padding:10px 12px;border-radius:10px;border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);background:color-mix(in srgb,var(--warn) 10%,transparent);font-size:14px}\nmain{padding:12px 0 60px}\n.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 10px;display:grid;grid-template-columns:44px 1fr;gap:12px}\n.card.spot{border-color:var(--accent);box-shadow:0 0 0 3px var(--mark)}\n.av{width:44px;height:44px;border-radius:50%;background:var(--line);object-fit:cover}\n.meta{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;min-width:0}\n.name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}\n.handle,.date{color:var(--muted);font-size:14px}\n.txt{white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere;margin-top:3px}\n.txt mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}\n.media{display:grid;gap:4px;margin-top:10px;border-radius:12px;overflow:hidden}\n.media.n2,.media.n3,.media.n4{grid-template-columns:1fr 1fr}\n.media .m{position:relative;background:var(--line);aspect-ratio:16/10;overflow:hidden;cursor:pointer}\n.media.n1 .m{aspect-ratio:auto;max-height:480px}\n.media img,.media video{width:100%;height:100%;object-fit:cover;display:block}\n.media.n1 img{object-fit:contain;max-height:480px;background:#000}\n.play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}\n.play span{background:#000a;color:#fff;border-radius:50%;width:48px;height:48px;display:grid;place-items:center;font-size:20px}\n.quote{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}\n.quote .meta .name{max-width:50%}\n.foot{display:flex;gap:16px;color:var(--muted);font-size:13px;margin-top:10px}\n.foot a{color:var(--muted)}\n.empty{color:var(--muted);text-align:center;padding:60px 0}\nbody{overflow-x:clip}\nheader{transition:transform .22s ease}\nheader.hide{transform:translateY(-101%)}\n.sub{display:flex;align-items:center;gap:8px;padding:0 0 8px;min-width:0}\n.sub .pill{min-width:0;overflow:hidden;text-overflow:ellipsis}\n.sub #acct{max-width:60%;min-width:0;font-size:13px;padding:4px 8px}\n.chips{display:flex;gap:8px;padding:0 0 10px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}\n.chips::-webkit-scrollbar{display:none}\n.chips>*{flex:0 0 auto}\n.iconbtn{display:inline-flex;align-items:center;gap:6px}\n.iconbtn svg{width:16px;height:16px}\n.iconbtn.busy svg{animation:spin 1s linear infinite}\n@keyframes spin{to{transform:rotate(360deg)}}\n@media (max-width:520px){.wrap{padding:0 12px}input[type=search],select{font-size:16px}.top h1{font-size:18px}}\n#more{height:1px}\nbody.noscroll{overflow:hidden}\n#feed{position:fixed;inset:0;height:100dvh;z-index:50;background:#000;color:#fff}\n#feedTrack{height:100%;overflow:hidden;touch-action:none;overscroll-behavior:contain}\n#feedTrack::-webkit-scrollbar,.fpages::-webkit-scrollbar{display:none}\n.fslide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}\n.fpages{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;touch-action:pan-x}\n.fpage{flex:0 0 100%;height:100%;scroll-snap-align:start}\n.fvid{position:relative;width:100%;height:100%}\n.fmedia{width:100%;height:100%;object-fit:contain;display:block;background:#000}\n.fvid video{position:absolute;inset:0}\n.ftop{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 10px) 12px 18px;background:linear-gradient(#000b,#0000);pointer-events:none}\n.ftop>*{pointer-events:auto}\n.ftop button{background:#0007;border:0;color:#fff;border-radius:999px;width:40px;height:40px;padding:0;display:grid;place-items:center}\n.ftop button svg{width:20px;height:20px}\n#fcount{font-size:13px;opacity:.8;flex:1}\n.fdots{position:absolute;top:calc(env(safe-area-inset-top) + 62px);left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2;pointer-events:none}\n.fdots i{width:6px;height:6px;border-radius:50%;background:#fff6}.fdots i.on{background:#fff}\n.fcap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:48px 16px calc(env(safe-area-inset-bottom) + 38px);background:linear-gradient(#0000,#000d 55%);pointer-events:none}\n.fcap a,.ftxt{pointer-events:auto}.fcap a{color:#8ecdf8}\n.fwho{font-weight:700}.fwho span{font-weight:400;opacity:.7}\n.ftxt{margin-top:4px;font-size:14px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}\n.ftxt.open{display:block;max-height:45dvh;overflow:auto}\n.fmeta{margin-top:6px;font-size:13px;opacity:.85}\n#fseek{position:absolute;left:0;right:0;bottom:env(safe-area-inset-bottom);height:34px;z-index:5;touch-action:none;cursor:pointer;display:flex;align-items:flex-end;padding-bottom:8px}\n#fseek[hidden]{display:none}\n.fbar{position:relative;flex:1;height:3px;margin:0 14px;background:#ffffff45;border-radius:3px;transition:height .12s}\n#fseek.drag .fbar{height:6px}\n.ffill{position:absolute;left:0;top:0;bottom:0;width:0;background:#1d9bf0;border-radius:3px}\n.fknob{position:absolute;left:0;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;transform:scale(.7);transition:transform .12s;box-shadow:0 0 4px #0008}\n#fseek.drag .fknob{transform:scale(1.25)}\n#ftime{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:#000b;padding:4px 10px;border-radius:8px;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap;display:none;pointer-events:none}\n#fseek.drag #ftime{display:block}\n.fvid{touch-action:manipulation}\n.fhint{position:absolute;top:50%;width:88px;height:88px;margin-top:-44px;border-radius:50%;background:#000a;display:grid;place-items:center;font-weight:700;font-size:15px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:1}\n.fhint.l{left:10%}.fhint.r{right:10%}.fhint.show{opacity:1}\n#feed .ftop,#feed .fcap,#feed #fseek,#feed .fdots,#fplay{transition:opacity .2s ease,visibility .2s ease}\n#feed:not(.ui) .ftop,#feed:not(.ui) .fcap,#feed:not(.ui) #fseek,#feed:not(.ui) .fdots,#feed:not(.ui) #fplay{opacity:0;visibility:hidden}\n#fplay{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;border:0;padding:0;background:#0009;color:#fff;display:grid;place-items:center;z-index:4}\n#fplay svg{width:34px;height:34px}\n#feed.novid #fplay{display:none}\n.keyform{display:flex;flex-direction:column;align-items:center;gap:10px}\n.keyform input{width:min(320px,100%);background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}\n@media (max-width:520px){.card{grid-template-columns:36px 1fr;padding:12px}.av{width:36px;height:36px}.controls select{flex:1}}\n</style>\n</head>\n<body>\n<header>\n  <div class=\"wrap\">\n    <div class=\"top\">\n      <h1>Bookmarks</h1><span class=\"count\" id=\"count\"></span>\n      <span class=\"spacer\"></span>\n      <button id=\"syncBtn\" class=\"iconbtn\" title=\"Pull the latest bookmarks from X\" aria-label=\"Sync now\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 11a8 8 0 10-2.3 5.7\"/><path d=\"M20 5v6h-6\"/></svg><span>Sync</span></button>\n    </div>\n    <div class=\"sub\">\n      <select id=\"acct\" hidden title=\"X account\"></select>\n      <span class=\"pill\" id=\"status\">loading…</span>\n    </div>\n    <div class=\"controls\">\n      <input type=\"search\" id=\"q\" placeholder=\"Search text, names, @handles…\" autocomplete=\"off\" enterkeyhint=\"search\">\n    </div>\n    <div class=\"chips\">\n      <select id=\"sort\" title=\"Sort\">\n        <option value=\"saved_desc\">Newest saved</option>\n        <option value=\"saved_asc\">Oldest saved</option>\n        <option value=\"posted_desc\">Newest posted</option>\n        <option value=\"posted_asc\">Oldest posted</option>\n        <option value=\"likes\">Most liked</option>\n        <option value=\"random\">Shuffled</option>\n      </select>\n      <button id=\"feedBtn\" class=\"primary\" title=\"Swipe through photos and videos full-screen ( w )\">Watch</button>\n      <button id=\"shuffleBtn\" title=\"Shuffle the list\">Shuffle</button>\n      <button id=\"randomBtn\" title=\"Jump to one random bookmark ( r )\">Random</button>\n      <label class=\"chk\"><input type=\"checkbox\" id=\"mediaOnly\"> Media</label>\n    </div>\n  </div>\n</header>\n<div class=\"wrap\">\n  <div id=\"banner\"></div>\n  <main id=\"list\"></main>\n  <div id=\"more\"></div>\n</div>\n<div id=\"feed\" hidden>\n  <div class=\"ftop\">\n    <button id=\"fclose\" title=\"Close (Esc)\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg></button>\n    <span id=\"fcount\"></span>\n    <button id=\"fmute\" title=\"Sound (m)\"></button>\n  </div>\n  <div id=\"feedTrack\"></div>\n  <button id=\"fplay\" aria-label=\"Play or pause\"></button>\n  <div id=\"fseek\" hidden><div class=\"fbar\"><div class=\"ffill\"></div><div class=\"fknob\"></div></div><div id=\"ftime\"></div></div>\n</div>\n<script>\n(() => {\n  const BASE = location.pathname.replace(/\\/$/, '');\n  const PAGE = 40;\n  const $ = (id) => document.getElementById(id);\n  const store = { get(k){ try { return localStorage.getItem('xbm.' + k); } catch { return null; } }, set(k, v){ try { localStorage.setItem('xbm.' + k, v); } catch {} } };\n  // ---- Sign in with n8n (OAuth 2.1 + PKCE). n8n serves this page sandboxed, so nothing persists between visits;\n  // the PKCE verifier rides along in `state`, and the access token lives in memory for this visit only.\n  const ORIGIN = 'https://bakaflow.gleeze.com';\n  const CLIENT_ID = '9266ed7f-f0a6-4ea6-baa0-6646a359f298';\n  const API = ORIGIN + BASE + '/api';\n  const REDIRECT = ORIGIN + BASE;\n  const RESOURCE = API + '?method=POST';\n  let TOKEN = null, justSignedIn = false;\n  const b64u = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');\n  async function signIn() {\n    const verifier = b64u(crypto.getRandomValues(new Uint8Array(32)));\n    const challenge = b64u(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)));\n    const u = new URL(ORIGIN + '/mcp-oauth/authorize');\n    Object.entries({ response_type: 'code', client_id: CLIENT_ID, redirect_uri: REDIRECT, code_challenge: challenge, code_challenge_method: 'S256', state: 'p.' + verifier, resource: RESOURCE }).forEach(([k, v]) => u.searchParams.set(k, v));\n    location.href = u.toString();\n  }\n  async function finishSignIn() {\n    const q = new URLSearchParams(location.search);\n    const code = q.get('code'), state = q.get('state') || '';\n    if (q.get('error')) { history.replaceState(null, '', location.pathname); return 'error'; }\n    if (!code) return false;\n    if (state.startsWith('x.')) return 'ext';\n    if (!state.startsWith('p.')) return false;\n    history.replaceState(null, '', location.pathname);\n    try {\n      const r = await fetch(ORIGIN + '/mcp-oauth/token', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ grant_type: 'authorization_code', code, redirect_uri: REDIRECT, client_id: CLIENT_ID, code_verifier: state.slice(2), resource: RESOURCE }) });\n      const t = await r.json();\n      if (!t.access_token) return 'error';\n      TOKEN = t.access_token; return true;\n    } catch { return 'error'; }\n  }\n  async function api(action, extra) {\n    if (!TOKEN) { signIn(); throw new Error('Signing in…'); }\n    const r = await fetch(API, { method: 'POST', headers: { authorization: 'Bearer ' + TOKEN, 'content-type': 'application/json' }, body: JSON.stringify({ action, ...(extra || {}) }) });\n    if (r.status === 401 || r.status === 403) {\n      TOKEN = null;\n      if (justSignedIn) throw new Error('Signed in, but the server refused access (HTTP ' + r.status + ').');\n      signIn(); throw new Error('Signing in…');\n    }\n    if (!r.ok) throw new Error('HTTP ' + r.status);\n    return r.json();\n  }\n\n  let everything = [], accounts = [], acct = store.get('acct') || '', all = [], view = [], shown = 0, shuffleSeed = Math.random(), spotId = null;\n\n  const esc = (s) => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));\n  const terms = () => $('q').value.trim().toLowerCase().split(/\\s+/).filter(Boolean);\n  const big = (s) => { try { return BigInt(s || 0); } catch { return 0n; } };\n\n  function richText(raw, hl) {\n    let h = esc(raw);\n    h = h.replace(/(https?:\\/\\/[^\\s<]+)/g, (u) => `<a href=\"${u}\" target=\"_blank\" rel=\"noopener\">${u.replace(/^https?:\\/\\/(www\\.)?/, '').slice(0, 48)}${u.length > 56 ? '…' : ''}</a>`);\n    h = h.replace(/(^|[^\\w/])@(\\w{1,15})/g, '$1<a href=\"https://x.com/$2\" target=\"_blank\" rel=\"noopener\">@$2</a>');\n    h = h.replace(/(^|[^\\w/&])#(\\w+)/g, '$1<a href=\"https://x.com/hashtag/$2\" target=\"_blank\" rel=\"noopener\">#$2</a>');\n    if (hl.length) {\n      const re = new RegExp('(' + hl.map(t => esc(t).replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('|') + ')', 'gi');\n      h = h.split(/(<[^>]+>)/).map(part => part.startsWith('<') ? part : part.replace(re, '<mark>$1</mark>')).join('');\n    }\n    return h;\n  }\n\n  function mediaHtml(media) {\n    if (!media || !media.length) return '';\n    const items = media.slice(0, 4).map(m => {\n      const thumb = esc(m.thumb) + (m.thumb && m.thumb.includes('pbs.twimg.com/media') ? '?name=small' : '');\n      const vid = m.video ? ` data-video=\"${esc(m.video)}\"` : '';\n      const full = m.video ? '' : ` data-full=\"${esc(m.thumb)}?name=large\"`;\n      return `<div class=\"m\"${vid}${full}><img loading=\"lazy\" src=\"${thumb}\" alt=\"\">${m.video ? '<div class=\"play\"><span>▶</span></div>' : ''}</div>`;\n    }).join('');\n    return `<div class=\"media n${Math.min(media.length, 4)}\">${items}</div>`;\n  }\n\n  const fmtDate = (iso) => { const d = new Date(iso); if (isNaN(d)) return ''; const sameYear = d.getFullYear() === new Date().getFullYear(); return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', ...(sameYear ? {} : { year: 'numeric' }) }); };\n  const fmtNum = (n) => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(n || 0);\n\n  function card(b, hl) {\n    const d = b.d;\n    const q = d.quote ? `<div class=\"quote\"><div class=\"meta\"><span class=\"name\">${esc(d.quote.name)}</span><span class=\"handle\">@${esc(d.quote.handle)}</span></div><div class=\"txt\">${richText(d.quote.text, hl)}</div>${mediaHtml(d.quote.media)}<div class=\"foot\"><a href=\"${esc(d.quote.url)}\" target=\"_blank\" rel=\"noopener\">Open quoted post ↗</a></div></div>` : '';\n    return `<article class=\"card${b.id === spotId ? ' spot' : ''}\" id=\"t${esc(b.id)}\">\n      <img class=\"av\" loading=\"lazy\" src=\"${esc(d.avatar)}\" alt=\"\">\n      <div style=\"min-width:0\">\n        <div class=\"meta\"><span class=\"name\">${esc(d.name)}</span><a class=\"handle\" href=\"https://x.com/${esc(d.handle)}\" target=\"_blank\" rel=\"noopener\">@${esc(d.handle)}</a><span class=\"date\">· ${fmtDate(b.posted)}</span></div>\n        <div class=\"txt\">${richText(d.text, hl)}</div>\n        ${mediaHtml(d.media)}${q}\n        <div class=\"foot\"><span>♥ ${fmtNum(d.likes)}</span><span>↻ ${fmtNum(d.rts)}</span>${d.views ? `<span>${fmtNum(d.views)} views</span>` : ''}<span class=\"spacer\"></span><a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div>\n      </div></article>`;\n  }\n\n  function seededShuffle(arr, seed) {\n    const a = arr.slice(); let s = Math.floor(seed * 2 ** 31) || 1;\n    const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;\n    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }\n    return a;\n  }\n\n  function compute() {\n    const t = terms(), mediaOnly = $('mediaOnly').checked;\n    let v = all.filter(b => (!mediaOnly || (b.d.media && b.d.media.length) || (b.d.quote && b.d.quote.media && b.d.quote.media.length)) && t.every(w => b.hay.includes(w)));\n    const s = $('sort').value;\n    if (s === 'saved_desc') v.sort((a, b) => (big(b.s) > big(a.s)) - (big(b.s) < big(a.s)));\n    else if (s === 'saved_asc') v.sort((a, b) => (big(a.s) > big(b.s)) - (big(a.s) < big(b.s)));\n    else if (s === 'posted_desc') v.sort((a, b) => b.ts - a.ts);\n    else if (s === 'posted_asc') v.sort((a, b) => a.ts - b.ts);\n    else if (s === 'likes') v.sort((a, b) => (b.d.likes || 0) - (a.d.likes || 0));\n    else if (s === 'random') v = seededShuffle(v, shuffleSeed);\n    view = v; shown = 0;\n    $('count').textContent = t.length || mediaOnly ? `${v.length} of ${all.length}` : `${all.length}`;\n    $('list').innerHTML = v.length ? '' : `<div class=\"empty\">${all.length ? 'Nothing matches.' : 'No bookmarks yet. Hit Sync, or connect X with the extension.'}</div>`;\n    renderMore();\n  }\n\n  function renderMore(upTo) {\n    const hl = terms();\n    const end = Math.min(view.length, Math.max(shown + PAGE, upTo || 0));\n    if (end <= shown) return;\n    $('list').insertAdjacentHTML('beforeend', view.slice(shown, end).map(b => card(b, hl)).join(''));\n    shown = end;\n  }\n\n  new IntersectionObserver((e) => { if (e[0].isIntersecting) renderMore(); }, { rootMargin: '1200px' }).observe($('more'));\n\n  $('list').addEventListener('click', (e) => {\n    const m = e.target.closest('.m'); if (!m) return;\n    const card = m.closest('.card'); openFeed(card ? card.id.slice(1) : null);\n  });\n\n  let qt; $('q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(compute, 120); });\n  $('sort').addEventListener('change', () => { store.set('sort', $('sort').value); spotId = null; compute(); });\n  $('mediaOnly').addEventListener('change', compute);\n  $('shuffleBtn').addEventListener('click', () => { shuffleSeed = Math.random(); $('sort').value = 'random'; spotId = null; compute(); scrollTo({ top: 0 }); });\n  $('randomBtn').addEventListener('click', () => {\n    if (!view.length) return;\n    const i = Math.floor(Math.random() * view.length);\n    spotId = view[i].id;\n    document.querySelectorAll('.card.spot').forEach(c => c.classList.remove('spot'));\n    renderMore(i + 1);\n    const el = document.getElementById('t' + spotId);\n    if (el) { el.classList.add('spot'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }\n  });\n  document.addEventListener('keydown', (e) => {\n    if (feedOpen) {\n      if (e.key === 'Escape') closeFeed(false);\n      else if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); goTo(feedIdx + 1); }\n      else if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); goTo(feedIdx - 1); }\n      else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); const s = e.key === 'ArrowLeft' ? -1 : 1; seekBy(s * 5); if (fv.parentNode) showHint(fv.parentNode, s); }\n      else if (e.key === 'm') $('fmute').click();\n      else if (e.key === ' ') { e.preventDefault(); if (fv.parentNode) fv.paused ? play() : fv.pause(); showUI(); }\n      return;\n    }\n    if (e.target.matches('input,select,textarea')) { if (e.key === 'Escape') e.target.blur(); return; }\n    if (e.key === 'w') $('feedBtn').click();\n    if (e.key === '/') { e.preventDefault(); $('q').focus(); }\n    if (e.key === 'r') $('randomBtn').click();\n  });\n\n  $('syncBtn').addEventListener('click', async () => {\n    const btn = $('syncBtn'); btn.disabled = true; btn.classList.add('busy'); btn.querySelector('span').textContent = 'Syncing';\n    try {\n      await api('sync');\n      const before = statusInfo.last_sync_at;\n      for (let i = 0; i < 40; i++) {\n        await new Promise(r => setTimeout(r, 4000));\n        const d = await load(true);\n        const s = d && curAccount(); if (s && (s.last_sync_at !== before || s.status === 'expired')) break;\n      }\n    } finally { btn.disabled = false; btn.classList.remove('busy'); btn.querySelector('span').textContent = 'Sync'; }\n  });\n\n  let statusInfo = {};\n  function showStatus(s) {\n    statusInfo = s || {};\n    const pill = $('status'), banner = $('banner');\n    pill.className = 'pill'; banner.innerHTML = '';\n    if (!s || !s.status) { pill.textContent = 'not connected'; pill.classList.add('bad'); banner.innerHTML = '<div class=\"banner\">X isn\\'t connected yet. Log into x.com in the browser that has the <b>Connect X</b> extension, then click it.</div>'; return; }\n    if (s.status === 'expired' || s.status === 'error') {\n      pill.textContent = s.status === 'expired' ? 'X session expired' : 'last sync failed'; pill.classList.add('bad');\n      banner.innerHTML = `<div class=\"banner\">${s.status === 'expired' ? 'X logged this session out. Log into that account on x.com and click the <b>Connect X</b> extension (it usually does this on its own).' : 'Last sync failed: ' + esc(s.last_error || 'unknown error')}</div>`;\n      return;\n    }\n    const when = s.last_sync_at ? new Date(s.last_sync_at) : null;\n    const mins = when ? Math.round((Date.now() - when) / 60000) : 0;\n    pill.textContent = when ? 'synced ' + (mins < 1 ? 'just now' : mins < 60 ? mins + 'm ago' : mins < 1440 ? Math.round(mins / 60) + 'h ago' : Math.round(mins / 1440) + 'd ago') : 'connected, syncing…';\n    pill.title = when ? when.toLocaleString() : '';\n  }\n\n  const curAccount = () => accounts.find(a => a.id === acct) || null;\n  function renderAccounts() {\n    const sel = $('acct');\n    sel.hidden = accounts.length < 2;\n    sel.innerHTML = accounts.map((a, i) => `<option value=\"${esc(a.id)}\">${a.label ? '@' + esc(a.label) : 'Account ' + (i + 1)}</option>`).join('');\n    sel.value = acct;\n  }\n  function applyAccount(quiet) {\n    const next = everything.filter(b => b.a === acct);\n    const changed = !quiet || next.length !== all.length || (next[0] && all[0] && next[0].id !== all[0].id);\n    all = next;\n    showStatus(curAccount());\n    if (changed) compute();\n  }\n  $('acct').addEventListener('change', () => { acct = $('acct').value; store.set('acct', acct); spotId = null; applyAccount(false); scrollTo({ top: 0 }); });\n\n  // ---------- Watch mode: full-screen vertical swipe through media ----------\n  const feed = $('feed'), track = $('feedTrack');\n  const fv = document.createElement('video');\n  fv.className = 'fmedia'; fv.loop = true; fv.playsInline = true; fv.setAttribute('playsinline', ''); fv.preload = 'auto';\n  let feedItems = [], feedIdx = -1, feedOpen = false, muted = store.get('muted') === '1', io1, io2;\n  const ICON_ON = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13\"/></svg>';\n  const ICON_OFF = '<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 5L6 9H3v6h3l5 4z\"/><path d=\"M22 9l-6 6M16 9l6 6\"/></svg>';\n  const mediaList = (b) => (b.d.media && b.d.media.length) ? b.d.media : ((b.d.quote && b.d.quote.media) || []);\n  const syncMute = () => { $('fmute').innerHTML = fv.muted ? ICON_OFF : ICON_ON; };\n\n  function slideHtml(b, i) {\n    const m = mediaList(b), d = b.d;\n    const pages = m.map(x => x.video\n      ? `<div class=\"fpage\"><div class=\"fvid\" data-video=\"${esc(x.video)}\" data-poster=\"${esc(x.thumb)}\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}\" alt=\"\"></div></div>`\n      : `<div class=\"fpage\"><img class=\"fmedia\" data-src=\"${esc(x.thumb)}${x.thumb && x.thumb.includes('pbs.twimg.com/media') ? '?name=large' : ''}\" alt=\"\"></div>`).join('');\n    return `<section class=\"fslide\" data-i=\"${i}\"><div class=\"fpages\">${pages}</div>${m.length > 1 ? `<div class=\"fdots\">${m.map((_, j) => `<i class=\"${j ? '' : 'on'}\"></i>`).join('')}</div>` : ''}<div class=\"fcap\"><div class=\"fwho\">@${esc(d.handle)} <span>· ${fmtDate(b.posted)}</span></div>${d.text ? `<div class=\"ftxt\">${richText(d.text, [])}</div>` : ''}<div class=\"fmeta\">♥ ${fmtNum(d.likes)} · <a href=\"${esc(d.url)}\" target=\"_blank\" rel=\"noopener\">Open on X ↗</a></div></div></section>`;\n  }\n\n  function play() {\n    const p = fv.play();\n    if (p) p.catch((err) => { if (err && err.name === 'NotAllowedError' && !fv.muted) { fv.muted = true; syncMute(); fv.play().catch(() => {}); } });\n  }\n\n  function placeVideo(slide, j) {\n    const page = slide.querySelectorAll('.fpage')[j];\n    const holder = page && page.querySelector('.fvid');\n    $('fseek').hidden = !holder;\n    feed.classList.toggle('novid', !holder);\n    if (!holder) { if (fv.parentNode) fv.parentNode.classList.remove('paused'); fv.pause(); fv.remove(); return; }\n    if (fv.parentNode === holder) return;\n    if (fv.parentNode) fv.parentNode.classList.remove('paused');\n    if (!fv.paused) autoPause = true;\n    fv.pause(); holder.appendChild(fv); paintBar(0);\n    fv.poster = holder.dataset.poster; fv.src = holder.dataset.video; fv.muted = muted; syncMute();\n    play();\n  }\n\n  function setActive(i) {\n    if (i === feedIdx) return;\n    feedIdx = i;\n    if (feed.classList.contains('ui')) setTimeout(showUI, 0);\n    $('fcount').textContent = `${i + 1} / ${feedItems.length}`;\n    const slide = track.querySelector(`.fslide[data-i=\"${i}\"]`); if (!slide) return;\n    const pg = slide.querySelector('.fpages');\n    placeVideo(slide, Math.round(pg.scrollLeft / (pg.clientWidth || 1)));\n  }\n\n  function openFeed(startId) {\n    feedItems = view.filter(b => mediaList(b).length);\n    if (!feedItems.length) return;\n    const start = Math.max(0, feedItems.findIndex(b => b.id === startId));\n    track.innerHTML = feedItems.map(slideHtml).join('');\n    feed.hidden = false; document.body.classList.add('noscroll'); feedOpen = true; feedIdx = -1;\n    history.pushState({ feed: 1 }, '');\n    syncMute();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    io1 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setActive(+e.target.dataset.i); }), { root: track, threshold: 0.6 });\n    io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.querySelectorAll('img[data-src]').forEach(im => { im.src = im.dataset.src; im.removeAttribute('data-src'); }); }), { root: track, rootMargin: '200% 0px' });\n    track.querySelectorAll('.fslide').forEach(s => { io1.observe(s); io2.observe(s); });\n    track.scrollTop = start * track.clientHeight;\n    setActive(start);\n    requestAnimationFrame(tick);\n    syncPlayBtn(); showUI();\n  }\n\n  function closeFeed(fromPop) {\n    if (!feedOpen) return;\n    feedOpen = false;\n    fv.pause(); fv.removeAttribute('src'); fv.load(); fv.remove();\n    io1 && io1.disconnect(); io2 && io2.disconnect();\n    feed.hidden = true; document.body.classList.remove('noscroll'); track.innerHTML = '';\n    if (!fromPop && history.state && history.state.feed) history.back();\n    const b = feedItems[feedIdx];\n    if (b) { renderMore(view.indexOf(b) + 1); const el = document.getElementById('t' + b.id); if (el) el.scrollIntoView({ block: 'center' }); }\n  }\n\n  // ---- Pager: exactly one post per swipe. Native momentum scrolling can fling past several posts on phones\n  // (even with scroll-snap-stop), so the feed doesn't scroll natively; the post follows your finger and we\n  // animate to the next/previous one on release.\n  let drag = null, anim = 0, wheelLock = 0;\n  const pageH = () => track.clientHeight;\n  function goTo(i, ms = 260) {\n    if (!feedItems.length) return;\n    i = Math.max(0, Math.min(feedItems.length - 1, i));\n    cancelAnimationFrame(anim);\n    const from = track.scrollTop, to = i * pageH(), t0 = performance.now();\n    const step = (now) => {\n      const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3);\n      track.scrollTop = from + (to - from) * e;\n      if (k < 1) anim = requestAnimationFrame(step); else { track.scrollTop = to; setActive(i); }\n    };\n    anim = requestAnimationFrame(step);\n  }\n  track.addEventListener('touchstart', (e) => {\n    if (e.touches.length !== 1 || e.target.closest('.ftxt.open')) { drag = null; return; }\n    cancelAnimationFrame(anim);\n    const t = e.touches[0], now = performance.now();\n    drag = { x: t.clientX, y: t.clientY, top: track.scrollTop, axis: null, lastY: t.clientY, lastT: now, v: 0 };\n  }, { passive: true });\n  track.addEventListener('touchmove', (e) => {\n    if (!drag) return;\n    const t = e.touches[0], dx = t.clientX - drag.x, dy = t.clientY - drag.y;\n    if (!drag.axis) { if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return; drag.axis = Math.abs(dy) > Math.abs(dx) ? 'y' : 'x'; }\n    if (drag.axis !== 'y') return;\n    const now = performance.now();\n    if (now > drag.lastT) { drag.v = (t.clientY - drag.lastY) / (now - drag.lastT); drag.lastY = t.clientY; drag.lastT = now; }\n    const h = pageH(), base = Math.round(drag.top / h) * h;\n    track.scrollTop = Math.max(base - h, Math.min(base + h, drag.top - dy));\n  }, { passive: true });\n  const endSwipe = () => {\n    if (!drag) return;\n    const d = drag; drag = null;\n    if (d.axis !== 'y') return;\n    const h = pageH(), start = Math.round(d.top / h), moved = track.scrollTop - start * h;\n    let i = start;\n    if (moved > h * 0.15 || d.v < -0.3) i = start + 1;\n    else if (moved < -h * 0.15 || d.v > 0.3) i = start - 1;\n    goTo(i);\n  };\n  track.addEventListener('touchend', endSwipe);\n  track.addEventListener('touchcancel', endSwipe);\n  track.addEventListener('wheel', (e) => {\n    e.preventDefault();\n    if (Math.abs(e.deltaY) < 6 || performance.now() < wheelLock) return;\n    wheelLock = performance.now() + 450;\n    goTo(feedIdx + (e.deltaY > 0 ? 1 : -1));\n  }, { passive: false });\n  addEventListener('resize', () => { if (feedOpen) { cancelAnimationFrame(anim); track.scrollTop = feedIdx * pageH(); } });\n\n  addEventListener('popstate', () => closeFeed(true));\n  $('fclose').addEventListener('click', () => closeFeed(false));\n  $('fmute').addEventListener('click', () => { showUI(); muted = !fv.muted; store.set('muted', muted ? '1' : '0'); fv.muted = muted; syncMute(); if (!muted && fv.paused && fv.parentNode) play(); });\n  $('feedBtn').addEventListener('click', () => openFeed(null));\n  track.addEventListener('click', (e) => {\n    const t = e.target.closest('.ftxt'); if (t) { t.classList.toggle('open'); showUI(); return; }\n    if (e.target.closest('a')) return;\n    const hv = e.target.closest('.fvid'); if (hv && fv.parentNode === hv) { onVidTap(e, hv); return; }\n    if (e.target.closest('.fcap')) { showUI(); return; }\n    toggleUI();\n  });\n  track.addEventListener('scroll', (e) => {\n    const pg = e.target; if (!pg.classList || !pg.classList.contains('fpages')) return;\n    const j = Math.round(pg.scrollLeft / (pg.clientWidth || 1));\n    pg.parentNode.querySelectorAll('.fdots i').forEach((d, k) => d.classList.toggle('on', k === j));\n    if (+pg.parentNode.dataset.i === feedIdx) placeVideo(pg.parentNode, j);\n  }, true);\n  // Seek bar: tap or drag anywhere along the bottom edge\n  const seek = $('fseek');\n  let dragging = false, wasPlaying = false;\n  const fmtT = (t) => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };\n  function paintBar(f) { const pct = (Math.min(1, Math.max(0, f)) * 100) + '%'; seek.querySelector('.ffill').style.width = pct; seek.querySelector('.fknob').style.left = pct; }\n  function scrubTo(x) {\n    const r = seek.querySelector('.fbar').getBoundingClientRect();\n    const f = Math.min(1, Math.max(0, (x - r.left) / r.width));\n    const t = f * fv.duration;\n    if (fv.fastSeek && dragging) fv.fastSeek(t); else fv.currentTime = t;\n    paintBar(f); $('ftime').textContent = fmtT(t) + ' / ' + fmtT(fv.duration);\n  }\n  seek.addEventListener('pointerdown', (e) => {\n    if (!fv.parentNode || !fv.duration) return;\n    e.preventDefault(); e.stopPropagation();\n    dragging = true; wasPlaying = !fv.paused; seek.setPointerCapture(e.pointerId); seek.classList.add('drag'); clearTimeout(uiTimer);\n    fv.pause(); scrubTo(e.clientX);\n  });\n  seek.addEventListener('pointermove', (e) => { if (dragging) scrubTo(e.clientX); });\n  const endDrag = (e) => {\n    if (!dragging) return;\n    dragging = false; seek.classList.remove('drag');\n    if (e && e.clientX != null && e.type === 'pointerup') { const r = seek.querySelector('.fbar').getBoundingClientRect(); fv.currentTime = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * fv.duration; }\n    if (wasPlaying) play();\n    showUI();\n  };\n  seek.addEventListener('pointerup', endDrag); seek.addEventListener('pointercancel', endDrag);\n  function tick() { if (!feedOpen) return; if (!dragging && fv.parentNode && fv.duration) paintBar(fv.currentTime / fv.duration); requestAnimationFrame(tick); }\n\n  // Paused indicator\n  const ICON_PLAY = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M8 5.5v13l11-6.5z\"/></svg>';\n  const ICON_PAUSE = '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><rect x=\"6\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/><rect x=\"14\" y=\"5\" width=\"4\" height=\"14\" rx=\"1\"/></svg>';\n  // Overlay controls: hidden until you tap; auto-hide after 3s while a video plays; stay up while paused.\n  let uiTimer = null, autoPause = false;\n  const hasVid = () => !!fv.parentNode;\n  function hideUI() { clearTimeout(uiTimer); feed.classList.remove('ui'); }\n  function showUI() {\n    feed.classList.add('ui'); clearTimeout(uiTimer);\n    if (hasVid() && !fv.paused && !dragging) uiTimer = setTimeout(hideUI, 3000);\n  }\n  const toggleUI = () => (feed.classList.contains('ui') ? hideUI() : showUI());\n  const syncPlayBtn = () => { $('fplay').innerHTML = fv.paused ? ICON_PLAY : ICON_PAUSE; };\n  fv.addEventListener('pause', () => { syncPlayBtn(); if (autoPause) { autoPause = false; return; } if (!dragging && feedOpen && hasVid()) showUI(); });\n  fv.addEventListener('play', () => { syncPlayBtn(); if (feed.classList.contains('ui')) showUI(); });\n  $('fplay').addEventListener('click', (e) => { e.stopPropagation(); if (!hasVid()) return; fv.paused ? play() : fv.pause(); showUI(); });\n\n  // Tap = play/pause. Double-tap left/right half = back/forward 5s (keep tapping to add more).\n  let tapTimer = null, lastTap = 0, lastSide = 0, hintTimer = null, hintAcc = 0, hintSide = 0, lastHint = 0;\n  function seekBy(s) { if (!fv.duration) return; fv.currentTime = Math.min(fv.duration - 0.1, Math.max(0, fv.currentTime + s)); }\n  function showHint(holder, side) {\n    const now = Date.now();\n    hintAcc = (side === hintSide && now - lastHint < 900) ? hintAcc + 5 : 5; hintSide = side; lastHint = now;\n    const cls = side < 0 ? 'l' : 'r';\n    let el = holder.querySelector('.fhint.' + cls);\n    if (!el) { el = document.createElement('div'); el.className = 'fhint ' + cls; holder.appendChild(el); }\n    holder.querySelectorAll('.fhint').forEach(h => { if (h !== el) h.classList.remove('show'); });\n    el.textContent = side < 0 ? '« ' + hintAcc + 's' : hintAcc + 's »';\n    el.classList.add('show'); clearTimeout(hintTimer); hintTimer = setTimeout(() => el.classList.remove('show'), 650);\n  }\n  function onVidTap(e, holder) {\n    const now = Date.now(), r = holder.getBoundingClientRect();\n    const side = (e.clientX - r.left) < r.width / 2 ? -1 : 1;\n    if (now - lastTap < 320 && side === lastSide) {\n      clearTimeout(tapTimer); tapTimer = null; lastTap = now;\n      seekBy(side * 5); showHint(holder, side);\n      return;\n    }\n    lastTap = now; lastSide = side;\n    clearTimeout(tapTimer);\n    tapTimer = setTimeout(() => { tapTimer = null; toggleUI(); }, 260);\n  }\n\n\n  async function load(quiet) {\n    try {\n      const d = await api('data');\n      everything = (d.items || []).map(b => ({ ...b, ts: Date.parse(b.posted) || 0, hay: [b.d.text, b.d.name, '@' + b.d.handle, b.d.handle, b.d.quote && b.d.quote.text, b.d.quote && b.d.quote.handle].filter(Boolean).join(' ').toLowerCase() }));\n      accounts = d.accounts || [];\n      if (!accounts.some(a => a.id === acct)) acct = accounts[0] ? accounts[0].id : '';\n      renderAccounts();\n      applyAccount(quiet);\n      return d;\n    } catch (e) { if (!quiet) $('list').innerHTML = `<div class=\"empty\">Couldn't load bookmarks: ${esc(e.message)}</div>`; return null; }\n  }\n\n  let lastY = scrollY;\n  addEventListener('scroll', () => { const y = scrollY, hd = document.querySelector('header'); if (document.activeElement === $('q')) { hd.classList.remove('hide'); } else if (y > lastY + 6 && y > 140) hd.classList.add('hide'); else if (y < lastY - 6 || y < 60) hd.classList.remove('hide'); lastY = y; }, { passive: true });\n\n  const saved = store.get('sort'); if (saved && saved !== 'random') $('sort').value = saved;\n  (async () => {\n    const res = await finishSignIn();\n    if (res === 'ext') { $('list').innerHTML = '<div class=\"empty\">The extension is signed in. You can close this tab.</div>'; return; }\n    if (res === 'error') { $('list').innerHTML = '<div class=\"empty keyform\"><div>Sign-in didn\\'t complete.</div><button class=\"primary\" id=\"signInBtn\">Sign in with n8n</button></div>'; $('signInBtn').addEventListener('click', signIn); return; }\n    if (res === true) justSignedIn = true;\n    if (!TOKEN) { $('list').innerHTML = '<div class=\"empty\">Signing in with n8n…</div>'; signIn(); return; }\n    load();\n  })();\n})();\n</script>\n</body>\n</html>\n",
         "contentTypeNotice": "",
         "options": {
           "responseHeaders": {
@@ -2452,60 +2284,6 @@
       "position": [
         -880,
         800
-      ]
-    },
-    {
-      "parameters": {
-        "multipleMethods": false,
-        "httpMethod": "GET",
-        "path": "x-bookmarks/data",
-        "authentication": "none",
-        "responseMode": "responseNode",
-        "webhookNotice": "",
-        "options": {}
-      },
-      "id": "cef66908-36be-4af8-ac88-44a2cc74969e",
-      "name": "Data Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -1104,
-        1040
-      ],
-      "webhookId": "6159d273-ce3f-4799-89bf-5b9d22295eae"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "07eb2d9e-e2c8-41c6-8766-5d7c8b8145a8",
-              "leftValue": "={{ $json.headers['x-bm-key'] }}",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              },
-              "rightValue": "4BRezdhgtHg3pCsuzB-_CHIn"
-            }
-          ],
-          "combinator": "and"
-        },
-        "looseTypeValidation": false,
-        "options": {}
-      },
-      "id": "637549d9-92cf-4c1a-ad18-cce310d53160",
-      "name": "Data Key OK?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -880,
-        1040
       ]
     },
     {
@@ -2561,7 +2339,7 @@
       "parameters": {
         "mode": "runOnceForAllItems",
         "language": "javaScript",
-        "jsCode": "// Shape rows for the page (never send cookies to the browser)\nconst accounts = $('Get Session (page)').all().map(i => i.json).filter(j => j.session_key)\n  .sort((a, b) => String(a.connected_at || a.createdAt).localeCompare(String(b.connected_at || b.createdAt)))\n  .map(s => ({ id: s.session_key, label: s.label || '', status: s.status, last_sync_at: s.last_sync_at, last_sync_count: s.last_sync_count, last_error: s.last_error }));\nconst items = $input.all().map(i => i.json).filter(j => j.tweet_id).map(j => {\n  let d = {};\n  try { d = JSON.parse(j.data); } catch {}\n  return { id: j.tweet_id, a: j.account_id, s: j.sort_index, posted: j.tweet_created_at, d };\n});\nreturn [{ json: { accounts, items } }];",
+        "jsCode": "// Only the signed-in user's X accounts and their bookmarks (never send cookies to the browser)\nconst uid = $('Who Is Calling').first().json.user_id;\nconst mine = $('Get Session (page)').all().map(i => i.json).filter(j => j.session_key && j.owner && j.owner === uid)\n  .sort((a, b) => String(a.connected_at || a.createdAt).localeCompare(String(b.connected_at || b.createdAt)));\nconst ids = new Set(mine.map(s => s.session_key));\nconst accounts = mine.map(s => ({ id: s.session_key, label: s.label || '', status: s.status, last_sync_at: s.last_sync_at, last_sync_count: s.last_sync_count, last_error: s.last_error }));\nconst items = $input.all().map(i => i.json).filter(j => j.tweet_id && ids.has(j.account_id)).map(j => {\n  let d = {};\n  try { d = JSON.parse(j.data); } catch {}\n  return { id: j.tweet_id, a: j.account_id, s: j.sort_index, posted: j.tweet_created_at, d };\n});\nreturn [{ json: { accounts, items } }];",
         "notice": ""
       },
       "id": "8c82fcb9-1d44-4491-a74c-ae74e417f78a",
@@ -2828,6 +2606,152 @@
         "jsCode": "// The account this loop pass is syncing\nreturn [{ json: $input.first().json }];",
         "notice": ""
       }
+    },
+    {
+      "id": "150a3bbf-23eb-45b9-a98a-5c54e2d7c169",
+      "name": "API Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1568,
+        432
+      ],
+      "webhookId": "8c120887-f699-4acf-8b8b-bb6cbfa6dff4",
+      "parameters": {
+        "multipleMethods": false,
+        "httpMethod": "POST",
+        "path": "x-bookmarks/api",
+        "authentication": "n8nOAuth2",
+        "requireExecuteAccess": false,
+        "responseMode": "responseNode",
+        "webhookNotice": "",
+        "options": {}
+      }
+    },
+    {
+      "id": "bbde3213-5676-41c9-b01d-1576aee2dd9e",
+      "name": "Who Is Calling",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1344,
+        432
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "// n8n has already verified the sign-in token (n8n User Auth) before this runs.\n// Read the caller's n8n user id from it; no id -> request is refused.\nconst h = $json.headers || {};\nconst tok = String(h.authorization || '').replace(/^Bearer\\s+/i, '');\nlet sub = null;\ntry {\n  const part = tok.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');\n  const txt = typeof Buffer !== 'undefined' ? Buffer.from(part, 'base64').toString('utf8') : atob(part);\n  sub = JSON.parse(txt).sub || null;\n} catch (e) {}\nconst b = $json.body || {};\nreturn [{ json: { user_id: sub, action: sub ? String(b.action || '') : 'deny', body: b } }];",
+        "notice": ""
+      }
+    },
+    {
+      "id": "5f975563-5381-4586-bd91-b3d5bd41d41b",
+      "name": "Route Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1120,
+        432
+      ],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0a7eab6f-6e31-4243-aaf8-ce02eb5f1d5f",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "data",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "data"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "297ed724-0ff0-46fd-8fa9-f882d82fb836",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "sync",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "sync"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ad78766f-1360-4f16-aaf1-354372652b3d",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "connect",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "connect"
+            }
+          ]
+        },
+        "looseTypeValidation": false,
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      }
+    },
+    {
+      "id": "10b2b77d-70c2-4f17-b8e5-2de5149f3122",
+      "name": "Pick Accounts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        480
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "// Which X accounts this run syncs: schedule = all; page Sync = the caller's accounts; extension connect = the account just connected.\nlet rows = $input.all().map(i => i.json).filter(r => r.session_key);\nlet who = null;\ntry { who = $('Who Is Calling').first().json; } catch (e) {}\nif (who && who.user_id) {\n  if (who.action === 'connect') {\n    let acct = null;\n    try { acct = $('Build Session Row').first().json.session_key; } catch (e) {}\n    rows = rows.filter(r => r.session_key === acct);\n  } else {\n    rows = rows.filter(r => r.owner === who.user_id);\n  }\n}\nreturn rows.map(json => ({ json }));",
+        "notice": ""
+      }
     }
   ],
   "pinData": {},
@@ -2860,7 +2784,7 @@
     }
   },
   "tags": [],
-  "triggerCount": 5,
-  "updatedAt": "2026-10-18T14:30:29.910Z",
-  "versionId": "c5b85dcf-fe67-4138-9223-8b38ce666511"
+  "triggerCount": 3,
+  "updatedAt": "2026-10-19T07:17:44.091Z",
+  "versionId": "1a700dba-a778-48a4-a6d8-82dd62cc1351"
 }
