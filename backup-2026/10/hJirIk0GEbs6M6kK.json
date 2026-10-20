@@ -1,0 +1,79 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Inspect Caller",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-10-19T05:41:25.687Z",
+  "id": "hJirIk0GEbs6M6kK",
+  "isArchived": true,
+  "meta": null,
+  "name": "TEMP - n8n User Auth test",
+  "nodeGroups": [],
+  "nodes": [
+    {
+      "id": "7770cffd-322e-47fc-91c9-21b44662af36",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "12eac6f0-ebe3-49ec-affe-a4a15f8bcbc4",
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "test-n8n-user-auth",
+        "authentication": "n8nOAuth2",
+        "requireExecuteAccess": false,
+        "responseMode": "lastNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "241825c5-1753-4971-a796-c81dded34170",
+      "name": "Inspect Caller",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// TEMP test: what does the workflow learn about the caller?\nconst j = $json;\nconst safe = (o) => JSON.parse(JSON.stringify(o, (k, v) => (/authorization|cookie|token/i.test(k) ? '[hidden]' : v)));\nlet exec = {};\ntry { exec = { mode: $execution.mode, customData: $execution.customData && $execution.customData.getAll ? $execution.customData.getAll() : null }; } catch (e) { exec = { err: e.message }; }\nreturn [{ json: { topLevelKeys: Object.keys(j), nonHttpFields: safe(Object.fromEntries(Object.entries(j).filter(([k]) => !['headers','params','query','body','webhookUrl','executionMode'].includes(k)))), headerNames: Object.keys(j.headers || {}), exec } }];"
+      }
+    }
+  ],
+  "pinData": null,
+  "repo_name": "n8n-backup",
+  "repo_owner": "trazonm",
+  "repo_path": "backup-",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "hJirIk0GEbs6M6kK",
+      "projectId": "fIUCquZNbk42dQ17",
+      "createdAt": "2026-10-19T05:41:25.687Z",
+      "updatedAt": "2026-10-19T05:41:25.687Z"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-10-19T05:46:41.465Z",
+  "versionId": "84fa6ee4-765b-4794-a7aa-e900a7975007"
+}
